@@ -1,0 +1,168 @@
+﻿<Window x:Class="Goldline.UI.Customers.CustomerPaymentWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:persons="clr-namespace:Core.Model.Persons;assembly=Core"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:goldline="clr-namespace:Goldline"
+        Title="CustomerPaymentWindow"
+        Width="720"
+        Height="576"
+        MinWidth="720"
+        MinHeight="576"
+        Background="{DynamicResource Goldline.Background.Window}"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        FontSize="16"
+        KeyDown="Window_KeyDown"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="40" />
+            <RowDefinition />
+            <RowDefinition Height="130" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+
+        <Label x:Name="TitleLabel"
+               Content="Customer Payments"
+               FontSize="30"
+               Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="150" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0"
+                   Content="Customer:"
+                   FontWeight="Bold"
+                   Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+            <ComboBox x:Name="CustomerComboBox"
+                      Grid.Column="1"
+                      Margin="10,5"
+                      DisplayMemberPath="Name"
+                      ItemsSource="{Binding CustomerSource}"
+                      SelectionChanged="CustomerComboBox_SelectionChanged" />
+            <Label Grid.Column="2"
+                   HorizontalContentAlignment="Right"
+                   Content="Dues:"
+                   FontWeight="Bold"
+                   Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+            <Label x:Name="DueAmountLabel"
+                   Grid.Column="3"
+                   BorderBrush="{DynamicResource Goldline.Border}"
+                   BorderThickness="1"
+                   Content="{Binding SelectedItem.DueAmount,
+                                     ElementName=CustomerComboBox,
+                                     Mode=OneWay}"
+                   Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+        </Grid>
+        <Border Grid.Row="2"
+                Margin="5"
+                Background="{DynamicResource Goldline.Background.HeaderBar}"
+                BorderBrush="{DynamicResource Goldline.Border}"
+                BorderThickness="1"
+                CornerRadius="10">
+            <DataGrid x:Name="CustomerDataGrid"
+                      Margin="5"
+                      AutoGenerateColumns="False"
+                      Background="{x:Null}"
+                      BorderBrush="{x:Null}"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      IsReadOnly="True"
+                      ItemsSource="{Binding CustomerPaymentSource,
+                                            Mode=OneWay}"
+                      Opacity="0.8">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="1*"
+                                        Binding="{Binding Id}"
+                                        Header="Id" />
+                    <DataGridTextColumn Width="3*"
+                                        Binding="{Binding Note}"
+                                        Header="Note" />
+                    <DataGridTextColumn Width="2*"
+                                        Binding="{Binding Date}"
+                                        Header="Date" />
+                    <DataGridTextColumn Width="1*"
+                                        Binding="{Binding Amount}"
+                                        Header="Amount" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+        <Border Grid.Row="3"
+                Height="120"
+                Margin="5"
+                VerticalAlignment="Top"
+                Background="{DynamicResource Goldline.Background.HeaderBar}"
+                BorderBrush="{DynamicResource Goldline.Border}"
+                BorderThickness="1"
+                CornerRadius="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="55" />
+                </Grid.RowDefinitions>
+                <Label Content="Pay Customer"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+                <Grid Grid.Row="1"
+                      Grid.Column="0"
+                      Margin="10,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="41*" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="48*" />
+                        <ColumnDefinition Width="150" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0"
+                           Content="Amount:"
+                           Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+                    <xctk:WatermarkTextBox x:Name="AmountTextBox"
+                                           Grid.Column="1"
+                                           KeepWatermarkOnGotFocus="True"
+                                           Style="{DynamicResource Goldline.WatermarkTextBoxStyle.Dark}"
+                                           Watermark="0">
+                        <i:Interaction.Behaviors>
+                            <goldline:TextBoxInputBehavior InputMode="{StaticResource DecimalInputMode}" />
+                        </i:Interaction.Behaviors>
+                    </xctk:WatermarkTextBox>
+                    <Label Grid.Column="2"
+                           Content="Note:"
+                           Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+                    <xctk:WatermarkTextBox x:Name="NoteTextBox"
+                                           Grid.Column="3"
+                                           KeepWatermarkOnGotFocus="True"
+                                           Style="{DynamicResource Goldline.WatermarkTextBoxStyle.Dark}"
+                                           Watermark="{DynamicResource NoteTextBoxText}" />
+                    <Button x:Name="PayButton"
+                            Grid.Column="4"
+                            Click="PayButton_Click"
+                            Content="Pay"
+                            IsEnabled="False"
+                            Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
+                </Grid>
+
+            </Grid>
+        </Border>
+        <Grid Grid.Row="4" Background="{DynamicResource Goldline.Background.HeaderBar}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="150" />
+            </Grid.ColumnDefinitions>
+            <Button x:Name="CloseButton"
+                    Grid.Column="1"
+                    Click="CloseButton_OnClick"
+                    Content="OK"
+                    Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
+        </Grid>
+    </Grid>
+</Window>

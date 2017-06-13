@@ -1,0 +1,28 @@
+﻿<Window x:Class="Goldline.UI.InputDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="{Binding WindowTitle}"
+        Background="{DynamicResource Goldline.Background.Window}"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        FontSize="16"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d">
+    <StackPanel Width="300">
+        <Label Height="60"
+               HorizontalContentAlignment="Center"
+               Content="{Binding Prompt}"
+               FontSize="20"
+               FontWeight="Bold"
+               Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+        <TextBox x:Name="ResponseTextBox" Style="{DynamicResource Goldline.TextBoxStyle.Dark}" />
+        <Button Width="100"
+                Margin="5"
+                Click="OKButton_Click"
+                Content="OK"
+                IsDefault="True"
+                Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
+    </StackPanel>
+</Window>

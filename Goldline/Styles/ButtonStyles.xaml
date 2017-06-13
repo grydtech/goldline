@@ -1,0 +1,175 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="FocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Rectangle Margin="2"
+                               RadiusX="7.5"
+                               RadiusY="7.5"
+                               Stroke="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+                               StrokeDashArray="1 2"
+                               StrokeThickness="1" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <SolidColorBrush x:Key="Goldline.Button.Dark.Static.Border" Color="#FF707070" />
+    <SolidColorBrush x:Key="Goldline.Button.Dark.MouseOver.Background" Color="#9985B1CA" />
+    <SolidColorBrush x:Key="Goldline.Button.Dark.MouseOver.Border" Color="#FF3C7FB1" />
+    <SolidColorBrush x:Key="Goldline.Button.Dark.Pressed.Border" Color="#FF2C628B" />
+    <SolidColorBrush x:Key="Goldline.Button.Dark.Disabled.Background" Color="#FFF4F4F4" />
+    <SolidColorBrush x:Key="Goldline.Button.Dark.Disabled.Border" Color="#FFADB2B5" />
+    <SolidColorBrush x:Key="Goldline.Button.Dark.Disabled.Foreground" Color="#FF838383" />
+    <LinearGradientBrush x:Key="Goldline.Button.Dark.Pressed.Background" StartPoint="0.5,0" EndPoint="0.5,1">
+        <LinearGradientBrush.RelativeTransform>
+            <TransformGroup>
+                <ScaleTransform CenterX="0.5" CenterY="0.5" />
+                <SkewTransform CenterX="0.5" CenterY="0.5" />
+                <RotateTransform Angle="90" CenterX="0.5" CenterY="0.5" />
+                <TranslateTransform />
+            </TransformGroup>
+        </LinearGradientBrush.RelativeTransform>
+        <GradientStop Offset="0" Color="#DD2C3640" />
+        <GradientStop Offset="1" Color="#DD2C3640" />
+        <GradientStop Offset="0.5" Color="#DA26374C" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="Goldline.Button.Dark.Static.Background" Color="#74133D51" />
+
+    <Style x:Key="Goldline.ButtonStyle.Dark" TargetType="{x:Type Button}">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
+        <Setter Property="Margin" Value="10,5" />
+        <Setter Property="Background" Value="{StaticResource Goldline.Button.Dark.Static.Background}" />
+        <Setter Property="BorderBrush" Value="{StaticResource Goldline.Button.Dark.Static.Border}" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="5">
+                        <ContentPresenter x:Name="contentPresenter"
+                                          Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Focusable="False"
+                                          RecognizesAccessKey="True"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsDefaulted" Value="true">
+                            <Setter TargetName="border" Property="BorderBrush"
+                                    Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource Goldline.Button.Dark.Default.Background}" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="border" Property="BorderBrush"
+                                    Value="{StaticResource Goldline.Button.Dark.MouseOver.Border}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource Goldline.Button.Dark.MouseOver.Background}" />
+                            <Setter TargetName="contentPresenter" Property="TextElement.FontWeight" Value="Bold" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="border" Property="BorderBrush"
+                                    Value="{StaticResource Goldline.Button.Dark.Pressed.Border}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource Goldline.Button.Dark.Pressed.Background}" />
+                            <Setter TargetName="contentPresenter" Property="TextElement.FontWeight" Value="UltraLight" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{StaticResource Goldline.Button.Dark.Disabled.Background}" />
+                            <Setter TargetName="border" Property="BorderBrush"
+                                    Value="{StaticResource Goldline.Button.Dark.Disabled.Border}" />
+                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground"
+                                    Value="{StaticResource Goldline.Button.Dark.Disabled.Foreground}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+
+    <SolidColorBrush x:Key="Goldline.Button.Close.Static.Background" Color="#FFDDDDDD" />
+    <SolidColorBrush x:Key="Goldline.Button.Close.Static.Border" Color="#FF707070" />
+    <SolidColorBrush x:Key="Goldline.Button.Close.MouseOver.Background" Color="#FFBEE6FD" />
+    <SolidColorBrush x:Key="Goldline.Button.Close.MouseOver.Border" Color="#FF3C7FB1" />
+    <SolidColorBrush x:Key="Goldline.Button.Close.Pressed.Background" Color="#FFC4E5F6" />
+    <SolidColorBrush x:Key="Goldline.Button.Close.Pressed.Border" Color="#FF2C628B" />
+    <SolidColorBrush x:Key="Goldline.Button.Close.Disabled.Background" Color="#FFF4F4F4" />
+    <SolidColorBrush x:Key="Goldline.Button.Close.Disabled.Border" Color="#FFADB2B5" />
+    <SolidColorBrush x:Key="Goldline.Button.Close.Disabled.Foreground" Color="#FF838383" />
+
+    <Style x:Key="Goldline.ButtonStyle.Close" TargetType="{x:Type Button}">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
+        <Setter Property="Background" Value="{DynamicResource Goldline.Background.CloseButton}" />
+        <Setter Property="BorderBrush" Value="{StaticResource Goldline.Button.Close.Static.Border}" />
+        <Setter Property="Foreground" Value="{DynamicResource Goldline.Text.White}" />
+        <Setter Property="Content" Value="X" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsCancel" Value="True" />
+        <Setter Property="Width" Value="25" />
+        <Setter Property="Margin" Value="10,5" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="1" />
+        <Setter Property="IsTabStop" Value="False" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter x:Name="contentPresenter"
+                                          Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Focusable="False"
+                                          RecognizesAccessKey="True"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsDefaulted" Value="true">
+                            <Setter TargetName="border" Property="BorderBrush"
+                                    Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{StaticResource Goldline.Button.Close.MouseOver.Background}" />
+                            <Setter TargetName="border" Property="BorderBrush"
+                                    Value="{StaticResource Goldline.Button.Close.MouseOver.Border}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{StaticResource Goldline.Button.Close.Pressed.Background}" />
+                            <Setter TargetName="border" Property="BorderBrush"
+                                    Value="{StaticResource Goldline.Button.Close.Pressed.Border}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{StaticResource Goldline.Button.Close.Disabled.Background}" />
+                            <Setter TargetName="border" Property="BorderBrush"
+                                    Value="{StaticResource Goldline.Button.Close.Disabled.Border}" />
+                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground"
+                                    Value="{StaticResource Goldline.Button.Close.Disabled.Foreground}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

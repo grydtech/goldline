@@ -1,0 +1,108 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <LinearGradientBrush x:Key="Goldline.Background.StatusBar" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0"
+                         EndPoint="0.5,1">
+        <LinearGradientBrush.RelativeTransform>
+            <TransformGroup>
+                <ScaleTransform CenterX="0.5" CenterY="0.5" />
+                <SkewTransform CenterX="0.5" CenterY="0.5" />
+                <RotateTransform Angle="90" CenterX="0.5" CenterY="0.5" />
+                <TranslateTransform />
+            </TransformGroup>
+        </LinearGradientBrush.RelativeTransform>
+        <GradientStop Offset="0" Color="#19000000" />
+        <GradientStop Offset="1" Color="#19000000" />
+        <GradientStop Offset="0.5" Color="#33000000" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="Goldline.Background.HeaderBar" StartPoint="0.5,0" EndPoint="0.5,1">
+        <LinearGradientBrush.RelativeTransform>
+            <TransformGroup>
+                <ScaleTransform CenterX="0.5" CenterY="0.5" />
+                <SkewTransform CenterX="0.5" CenterY="0.5" />
+                <RotateTransform Angle="90" CenterX="0.5" CenterY="0.5" />
+                <TranslateTransform />
+            </TransformGroup>
+        </LinearGradientBrush.RelativeTransform>
+        <GradientStop Offset="0" Color="#3F56596B" />
+        <GradientStop Offset="1" Color="#3F56596B" />
+        <GradientStop Offset="0.5" Color="#3F535666" />
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="Goldline.Background.SideBar" Color="#3F000000" />
+    <LinearGradientBrush x:Key="Goldline.Background.Semi" StartPoint="0.5,0" EndPoint="0.5,1">
+        <LinearGradientBrush.RelativeTransform>
+            <TransformGroup>
+                <ScaleTransform CenterX="0.5" CenterY="0.5" />
+                <SkewTransform CenterX="0.5" CenterY="0.5" />
+                <RotateTransform Angle="90" CenterX="0.5" CenterY="0.5" />
+                <TranslateTransform />
+            </TransformGroup>
+        </LinearGradientBrush.RelativeTransform>
+        <GradientStop Offset="0" Color="#CD505A7D" />
+        <GradientStop Offset="1" Color="#CD7878A0" />
+        <GradientStop Offset="0.5" Color="#CD7878A0" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="Goldline.Background.TitleBar" StartPoint="0.5,0" EndPoint="0.5,1">
+        <LinearGradientBrush.RelativeTransform>
+            <TransformGroup>
+                <ScaleTransform CenterX="0.5" CenterY="0.5" />
+                <SkewTransform CenterX="0.5" CenterY="0.5" />
+                <RotateTransform Angle="-90" CenterX="0.5" CenterY="0.5" />
+                <TranslateTransform />
+            </TransformGroup>
+        </LinearGradientBrush.RelativeTransform>
+        <GradientStop Offset="0" Color="#7F000000" />
+        <GradientStop Offset="1" Color="#CC000000" />
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="Goldline.Border" Color="CadetBlue" />
+    <SolidColorBrush x:Key="Goldline.Background.TextBox"
+                     Opacity="0.1"
+                     Color="LightBlue" />
+    <SolidColorBrush x:Key="Goldline.Text.White"
+                     Opacity="0.9"
+                     Color="GhostWhite" />
+    <SolidColorBrush x:Key="Goldline.Text.SemiWhite"
+                     Opacity="0.7"
+                     Color="LightGray" />
+
+    <BitmapImage x:Key="Goldline.Image.Background"
+                 DecodePixelHeight="720"
+                 DecodePixelWidth="1280"
+                 UriSource="../Resources/Background.jpg" />
+
+    <ImageBrush x:Key="Goldline.Background.Window"
+                ImageSource="{DynamicResource Goldline.Image.Background}"
+                Stretch="UniformToFill" />
+    <LinearGradientBrush x:Key="Goldline.Background.CloseButton" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Offset="0" Color="Red" />
+        <GradientStop Offset="1" Color="DarkRed" />
+        <GradientStop Color="LightCoral" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="Goldline.Background.Grid" StartPoint="0.5,0" EndPoint="0.5,1">
+        <LinearGradientBrush.RelativeTransform>
+            <TransformGroup>
+                <ScaleTransform CenterX="0.5" CenterY="0.5" />
+                <SkewTransform CenterX="0.5" CenterY="0.5" />
+                <RotateTransform Angle="90" CenterX="0.5" CenterY="0.5" />
+                <TranslateTransform />
+            </TransformGroup>
+        </LinearGradientBrush.RelativeTransform>
+        <GradientStop Offset="0" Color="#99646985" />
+        <GradientStop Offset="1" Color="#99646985" />
+        <GradientStop Offset="0.5" Color="#B3464B6A" />
+    </LinearGradientBrush>
+
+    <BitmapImage x:Key="Goldline.Image.Header"
+                 CacheOption="OnLoad"
+                 CreateOptions="IgnoreImageCache"
+                 UriSource="../Resources/Header.png" />
+    <ImageBrush x:Key="Goldline.Background.Logo" ImageSource="{DynamicResource Goldline.Image.Header}" />
+    <SolidColorBrush x:Key="Goldline.Background.Expander" Color="#991F2234" />
+    <SolidColorBrush x:Key="Goldline.BorderBrush.Expander" Color="#FF505781" />
+
+</ResourceDictionary>

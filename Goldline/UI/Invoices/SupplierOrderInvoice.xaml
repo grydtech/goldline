@@ -1,0 +1,121 @@
+﻿<Window x:Class="Goldline.UI.Invoices.SupplierOrderInvoice"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="SupplierOrderInvoice"
+        Width="400"
+        Height="576"
+        AllowsTransparency="True"
+        FontSize="16"
+        Topmost="True"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        mc:Ignorable="d">
+
+    <Grid Margin="10"
+          Background="{x:Null}"
+          MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="45" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="120" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.RowSpan="2" Margin="0">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Label x:Name="IdLabel"
+                   VerticalContentAlignment="Center"
+                   Content="Invoice Number"
+                   FontWeight="Bold" />
+            <Label x:Name="SupplierNameLabel"
+                   Grid.Row="1"
+                   VerticalContentAlignment="Center"
+                   Content="Supplier Name"
+                   FontWeight="Bold" />
+            <Label x:Name="ContactLabel"
+                   Grid.Row="2"
+                   VerticalContentAlignment="Center"
+                   Content="Contact Info"
+                   FontWeight="Bold" />
+        </Grid>
+        <Image x:Name="LogoImage"
+               Grid.Row="0"
+               Grid.Column="1"
+               Margin="0"
+               Source="{DynamicResource Goldline.Image.Header}"
+               Stretch="UniformToFill" />
+        <Grid Grid.Row="2"
+              Grid.Column="0"
+              Grid.ColumnSpan="2">
+            <DataGrid x:Name="OrderEntriesDataGrid"
+                      Margin="0"
+                      Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"
+                      HeadersVisibility="None"
+                      IsEnabled="False"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="0.5*" Binding="{Binding ItemName}" />
+                    <DataGridTextColumn Width="0.5*" Binding="{Binding Qty}" />
+                    <DataGridTextColumn Width="0.5*" Binding="{Binding Price}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <Grid Grid.Row="3"
+              Grid.Column="0"
+              Grid.ColumnSpan="2"
+              Margin="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.5*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Label x:Name="CashCreditLabel"
+                   Grid.Column="0"
+                   Content="Cash/Credit"
+                   FontSize="24"
+                   FontWeight="Bold" />
+            <Label x:Name="TotalLabel"
+                   Grid.Column="1"
+                   HorizontalContentAlignment="Right"
+                   Content="Total"
+                   FontSize="24"
+                   FontWeight="Bold" />
+        </Grid>
+        <Grid Grid.Row="4"
+              Grid.Column="0"
+              Grid.ColumnSpan="2"
+              Margin="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80*" />
+                <ColumnDefinition Width="80*" />
+            </Grid.ColumnDefinitions>
+            <Button x:Name="BackButton"
+                    Grid.Column="0"
+                    Margin="5"
+                    Background="{x:Null}"
+                    BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"
+                    BorderThickness="2"
+                    Click="BackButton_OnClick"
+                    Content="Back"
+                    IsCancel="True" />
+            <Button x:Name="VerifyButton"
+                    Grid.Column="1"
+                    Margin="5"
+                    Background="{x:Null}"
+                    BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"
+                    BorderThickness="2"
+                    Click="VerifyButton_OnClick"
+                    Content="Verify"
+                    IsDefault="True" />
+        </Grid>
+    </Grid>
+</Window>
