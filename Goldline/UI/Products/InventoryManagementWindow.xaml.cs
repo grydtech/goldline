@@ -36,9 +36,7 @@ namespace Goldline.UI.Products
         {
             if (!IsDataInCorrectForm()) return false;
             foreach (var item in ItemSource)
-            {
                 _productHandler.UpdateProduct(item);
-            }
             return true;
         }
 
@@ -84,6 +82,7 @@ namespace Goldline.UI.Products
 
         // variables storing all dimensions, brands, capacities, voltages and countries
         private IEnumerable<string> _tyreBrandSource;
+
         private IEnumerable<string> _tyreDimensionSource;
         private IEnumerable<string> _tyreCountrySource;
 
@@ -267,21 +266,13 @@ namespace Goldline.UI.Products
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             if (IsDataInCorrectForm())
-            {
                 if (UpdateAllItems())
-                {
                     MessageBox.Show("Successfully Updated", "Information", MessageBoxButton.OK);
-                }
                 else
-                {
                     MessageBox.Show("Duplicate Entry", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
             else
-            {
                 MessageBox.Show("Please Check The Entered Data!!", "Information", MessageBoxButton.OK,
                     MessageBoxImage.Exclamation);
-            }
             SearchTextBox.Text = "";
             LoadAllSources();
             RefreshDataGrid();

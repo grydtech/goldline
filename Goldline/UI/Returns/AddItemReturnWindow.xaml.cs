@@ -83,9 +83,7 @@ namespace Goldline.UI.Returns
         private void NotifyObservers()
         {
             if (_observer == null)
-            {
                 new ItemReturnManagementWindow().Show();
-            }
             Close();
         }
 
@@ -182,7 +180,9 @@ namespace Goldline.UI.Returns
             textBox.Text =
                 textBox.Text == _defaultCustomerSearch
                     ? ""
-                    : textBox.Text == "" ? _defaultCustomerSearch : textBox.Text;
+                    : textBox.Text == ""
+                        ? _defaultCustomerSearch
+                        : textBox.Text;
             _itemFocused = false;
         }
 
@@ -192,7 +192,9 @@ namespace Goldline.UI.Returns
             textBox.Text =
                 textBox.Text == _defaultCustomerSearch
                     ? ""
-                    : textBox.Text == "" ? _defaultCustomerSearch : textBox.Text;
+                    : textBox.Text == ""
+                        ? _defaultCustomerSearch
+                        : textBox.Text;
         }
 
         private void SearchItemTextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -201,7 +203,9 @@ namespace Goldline.UI.Returns
             textBox.Text =
                 textBox.Text == _defaultItemSearch
                     ? ""
-                    : textBox.Text == "" ? _defaultItemSearch : textBox.Text;
+                    : textBox.Text == ""
+                        ? _defaultItemSearch
+                        : textBox.Text;
             _itemFocused = true;
         }
 
@@ -211,7 +215,9 @@ namespace Goldline.UI.Returns
             textBox.Text =
                 textBox.Text == _defaultItemSearch
                     ? ""
-                    : textBox.Text == "" ? _defaultItemSearch : textBox.Text;
+                    : textBox.Text == ""
+                        ? _defaultItemSearch
+                        : textBox.Text;
         }
 
         #endregion
@@ -220,9 +226,7 @@ namespace Goldline.UI.Returns
         {
             var textBox = sender as TextBox;
             if (textBox?.Text != _defaultItemSearch)
-            {
                 RefreshInventoryDataGrid(textBox?.Text);
-            }
         }
 
 
@@ -230,9 +234,7 @@ namespace Goldline.UI.Returns
         {
             var textBox = sender as TextBox;
             if (textBox?.Text != _defaultCustomerSearch)
-            {
                 RefreshCustomerDataGrid(textBox?.Text);
-            }
         }
 
         #region KeyScroling
@@ -278,13 +280,9 @@ namespace Goldline.UI.Returns
         private void LoadItemSource(int dataGridNo, string name = "%")
         {
             if (dataGridNo == 1)
-            {
                 _itemsSource = _productHandler.GetItems(name);
-            }
             else
-            {
                 _customerSource = _customerHandler.GetCustomer(name);
-            }
         }
 
         private void RefreshInventoryDataGrid(string name = "%")

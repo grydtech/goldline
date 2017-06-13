@@ -4,7 +4,7 @@ using Core.Model;
 using Core.Model.Persons;
 using Dapper;
 
-namespace Core.Datalayer
+namespace Core.Data
 {
     internal class CustomerDal : Dal
     {

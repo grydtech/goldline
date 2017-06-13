@@ -31,8 +31,11 @@ namespace Goldline.UI.Suppliers
             }
             else
             {
-                if (Supplier.SuppliedItems.Any(suppliedItem => suppliedItem.Id == addSuppliedItemWindow.SelectedItem.Id))
+                if (Supplier.SuppliedItems.Any(
+                    suppliedItem => suppliedItem.Id == addSuppliedItemWindow.SelectedItem.Id))
+                {
                     MessageBox.Show("Item is already in the list.");
+                }
                 else
                 {
                     Supplier.SuppliedItems.Add(addSuppliedItemWindow.SelectedItem);
@@ -59,7 +62,9 @@ namespace Goldline.UI.Suppliers
             Supplier.Name = NameTextBox.Text;
             Supplier.Contact = ContactInfoTextBox.Text;
             if (Supplier.SuppliedItems.Count == 0)
+            {
                 MessageBox.Show("You should provide at least one supplied item");
+            }
             else
             {
                 new SupplierHandler().AddNewSupplier(Supplier);

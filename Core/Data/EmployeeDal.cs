@@ -4,7 +4,7 @@ using Core.Model.Enums;
 using Core.Model.Persons;
 using Dapper;
 
-namespace Core.Datalayer
+namespace Core.Data
 {
     internal class EmployeeDal : Dal
     {

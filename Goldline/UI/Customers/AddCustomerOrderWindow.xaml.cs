@@ -54,9 +54,7 @@ namespace Goldline.UI.Customers
         public static AddCustomerOrderWindow GetAddCustomerOrderWindow()
         {
             if (_addCustomerOrderWindow == null || !_addCustomerOrderWindow.IsLoaded)
-            {
                 _addCustomerOrderWindow = new AddCustomerOrderWindow();
-            }
             return _addCustomerOrderWindow;
         }
 
@@ -75,7 +73,7 @@ namespace Goldline.UI.Customers
             if (discount <= 100)
             {
                 _discount = discount;
-                var unitPrice = actualUnitPrice*(100 - _discount)/100;
+                var unitPrice = actualUnitPrice * (100 - _discount) / 100;
                 unitPrice = Math.Round(unitPrice, 2);
                 if (unitPrice == unitPriceTextBoxValue) return;
 
@@ -103,7 +101,7 @@ namespace Goldline.UI.Customers
             {
                 _unitPrice = price;
                 var actualUnitPrice = selectedItem.UnitPrice;
-                var discount = (actualUnitPrice - _unitPrice)*100/actualUnitPrice;
+                var discount = (actualUnitPrice - _unitPrice) * 100 / actualUnitPrice;
                 discount = Math.Round(discount, 2);
                 if (discount == discountTextBoxValue) return;
 
@@ -165,7 +163,6 @@ namespace Goldline.UI.Customers
                     MessageBox.Show("Quantity is not valid");
                     return;
                 }
-
                 /* ALLOWED DISCOUNT TO BE NEGATIVE  */
                 //else if (decimal.Parse(DiscountTextBox.Text) < 0)
                 //{
@@ -208,11 +205,12 @@ namespace Goldline.UI.Customers
                         // Log.Debug("Attempted to enter same item twice");
                         MessageBox.Show("This entry is already entered once. Try updating its quantity instead");
                     }
-                        #endregion
+
+                    #endregion
 
                     else
                     {
-                        var salePrice = _unitPrice != 0 ? _unitPrice : selectedItem.UnitPrice*(100 - _discount)/100;
+                        var salePrice = _unitPrice != 0 ? _unitPrice : selectedItem.UnitPrice * (100 - _discount) / 100;
                         var orderEntry = new CustomerOrderEntry(selectedItem, salePrice, quantity);
 
                         // add items to the order entries list
@@ -341,6 +339,11 @@ namespace Goldline.UI.Customers
             }
         }
 
+        private void TextBox_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            ((TextBox) sender).SelectAll();
+        }
+
         #region Window Event Handling
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -366,17 +369,13 @@ namespace Goldline.UI.Customers
         private void UnitPriceTextBox_OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
-            {
                 CalculateDiscount();
-            }
         }
 
         private void DiscountTextBox_OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
-            {
                 CalculateUnitPrice();
-            }
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -394,10 +393,5 @@ namespace Goldline.UI.Customers
         }
 
         #endregion
-
-        private void TextBox_OnGotFocus(object sender, RoutedEventArgs e)
-        {
-            ((TextBox)sender).SelectAll();
-        }
     }
 }

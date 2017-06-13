@@ -34,8 +34,8 @@ namespace Goldline
 
         public bool JustPositivDecimalInput
         {
-            get { return (bool) GetValue(JustPositivDecimalInputProperty); }
-            set { SetValue(JustPositivDecimalInputProperty, value); }
+            get => (bool) GetValue(JustPositivDecimalInputProperty);
+            set => SetValue(JustPositivDecimalInputProperty, value);
         }
 
         protected override void OnAttached()
@@ -78,13 +78,11 @@ namespace Goldline
         private void AssociatedObjectPreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Space)
-            {
                 if (!IsValidInput(GetText(" ")))
                 {
                     SystemSounds.Beep.Play();
                     e.Handled = true;
                 }
-            }
         }
 
         private void AssociatedObjectPreviewTextInput(object sender, TextCompositionEventArgs e)

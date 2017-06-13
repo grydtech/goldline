@@ -9,7 +9,8 @@ namespace Core.Model.Orders
     {
         private decimal _total;
 
-        public SupplierOrder(uint supplierId = 0, IEnumerable<SupplierOrderEntry> orderEntries = null, decimal total = 0,
+        public SupplierOrder(uint supplierId = 0, IEnumerable<SupplierOrderEntry> orderEntries = null,
+            decimal total = 0,
             string note = null,
             SupplyOrderStatus status = SupplyOrderStatus.Pending)
         {
@@ -33,7 +34,7 @@ namespace Core.Model.Orders
         public decimal Total
         {
             get { return OrderEntries?.Sum(oe => oe.Price) ?? _total; }
-            set { _total = value; }
+            set => _total = value;
         }
 
         public string Note { get; set; }

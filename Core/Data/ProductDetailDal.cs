@@ -2,7 +2,7 @@
 using System.Data;
 using Dapper;
 
-namespace Core.Datalayer
+namespace Core.Data
 {
     internal class ProductDetailDal : Dal
     {

@@ -7,7 +7,7 @@ using Core.Model.Persons;
 using Core.Model.Products;
 using Dapper;
 
-namespace Core.Datalayer
+namespace Core.Data
 {
     internal class SupplierDal : Dal
     {

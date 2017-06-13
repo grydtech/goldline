@@ -24,6 +24,7 @@ namespace Core.Model.Products
 
         //NEW PROPERTIES : ITEMCODE, MODEL
         public string ItemCode { get; set; }
+
         public string Model { get; set; }
 
         /// <summary>

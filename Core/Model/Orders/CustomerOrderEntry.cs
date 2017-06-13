@@ -27,6 +27,6 @@ namespace Core.Model.Orders
         public string ProductName { get; set; }
         public decimal UnitSalePrice { get; set; }
         public uint Qty { get; set; }
-        public decimal NetPrice => UnitSalePrice*Qty;
+        public decimal NetPrice => UnitSalePrice * Qty;
     }
 }

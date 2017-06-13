@@ -61,9 +61,7 @@ namespace Goldline.UI.Returns
         {
             var textBox = sender as TextBox;
             if (textBox?.Text != _defaultText)
-            {
                 RefreshDataGrid(SearchTextBox.Text);
-            }
         }
 
         private void TextBox_OnFocusChanged(object sender, RoutedEventArgs e)
@@ -72,7 +70,9 @@ namespace Goldline.UI.Returns
             textBox.Text =
                 textBox.Text == _defaultText
                     ? ""
-                    : textBox.Text == "" ? _defaultText : textBox.Text;
+                    : textBox.Text == ""
+                        ? _defaultText
+                        : textBox.Text;
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

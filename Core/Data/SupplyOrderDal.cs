@@ -5,7 +5,7 @@ using Core.Model.Enums;
 using Core.Model.Orders;
 using Dapper;
 
-namespace Core.Datalayer
+namespace Core.Data
 {
     internal class SupplyOrderDal : Dal
     {

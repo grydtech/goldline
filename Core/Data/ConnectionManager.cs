@@ -1,8 +1,8 @@
 ﻿using MySql.Data.MySqlClient;
 
-namespace Core.Datalayer
+namespace Core.Data
 {
-    public class ConnectionManager
+    public static class ConnectionManager
     {
         private const string MacConnectionString =
             "server=localhost.mac;user id=goldline;password=1234;persistsecurityinfo=True;database=goldline";

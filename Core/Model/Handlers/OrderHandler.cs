@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Transactions;
-using Core.Datalayer;
+using Core.Data;
 using Core.Model.Enums;
 using Core.Model.Orders;
 using Core.Model.Persons;
@@ -43,9 +43,7 @@ namespace Core.Model.Handlers
 
                     // Insert as credit order if IsCredit true
                     if (customerOrder.IsCredit)
-                    {
                         customerOrderDal.InsertAsCreditOrder((uint) customerOrder.Id, (uint) customerOrder.CustomerId);
-                    }
                 }
                 scope.Complete();
             }
@@ -159,14 +157,13 @@ namespace Core.Model.Handlers
                     customerOrderDal.UpdateCustomerOrderDetails(customerOrder);
 
                     if (customerOrder.IsCredit)
-                    {
                         customerOrderDal.InsertAsCreditOrder((uint) customerOrder.Id, (uint) customerOrder.CustomerId);
-                    }
 
                     if (isEntriesUpdated)
                     {
                         customerOrderDal.RemoveCustomerOrderEntries((uint) customerOrder.Id);
-                        customerOrderDal.InsertCustomerOrderEntries((uint) customerOrder.Id, customerOrder.OrderEntries);
+                        customerOrderDal.InsertCustomerOrderEntries((uint) customerOrder.Id,
+                            customerOrder.OrderEntries);
                     }
                 }
                 scope.Complete();

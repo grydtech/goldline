@@ -6,7 +6,7 @@ using Core.Model.Enums;
 using Core.Model.Products;
 using Dapper;
 
-namespace Core.Datalayer
+namespace Core.Data
 {
     internal class ProductDal : Dal
     {

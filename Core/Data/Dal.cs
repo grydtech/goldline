@@ -1,18 +1,20 @@
 ﻿using System.Data;
 using Dapper;
 
-namespace Core.Datalayer
+namespace Core.Data
 {
     /// <summary>
     ///     Base class for all Dal classes.
     /// </summary>
     internal abstract class Dal
     {
-        protected internal readonly IDbConnection Connection;
+        protected readonly IDbConnection Connection;
+        protected readonly IDbTransaction Transaction;
 
-        internal Dal(IDbConnection connection)
+        internal Dal(IDbConnection connection, IDbTransaction transaction = null)
         {
             Connection = connection;
+            Transaction = transaction;
         }
 
         /// <summary>
@@ -21,8 +23,8 @@ namespace Core.Datalayer
         /// <returns></returns>
         internal uint GetLastInsertId()
         {
-            var command = new CommandDefinition("select last_insert_id()");
-            return Connection.ExecuteScalar<uint>(command);
+            var command = new CommandDefinition("select last_insert_id()", null, Transaction);
+            return Connection.QuerySingle<uint>(command);
         }
     }
 }

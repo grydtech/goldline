@@ -4,7 +4,7 @@ using System.Linq;
 using Core.Model.Orders;
 using Dapper;
 
-namespace Core.Datalayer
+namespace Core.Data
 {
     internal class CustomerOrderDal : Dal
     {

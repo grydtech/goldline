@@ -5,7 +5,7 @@ using Core.Model;
 using Core.Model.Enums;
 using Dapper;
 
-namespace Core.Datalayer
+namespace Core.Data
 {
     internal class ItemReturnDal : Dal
     {

@@ -51,9 +51,7 @@ namespace Goldline.UI.Customers
             else
             {
                 foreach (var customer in CustomerSource)
-                {
                     _customerHandler.UpdateCustomer(customer);
-                }
                 MessageBox.Show("Changes updated successfully", "GOLDLINE", MessageBoxButton.OK);
             }
         }
@@ -62,9 +60,6 @@ namespace Goldline.UI.Customers
         {
             RefreshDataGrid();
         }
-
-
-        
 
         #endregion
 

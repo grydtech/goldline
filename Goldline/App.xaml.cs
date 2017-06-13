@@ -20,9 +20,7 @@ namespace Goldline
                 var region = new RegionInfo(culture.LCID);
 
                 if (!cultureList.Contains(region.EnglishName))
-                {
                     cultureList.Add(region.EnglishName);
-                }
             }
             cultureList.Sort();
             return cultureList;

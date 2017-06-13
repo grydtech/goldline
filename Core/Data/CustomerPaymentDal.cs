@@ -3,7 +3,7 @@ using System.Data;
 using Core.Model.Payments;
 using Dapper;
 
-namespace Core.Datalayer
+namespace Core.Data
 {
     internal class CustomerPaymentDal : Dal
     {

@@ -130,7 +130,7 @@ namespace Goldline.UI.Products
             return
                 !(ItemCodeTextBox.Text == "" || (string) BrandComboBox.SelectedItem == "" ||
                   (string) Property1ComboBox.SelectedItem == "" ||
-                  (_itemType != ItemType.Alloywheel && (string) Property2ComboBox.SelectedItem == "") ||
+                  _itemType != ItemType.Alloywheel && (string) Property2ComboBox.SelectedItem == "" ||
                   StockTextBox.Text == "" || PriceTextBox.Text == "");
         }
 

@@ -30,7 +30,7 @@ namespace Goldline.UI.Employees
         {
             #region Validation
 
-            if (NameTextBox.Text == "" || ContactInfoTextBox.Text == "" || (_isUser && UserNameTextBox.Text == ""))
+            if (NameTextBox.Text == "" || ContactInfoTextBox.Text == "" || _isUser && UserNameTextBox.Text == "")
             {
                 MessageBox.Show("One or more fields are empty");
                 return;
@@ -64,7 +64,6 @@ namespace Goldline.UI.Employees
             }
 
             if (_isUser)
-            {
                 try
                 {
                     new UserAccessHandler().AddNewUserAccess(employee, (UserType) UserTypeComboBox.SelectedIndex,
@@ -75,7 +74,6 @@ namespace Goldline.UI.Employees
                 {
                     MessageBox.Show(exception.Message);
                 }
-            }
             Close();
         }
 

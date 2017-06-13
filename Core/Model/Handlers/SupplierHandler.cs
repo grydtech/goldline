@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
-using Core.Datalayer;
+using Core.Data;
 using Core.Model.Persons;
 
 namespace Core.Model.Handlers

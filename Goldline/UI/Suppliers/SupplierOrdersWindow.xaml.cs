@@ -80,7 +80,8 @@ namespace Goldline.UI.Suppliers
             try
             {
                 _orderHandler.CancelSupplyOrder((SupplierOrder) SupplyOrdersDataGrid.SelectedItem);
-                MessageBox.Show("Successfully Reversed", "Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Successfully Reversed", "Successful", MessageBoxButton.OK,
+                    MessageBoxImage.Information);
                 RefreshDataGrid();
             }
             catch (Exception)

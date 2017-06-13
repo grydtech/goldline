@@ -44,19 +44,19 @@
     <Reference Include="System.Transactions" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Datalayer\CustomerDal.cs" />
-    <Compile Include="Datalayer\CustomerPaymentDal.cs" />
-    <Compile Include="Datalayer\Dal.cs" />
-    <Compile Include="Datalayer\EmployeeDal.cs" />
-    <Compile Include="Datalayer\EmployeePaymentDal.cs" />
-    <Compile Include="Datalayer\ItemReturnDal.cs" />
-    <Compile Include="Datalayer\ProductDal.cs" />
-    <Compile Include="Datalayer\ProductDetailDal.cs" />
-    <Compile Include="Datalayer\SupplierDal.cs" />
-    <Compile Include="Datalayer\SupplyOrderDal.cs" />
-    <Compile Include="Datalayer\UserAccessDal.cs" />
+    <Compile Include="Data\CustomerDal.cs" />
+    <Compile Include="Data\CustomerPaymentDal.cs" />
+    <Compile Include="Data\Dal.cs" />
+    <Compile Include="Data\EmployeeDal.cs" />
+    <Compile Include="Data\EmployeePaymentDal.cs" />
+    <Compile Include="Data\ItemReturnDal.cs" />
+    <Compile Include="Data\ProductDal.cs" />
+    <Compile Include="Data\ProductDetailDal.cs" />
+    <Compile Include="Data\SupplierDal.cs" />
+    <Compile Include="Data\SupplyOrderDal.cs" />
+    <Compile Include="Data\UserAccessDal.cs" />
     <Compile Include="Model\CustomerVehicle.cs" />
-    <Compile Include="Datalayer\ConnectionManager.cs" />
+    <Compile Include="Data\ConnectionManager.cs" />
     <Compile Include="Model\Enums\EmployeeType.cs" />
     <Compile Include="Model\Enums\ItemType.cs" />
     <Compile Include="Model\Enums\ProductType.cs" />
@@ -68,7 +68,7 @@
     <Compile Include="Model\Handlers\CustomerPaymentHandler.cs" />
     <Compile Include="Model\Handlers\EmployeeHandler.cs" />
     <Compile Include="Model\Handlers\ItemReturnHandler.cs" />
-    <Compile Include="Datalayer\CustomerOrderDal.cs" />
+    <Compile Include="Data\CustomerOrderDal.cs" />
     <Compile Include="Model\Handlers\OrderHandler.cs" />
     <Compile Include="Model\Handlers\ProductDetailHandler.cs" />
     <Compile Include="Model\Handlers\ProductHandler.cs" />

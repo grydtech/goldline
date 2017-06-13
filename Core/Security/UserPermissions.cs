@@ -53,6 +53,7 @@ namespace Core.Security
 
         // Manager has permissions for all actions and these in addition
         public static bool CanManageEmployees { get; set; }
+
         public static bool CanManageCustomers { get; set; }
         public static bool CanManageSuppliers { get; set; }
         public static bool CanManageInventory { get; set; }
@@ -63,11 +64,13 @@ namespace Core.Security
 
         //Inventory Manager specific
         public static bool CanPlaceSupplyOrder { get; set; }
+
         public static bool CanManageReturns { get; set; }
         public static bool NotifyLowStocks { get; set; }
 
         //Cashier specific
         public static bool CanPlaceOrder { get; set; }
+
         public static bool CanSettleCreditBillsAndViewDetails { get; set; }
 
         #endregion

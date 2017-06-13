@@ -54,9 +54,7 @@ namespace Goldline.UI.Employees
                 try
                 {
                     foreach (Employee employee in EmployeeDataGrid.Items)
-                    {
                         _employeeHandler.UpdateEmployeeDetails(employee);
-                    }
                     MessageBox.Show("All Employees update successfully");
                 }
                 catch (Exception exception)
@@ -79,10 +77,8 @@ namespace Goldline.UI.Employees
             if (EmployeeDataGrid.SelectedItem == null) MessageBox.Show(@"No Employee Selected");
             else if (MessageBox.Show(this, @"Are You Sure?", "Confirmation", MessageBoxButton.YesNo) ==
                      MessageBoxResult.Yes)
-            {
                 _employeeHandler.UpdateEmployeeStatus((Employee) EmployeeDataGrid.SelectedItem,
                     ((ToggleButton) sender).IsChecked == true);
-            }
         }
 
         private void PaymentsButton_OnClick(object sender, RoutedEventArgs e)

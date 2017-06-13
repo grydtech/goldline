@@ -2,7 +2,7 @@
 using Core.Security;
 using Dapper;
 
-namespace Core.Datalayer
+namespace Core.Data
 {
     internal class UserAccessDal : Dal
     {

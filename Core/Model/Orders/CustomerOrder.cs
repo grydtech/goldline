@@ -32,7 +32,7 @@ namespace Core.Model.Orders
         public decimal Total
         {
             get { return OrderEntries?.Sum(oe => oe.NetPrice) ?? _total; }
-            set { _total = value; }
+            set => _total = value;
         }
 
         public string Note { get; set; }

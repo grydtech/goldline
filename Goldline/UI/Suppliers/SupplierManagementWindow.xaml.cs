@@ -30,9 +30,7 @@ namespace Goldline.UI.Suppliers
         {
             var result = NameTextBox.Text != "" && ContactInfoTextBox.Text != "";
             if (result == false)
-            {
                 MessageBox.Show("Please enter all data correctly to proceed");
-            }
             return result;
         }
 
@@ -126,7 +124,9 @@ namespace Goldline.UI.Suppliers
             if (
                 selectedSupplier.SuppliedItems.Any(
                     suppliedItem => suppliedItem.Id == addSuppliedItemWindow.SelectedItem.Id))
+            {
                 MessageBox.Show("Item is already in the list.");
+            }
             else
             {
                 selectedSupplier.SuppliedItems.Add(addSuppliedItemWindow.SelectedItem);
