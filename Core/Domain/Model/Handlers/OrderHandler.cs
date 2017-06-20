@@ -30,7 +30,7 @@ namespace Core.Model.Handlers
             {
                 using (var connection = Connector.GetConnection())
                 {
-                    var customerOrderDal = new CustomerOrderDal(connection);
+                    var customerOrderDal = new OrderDal(connection);
 
                     // Insert order record
                     customerOrderDal.InsertOrder(customerOrder);
@@ -61,7 +61,7 @@ namespace Core.Model.Handlers
             {
                 using (var connection = Connector.GetConnection())
                 {
-                    var customerOrderDal = new CustomerOrderDal(connection);
+                    var customerOrderDal = new OrderDal(connection);
                     var orders = customerOrderDal.GetRecentCustomerOrders(
                         isLimited ? Constraints.DefaultLimit : Constraints.ExtendedLimit, isCredit);
 
@@ -94,7 +94,7 @@ namespace Core.Model.Handlers
 
             using (var connection = Connector.GetConnection())
             {
-                return new CustomerOrderDal(connection).GetOrders((uint) customer.Id,
+                return new OrderDal(connection).GetOrders((uint) customer.Id,
                     isLimited ? Constraints.DefaultLimit : Constraints.ExtendedLimit);
             }
         }
@@ -112,7 +112,7 @@ namespace Core.Model.Handlers
 
             using (var connection = Connector.GetConnection())
             {
-                var customerOrderDal = new CustomerOrderDal(connection);
+                var customerOrderDal = new OrderDal(connection);
                 var orders = customerOrderDal.GetOrders(note);
 
                 if (!isOrderEntriesLoaded)
@@ -153,7 +153,7 @@ namespace Core.Model.Handlers
             {
                 using (var connection = Connector.GetConnection())
                 {
-                    var customerOrderDal = new CustomerOrderDal(connection);
+                    var customerOrderDal = new OrderDal(connection);
                     customerOrderDal.UpdateCustomerOrderDetails(customerOrder);
 
                     if (customerOrder.IsCredit)

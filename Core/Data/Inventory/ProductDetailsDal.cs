@@ -4,9 +4,9 @@ using Dapper;
 
 namespace Core.Data
 {
-    internal class ProductDetailDal : Dal
+    internal class ProductDetailsDal : Dal
     {
-        internal ProductDetailDal(IDbConnection connection) : base(connection)
+        internal ProductDetailsDal(IDbConnection connection) : base(connection)
         {
         }
 
@@ -18,7 +18,7 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition("insert ignore into tyres_brands values (@value)",
-                new {value = tyreBrand});
+                new { value = tyreBrand });
 
             // Execute sql command
             Connection.Execute(command);
@@ -32,7 +32,7 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition("insert ignore into tyres_dimensions values (@value)",
-                new {value = tyreDimension});
+                new { value = tyreDimension });
 
             // Execute sql command
             Connection.Execute(command);
@@ -60,7 +60,7 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition("insert ignore into alloywheels_brands values (@value)",
-                new {value = alloywheelBrand});
+                new { value = alloywheelBrand });
 
             // Execute sql command
             Connection.Execute(command);
@@ -74,7 +74,7 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition("insert ignore into alloywheels_dimensions values (@value)",
-                new {value = alloywheelDimension});
+                new { value = alloywheelDimension });
 
             // Execute sql command
             Connection.Execute(command);
@@ -88,7 +88,7 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition("insert ignore into batteries_brands values (@value)",
-                new {value = batteryBrand});
+                new { value = batteryBrand });
 
             // Execute sql command
             Connection.Execute(command);

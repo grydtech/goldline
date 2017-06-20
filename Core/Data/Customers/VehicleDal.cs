@@ -7,9 +7,9 @@ using Dapper;
 
 namespace Core.Data
 {
-    internal class CustomersVehiclesDal : Dal
+    internal class VehicleDal : Dal
     {
-    internal CustomersVehiclesDal(IDbConnection connection, IDbTransaction transaction = null) : base(connection, transaction) { }
+    internal VehicleDal(IDbConnection connection, IDbTransaction transaction = null) : base(connection, transaction) { }
 
         /// <summary>
         ///     Inserts a new customer vehicle into database or update last visited date if record exists

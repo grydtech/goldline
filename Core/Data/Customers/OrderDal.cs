@@ -6,9 +6,9 @@ using Dapper;
 
 namespace Core.Data
 {
-    internal class SalesDal : Dal
+    internal class OrderDal : Dal
     {
-        internal SalesDal(IDbConnection connection, IDbTransaction transaction = null) : base(connection, transaction)
+        internal OrderDal(IDbConnection connection) : base(connection)
         {
         }
 
@@ -18,16 +18,16 @@ namespace Core.Data
         /// </summary>
         /// <param name="customerOrder"></param>
         /// <param name="userId">user who inserts the order</param>
-        internal void InsertSale(CustomerOrder customerOrder, uint userId)
+        internal void InsertOrder(CustomerOrder customerOrder, uint customerId)
         {
             // Define sql command
             var command = new CommandDefinition(
-                "insert into orders (total, note, id_user) values (@total, @note, @id_user)",
+                "insert into orders (id_customer, amount, note) values (@id_customer, @amount, @note)",
                 new
                 {
-                    total = customerOrder.Total,
-                    note = customerOrder.Note,
-                    id_user = userId
+                    id_customer = customerId,
+                    amount = customerOrder.Total,
+                    note = customerOrder.Note
                 });
 
             // Execute sql command
@@ -35,50 +35,29 @@ namespace Core.Data
 
             // Assign attributes
             customerOrder.Id = GetLastInsertId();
-            customerOrder.UserId = userId;
-        }
-
-        /// <summary>
-        ///     Inserts a new credit order into database or ignore if record exists
-        ///     Then this method should be run after Insert() for credit orders
-        /// </summary>
-        /// <param name="orderId"></param>
-        /// <param name="customerId"></param>
-        internal void InsertCredit(uint orderId, uint customerId)
-        {
-            // Define sql command
-            var command = new CommandDefinition(
-                "insert ignore into orders_credit (id_order, id_customer) values (@id_order, @id_customer)",
-                new
-                {
-                    id_order = orderId,
-                    id_customer = customerId
-                });
-
-            // Execute sql command
-            Connection.Execute(command);
+            customerOrder.CustomerId = customerId;
         }
 
         /// <summary>
         ///     Inserts new order entries into database
-        ///     This method should be run after Insert()
+        ///     This method should be run after InsertOrder()
         /// </summary>
         /// <param name="orderId"></param>
         /// <param name="orderEntries"></param>
-        internal void InsertCustomerOrderEntries(uint orderId, IEnumerable<CustomerOrderEntry> orderEntries)
+        internal void InsertOrderEntries(uint orderId, IEnumerable<OrderEntry> orderEntries)
         {
-            foreach (var customerOrderEntry in orderEntries)
+            foreach (var orderEntry in orderEntries)
             {
                 // Define sql command
                 var command = new CommandDefinition(
-                    "insert into orders_entries (id_order, id_product, unit_price, qty_product) " +
-                    "values (@id_order, @id_product, @unit_price, @qty_product)",
+                    "insert into orders_products (id_order, id_product, unit_price, qty) " +
+                    "values (@id_order, @id_product, @unit_price, @qty)",
                     new
                     {
                         id_order = orderId,
-                        id_product = customerOrderEntry.ProductId,
-                        unit_price = customerOrderEntry.UnitSalePrice,
-                        qty_product = customerOrderEntry.Qty
+                        id_product = orderEntry.ProductId,
+                        unit_price = orderEntry.UnitPrice,
+                        qty = orderEntry.Qty
                     });
 
                 // Execute sql command
@@ -87,16 +66,14 @@ namespace Core.Data
         }
 
         /// <summary>
-        ///     Removes all existing orderEntries of the customer order.
-        ///     This method is run when order entries need to be updated.
-        ///     First the existing records are cleared and then the new records are inserted
+        ///     Remove order from database
         /// </summary>
         /// <param name="orderId"></param>
-        internal void RemoveCustomerOrderEntries(uint orderId)
+        internal void RemoveOrder(uint orderId)
         {
             // Define sql command
             var command = new CommandDefinition(
-                "delete from orders_entries where id_order = @id_order",
+                "delete from orders where id_order = @id_order",
                 new {id_order = orderId});
 
             // Execute sql command
@@ -107,33 +84,22 @@ namespace Core.Data
         ///     Returns a list of recent customer orders.
         ///     Note: You should call LoadOrderEntries() seperately to load orderEntries.
         /// </summary>
-        /// <param name="recordLimit">number of orders returned</param>
+        /// <param name="limit">number of orders returned</param>
         /// <param name="isCredit">if null, return both credit and non credit orders, else return only given type</param>
-        internal IEnumerable<CustomerOrder> GetRecentCustomerOrders(uint recordLimit, bool? isCredit)
+        internal IEnumerable<CustomerOrder> GetRecentCustomerOrders(uint limit, bool? isCredit)
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select orders.id_order 'Id', total 'Total', note 'Note', date_order 'Date', is_credit 'IsCredit', " +
-                "id_user 'UserId', is_cancelled 'IsCancelled' from orders " +
-                "order by orders.id_order desc limit @limit",
+                "select id_order 'Id', amount 'Amount', note 'Note', date_order 'Date', order_due_amount(id_order) 'DueAmount', is_cancelled 'IsCancelled' from orders " +
+                (isCredit == null ? "" : "where (order_due_amount(id_order) != 0) = @isCredit ") + 
+                "order by id_order desc limit @limit",
                 new
                 {
-                    limit = recordLimit
-                });
-
-            var commandActive = new CommandDefinition(
-                "select orders.id_order 'Id', total 'Total', note 'Note', date_order 'Date', is_credit 'IsCredit', " +
-                "id_user 'UserId', is_cancelled 'IsCancelled' from orders " +
-                "where is_credit = @is_credit " +
-                "order by orders.id_order desc limit @limit",
-                new
-                {
-                    limit = recordLimit,
-                    is_credit = isCredit
+                    limit, isCredit
                 });
 
             // Execute sql command
-            return Connection.Query<CustomerOrder>(isCredit == null ? command : commandActive);
+            return Connection.Query<CustomerOrder>(command);
         }
 
         /// <summary>
@@ -145,16 +111,15 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select orders_entries.id_product 'ProductId', name_product 'ProductName', unit_price 'UnitSalePrice', qty_product 'Qty' from orders_entries " +
-                "join products on orders_entries.id_product = products.id_product " +
-                "where id_order = @id_order",
+                "select id_product 'ProductId', name_product 'ProductName', unit_price 'UnitPrice', qty 'Qty' from orders_products " +
+                "join products USING(id_product) where id_order = @id_order",
                 new
                 {
                     id_order = customerOrder.Id
                 });
 
             // Execute sql command
-            var orderEntries = Connection.Query<CustomerOrderEntry>(command);
+            var orderEntries = Connection.Query<OrderEntry>(command);
             customerOrder.OrderEntries = orderEntries.ToList();
         }
 
@@ -163,19 +128,19 @@ namespace Core.Data
         ///     Note: You should call LoadOrderEntries() seperately to load orderEntries.
         /// </summary>
         /// <param name="customerId"></param>
-        /// <param name="recordLimit"></param>
-        internal IEnumerable<CustomerOrder> GetCustomerOrders(uint customerId, uint recordLimit)
+        /// <param name="limit"></param>
+        internal IEnumerable<CustomerOrder> GetOrders(uint customerId, uint limit)
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select orders.id_order 'Id', total 'Total', note 'Note', date_order 'Date', is_credit 'IsCredit', " +
-                "id_user 'UserId', is_cancelled 'IsCancelled' from orders " +
+                "select id_order 'Id', date_order 'Date', id_customer = @id_customer, amount 'Amount', note 'Note', (is_settled = false) 'IsCredit', " +
+                "is_cancelled 'IsCancelled' from orders " +
                 "where id_customer = @id_customer " +
-                "order by orders.id_order desc limit @limit",
+                "order by id_order desc limit @limit",
                 new
                 {
                     id_customer = customerId,
-                    limit = recordLimit
+                    limit
                 });
 
             // Execute sql command
@@ -188,14 +153,13 @@ namespace Core.Data
         /// </summary>
         /// <param name="note">serch by note</param>
         /// <returns></returns>
-        internal IEnumerable<CustomerOrder> GetCustomerOrders(string note)
+        internal IEnumerable<CustomerOrder> GetOrders(string note)
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select orders.id_order 'Id', total 'Total', note 'Note', date_order 'Date', is_credit 'IsCredit', " +
-                "id_user 'UserId', is_cancelled 'IsCancelled' from orders " +
+                "select id_order 'Id', amount 'Amount', note 'Note', date_order 'Date', is_credit 'IsCredit', is_cancelled 'IsCancelled' from orders " +
                 "where note like @note " +
-                "order by orders.id_order desc",
+                "order by id_order desc",
                 new
                 {
                     note = "%" + note + "%"
@@ -214,12 +178,13 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition(
-                "update orders set note = @note, is_credit = @is_credit, is_cancelled = @is_cancelled where id_order = @id_order",
+                "update orders set note = @note, is_settled = @is_settled, is_cancelled = @is_cancelled where id_order = @id_order",
                 new
                 {
                     id_order = customerOrder.Id,
                     note = customerOrder.Note,
-                    is_credit = customerOrder.IsCredit,
+                    // KEEP IN MIND OF THE 'NOT' CONDITION APPLIED HERE
+                    is_credit = !customerOrder.IsCredit,
                     is_cancelled = customerOrder.IsCancelled
                 });
 
