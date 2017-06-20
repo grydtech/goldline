@@ -28,18 +28,18 @@ namespace Core.Model.Handlers
 
             using (var scope = new TransactionScope())
             {
-                using (var connection = ConnectionManager.GetConnection())
+                using (var connection = Connector.GetConnection())
                 {
                     var customerOrderDal = new CustomerOrderDal(connection);
 
                     // Insert order record
-                    customerOrderDal.InsertCustomerOrder(customerOrder, User.CurrentUser.EmployeeId);
+                    customerOrderDal.InsertOrder(customerOrder);
                     if (customerOrder.Id == null)
                         throw new ArgumentNullException(nameof(customerOrder.Id),
                             "CustomerOrder has not been set after insert");
 
                     // Insert order entries
-                    customerOrderDal.InsertCustomerOrderEntries((uint) customerOrder.Id, customerOrder.OrderEntries);
+                    customerOrderDal.InsertOrderEntries((uint) customerOrder.Id, customerOrder.OrderEntries);
 
                     // Insert as credit order if IsCredit true
                     if (customerOrder.IsCredit)
@@ -59,7 +59,7 @@ namespace Core.Model.Handlers
         {
             using (var scope = new TransactionScope())
             {
-                using (var connection = ConnectionManager.GetConnection())
+                using (var connection = Connector.GetConnection())
                 {
                     var customerOrderDal = new CustomerOrderDal(connection);
                     var orders = customerOrderDal.GetRecentCustomerOrders(
@@ -92,9 +92,9 @@ namespace Core.Model.Handlers
             if (customer.Id == null)
                 throw new ArgumentNullException(nameof(customer.Id), "The customer Id of customer object is null");
 
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
-                return new CustomerOrderDal(connection).GetCustomerOrders((uint) customer.Id,
+                return new CustomerOrderDal(connection).GetOrders((uint) customer.Id,
                     isLimited ? Constraints.DefaultLimit : Constraints.ExtendedLimit);
             }
         }
@@ -110,10 +110,10 @@ namespace Core.Model.Handlers
             // Exception handling
             if (note == null) throw new ArgumentNullException(nameof(note), "The note to search for is null");
 
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 var customerOrderDal = new CustomerOrderDal(connection);
-                var orders = customerOrderDal.GetCustomerOrders(note);
+                var orders = customerOrderDal.GetOrders(note);
 
                 if (!isOrderEntriesLoaded)
                     foreach (var customerOrder in orders)
@@ -151,7 +151,7 @@ namespace Core.Model.Handlers
 
             using (var scope = new TransactionScope())
             {
-                using (var connection = ConnectionManager.GetConnection())
+                using (var connection = Connector.GetConnection())
                 {
                     var customerOrderDal = new CustomerOrderDal(connection);
                     customerOrderDal.UpdateCustomerOrderDetails(customerOrder);
@@ -161,8 +161,8 @@ namespace Core.Model.Handlers
 
                     if (isEntriesUpdated)
                     {
-                        customerOrderDal.RemoveCustomerOrderEntries((uint) customerOrder.Id);
-                        customerOrderDal.InsertCustomerOrderEntries((uint) customerOrder.Id,
+                        customerOrderDal.RemoveOrder((uint) customerOrder.Id);
+                        customerOrderDal.InsertOrderEntries((uint) customerOrder.Id,
                             customerOrder.OrderEntries);
                     }
                 }
@@ -174,20 +174,20 @@ namespace Core.Model.Handlers
         ///     Adds a new Supply Order
         /// </summary>
         /// <param name="supplyorder"></param>
-        public void AddSupplyOrder(SupplierOrder supplyorder)
+        public void AddSupplyOrder(Purchase supplyorder)
         {
             using (var scope = new TransactionScope())
             {
-                using (var connection = ConnectionManager.GetConnection())
+                using (var connection = Connector.GetConnection())
                 {
-                    var supplyOrderDal = new SupplyOrderDal(connection);
-                    supplyOrderDal.InsertSupplyOrder(supplyorder, User.CurrentUser.EmployeeId);
+                    var supplyOrderDal = new PurchaseDal(connection);
+                    supplyOrderDal.InsertPurchase(supplyorder, User.CurrentUser.EmployeeId);
 
                     if (supplyorder.Id == null)
                         throw new ArgumentNullException(nameof(supplyorder.Id),
                             "Supply order Id has not been assigned after insert");
 
-                    supplyOrderDal.InsertSupplyOrderEntries((uint) supplyorder.Id, supplyorder.OrderEntries);
+                    supplyOrderDal.InsertPurchasedItems((uint) supplyorder.Id, supplyorder.OrderEntries);
                 }
                 scope.Complete();
             }
@@ -198,40 +198,40 @@ namespace Core.Model.Handlers
         /// </summary>
         /// <param name="note"></param>
         /// <returns></returns>
-        public IEnumerable<SupplierOrder> GetSupplyOrders(string note)
+        public IEnumerable<Purchase> GetSupplyOrders(string note)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
-                return new SupplyOrderDal(connection).GetSupplyOrders(note);
+                return new PurchaseDal(connection).GetPurchases(note);
             }
         }
 
         /// <summary>
         ///     Updates a supply order
         /// </summary>
-        /// <param name="supplierOrder"></param>
+        /// <param name="purchase"></param>
         /// <param name="isEntriesUpdated">If order entries need to be updated, set this true</param>
-        public void UpdateSupplyOrder(SupplierOrder supplierOrder, bool isEntriesUpdated = false)
+        public void UpdateSupplyOrder(Purchase purchase, bool isEntriesUpdated = false)
         {
             using (var scope = new TransactionScope())
             {
-                using (var connection = ConnectionManager.GetConnection())
+                using (var connection = Connector.GetConnection())
                 {
-                    if (supplierOrder.Id == null)
-                        throw new ArgumentNullException(nameof(supplierOrder.Id), "Supply Order Id is null");
+                    if (purchase.Id == null)
+                        throw new ArgumentNullException(nameof(purchase.Id), "Supply Order Id is null");
 
-                    var supplyOrderDal = new SupplyOrderDal(connection);
-                    supplyOrderDal.UpdateSupplyOrderDetails(supplierOrder);
+                    var supplyOrderDal = new PurchaseDal(connection);
+                    supplyOrderDal.UpdatePurchaseDetails(purchase);
 
                     if (!isEntriesUpdated) return;
 
-                    if (supplierOrder.OrderEntries == null)
+                    if (purchase.OrderEntries == null)
                         throw new ArgumentNullException(
-                            nameof(supplierOrder.OrderEntries),
+                            nameof(purchase.OrderEntries),
                             "Attempt to update order entries while OrderEntries = null");
 
-                    supplyOrderDal.RemoveSupplyOrderEntries((uint) supplierOrder.Id);
-                    supplyOrderDal.InsertSupplyOrderEntries((uint) supplierOrder.Id, supplierOrder.OrderEntries);
+                    supplyOrderDal.RemovePurchasedItems((uint) purchase.Id);
+                    supplyOrderDal.InsertPurchasedItems((uint) purchase.Id, purchase.OrderEntries);
                 }
                 scope.Complete();
             }
@@ -243,13 +243,13 @@ namespace Core.Model.Handlers
         /// <param name="supplier"></param>
         /// <param name="isLimited"></param>
         /// <returns></returns>
-        public IEnumerable<SupplierOrder> GetSupplyOrders(Supplier supplier, bool isLimited = true)
+        public IEnumerable<Purchase> GetSupplyOrders(Supplier supplier, bool isLimited = true)
         {
             if (supplier.Id == null) throw new ArgumentNullException(nameof(supplier), "Supplier Id is null");
 
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
-                return new SupplyOrderDal(connection).GetSupplyOrders(
+                return new PurchaseDal(connection).GetPurchases(
                     (uint) supplier.Id,
                     isLimited ? Constraints.DefaultLimit : Constraints.ExtendedLimit);
             }
@@ -258,12 +258,12 @@ namespace Core.Model.Handlers
         /// <summary>
         ///     Load Order Entries of a supply order
         /// </summary>
-        /// <param name="supplierOrder"></param>
-        public void LoadSupplyOrderEntries(SupplierOrder supplierOrder)
+        /// <param name="purchase"></param>
+        public void LoadSupplyOrderEntries(Purchase purchase)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
-                new SupplyOrderDal(connection).LoadSupplyOrderEntries(supplierOrder);
+                new PurchaseDal(connection).LoadPurchasedItems(purchase);
             }
         }
 
@@ -272,11 +272,11 @@ namespace Core.Model.Handlers
         ///     The order items are also loaded at this point.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<SupplierOrder> GetRecentSupplyOrders(bool isLimited = true)
+        public IEnumerable<Purchase> GetRecentSupplyOrders(bool isLimited = true)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
-                return new SupplyOrderDal(connection).GetRecentSupplyOrders(isLimited
+                return new PurchaseDal(connection).GetRecentPurchases(isLimited
                     ? Constraints.DefaultLimit
                     : Constraints.ExtendedLimit);
             }
@@ -286,14 +286,14 @@ namespace Core.Model.Handlers
         ///     Returns all due supply orders from passed supplier
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<SupplierOrder> GetDueSupplyOrders(Supplier supplier)
+        public IEnumerable<Purchase> GetDueSupplyOrders(Supplier supplier)
         {
             // Exception handling
             if (supplier.Id == null) throw new ArgumentNullException(nameof(supplier.Id), "Supplier Id is null");
 
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
-                return new SupplyOrderDal(connection).GetSupplyOrders((uint) supplier.Id, Constraints.DefaultLimit,
+                return new PurchaseDal(connection).GetPurchases((uint) supplier.Id, Constraints.DefaultLimit,
                     SupplyOrderStatus.Pending);
             }
         }
@@ -301,19 +301,19 @@ namespace Core.Model.Handlers
         /// <summary>
         ///     Updates a supply order as paid off
         /// </summary>
-        /// <param name="supplierOrder"></param>
-        public void PayoffSupplyOrder(SupplierOrder supplierOrder)
+        /// <param name="purchase"></param>
+        public void PayoffSupplyOrder(Purchase purchase)
         {
             // Exception handling
-            if (supplierOrder.Id == null)
+            if (purchase.Id == null)
                 throw new ArgumentNullException(
-                    nameof(supplierOrder.Id),
+                    nameof(purchase.Id),
                     "Supply order Id is null");
 
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
-                new SupplyOrderDal(connection).UpdateSupplyOrderStatus(supplierOrder, SupplyOrderStatus.Paid);
-                supplierOrder.Status = SupplyOrderStatus.Paid;
+                new PurchaseDal(connection).UpdatePurchaseSettled(purchase, SupplyOrderStatus.Paid);
+                purchase.Status = SupplyOrderStatus.Paid;
             }
         }
 
@@ -321,17 +321,17 @@ namespace Core.Model.Handlers
         ///     Update a set of supply orders as paid off
         /// </summary>
         /// <param name="supplyOrders"></param>
-        public void PayoffSupplyOrders(IEnumerable<SupplierOrder> supplyOrders)
+        public void PayoffSupplyOrders(IEnumerable<Purchase> supplyOrders)
         {
             using (var scope = new TransactionScope())
             {
-                using (var connection = ConnectionManager.GetConnection())
+                using (var connection = Connector.GetConnection())
                 {
-                    var supplyOrderDal = new SupplyOrderDal(connection);
+                    var supplyOrderDal = new PurchaseDal(connection);
                     foreach (var supplyOrder in supplyOrders)
                     {
                         supplyOrder.Status = SupplyOrderStatus.Paid;
-                        supplyOrderDal.UpdateSupplyOrderStatus(supplyOrder, SupplyOrderStatus.Paid);
+                        supplyOrderDal.UpdatePurchaseSettled(supplyOrder, SupplyOrderStatus.Paid);
                     }
                 }
                 scope.Complete();
@@ -341,19 +341,19 @@ namespace Core.Model.Handlers
         /// <summary>
         ///     Updates a supply order as cancelled
         /// </summary>
-        /// <param name="supplierOrder"></param>
-        public void CancelSupplyOrder(SupplierOrder supplierOrder)
+        /// <param name="purchase"></param>
+        public void CancelSupplyOrder(Purchase purchase)
         {
             // Exception handling
-            if (supplierOrder.Id == null)
+            if (purchase.Id == null)
                 throw new ArgumentNullException(
-                    nameof(supplierOrder.Id),
+                    nameof(purchase.Id),
                     "Supply order Id is null");
 
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
-                new SupplyOrderDal(connection).UpdateSupplyOrderStatus(supplierOrder, SupplyOrderStatus.Cancelled);
-                supplierOrder.Status = SupplyOrderStatus.Cancelled;
+                new PurchaseDal(connection).UpdatePurchaseSettled(purchase, SupplyOrderStatus.Cancelled);
+                purchase.Status = SupplyOrderStatus.Cancelled;
             }
         }
     }

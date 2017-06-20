@@ -37,7 +37,7 @@
             // 
             // SupplyOrderBindingSource
             // 
-            this.SupplyOrderBindingSource.DataSource = typeof(Core.Model.Orders.SupplierOrder);
+            this.SupplyOrderBindingSource.DataSource = typeof(Core.Model.Orders.Purchase);
             // 
             // reportViewer
             // 

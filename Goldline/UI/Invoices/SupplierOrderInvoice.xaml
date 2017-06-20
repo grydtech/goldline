@@ -86,7 +86,7 @@
             <Label x:Name="TotalLabel"
                    Grid.Column="1"
                    HorizontalContentAlignment="Right"
-                   Content="Total"
+                   Content="Amount"
                    FontSize="24"
                    FontWeight="Bold" />
         </Grid>

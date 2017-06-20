@@ -10,16 +10,16 @@ namespace Goldline.UI.Invoices
     /// </summary>
     public partial class SupplierOrderInvoice : Window
     {
-        public SupplierOrderInvoice(SupplierOrder supplierOrder, Supplier supplier)
+        public SupplierOrderInvoice(Purchase purchase, Supplier supplier)
         {
             InitializeComponent();
             IsVerified = false;
-            OrderEntriesDataGrid.ItemsSource = supplierOrder.OrderEntries;
-            IdLabel.Content = "SupplierOrder: " + supplierOrder.Id;
+            OrderEntriesDataGrid.ItemsSource = purchase.OrderEntries;
+            IdLabel.Content = "Purchase: " + purchase.Id;
             SupplierNameLabel.Content = supplier.Name;
             ContactLabel.Content = supplier.Contact;
-            TotalLabel.Content = supplierOrder.Total;
-            CashCreditLabel.Content = supplierOrder.Status.ToString();
+            TotalLabel.Content = purchase.Amount;
+            CashCreditLabel.Content = purchase.Status.ToString();
         }
 
         public bool IsVerified { get; private set; }

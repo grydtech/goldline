@@ -18,7 +18,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public User TryAuthentication(string username, string password)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 var userAccessDal = new UserAccessDal(connection);
                 return userAccessDal.GetUser(username, password) ??
@@ -34,7 +34,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public void ChangePassword(User user, string newPassword)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 new UserAccessDal(connection).UpdateUserPassword(user, newPassword);
             }
@@ -59,7 +59,7 @@ namespace Core.Model.Handlers
             User newUser;
             using (var scope = new TransactionScope())
             {
-                using (var connection = ConnectionManager.GetConnection())
+                using (var connection = Connector.GetConnection())
                 {
                     new EmployeeDal(connection).UpdateEmployeeType(employee, EmployeeType.User);
                     newUser = new User((uint) employee.Id, userType, username);
@@ -79,7 +79,7 @@ namespace Core.Model.Handlers
         /// <param name="newUserType"></param>
         public void UpdateUserAccess(User user, UserType newUserType)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 new UserAccessDal(connection).UpdateUserType(user, newUserType);
             }
@@ -92,7 +92,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public User GetUser(uint employeeId)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 return new UserAccessDal(connection).GetUser(employeeId);
             }
@@ -103,7 +103,7 @@ namespace Core.Model.Handlers
         /// </summary>
         public bool IsUsernameAvailable(string username)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 return new UserAccessDal(connection).IsUsernameAvailable(username);
             }

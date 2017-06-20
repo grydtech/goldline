@@ -5,9 +5,9 @@ using Dapper;
 
 namespace Core.Data
 {
-    internal class EmployeePaymentDal : Dal
+    internal class EmployeesPaymentsDal : Dal
     {
-        internal EmployeePaymentDal(IDbConnection connection) : base(connection)
+        internal EmployeesPaymentsDal(IDbConnection connection, IDbTransaction transaction = null) : base(connection, transaction)
         {
         }
 
@@ -15,18 +15,17 @@ namespace Core.Data
         ///     Inserts a new employee payment into database
         /// </summary>
         /// <param name="employeePayment"></param>
-        /// <param name="userId">user who inserts the payment</param>
         internal void InsertEmployeePayment(EmployeePayment employeePayment)
         {
             // Define sql command
             var command = new CommandDefinition(
-                "insert into employees_payments (id_employee, amount, note) values (@id_employee, @amount, @note)",
+                "insert into employees_payments (id_employee, amount_paid, note) values (@id_employee, @amount, @note)",
                 new
                 {
                     id_employee = employeePayment.EmployeeId,
                     amount = employeePayment.Amount,
                     note = employeePayment.Note,
-                });
+                }, Transaction);
 
             // Execute sql command
             Connection.Execute(command);
@@ -47,7 +46,7 @@ namespace Core.Data
                 new
                 {
                     id_payment = employeePaymentId
-                });
+                }, Transaction);
 
             // Execute sql command
             Connection.Execute(command);
@@ -62,14 +61,14 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_payment 'Id', id_employee 'EmployeeId', amount 'Amount', note 'Note', date_paid 'Date' " +
+                "select id_payment 'Id', id_employee 'EmployeeId', amount_paid 'Amount', note 'Note', date_paid 'Date' " +
                 "from employees_payments where id_employee = @id_employee " +
                 "order by id_payment desc limit @limit",
                 new
                 {
                     id_employee = employeeId,
                     limit = recordLimit
-                });
+                }, Transaction);
 
             // Execute sql command
             return Connection.Query<EmployeePayment>(command);
@@ -83,13 +82,13 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_payment 'Id', id_employee 'EmployeeId', amount 'Amount', note 'Note', date_paid 'Date' " +
+                "select id_payment 'Id', id_employee 'EmployeeId', amount_paid 'Amount', note 'Note', date_paid 'Date' " +
                 "from employees_payments " +
                 "order by id_payment desc limit @limit",
                 new
                 {
                     limit = recordLimit
-                });
+                }, Transaction);
 
             // Execute sql command
             return Connection.Query<EmployeePayment>(command);

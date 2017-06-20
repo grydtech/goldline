@@ -8,9 +8,9 @@ using Dapper;
 
 namespace Core.Data
 {
-    internal class ProductDal : Dal
+    internal class ProductsDal : Dal
     {
-        internal ProductDal(IDbConnection connection) : base(connection)
+        internal ProductsDal(IDbConnection connection, IDbTransaction transaction = null) : base(connection, transaction)
         {
         }
 
@@ -190,11 +190,13 @@ namespace Core.Data
 
             // Define sql command
             var command = new CommandDefinition(
-                "insert into items (id_product, qty_stocks, unit_price) values (LAST_INSERT_ID(), @qty_stocks, @unit_price)",
+                "insert into items (id_product, item_code, qty_item, unit_price, model) values (LAST_INSERT_ID(), @item_code, @qty_item, @unit_price, @model)",
                 new
                 {
-                    qty_stocks = item.StockQty,
-                    unit_price = item.UnitPrice
+                    item_code = item.ItemCode,
+                    qty_item = item.StockQty,
+                    unit_price = item.UnitPrice,
+                    model = item.Model
                 });
 
             // Execute sql command
@@ -212,13 +214,15 @@ namespace Core.Data
 
             // Define sql command
             var command = new CommandDefinition(
-                "update items set qty_stocks = @qty_stocks, unit_price = @unit_price " +
+                "update items set item_code = @item_code, qty_item = @qty_item, unit_price = @unit_price, model = @model " +
                 "where id_product = @id_product",
                 new
                 {
+                    item_code = item.ItemCode,
                     id_product = item.Id,
-                    qty_stocks = item.StockQty,
-                    unit_price = item.UnitPrice
+                    qty_item = item.StockQty,
+                    unit_price = item.UnitPrice,
+                    model = item.Model
                 });
 
             // Execute sql command
@@ -276,10 +280,10 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_product 'Id', name_product 'Name', qty_stocks 'StockQty', " +
-                "unit_price 'UnitPrice', Brand, Dimension, Country from tyres " +
-                "join items USING(id_product) " +
-                "join products USING(id_product) " +
+                "select products.id_product 'Id', item_code 'ItemCode', name_product 'Name', qty_item 'StockQty', " +
+                "unit_price 'UnitPrice', Brand, Model, Dimension, Country from tyres " +
+                "join items on tyres.id_product = items.id_product " +
+                "join products on items.id_product = products.id_product " +
                 "order by name_product");
 
             // Execute sql command
@@ -294,10 +298,10 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_product 'Id', name_product 'Name', qty_stocks 'StockQty', " +
-                "unit_price 'UnitPrice', Brand, Dimension from alloywheels " +
-                "join items USING(id_product) " +
-                "join products USING(id_product) " +
+                "select products.id_product 'Id', item_code 'ItemCode', name_product 'Name', qty_item 'StockQty', " +
+                "unit_price 'UnitPrice', Brand, Model, Dimension from alloywheels " +
+                "join items on alloywheels.id_product = items.id_product " +
+                "join products on items.id_product = products.id_product " +
                 "order by name_product");
 
             // Execute sql command
@@ -312,10 +316,10 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_product 'Id', name_product 'Name', qty_stocks 'StockQty', " +
-                "unit_price 'UnitPrice', Brand, Capacity, Voltage from batteries " +
-                "join items USING(id_product) " +
-                "join products USING(id_product) " +
+                "select products.id_product 'Id', item_code 'ItemCode', name_product 'Name', qty_item 'StockQty', " +
+                "unit_price 'UnitPrice', Brand, Model, Capacity, Voltage from batteries " +
+                "join items on batteries.id_product = items.id_product " +
+                "join products on items.id_product = products.id_product " +
                 "order by name_product");
 
             // Execute sql command
@@ -346,10 +350,10 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_product 'Id', name_product 'Name', qty_stocks 'StockQty', " +
-                "unit_price 'UnitPrice', Brand, Dimension, Country from tyres " +
-                "join items USING(id_product) " +
-                "join products USING(id_product) " +
+                "select products.id_product 'Id', item_code 'ItemCode', name_product 'Name', qty_item 'StockQty', " +
+                "unit_price 'UnitPrice', Brand, Model, Dimension, Country from tyres " +
+                "join items on tyres.id_product = items.id_product " +
+                "join products on items.id_product = products.id_product " +
                 "where name_product like @name_product " +
                 "order by name_product",
                 new {name_product = "%" + name + "%"});
@@ -366,10 +370,10 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_product 'Id', name_product 'Name', qty_stocks 'StockQty', " +
-                "unit_price 'UnitPrice', Brand, Dimension from alloywheels " +
-                "join items USING(id_product) " +
-                "join products USING(id_product) " +
+                "select products.id_product 'Id', item_code 'ItemCode', name_product 'Name', qty_item 'StockQty', " +
+                "unit_price 'UnitPrice', Brand, Model, Dimension from alloywheels " +
+                "join items on alloywheels.id_product = items.id_product " +
+                "join products on items.id_product = products.id_product " +
                 "where name_product like @name_product " +
                 "order by name_product",
                 new {name_product = "%" + name + "%"});
@@ -386,10 +390,10 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_product 'Id', name_product 'Name', qty_stocks 'StockQty', " +
-                "unit_price 'UnitPrice', Brand, Capacity, Voltage from batteries " +
-                "join items USING(id_product) " +
-                "join products USING(id_product) " +
+                "select products.id_product 'Id', item_code 'ItemCode', name_product 'Name', qty_item 'StockQty', " +
+                "unit_price 'UnitPrice', Brand, Model, Capacity, Voltage from batteries " +
+                "join items on batteries.id_product = items.id_product " +
+                "join products on items.id_product = products.id_product " +
                 "where name_product like @name_product " +
                 "order by name_product",
                 new {name_product = "%" + name + "%"});
@@ -433,23 +437,11 @@ namespace Core.Data
             {
                 Product product;
 
-                switch (o.ProductType)
-                {
-                    case ProductType.Alloywheel:
-                        product = new Alloywheel();
-                        break;
-                    case ProductType.Battery:
-                        product = new Battery();
-                        break;
-                    case ProductType.Tyre:
-                        product = new Tyre();
-                        break;
-                    case ProductType.Service:
-                        product = new Tyre();
-                        break;
-                    default:
-                        return null;
-                }
+                if (o.ProductType == ProductType.Alloywheel) product = new Alloywheel();
+                else if (o.ProductType == ProductType.Battery) product = new Battery();
+                else if (o.ProductType == ProductType.Tyre) product = new Tyre();
+                else if (o.ProductType == ProductType.Service) product = new Tyre();
+                else return null;
 
                 product.Id = (uint) o.Id;
                 product.Name = o.Name;
@@ -466,10 +458,9 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select products.id_product 'Id', name_product 'Name', type_product-1 'ProductType', " +
-                "qty_stocks 'StockQty', unit_price 'UnitPrice' from products " +
-                "join items USING(id_product) " +
-                "join products USING(id_product) " +
+                "select products.id_product 'Id', item_code 'ItemCode', name_product 'Name', type_product-1 'ProductType', " +
+                "qty_item 'StockQty', unit_price 'UnitPrice' from products " +
+                "join items on products.id_product = items.id_product " +
                 "where name_product like @name_product " +
                 "order by name_product",
                 new {name_product = "%" + name + "%"});

@@ -7,9 +7,9 @@ using Dapper;
 
 namespace Core.Data
 {
-    internal class SupplyOrderDal : Dal
+    internal class PurchasesDal : Dal
     {
-        internal SupplyOrderDal(IDbConnection connection) : base(connection)
+        internal PurchasesDal(IDbConnection connection, IDbTransaction transaction = null) : base(connection, transaction)
         {
         }
 

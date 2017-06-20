@@ -13,7 +13,7 @@ namespace Core.Model.Handlers
         /// <param name="employee"></param>
         public void AddNewEmployee(Employee employee)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 new EmployeeDal(connection).InsertEmployee(employee);
             }
@@ -27,7 +27,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public IEnumerable<Employee> SearchEmployee(string name, bool? isActive = null)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 return new EmployeeDal(connection).GetEmployees(name, isActive);
             }
@@ -39,7 +39,7 @@ namespace Core.Model.Handlers
         /// <param name="employee"></param>
         public void UpdateEmployeeDetails(Employee employee)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 new EmployeeDal(connection).UpdateEmployeeDetails(employee);
             }
@@ -51,7 +51,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public IEnumerable<Employee> GetAllEmployees()
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 return new EmployeeDal(connection).GetAllEmployees();
             }
@@ -67,7 +67,7 @@ namespace Core.Model.Handlers
         {
             // Exception handling
             if (employee.Id == null) throw new ArgumentNullException(nameof(employee.Id), "Employee id is null");
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 new EmployeeDal(connection).UpdateEmployeeStatus((uint) employee.Id, isActive);
             }

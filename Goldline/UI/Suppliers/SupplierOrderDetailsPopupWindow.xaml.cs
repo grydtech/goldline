@@ -10,15 +10,15 @@ namespace Goldline.UI.Suppliers
     /// </summary>
     public partial class SupplierOrderDetailsPopupWindow : Window
     {
-        public SupplierOrderDetailsPopupWindow(SupplierOrder supplierOrder)
+        public SupplierOrderDetailsPopupWindow(Purchase purchase)
         {
-            SupplierOrder = supplierOrder;
-            new OrderHandler().LoadSupplyOrderEntries(SupplierOrder);
+            Purchase = purchase;
+            new OrderHandler().LoadSupplyOrderEntries(Purchase);
 
             InitializeComponent();
         }
 
-        public SupplierOrder SupplierOrder { get; }
+        public Purchase Purchase { get; }
 
         private void Window_MouseLeave(object sender, MouseEventArgs e)
         {

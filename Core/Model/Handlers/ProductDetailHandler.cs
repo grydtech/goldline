@@ -12,7 +12,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public void AddNewAlloywheelBrand(string brandName)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 new ProductDetailDal(connection).InsertAlloywheelBrand(brandName);
             }
@@ -25,7 +25,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public void AddNewAlloywheelDimension(string alloywheelDimension)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 new ProductDetailDal(connection).InsertAlloywheelDimension(alloywheelDimension);
             }
@@ -38,7 +38,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public void AddNewTyreBrand(string tyreBrand)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 new ProductDetailDal(connection).InsertTyreBrand(tyreBrand);
             }
@@ -51,7 +51,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public void AddNewTyreDimension(string tyreDimension)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 new ProductDetailDal(connection).InsertTyreDimension(tyreDimension);
             }
@@ -64,7 +64,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public void AddNewBatteryBrand(string batteryBrand)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 new ProductDetailDal(connection).InsertBatteryBrand(batteryBrand);
             }
@@ -77,7 +77,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public void AddNewBatteryCapacity(uint batteryCapacity)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 new ProductDetailDal(connection).InsertBatteryCapacity(batteryCapacity);
             }
@@ -90,7 +90,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public void AddNewBatteryVoltage(uint batteryVoltage)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 new ProductDetailDal(connection).InsertBatteryVoltage(batteryVoltage);
             }
@@ -102,7 +102,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public IEnumerable<string> GetAllTyreBrands()
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 return new ProductDetailDal(connection).GetAllTyreBrands();
             }
@@ -114,7 +114,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public IEnumerable<string> GetAllTyreDimensions()
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 return new ProductDetailDal(connection).GetAllTyreDimensions();
             }
@@ -126,7 +126,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public IEnumerable<string> GetAllAlloywheelBrands()
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 return new ProductDetailDal(connection).GetAllAlloywheelBrands();
             }
@@ -138,7 +138,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public IEnumerable<string> GetAllAlloywheelDimensions()
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 return new ProductDetailDal(connection).GetAllAlloywheelDimensions();
             }
@@ -150,7 +150,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public IEnumerable<string> GetAllBatteryBrands()
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 return new ProductDetailDal(connection).GetAllBatteryBrands();
             }
@@ -162,7 +162,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public IEnumerable<string> GetAllBatteryCapacities()
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 return new ProductDetailDal(connection).GetAllBatteryCapacities();
             }
@@ -174,7 +174,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public IEnumerable<string> GetAllBatteryVoltages()
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 return new ProductDetailDal(connection).GetAllBatteryVoltages();
             }

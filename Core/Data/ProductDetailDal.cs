@@ -39,6 +39,20 @@ namespace Core.Data
         }
 
         /// <summary>
+        ///     Inserts a new country or ignores if exists
+        /// </summary>
+        /// <param name="country"></param>
+        internal void InsertCountry(string country)
+        {
+            // Define sql command
+            var command = new CommandDefinition("insert ignore into countries values (@value)",
+                new { value = country });
+
+            // Execute sql command
+            Connection.Execute(command);
+        }
+
+        /// <summary>
         ///     Inserts a new alloywheel brand or ignores if exists
         /// </summary>
         /// <param name="alloywheelBrand"></param>
@@ -81,34 +95,6 @@ namespace Core.Data
         }
 
         /// <summary>
-        ///     Inserts a new battery capacity or ignores if exists
-        /// </summary>
-        /// <param name="batteryCapacity"></param>
-        internal void InsertBatteryCapacity(uint batteryCapacity)
-        {
-            // Define sql command
-            var command = new CommandDefinition("insert ignore into batteries_capacities values (@value)",
-                new {value = batteryCapacity});
-
-            // Execute sql command
-            Connection.Execute(command);
-        }
-
-        /// <summary>
-        ///     Inserts a new battery voltage or ignores if exists
-        /// </summary>
-        /// <param name="batteryVoltage"></param>
-        internal void InsertBatteryVoltage(uint batteryVoltage)
-        {
-            // Define sql command
-            var command = new CommandDefinition("insert ignore into batteries_voltages values (@value)",
-                new {value = batteryVoltage});
-
-            // Execute sql command
-            Connection.Execute(command);
-        }
-
-        /// <summary>
         ///     Returns a list of all records in tyres_brands table as string
         /// </summary>
         /// <returns></returns>
@@ -129,6 +115,19 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition("select dimension from tyres_dimensions");
+
+            // Execute sql command
+            return Connection.Query<string>(command);
+        }
+
+        /// <summary>
+        ///     Returns a list of all records in countries table as strings
+        /// </summary>
+        /// <returns></returns>
+        internal IEnumerable<string> GetAllCountries()
+        {
+            // Define sql command
+            var command = new CommandDefinition("select country from countries");
 
             // Execute sql command
             return Connection.Query<string>(command);
@@ -168,32 +167,6 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition("select brand from batteries_brands");
-
-            // Execute sql command
-            return Connection.Query<string>(command);
-        }
-
-        /// <summary>
-        ///     Returns a list of all records in batteries_capacities table as string
-        /// </summary>
-        /// <returns></returns>
-        internal IEnumerable<string> GetAllBatteryCapacities()
-        {
-            // Define sql command
-            var command = new CommandDefinition("select capacity from batteries_capacities");
-
-            // Execute sql command
-            return Connection.Query<string>(command);
-        }
-
-        /// <summary>
-        ///     Returns a list of all records in batteries_voltages table as string
-        /// </summary>
-        /// <returns></returns>
-        internal IEnumerable<string> GetAllBatteryVoltages()
-        {
-            // Define sql command
-            var command = new CommandDefinition("select voltage from batteries_voltages");
 
             // Execute sql command
             return Connection.Query<string>(command);

@@ -37,7 +37,7 @@
             // 
             // CustomerPaymentBindingSource
             // 
-            this.CustomerPaymentBindingSource.DataSource = typeof(Core.Model.Payments.CustomerPayment);
+            this.CustomerPaymentBindingSource.DataSource = typeof(Core.Model.Payments.OrderPayment);
             // 
             // reportViewer
             // 

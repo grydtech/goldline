@@ -15,7 +15,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public IEnumerable<Product> GetCatalog(ProductType productType)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 var productDal = new ProductDal(connection);
                 switch (productType)

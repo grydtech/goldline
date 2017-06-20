@@ -19,7 +19,7 @@ namespace Core.Model.Handlers
                 throw new ArgumentNullException(nameof(customer.Contact), "Customer contact is null");
             if (customer.Nic == null) throw new ArgumentNullException(nameof(customer.Nic), "Customer Nic is null");
 
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 var customerDal = new CustomerDal(connection);
                 customerDal.InsertCustomer(customer);
@@ -35,7 +35,7 @@ namespace Core.Model.Handlers
         {
             // Exception handling
             if (name == null) throw new ArgumentNullException(nameof(name), "Name is null");
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 return new CustomerDal(connection).GetCustomers(name);
             }
@@ -47,7 +47,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public IEnumerable<Customer> GetAllCustomers()
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 return new CustomerDal(connection).GetAllCustomers();
             }
@@ -67,7 +67,7 @@ namespace Core.Model.Handlers
                 throw new ArgumentNullException(nameof(customer.Contact), "Customer contact is null");
             if (customer.Nic == null) throw new ArgumentNullException(nameof(customer.Nic), "Customer Nic is null");
 
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 new CustomerDal(connection).UpdateCustomerDetails(customer);
             }
@@ -86,7 +86,7 @@ namespace Core.Model.Handlers
             if (customer.Id == null)
                 throw new ArgumentNullException(nameof(customer.Id), "Customer id is null");
 
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 new CustomerDal(connection).InsertCustomerVehicle((uint) customer.Id, vehicle);
             }
@@ -102,7 +102,7 @@ namespace Core.Model.Handlers
             if (vehicle.Number == null)
                 throw new ArgumentNullException(nameof(vehicle.Number), "Vehicle number is null");
 
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 new CustomerDal(connection).UpdateCustomerVehicleDate(vehicle);
             }
@@ -117,7 +117,7 @@ namespace Core.Model.Handlers
             // Exception handling
             if (customer.Id == null) throw new ArgumentNullException(nameof(customer.Id), "Customer Id is null");
 
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 return new CustomerDal(connection).GetCustomerVehicles(customer);
             }

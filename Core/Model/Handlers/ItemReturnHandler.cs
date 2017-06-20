@@ -14,7 +14,7 @@ namespace Core.Model.Handlers
         /// <param name="itemreturn"></param>
         public void AddNewItemReturn(ItemReturn itemreturn)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 new ItemReturnDal(connection).InsertItemReturn(itemreturn, User.CurrentUser.EmployeeId);
             }
@@ -26,7 +26,7 @@ namespace Core.Model.Handlers
         /// <param name="itemreturn"></param>
         public void UpdateItemReturn(ItemReturn itemreturn)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 new ItemReturnDal(connection).UpdateItemReturnDetails(itemreturn);
             }
@@ -37,7 +37,7 @@ namespace Core.Model.Handlers
             // Exception handling
             if (itemReturn.Id == null) throw new ArgumentNullException(nameof(itemReturn.Id), "Item return Id is null");
 
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 new ItemReturnDal(connection).UpdateItemReturnCondition((uint) itemReturn.Id, returnCondition);
             }
@@ -49,7 +49,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public IEnumerable<ItemReturn> GetAllItemReturns(DateTime startDate, DateTime endDate)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 return new ItemReturnDal(connection).GetAllItemReturns(startDate, endDate);
             }
@@ -65,7 +65,7 @@ namespace Core.Model.Handlers
         public IEnumerable<ItemReturn> SearchItemReturns(string note, ReturnCondition? condition = null,
             bool isLimited = true)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 return new ItemReturnDal(connection).GetItemReturns(note, condition,
                     isLimited ? Constraints.DefaultLimit : Constraints.ExtendedLimit);

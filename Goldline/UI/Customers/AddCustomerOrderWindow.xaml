@@ -218,7 +218,7 @@
                                             Binding="{Binding ProductName}"
                                             Header="Name" />
                         <DataGridTextColumn Width="2*"
-                                            Binding="{Binding UnitSalePrice}"
+                                            Binding="{Binding UnitPrice}"
                                             Header="Unit Price" />
                         <DataGridTextColumn Width="1*"
                                             Binding="{Binding Qty}"
@@ -260,7 +260,7 @@
                             <ColumnDefinition Width="2*" />
                         </Grid.ColumnDefinitions>
                         <Label x:Name="TotalLabel"
-                               Content="Total:"
+                               Content="Amount:"
                                FontSize="20"
                                FontWeight="Bold"
                                Style="{DynamicResource Goldline.LabelStyle.Dark}" />

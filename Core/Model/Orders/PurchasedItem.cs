@@ -3,9 +3,9 @@ using Core.Model.Products;
 
 namespace Core.Model.Orders
 {
-    public class SupplierOrderEntry
+    public class PurchasedItem
     {
-        public SupplierOrderEntry(Item item, uint qty, decimal price)
+        public PurchasedItem(Item item, uint qty, decimal price)
         {
             // Exception handling
             if (item.Id == null) throw new ArgumentNullException(nameof(item.Id), "Item Id is null");
@@ -19,7 +19,7 @@ namespace Core.Model.Orders
         /// <summary>
         ///     For database initialization
         /// </summary>
-        public SupplierOrderEntry()
+        public PurchasedItem()
         {
         }
 

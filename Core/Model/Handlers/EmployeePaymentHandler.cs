@@ -15,7 +15,7 @@ namespace Core.Model.Handlers
         /// <param name="employeePayment"></param>
         public void AddNewEmployeePayment(EmployeePayment employeePayment)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 new EmployeePaymentDal(connection).InsertEmployeePayment(employeePayment, User.CurrentUser.EmployeeId);
             }
@@ -30,7 +30,7 @@ namespace Core.Model.Handlers
             // Exception handling
             if (employeePayment.Id == null)
                 throw new ArgumentNullException(nameof(employeePayment.Id), "Employee payment id is null");
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 new EmployeePaymentDal(connection).RemoveEmployeePayment((uint) employeePayment.Id);
             }
@@ -47,7 +47,7 @@ namespace Core.Model.Handlers
             // Exception handling
             if (employee.Id == null) throw new ArgumentNullException(nameof(employee.Id), "Employee id is null");
 
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 return new EmployeePaymentDal(connection).GetEmployeePayments((uint) employee.Id,
                     isLimited ? Constraints.DefaultLimit : Constraints.ExtendedLimit);
@@ -61,7 +61,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public IEnumerable<EmployeePayment> GetRecentEmployeePayments(bool isLimited = true)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 return new EmployeePaymentDal(connection).GetRecentEmployeePayments(
                     isLimited ? Constraints.DefaultLimit : Constraints.ExtendedLimit);

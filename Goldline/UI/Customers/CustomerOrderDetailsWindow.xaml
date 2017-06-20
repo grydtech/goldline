@@ -72,13 +72,13 @@
                       SelectionMode="Single">
                 <DataGrid.Columns>
                     <DataGridTextColumn Width="3*"
-                                        Binding="{Binding (orders:CustomerOrderEntry.ProductName)}"
+                                        Binding="{Binding (orders:OrderEntry.ProductName)}"
                                         Header="Name" />
                     <DataGridTextColumn Width="1*"
-                                        Binding="{Binding (orders:CustomerOrderEntry.Qty)}"
+                                        Binding="{Binding (orders:OrderEntry.Qty)}"
                                         Header="Qty" />
                     <DataGridTextColumn Width="1*"
-                                        Binding="{Binding (orders:CustomerOrderEntry.NetPrice)}"
+                                        Binding="{Binding (orders:OrderEntry.NetPrice)}"
                                         Header="Net Price" />
                 </DataGrid.Columns>
             </DataGrid>
@@ -118,7 +118,7 @@
                                         Header="Date" />
                     <DataGridTextColumn Width="2*"
                                         Binding="{Binding Total}"
-                                        Header="Total" />
+                                        Header="Amount" />
                     <DataGridTextColumn Width="1*"
                                         Binding="{Binding UserId}"
                                         Header="UId" />

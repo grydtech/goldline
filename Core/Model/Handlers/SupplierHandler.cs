@@ -17,7 +17,7 @@ namespace Core.Model.Handlers
         {
             using (var scope = new TransactionScope())
             {
-                using (var connection = ConnectionManager.GetConnection())
+                using (var connection = Connector.GetConnection())
                 {
                     var supplierDal = new SupplierDal(connection);
                     supplierDal.InsertSupplier(supplier);
@@ -42,7 +42,7 @@ namespace Core.Model.Handlers
         /// <param name="isSuppliedItemsLoaded"></param>
         public IEnumerable<Supplier> GetSuppliers(string name, bool isSuppliedItemsLoaded = true)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 var suppliers = new SupplierDal(connection).GetSuppliers(name).ToList();
 
@@ -70,7 +70,7 @@ namespace Core.Model.Handlers
             if (supplier.Contact == null)
                 throw new ArgumentNullException(nameof(supplier.Contact), "Supplier Contact is null");
 
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 new SupplierDal(connection).UpdateSupplierDetails(supplier);
             }
@@ -85,7 +85,7 @@ namespace Core.Model.Handlers
         {
             if (supplier.Id == null) throw new ArgumentNullException(nameof(supplier.Id), "Supplier id is null");
 
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 new SupplierDal(connection).RemoveSupplier((uint) supplier.Id);
             }
@@ -107,7 +107,7 @@ namespace Core.Model.Handlers
 
             using (var scope = new TransactionScope())
             {
-                using (var connection = ConnectionManager.GetConnection())
+                using (var connection = Connector.GetConnection())
                 {
                     var supplierDal = new SupplierDal(connection);
                     supplierDal.ClearSuppliedItems((uint) supplier.Id);
@@ -125,7 +125,7 @@ namespace Core.Model.Handlers
         public void LoadSuppliedItems(Supplier supplier)
         {
             if (supplier.Id == null) throw new ArgumentNullException(nameof(supplier.Id), "Supplier Id is null");
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 supplier.SuppliedItems = new SupplierDal(connection).GetSuppliedItems((uint) supplier.Id).ToList();
             }
@@ -137,7 +137,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public IEnumerable<Supplier> GetAllSuppliers()
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 return new SupplierDal(connection).GetAllSuppliers();
             }

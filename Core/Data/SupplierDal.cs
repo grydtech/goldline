@@ -24,10 +24,10 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition(
-                "insert ignore into suppliers (name_supplier, contact) values (@name_supplier, @contact)",
+                "insert ignore into suppliers (name, contact) values (@name, @contact)",
                 new
                 {
-                    name_supplier = supplier.Name,
+                    name = supplier.Name,
                     contact = supplier.Contact
                 });
 
@@ -46,10 +46,10 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_supplier 'Id', name_supplier 'Name', Contact from suppliers " +
-                "where name_supplier like @name_supplier " +
-                "order by name_supplier",
-                new {name_supplier = "%" + name + "%"});
+                "select id_supplier 'Id', name 'Name', Contact from suppliers " +
+                "where name like @name " +
+                "order by name",
+                new {name = "%" + name + "%"});
 
             // Execute sql command
             return Connection.Query<Supplier>(command);
@@ -62,8 +62,8 @@ namespace Core.Data
         {
             // Define sql command
             var command =
-                new CommandDefinition("select id_supplier 'Id', name_supplier 'Name', Contact from suppliers " +
-                                      "order by name_supplier");
+                new CommandDefinition("select id_supplier 'Id', name 'Name', Contact from suppliers " +
+                                      "order by name");
 
             // Execute sql command
             return Connection.Query<Supplier>(command);
@@ -78,12 +78,12 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition(
-                "update suppliers set name_supplier = @name_supplier, contact = @contact " +
+                "update suppliers set name = @name, contact = @contact " +
                 "where id_supplier = @id_supplier",
                 new
                 {
                     id_supplier = supplier.Id,
-                    name_supplier = supplier.Name,
+                    name = supplier.Name,
                     contact = supplier.Contact
                 });
 
@@ -104,93 +104,6 @@ namespace Core.Data
 
             // Execute sql command
             Connection.Execute(command);
-        }
-
-        /// <summary>
-        ///     Adds new supplied items to the supplier or ignore if already exists
-        /// </summary>
-        /// <param name="supplierId"></param>
-        /// <param name="suppliedItems"></param>
-        internal void InsertSuppliedItems(uint supplierId, IEnumerable<Item> suppliedItems)
-        {
-            foreach (var suppliedItem in suppliedItems)
-            {
-                // Define sql command
-                var command = new CommandDefinition(
-                    "insert into suppliers_items (id_supplier, id_item) values (@id_supplier, @id_item)",
-                    new
-                    {
-                        id_supplier = supplierId,
-                        id_item = suppliedItem.Id
-                    });
-
-                // Execute sql command
-                Connection.Execute(command);
-            }
-        }
-
-        /// <summary>
-        ///     Removes all supplied items of a supplier.
-        ///     This method should be run when updating the supplied items of a supplier
-        /// </summary>
-        /// <param name="supplierId"></param>
-        internal void ClearSuppliedItems(uint supplierId)
-        {
-            // Define sql command
-            var command = new CommandDefinition(
-                "delete from suppliers_items where id_supplier = @id_supplier",
-                new
-                {
-                    id_supplier = supplierId
-                });
-
-            // Execute sql command
-            Connection.Execute(command);
-        }
-
-        /// <summary>
-        ///     Returns a list of supplied items from a given supplier
-        /// </summary>
-        /// <param name="supplierId"></param>
-        /// <returns></returns>
-        internal IEnumerable<Item> GetSuppliedItems(uint supplierId)
-        {
-            // Define sql command
-            var command = new CommandDefinition(
-                "select products.id_product 'Id', name_product 'Name', type_product-1 'ProductType', " +
-                "qty_item 'Qty', unit_price 'UnitPrice' from suppliers_items " +
-                "join items on suppliers_items.id_item = items.id_product " +
-                "join products on items.id_product = products.id_product " +
-                "where id_supplier = @id_supplier " +
-                "order by type_product, name_product",
-                new {id_supplier = supplierId});
-
-            // Execute sql command
-            return Connection.Query<dynamic>(command).Select(o =>
-            {
-                Item item;
-
-                switch ((ProductType) o.ProductType)
-                {
-                    case ProductType.Alloywheel:
-                        item = new Alloywheel();
-                        break;
-                    case ProductType.Battery:
-                        item = new Battery();
-                        break;
-                    case ProductType.Tyre:
-                        item = new Tyre();
-                        break;
-                    default:
-                        Console.WriteLine("Enum value was invalid when initializing");
-                        throw new ArgumentException();
-                }
-
-                item.Id = (uint) o.Id;
-                item.Name = o.Name;
-                item.ProductType = (ProductType) o.ProductType;
-                return item;
-            });
         }
     }
 }

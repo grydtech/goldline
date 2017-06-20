@@ -24,7 +24,7 @@ namespace Goldline.UI.Customers
             InitializeComponent();
         }
 
-        public IEnumerable<CustomerPayment> CustomerPaymentSource { get; set; }
+        public IEnumerable<OrderPayment> CustomerPaymentSource { get; set; }
         public IEnumerable<Customer> CustomerSource { get; set; }
 
         public Customer SelectedCustomer => CustomerComboBox.SelectedItem as Customer;
@@ -55,7 +55,7 @@ namespace Goldline.UI.Customers
             {
                 if (SelectedCustomer.Id == null) return;
 
-                var cs = new CustomerPayment(decimal.Parse(AmountTextBox.Text), NoteTextBox.Text,
+                var cs = new OrderPayment(decimal.Parse(AmountTextBox.Text), NoteTextBox.Text,
                     (uint) SelectedCustomer.Id);
                 try
                 {

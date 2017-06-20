@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\CustomerDal.cs" />
-    <Compile Include="Data\CustomerPaymentDal.cs" />
+    <Compile Include="Data\OrderPaymentDal.cs" />
     <Compile Include="Data\Dal.cs" />
     <Compile Include="Data\EmployeeDal.cs" />
     <Compile Include="Data\EmployeePaymentDal.cs" />
@@ -53,10 +53,10 @@
     <Compile Include="Data\ProductDal.cs" />
     <Compile Include="Data\ProductDetailDal.cs" />
     <Compile Include="Data\SupplierDal.cs" />
-    <Compile Include="Data\SupplyOrderDal.cs" />
+    <Compile Include="Data\PurchaseDal.cs" />
     <Compile Include="Data\UserAccessDal.cs" />
     <Compile Include="Model\CustomerVehicle.cs" />
-    <Compile Include="Data\ConnectionManager.cs" />
+    <Compile Include="Data\Connector.cs" />
     <Compile Include="Model\Enums\EmployeeType.cs" />
     <Compile Include="Model\Enums\ItemType.cs" />
     <Compile Include="Model\Enums\ProductType.cs" />
@@ -76,9 +76,9 @@
     <Compile Include="Model\Handlers\SupplierHandler.cs" />
     <Compile Include="Model\Handlers\UserAccessHandler.cs" />
     <Compile Include="Model\Orders\CustomerOrder.cs" />
-    <Compile Include="Model\Orders\SupplierOrderEntry.cs" />
-    <Compile Include="Model\Orders\CustomerOrderEntry.cs" />
-    <Compile Include="Model\Orders\SupplierOrder.cs" />
+    <Compile Include="Model\Orders\PurchasedItem.cs" />
+    <Compile Include="Model\Orders\OrderEntry.cs" />
+    <Compile Include="Model\Orders\Purchase.cs" />
     <Compile Include="Security\UserPermissions.cs" />
     <Compile Include="Security\UserType.cs" />
     <Compile Include="Model\ItemReturn.cs" />
@@ -90,7 +90,7 @@
     <Compile Include="Model\Products\Product.cs" />
     <Compile Include="Model\Products\Service.cs" />
     <Compile Include="Model\Products\Tyre.cs" />
-    <Compile Include="Model\Payments\CustomerPayment.cs" />
+    <Compile Include="Model\Payments\OrderPayment.cs" />
     <Compile Include="Model\Payments\EmployeePayment.cs" />
     <Compile Include="Model\Persons\Customer.cs" />
     <Compile Include="Model\Persons\Employee.cs" />

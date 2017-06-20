@@ -72,7 +72,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public IEnumerable<Product> GetProducts(string name, ProductType? productType = null)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 var productDal = new ProductDal(connection);
                 switch (productType)
@@ -104,7 +104,7 @@ namespace Core.Model.Handlers
         /// <returns></returns>
         public IEnumerable<Item> GetItems(string name, ItemType? itemType = null)
         {
-            using (var connection = ConnectionManager.GetConnection())
+            using (var connection = Connector.GetConnection())
             {
                 var productDal = new ProductDal(connection);
                 switch (itemType)
@@ -133,7 +133,7 @@ namespace Core.Model.Handlers
         {
             using (var scope = new TransactionScope())
             {
-                using (var connection = ConnectionManager.GetConnection())
+                using (var connection = Connector.GetConnection())
                 {
                     new ProductDal(connection).InsertTyre(tyre);
                 }
@@ -149,7 +149,7 @@ namespace Core.Model.Handlers
         {
             using (var scope = new TransactionScope())
             {
-                using (var connection = ConnectionManager.GetConnection())
+                using (var connection = Connector.GetConnection())
                 {
                     new ProductDal(connection).InsertBattery(battery);
                 }
@@ -165,7 +165,7 @@ namespace Core.Model.Handlers
         {
             using (var scope = new TransactionScope())
             {
-                using (var connection = ConnectionManager.GetConnection())
+                using (var connection = Connector.GetConnection())
                 {
                     new ProductDal(connection).InsertAlloywheel(alloywheel);
                 }
@@ -181,7 +181,7 @@ namespace Core.Model.Handlers
         {
             using (var scope = new TransactionScope())
             {
-                using (var connection = ConnectionManager.GetConnection())
+                using (var connection = Connector.GetConnection())
                 {
                     new ProductDal(connection).InsertService(service);
                 }
@@ -197,7 +197,7 @@ namespace Core.Model.Handlers
         {
             using (var scope = new TransactionScope())
             {
-                using (var connection = ConnectionManager.GetConnection())
+                using (var connection = Connector.GetConnection())
                 {
                     new ProductDal(connection).UpdateTyre(tyre);
                 }
@@ -213,7 +213,7 @@ namespace Core.Model.Handlers
         {
             using (var scope = new TransactionScope())
             {
-                using (var connection = ConnectionManager.GetConnection())
+                using (var connection = Connector.GetConnection())
                 {
                     new ProductDal(connection).UpdateBattery(battery);
                 }
@@ -229,7 +229,7 @@ namespace Core.Model.Handlers
         {
             using (var scope = new TransactionScope())
             {
-                using (var connection = ConnectionManager.GetConnection())
+                using (var connection = Connector.GetConnection())
                 {
                     new ProductDal(connection).UpdateAlloywheel(alloywheel);
                 }
@@ -245,7 +245,7 @@ namespace Core.Model.Handlers
         {
             using (var scope = new TransactionScope())
             {
-                using (var connection = ConnectionManager.GetConnection())
+                using (var connection = Connector.GetConnection())
                 {
                     new ProductDal(connection).UpdateService(service);
                 }

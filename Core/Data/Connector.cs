@@ -2,7 +2,7 @@
 
 namespace Core.Data
 {
-    public static class ConnectionManager
+    public static class Connector
     {
         private const string MacConnectionString =
             "server=localhost.mac;user id=goldline;password=1234;persistsecurityinfo=True;database=goldline";

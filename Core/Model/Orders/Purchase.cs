@@ -5,18 +5,18 @@ using Core.Model.Enums;
 
 namespace Core.Model.Orders
 {
-    public class SupplierOrder
+    public class Purchase
     {
         private decimal _total;
 
-        public SupplierOrder(uint supplierId = 0, IEnumerable<SupplierOrderEntry> orderEntries = null,
-            decimal total = 0,
+        public Purchase(uint supplierId = 0, IEnumerable<PurchasedItem> orderEntries = null,
+            decimal amount = 0,
             string note = null,
             SupplyOrderStatus status = SupplyOrderStatus.Pending)
         {
             SupplierId = supplierId;
-            OrderEntries = orderEntries?.ToList() ?? new List<SupplierOrderEntry>();
-            Total = total;
+            OrderEntries = orderEntries?.ToList() ?? new List<PurchasedItem>();
+            Amount = amount;
             Note = note;
             Status = status;
         }
@@ -24,14 +24,14 @@ namespace Core.Model.Orders
         /// <summary>
         ///     For database initialization
         /// </summary>
-        public SupplierOrder()
+        public Purchase()
         {
-            OrderEntries = new List<SupplierOrderEntry>();
+            OrderEntries = new List<PurchasedItem>();
         }
 
         public uint? Id { get; set; }
 
-        public decimal Total
+        public decimal Amount
         {
             get { return OrderEntries?.Sum(oe => oe.Price) ?? _total; }
             set => _total = value;
@@ -42,16 +42,16 @@ namespace Core.Model.Orders
         public uint SupplierId { get; set; }
         public uint UserId { get; set; }
         public SupplyOrderStatus Status { get; set; }
-        public List<SupplierOrderEntry> OrderEntries { get; set; }
+        public List<PurchasedItem> OrderEntries { get; set; }
 
-        public void AddOrderEntry(SupplierOrderEntry supplierOrderEntry)
+        public void AddOrderEntry(PurchasedItem purchasedItem)
         {
-            OrderEntries.Add(supplierOrderEntry);
+            OrderEntries.Add(purchasedItem);
         }
 
-        public void RemoveOrderEntry(SupplierOrderEntry supplierOrderEntry)
+        public void RemoveOrderEntry(PurchasedItem purchasedItem)
         {
-            OrderEntries.Remove(supplierOrderEntry);
+            OrderEntries.Remove(purchasedItem);
         }
     }
 }

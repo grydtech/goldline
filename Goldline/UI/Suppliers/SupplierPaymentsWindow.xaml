@@ -79,8 +79,8 @@
                                             Binding="{Binding Date}"
                                             Header="Date" />
                         <DataGridTextColumn Width="0.3*"
-                                            Binding="{Binding Total}"
-                                            Header="Total" />
+                                            Binding="{Binding Amount}"
+                                            Header="Amount" />
                         <DataGridCheckBoxColumn Width="0.2*"
                                                 Binding="{Binding Status}"
                                                 Header="Status" />

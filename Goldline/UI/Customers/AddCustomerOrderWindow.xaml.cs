@@ -211,7 +211,7 @@ namespace Goldline.UI.Customers
                     else
                     {
                         var salePrice = _unitPrice != 0 ? _unitPrice : selectedItem.UnitPrice * (100 - _discount) / 100;
-                        var orderEntry = new CustomerOrderEntry(selectedItem, salePrice, quantity);
+                        var orderEntry = new OrderEntry(selectedItem, salePrice, quantity);
 
                         // add items to the order entries list
                         Order.AddOrderEntry(orderEntry);
@@ -303,7 +303,7 @@ namespace Goldline.UI.Customers
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedEntry = OrderEntriesDataGrid.SelectedItem as CustomerOrderEntry;
+            var selectedEntry = OrderEntriesDataGrid.SelectedItem as OrderEntry;
             if (selectedEntry != null)
             {
                 Order.RemoveOrderEntry(selectedEntry);
@@ -329,7 +329,7 @@ namespace Goldline.UI.Customers
 
             if (!IsAlreadyEntered(selectedService.Id))
             {
-                Order.OrderEntries.Add(new CustomerOrderEntry(selectedService, serviceCharge));
+                Order.OrderEntries.Add(new OrderEntry(selectedService, serviceCharge));
                 UpdateGrandTotalLabel();
                 RefreshOrderEntriesDataGrid();
             }

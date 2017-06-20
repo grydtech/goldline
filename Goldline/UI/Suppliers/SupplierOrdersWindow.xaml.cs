@@ -23,7 +23,7 @@ namespace Goldline.UI.Suppliers
             InitializeComponent();
         }
 
-        public IEnumerable<SupplierOrder> SupplyOrderSource { get; set; }
+        public IEnumerable<Purchase> SupplyOrderSource { get; set; }
 
         public void RefreshDataGrid()
         {
@@ -57,7 +57,7 @@ namespace Goldline.UI.Suppliers
         {
             if (SupplyOrdersDataGrid.SelectedItem == null) return;
             var mousePosition = GetMousePosition();
-            new SupplierOrderDetailsPopupWindow((SupplierOrder) SupplyOrdersDataGrid.SelectedItem)
+            new SupplierOrderDetailsPopupWindow((Purchase) SupplyOrdersDataGrid.SelectedItem)
             {
                 Left = mousePosition.X,
                 Top = mousePosition.Y
@@ -79,7 +79,7 @@ namespace Goldline.UI.Suppliers
             if (result == MessageBoxResult.No) return;
             try
             {
-                _orderHandler.CancelSupplyOrder((SupplierOrder) SupplyOrdersDataGrid.SelectedItem);
+                _orderHandler.CancelSupplyOrder((Purchase) SupplyOrdersDataGrid.SelectedItem);
                 MessageBox.Show("Successfully Reversed", "Successful", MessageBoxButton.OK,
                     MessageBoxImage.Information);
                 RefreshDataGrid();

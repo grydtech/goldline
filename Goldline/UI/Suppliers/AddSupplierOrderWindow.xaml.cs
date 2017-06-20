@@ -30,7 +30,7 @@ namespace Goldline.UI.Suppliers
             // Set up variables and properties prior to initialization
             _orderHandler = new OrderHandler();
             _productHandler = new ProductHandler();
-            SupplierOrder = new SupplierOrder();
+            Purchase = new Purchase();
             SupplierSource = new SupplierHandler().GetAllSuppliers();
             ItemSource = _productHandler.GetItems("");
 
@@ -40,7 +40,7 @@ namespace Goldline.UI.Suppliers
 
         public IEnumerable<Supplier> SupplierSource { get; set; }
         public IEnumerable<Item> ItemSource { get; set; }
-        public SupplierOrder SupplierOrder { get; set; }
+        public Purchase Purchase { get; set; }
 
         /// <summary>
         ///     Reset Qty and Price textbox layout after adding an order entry or an express checkout
@@ -56,7 +56,7 @@ namespace Goldline.UI.Suppliers
         /// </summary>
         public void InitializeNewSupplyOrder()
         {
-            SupplierOrder = new SupplierOrder();
+            Purchase = new Purchase();
             InitializeTextBoxes();
             TotalAmountTextBox.Text = "";
             NoteTextBox.Text = "";
@@ -114,7 +114,7 @@ namespace Goldline.UI.Suppliers
             //try
             //{
             // Set total and price variables before adding
-            _orderHandler.AddSupplyOrder(SupplierOrder);
+            _orderHandler.AddSupplyOrder(Purchase);
             MessageBox.Show("Successfully Added", "Information", MessageBoxButton.OK,
                 MessageBoxImage.Information);
             InitializeNewSupplyOrder();
@@ -128,9 +128,9 @@ namespace Goldline.UI.Suppliers
 
         public void AddSelectedItemToOrder()
         {
-            var orderEntry = new SupplierOrderEntry((Item) InventoryDataGrid.SelectedItem,
+            var orderEntry = new PurchasedItem((Item) InventoryDataGrid.SelectedItem,
                 uint.Parse(QuantityTextBox.Text), decimal.Parse(PriceTextBox.Text));
-            SupplierOrder.AddOrderEntry(orderEntry);
+            Purchase.AddOrderEntry(orderEntry);
             RefreshSupplyOrderEntriesDataGrid();
         }
 
@@ -155,7 +155,7 @@ namespace Goldline.UI.Suppliers
         {
             var id = ((Supplier) SupplierComboBox.SelectedItem).Id;
             if (id != null)
-                SupplierOrder.SupplierId = id.Value;
+                Purchase.SupplierId = id.Value;
         }
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -197,15 +197,15 @@ namespace Goldline.UI.Suppliers
 
         private void CheckoutButton_Click(object sender, RoutedEventArgs e)
         {
-            SupplierOrder.Note = NoteTextBox.Text;
-            if (!SupplierOrder.OrderEntries.Any())
+            Purchase.Note = NoteTextBox.Text;
+            if (!Purchase.OrderEntries.Any())
             {
                 MessageBox.Show("No entries found in order!", "Information", MessageBoxButton.OK,
                     MessageBoxImage.Exclamation);
             }
             else
             {
-                var confirmationWindow = new SupplierOrderInvoice(SupplierOrder,
+                var confirmationWindow = new SupplierOrderInvoice(Purchase,
                     (Supplier) SupplierComboBox.SelectedItem);
                 confirmationWindow.ShowDialog();
                 if (!confirmationWindow.IsVerified) return;
@@ -215,13 +215,13 @@ namespace Goldline.UI.Suppliers
 
         private void RemoveEntryButton_Click(object sender, RoutedEventArgs e)
         {
-            SupplierOrder.RemoveOrderEntry((SupplierOrderEntry) SupplyOrderEntriesDataGrid.SelectedItem);
+            Purchase.RemoveOrderEntry((PurchasedItem) SupplyOrderEntriesDataGrid.SelectedItem);
             RefreshSupplyOrderEntriesDataGrid();
         }
 
         private void CheckBox_OnChecked(object sender, RoutedEventArgs e)
         {
-            SupplierOrder.Status = CheckBox.IsChecked == true ? SupplyOrderStatus.Paid : SupplyOrderStatus.Pending;
+            Purchase.Status = CheckBox.IsChecked == true ? SupplyOrderStatus.Paid : SupplyOrderStatus.Pending;
         }
 
         #endregion

@@ -8,11 +8,11 @@ namespace Core.Model.Orders
     {
         private decimal _total;
 
-        public CustomerOrder(IEnumerable<CustomerOrderEntry> orderentries = null, string note = null,
+        public CustomerOrder(IEnumerable<OrderEntry> orderentries = null, string note = null,
             uint? customerId = null,
             bool isCredit = false)
         {
-            OrderEntries = orderentries?.ToList() ?? new List<CustomerOrderEntry>();
+            OrderEntries = orderentries?.ToList() ?? new List<OrderEntry>();
             Note = note;
             CustomerId = customerId;
             IsCancelled = false;
@@ -24,7 +24,7 @@ namespace Core.Model.Orders
         /// </summary>
         public CustomerOrder()
         {
-            OrderEntries = new List<CustomerOrderEntry>();
+            OrderEntries = new List<OrderEntry>();
         }
 
         public uint? Id { get; set; }
@@ -42,16 +42,16 @@ namespace Core.Model.Orders
         public bool IsCancelled { get; set; }
         public bool IsCredit { get; set; }
         public decimal DueAmount { get; set; }
-        public List<CustomerOrderEntry> OrderEntries { get; set; }
+        public List<OrderEntry> OrderEntries { get; set; }
 
-        public void AddOrderEntry(CustomerOrderEntry customerOrderEntry)
+        public void AddOrderEntry(OrderEntry orderEntry)
         {
-            OrderEntries.Add(customerOrderEntry);
+            OrderEntries.Add(orderEntry);
         }
 
-        public void RemoveOrderEntry(CustomerOrderEntry customerOrderEntry)
+        public void RemoveOrderEntry(OrderEntry orderEntry)
         {
-            OrderEntries.Remove(customerOrderEntry);
+            OrderEntries.Remove(orderEntry);
         }
     }
 }

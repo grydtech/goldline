@@ -27,7 +27,7 @@ namespace Goldline.UI.Suppliers
             NameTextBox.Text = _supplier.Name;
         }
 
-        public IEnumerable<SupplierOrder> DueSupplyOrders { get; private set; }
+        public IEnumerable<Purchase> DueSupplyOrders { get; private set; }
 
         private void PayButton_Click(object sender, RoutedEventArgs e)
         {
@@ -43,7 +43,7 @@ namespace Goldline.UI.Suppliers
             if (messageBoxResult == MessageBoxResult.Cancel) return;
 
             // payoff all selected supplier orders
-            _orderHandler.PayoffSupplyOrders((IEnumerable<SupplierOrder>) SupplyOrdersDataGrid.SelectedItems);
+            _orderHandler.PayoffSupplyOrders((IEnumerable<Purchase>) SupplyOrdersDataGrid.SelectedItems);
             MessageBox.Show("Successfully Updated!!", "Result", MessageBoxButton.OK, MessageBoxImage.Information);
             RefreshDataGrid();
         }
@@ -51,7 +51,7 @@ namespace Goldline.UI.Suppliers
         private void SupplierDataGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             AmountTextBox.Text =
-                SupplyOrdersDataGrid.SelectedItems.Cast<SupplierOrder>().Sum(order => order.Total).ToString();
+                SupplyOrdersDataGrid.SelectedItems.Cast<Purchase>().Sum(order => order.Amount).ToString();
         }
 
         private void RefreshDataGrid()

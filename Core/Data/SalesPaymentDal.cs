@@ -5,9 +5,9 @@ using Dapper;
 
 namespace Core.Data
 {
-    internal class CustomerPaymentDal : Dal
+    internal class SalesPaymentDal : Dal
     {
-        public CustomerPaymentDal(IDbConnection connection) : base(connection)
+        public SalesPaymentDal(IDbConnection connection, IDbTransaction transaction = null) : base(connection, transaction)
         {
         }
 

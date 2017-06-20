@@ -20,13 +20,12 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition(
-                "insert into customers (name_customer, nic, contact, due_amount) values (@name_customer, @nic, @contact, @due_amount)",
+                "insert into customers (name, nic, contact) values (@name, @nic, @contact)",
                 new
                 {
-                    name_customer = customer.Name,
+                    name = customer.Name,
                     nic = customer.Nic,
-                    contact = customer.Contact,
-                    due_amount = customer.DueAmount
+                    contact = customer.Contact
                 });
 
             // Execute sql command
@@ -45,12 +44,12 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_customer 'Id', name_customer 'Name', nic 'Nic', contact 'Contact', due_amount 'DueAmount' from customers " +
-                "where name_customer like @name_customer " +
-                "order by name_customer",
+                "select id_customer 'Id', name 'Name', nic 'Nic', contact 'Contact', credit_amount(id_customer) 'DueAmount' from customers " +
+                "where name like @name " +
+                "order by name",
                 new
                 {
-                    name_customer = "%" + name + "%"
+                    name = "%" + name + "%"
                 });
 
             // Execute sql command
@@ -65,8 +64,8 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_customer 'Id', name_customer 'Name', nic 'Nic', contact 'Contact', due_amount 'DueAmount' from customers " +
-                "order by name_customer");
+                "select id_customer 'Id', name 'Name', nic 'Nic', contact 'Contact', credit_amount(id_customer) 'DueAmount' from customers " +
+                "order by name");
 
             // Execute sql command
             return Connection.Query<Customer>(command);
@@ -74,22 +73,21 @@ namespace Core.Data
 
         /// <summary>
         ///     Updates a customer in the database.
-        ///     The properties that will be updated are: Name, Nic, Contact, DueAmount
+        ///     The properties that will be updated are: Name, Nic, Contact
         /// </summary>
         /// <param name="customer"></param>
         internal void UpdateCustomerDetails(Customer customer)
         {
             // Define sql command
             var command = new CommandDefinition(
-                "update customers set name_customer = @name_customer, nic = @nic, contact = @contact, due_amount = @due_amount " +
+                "update customers set name = @name, nic = @nic, contact = @contact " +
                 "where id_customer = @id_customer",
                 new
                 {
                     id_customer = customer.Id,
                     name_customer = customer.Name,
                     nic = customer.Nic,
-                    contact = customer.Contact,
-                    due_amount = customer.DueAmount
+                    contact = customer.Contact
                 });
 
             // Execute sql command
@@ -127,7 +125,7 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition(
-                "update customers_vehicles set date_visited = CURRENT_TIMESTAMP where vehicle_no = @vehicle_no",
+                "update customers_vehicles set date_last_seen = CURRENT_TIMESTAMP where vehicle_no = @vehicle_no",
                 new
                 {
                     vehicle_no = customerVehicle.Number
@@ -146,7 +144,7 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select vehicle_no 'Number', id_customer 'CustomerId', date_visited 'LastVisitDate' from customers_vehicles " +
+                "select vehicle_no 'Number', id_customer 'OrderId', date_last_seen 'LastVisitDate' from customers_vehicles " +
                 "where id_customer = @id_customer " +
                 "order by vehicle_no",
                 new

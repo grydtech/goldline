@@ -3,12 +3,13 @@ using System.Data;
 using Core.Model.Enums;
 using Core.Model.Persons;
 using Dapper;
+using static Core.Data.SqlGenerator;
 
 namespace Core.Data
 {
-    internal class EmployeeDal : Dal
+    internal class EmployeesDal : Dal
     {
-        internal EmployeeDal(IDbConnection connection) : base(connection)
+        internal EmployeesDal(IDbConnection connection, IDbTransaction transaction = null) : base(connection, transaction)
         {
         }
 
@@ -20,12 +21,12 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition(
-                "insert into employees (name, contact) values (@name_employee, @contact)",
+                "insert into employees (name, contact) values (@name, @contact)",
                 new
                 {
                     name = employee.Name,
                     contact = employee.Contact
-                });
+                }, Transaction);
 
             // Execute sql command
             Connection.Execute(command);
@@ -39,19 +40,18 @@ namespace Core.Data
         /// </summary>
         /// <param name="name">search by name</param>
         /// <param name="isActive">if null, return both active and inactive employees, else return only given type</param>
-        internal IEnumerable<Employee> GetEmployees(string name, bool? isActive)
+        internal IEnumerable<Employee> GetEmployees(string name, bool? isActive = null)
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_employee 'Id', name 'Name', employee_type(id_employee) 'EmployeeType', contact 'Contact', date_joined 'DateJoined', is_active 'IsActive' " +
-                "from employees where name like @name " +
-                (isActive == null ? "" : "and is_active = @isActive ") +
-                "order by name_employee",
+                "select id_employee 'Id', name 'Name', contact 'Contact', date_joined 'DateJoined', is_active 'IsActive' " +
+                $"from employees where name like @name_employee {(isActive != null ? "and is_active = @isActive" : "")} " +
+                "order by name",
                 new
                 {
-                    name = "%" + name + "%",
+                    name_employee = "%" + name + "%",
                     isActive
-                });
+                }, Transaction);
 
             // Execute sql command
             return Connection.Query<Employee>(command);
@@ -65,15 +65,13 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_employee 'Id', name_employee 'Name', type_employee-1 'EmployeeType', contact 'Contact', date_joined 'DateJoined', " +
-                "date_last_payment 'LastPaymentDate', is_active 'IsActive' " +
-                "from employees " +
-                (isActive == null ? "" : "where is_active = @isActive ") +
-                "order by name_employee",
+                "select id_employee 'Id', name 'Name', contact 'Contact', date_joined 'DateJoined', is_active 'IsActive' " +
+                $"from employees {(isActive != null ? "where is_active = @isActive" : "")} " +
+                "order by name",
                 new
                 {
                     isActive
-                });
+                }, Transaction);
 
             // Execute sql command
             return Connection.Query<Employee>(command);
@@ -81,24 +79,19 @@ namespace Core.Data
 
         /// <summary>
         ///     Updates an existing employee personal details.
-        ///     The properties that will be updated are : Name, Contact
+        ///     If property is passed then it will be updated.
         /// </summary>
-        /// <param name="employee"></param>
+        /// <param name="employeeId"></param>
+        /// <param name="name"></param>
+        /// <param name="contact"></param>
         /// <param name="isActive"></param>
-        internal void UpdateEmployeeDetails(Employee employee, bool? isActive)
+        internal void UpdateEmployeeDetails(uint employeeId, string name = null, string contact = null, bool? isActive = null)
         {
+            if (name == null && contact == null) return;
             // Define sql command
             var command = new CommandDefinition(
-                "update employees set name = @name, contact = @contact " +
-                (isActive == null ? "" : ", is_active = @isActive ") +
-                "where id_employee = @id_employee",
-                new
-                {
-                    id_employee = employee.Id,
-                    isActive,
-                    name = employee.Name,
-                    contact = employee.Contact
-                });
+                Update("employees").SetIfNotNull(new {name, contact, is_active = isActive}).Where(new {id_employee = employeeId}),
+                Transaction);
 
             // Execute sql command
             Connection.Execute(command);
