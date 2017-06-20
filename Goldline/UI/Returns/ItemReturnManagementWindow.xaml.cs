@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Core.Model;
-using Core.Model.Enums;
-using Core.Model.Handlers;
+using Core.Domain.Enums;
+using Core.Domain.Handlers;
+using Core.Domain.Model.Inventory;
 
 namespace Goldline.UI.Returns
 {

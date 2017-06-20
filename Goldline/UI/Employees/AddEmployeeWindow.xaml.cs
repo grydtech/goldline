@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using Core.Model.Enums;
-using Core.Model.Handlers;
-using Core.Model.Persons;
-using Core.Security;
+using Core.Domain.Enums;
+using Core.Domain.Handlers;
+using Core.Domain.Model.Employees;
 
 namespace Goldline.UI.Employees
 {

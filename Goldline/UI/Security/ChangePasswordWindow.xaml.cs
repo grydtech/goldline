@@ -2,8 +2,8 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
-using Core.Model.Handlers;
-using Core.Security;
+using Core.Domain.Handlers;
+using Core.Domain.Model.Employees;
 
 namespace Goldline.UI.Security
 {

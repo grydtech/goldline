@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:security="clr-namespace:Core.Security;assembly=Core"
+        xmlns:security="clr-namespace:Core.Domain.Security;assembly=Core"
         Title="Gold Line Tours and Tyre Centre"
         Width="1024"
         Height="576"
@@ -94,7 +94,7 @@
                             Grid.Column="1"
                             Click="ManageInventoryButton_OnClick"
                             Content="Manage Inventory"
-                            IsEnabled="{x:Static security:UserPermissions.CanManageInventory}"
+                            IsEnabled="{x:Static security:Clearance.CanManageInventory}"
                             Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                 </Grid>
             </Expander>
@@ -125,21 +125,21 @@
                             Grid.Column="1"
                             Click="NewSupplyOrderButton_OnClick"
                             Content="New Supplier Order"
-                            IsEnabled="{x:Static security:UserPermissions.CanPlaceSupplyOrder}"
+                            IsEnabled="{x:Static security:Clearance.CanPlaceSupplyOrder}"
                             Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                     <Button x:Name="SupplierOrdersButton"
                             Grid.Row="2"
                             Grid.Column="1"
                             Click="SupplierOrdersButton_OnClick"
                             Content="Supplier Orders"
-                            IsEnabled="{x:Static security:UserPermissions.CanPlaceSupplyOrder}"
+                            IsEnabled="{x:Static security:Clearance.CanPlaceSupplyOrder}"
                             Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                     <Button x:Name="ManageSuppliersButton"
                             Grid.Row="3"
                             Grid.Column="1"
                             Click="ManageSuppliersButton_OnClick"
                             Content="Manage Suppliers"
-                            IsEnabled="{x:Static security:UserPermissions.CanManageSuppliers}"
+                            IsEnabled="{x:Static security:Clearance.CanManageSuppliers}"
                             Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                 </Grid>
             </Expander>
@@ -170,28 +170,28 @@
                             Grid.Column="1"
                             Click="NewCustomerOrderButton_OnClick"
                             Content="New Customer Order"
-                            IsEnabled="{x:Static security:UserPermissions.CanPlaceOrder}"
+                            IsEnabled="{x:Static security:Clearance.CanPlaceOrder}"
                             Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                     <Button x:Name="CustomerOrdersButton"
                             Grid.Row="2"
                             Grid.Column="1"
                             Click="CustomerOrdersButton_OnClick"
                             Content="Customer Orders"
-                            IsEnabled="{x:Static security:UserPermissions.CanPlaceOrder}"
+                            IsEnabled="{x:Static security:Clearance.CanPlaceOrder}"
                             Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                     <Button x:Name="AddItemReturnsButton"
                             Grid.Row="3"
                             Grid.Column="1"
                             Click="AddItemReturnsButton_OnClick"
                             Content="Add Item Returns"
-                            IsEnabled="{x:Static security:UserPermissions.CanManageReturns}"
+                            IsEnabled="{x:Static security:Clearance.CanManageReturns}"
                             Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                     <Button x:Name="ItemReturnsButton"
                             Grid.Row="4"
                             Grid.Column="1"
                             Click="ItemReturnsButton_OnClick"
                             Content="Item Returns"
-                            IsEnabled="{x:Static security:UserPermissions.CanManageReturns}"
+                            IsEnabled="{x:Static security:Clearance.CanManageReturns}"
                             Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                 </Grid>
             </Expander>
@@ -222,14 +222,14 @@
                             Grid.Column="1"
                             Click="CustomerPaymentsButton_OnClick"
                             Content="Customer Payments"
-                            IsEnabled="{x:Static security:UserPermissions.CanSettleCreditBillsAndViewDetails}"
+                            IsEnabled="{x:Static security:Clearance.CanSettleCreditBillsAndViewDetails}"
                             Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                     <Button x:Name="ManageCustomersButton"
                             Grid.Row="2"
                             Grid.Column="1"
                             Click="ManageCustomersButton_OnClick"
                             Content="Manage Customers"
-                            IsEnabled="{x:Static security:UserPermissions.CanManageCustomers}"
+                            IsEnabled="{x:Static security:Clearance.CanManageCustomers}"
                             Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                 </Grid>
             </Expander>
@@ -260,14 +260,14 @@
                             Grid.Column="1"
                             Click="EmployeePaymentsButton_OnClick"
                             Content="Employee Payments"
-                            IsEnabled="{x:Static security:UserPermissions.CanManageReturns}"
+                            IsEnabled="{x:Static security:Clearance.CanManageReturns}"
                             Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                     <Button x:Name="ManageEmployeesButton"
                             Grid.Row="2"
                             Grid.Column="1"
                             Click="ManageEmployeesButton_Click"
                             Content="Manage Employees"
-                            IsEnabled="{x:Static security:UserPermissions.CanManageEmployees}"
+                            IsEnabled="{x:Static security:Clearance.CanManageEmployees}"
                             Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                 </Grid>
             </Expander>
@@ -298,14 +298,14 @@
                             Grid.Column="1"
                             Click="GetReportsButton_OnClick"
                             Content="Get Reports"
-                            IsEnabled="{x:Static security:UserPermissions.CanGenerateTransactionReport}"
+                            IsEnabled="{x:Static security:Clearance.CanGenerateTransactionReport}"
                             Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                     <Button x:Name="ActivityLogButton"
                             Grid.Row="2"
                             Grid.Column="1"
                             Click="ActivityLogButton_OnClick"
                             Content="Activity Log"
-                            IsEnabled="{x:Static security:UserPermissions.CanViewActivityLog}"
+                            IsEnabled="{x:Static security:Clearance.CanViewActivityLog}"
                             Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                 </Grid>
             </Expander>

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Core.Model.Enums;
-using Core.Model.Handlers;
-using Core.Model.Orders;
-using Core.Model.Products;
+using Core.Domain.Enums;
+using Core.Domain.Handlers;
+using Core.Domain.Model.Customers;
+using Core.Domain.Model.Inventory;
 using Goldline.UI.Invoices;
 
 //using log4net;
@@ -31,7 +31,7 @@ namespace Goldline.UI.Customers
             {
                 _productHandler = new ProductHandler();
                 _orderHandler = new OrderHandler();
-                Order = new CustomerOrder();
+                Order = new Order();
                 ItemSource = _productHandler.GetItems("");
                 InitializeComponent();
                 ComboBox.ItemsSource = Enum.GetNames(typeof(ItemType));
@@ -46,7 +46,7 @@ namespace Goldline.UI.Customers
 
         //private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public CustomerOrder Order { get; set; }
+        public Order Order { get; set; }
 
         public IEnumerable<Item> ItemSource { get; set; }
 
@@ -121,7 +121,7 @@ namespace Goldline.UI.Customers
 
         public bool IsAlreadyEntered(uint? id)
         {
-            return Order.OrderEntries.Any(orderEntry => orderEntry.ProductId == id);
+            return Order.OrderItems.Any(orderEntry => orderEntry.Product == id);
         }
 
         private void UpdateGrandTotalLabel()
@@ -242,7 +242,7 @@ namespace Goldline.UI.Customers
 
         private void CreditCheckoutButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Order.OrderEntries.Count == 0)
+            if (Order.OrderItems.Count == 0)
             {
                 MessageBox.Show("Add more products to proceed!", "Empty order");
                 return;
@@ -257,7 +257,7 @@ namespace Goldline.UI.Customers
                 if (window.DialogResult == true)
                 {
                     // Mark order as credit order and assign customerId to it
-                    Order.IsCredit = true;
+                    Order.IsSettled = true;
                     Order.CustomerId = window.SelectedCustomer.Id;
                     _orderHandler.AddCustomerOrder(Order);
 
@@ -280,7 +280,7 @@ namespace Goldline.UI.Customers
         private void CashCheckoutButton_Click(object sender, RoutedEventArgs e)
         {
             // Note: update stocks handled internally using triggers so its not required here
-            if (Order.OrderEntries.Count == 0)
+            if (Order.OrderItems.Count == 0)
             {
                 MessageBox.Show("Add more products to proceed!", "Empty order");
                 return;
@@ -329,7 +329,7 @@ namespace Goldline.UI.Customers
 
             if (!IsAlreadyEntered(selectedService.Id))
             {
-                Order.OrderEntries.Add(new OrderEntry(selectedService, serviceCharge));
+                Order.OrderItems.Add(new OrderEntry(selectedService, serviceCharge));
                 UpdateGrandTotalLabel();
                 RefreshOrderEntriesDataGrid();
             }

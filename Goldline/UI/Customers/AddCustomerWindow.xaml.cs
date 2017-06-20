@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
-using Core.Model.Handlers;
-using Core.Model.Persons;
+using Core.Domain.Handlers;
+using Core.Domain.Model.Customers;
 
 namespace Goldline.UI.Customers
 {

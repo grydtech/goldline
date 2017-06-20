@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using Core.Model.Orders;
-using Core.Model.Persons;
+using Core.Domain.Model.Suppliers;
 
 namespace Goldline.UI.Invoices
 {

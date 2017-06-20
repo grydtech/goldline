@@ -1,4 +1,6 @@
-﻿namespace Goldline.UI.Catalogs
+﻿using Core.Domain.Model.Inventory;
+
+namespace Goldline.UI.Catalogs
 {
     partial class BatteryCatalog
     {
@@ -37,7 +39,7 @@
             // 
             // BatteryBindingSource
             // 
-            this.BatteryBindingSource.DataSource = typeof(Core.Model.Products.Battery);
+            this.BatteryBindingSource.DataSource = typeof(Battery);
             // 
             // reportViewer
             // 

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using Core.Model.Handlers;
+using Core.Domain.Handlers;
 
 namespace Goldline.UI.PaymentReports
 {

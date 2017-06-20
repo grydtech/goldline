@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using Core.Model.Payments;
+using Core.Domain.Model.Employees;
 using Dapper;
 
-namespace Core.Data
+namespace Core.Data.Employees
 {
     internal class EmployeePaymentDal : Dal
     {
@@ -15,7 +15,6 @@ namespace Core.Data
         ///     Inserts a new employee payment into database
         /// </summary>
         /// <param name="employeePayment"></param>
-        /// <param name="userId">user who inserts the payment</param>
         internal void InsertEmployeePayment(EmployeePayment employeePayment)
         {
             // Define sql command
@@ -25,7 +24,7 @@ namespace Core.Data
                 {
                     id_employee = employeePayment.EmployeeId,
                     amount = employeePayment.Amount,
-                    note = employeePayment.Note,
+                    note = employeePayment.Note
                 });
 
             // Execute sql command

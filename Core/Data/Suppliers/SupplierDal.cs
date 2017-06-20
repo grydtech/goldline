@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using Core.Model.Enums;
-using Core.Model.Persons;
-using Core.Model.Products;
+using Core.Domain.Model.Suppliers;
 using Dapper;
 
-namespace Core.Data
+namespace Core.Data.Suppliers
 {
     internal class SupplierDal : Dal
     {

@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Core.Model.Enums;
-using Core.Model.Orders;
+using Core.Domain.Model.Suppliers;
 using Dapper;
 
-namespace Core.Data
+namespace Core.Data.Suppliers
 {
     internal class PurchaseDal : Dal
     {
         internal PurchaseDal(IDbConnection connection) : base(connection)
         {
         }
+
+        #region Purchases
 
         /// <summary>
         ///     Inserts a new supplyorder into database and assigns its Id.
@@ -42,70 +43,12 @@ namespace Core.Data
         }
 
         /// <summary>
-        ///     Inserts the supplyorder entries for a supply order into database
-        /// </summary>
-        /// <param name="purchaseId"></param>
-        /// <param name="purchasedItems"></param>
-        internal void InsertPurchasedItems(uint purchaseId, IEnumerable<PurchasedItem> purchasedItems)
-        {
-            foreach (var item in purchasedItems)
-            {
-                // Define sql command
-                var command = new CommandDefinition(
-                    "insert into purchases_items (id_purchase, id_item, qty) " +
-                    "values (@id_purchase, @id_item, @qty)",
-                    new
-                    {
-                        id_purchase = purchaseId,
-                        id_item = item.ItemId,
-                        qty = item.Qty
-                    });
-
-                // Execute sql command
-                Connection.Execute(command);
-            }
-        }
-
-        /// <summary>
-        ///     Removes all supplyorder entries from database.
-        ///     This method is used to clear the supplyorder entries when updating the supplyorder
-        /// </summary>
-        /// <param name="purchaseId"></param>
-        internal void RemovePurchasedItems(uint purchaseId)
-        {
-            // Define sql command
-            var command = new CommandDefinition(
-                "delete from purchases_items where id_purchase = @id_purchase",
-                new {id_purchase = purchaseId});
-
-            // Execute sql command
-            Connection.Execute(command);
-        }
-
-        /// <summary>
-        ///     Load Supply order entry details into passed supply order object
-        /// </summary>
-        /// <param name="purchase"></param>
-        internal void LoadPurchasedItems(Purchase purchase)
-        {
-            // Define sql command
-            var command = new CommandDefinition(
-                "select id_item 'ItemId', name_product 'ItemName' qty 'Qty' from purchases_items " +
-                "join products USING(id_product) " +
-                "where id_purchase = @id_purchase",
-                new {id_purchase = purchase.Id});
-
-            // Execute sql command
-            purchase.OrderEntries = Connection.Query<PurchasedItem>(command).ToList();
-        }
-
-        /// <summary>
         ///     Updates an existing supplyorder in database.
         ///     The properties that can be updated are : SupplierId, Amount, Note
         ///     This method does not update the supplyorder entries.
         /// </summary>
         /// <param name="purchase"></param>
-        internal void UpdatePurchaseDetails(Purchase purchase)
+        internal void UpdatePurchase(Purchase purchase)
         {
             // Define sql command
             var command = new CommandDefinition(
@@ -181,7 +124,7 @@ namespace Core.Data
                 "order by date_purchased desc",
                 new
                 {
-                    note = note
+                    note
                 });
 
             // Execute sql command
@@ -224,5 +167,69 @@ namespace Core.Data
             // Execute sql command
             Connection.Execute(command);
         }
+
+        #endregion
+
+        #region Purchased Items
+
+        /// <summary>
+        ///     Inserts the supplyorder entries for a supply order into database
+        /// </summary>
+        /// <param name="purchaseId"></param>
+        /// <param name="purchasedItems"></param>
+        internal void InsertPurchasedItems(uint purchaseId, IEnumerable<PurchaseItem> purchasedItems)
+        {
+            foreach (var item in purchasedItems)
+            {
+                // Define sql command
+                var command = new CommandDefinition(
+                    "insert into purchases_items (id_purchase, id_item, qty) " +
+                    "values (@id_purchase, @id_item, @qty)",
+                    new
+                    {
+                        id_purchase = purchaseId,
+                        id_item = item.ItemId,
+                        qty = item.Qty
+                    });
+
+                // Execute sql command
+                Connection.Execute(command);
+            }
+        }
+
+        /// <summary>
+        ///     Removes all supplyorder entries from database.
+        ///     This method is used to clear the supplyorder entries when updating the supplyorder
+        /// </summary>
+        /// <param name="purchaseId"></param>
+        internal void RemovePurchasedItems(uint purchaseId)
+        {
+            // Define sql command
+            var command = new CommandDefinition(
+                "delete from purchases_items where id_purchase = @id_purchase",
+                new {id_purchase = purchaseId});
+
+            // Execute sql command
+            Connection.Execute(command);
+        }
+
+        /// <summary>
+        ///     Load Supply order entry details into passed supply order object
+        /// </summary>
+        /// <param name="purchase"></param>
+        internal void LoadPurchasedItems(Purchase purchase)
+        {
+            // Define sql command
+            var command = new CommandDefinition(
+                "select id_item 'ItemId', name_product 'ItemName' qty 'Qty' from purchases_items " +
+                "join products USING(id_product) " +
+                "where id_purchase = @id_purchase",
+                new {id_purchase = purchase.Id});
+
+            // Execute sql command
+            purchase.OrderEntries = Connection.Query<PurchaseItem>(command).ToList();
+        }
+
+        #endregion
     }
 }

@@ -141,7 +141,7 @@
                         <Button x:Name="ManageUserAccessButton"
                                 Margin="5"
                                 Click="ManageUserAccessButton_OnClick"
-                                Content="Manage User Access"
+                                Content="Manage User AccessMode"
                                 Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                         <ToggleButton x:Name="DisableEmployeeButton"
                                       Grid.Row="0"
@@ -220,7 +220,7 @@
                                                     Binding="{Binding IsActive}"
                                                     Header="Active" />
                             <DataGridTextColumn Width="0.1*"
-                                                Binding="{Binding EmployeeType}"
+                                                Binding="{Binding AccessMode}"
                                                 Header="Type" />
                         </DataGrid.Columns>
                     </DataGrid>

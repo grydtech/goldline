@@ -1,4 +1,6 @@
-﻿namespace Goldline.UI.OrderReports
+﻿using Core.Domain.Model.Suppliers;
+
+namespace Goldline.UI.OrderReports
 {
     partial class SupplierOrderReport
     {
@@ -37,7 +39,7 @@
             // 
             // SupplyOrderBindingSource
             // 
-            this.SupplyOrderBindingSource.DataSource = typeof(Core.Model.Orders.Purchase);
+            this.SupplyOrderBindingSource.DataSource = typeof(Purchase);
             // 
             // reportViewer
             // 

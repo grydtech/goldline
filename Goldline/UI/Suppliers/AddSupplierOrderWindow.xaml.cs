@@ -4,11 +4,10 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Core.Model.Enums;
-using Core.Model.Handlers;
-using Core.Model.Orders;
-using Core.Model.Persons;
-using Core.Model.Products;
+using Core.Domain.Enums;
+using Core.Domain.Handlers;
+using Core.Domain.Model.Inventory;
+using Core.Domain.Model.Suppliers;
 using Goldline.UI.Invoices;
 using log4net;
 

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
-using Core.Model.Enums;
-using Core.Model.Handlers;
-using Core.Model.Products;
+using Core.Domain.Enums;
+using Core.Domain.Handlers;
+using Core.Domain.Model.Inventory;
 
 namespace Goldline.UI.Customers
 {

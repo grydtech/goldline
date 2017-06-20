@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using Core.Model.Enums;
-using Core.Model.Persons;
+using Core.Domain.Model.Employees;
 using Dapper;
 
-namespace Core.Data
+namespace Core.Data.Employees
 {
     internal class EmployeeDal : Dal
     {
@@ -43,7 +42,7 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_employee 'Id', name 'Name', employee_type(id_employee) 'EmployeeType', contact 'Contact', date_joined 'DateJoined', is_active 'IsActive' " +
+                "select id_employee 'Id', name 'Name', employee_type(id_employee) 'AccessMode', contact 'Contact', date_joined 'DateJoined', is_active 'IsActive' " +
                 "from employees where name like @name " +
                 (isActive == null ? "" : "and is_active = @isActive ") +
                 "order by name_employee",
@@ -65,7 +64,7 @@ namespace Core.Data
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_employee 'Id', name_employee 'Name', type_employee-1 'EmployeeType', contact 'Contact', date_joined 'DateJoined', " +
+                "select id_employee 'Id', name_employee 'Name', type_employee-1 'AccessMode', contact 'Contact', date_joined 'DateJoined', " +
                 "date_last_payment 'LastPaymentDate', is_active 'IsActive' " +
                 "from employees " +
                 (isActive == null ? "" : "where is_active = @isActive ") +

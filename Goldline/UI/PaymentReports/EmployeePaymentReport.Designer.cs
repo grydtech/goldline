@@ -1,4 +1,6 @@
-﻿namespace Goldline.UI.PaymentReports
+﻿using Core.Domain.Model.Employees;
+
+namespace Goldline.UI.PaymentReports
 {
     partial class EmployeePaymentReport
     {
@@ -37,7 +39,7 @@
             // 
             // EmployeePaymentBindingSource
             // 
-            this.EmployeePaymentBindingSource.DataSource = typeof(Core.Model.Payments.EmployeePayment);
+            this.EmployeePaymentBindingSource.DataSource = typeof(EmployeePayment);
             // 
             // reportViewer
             // 

@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using Core.Model.Handlers;
-using Core.Security;
+using Core.Domain.Enums;
+using Core.Domain.Handlers;
 
 namespace Goldline.UI.Security
 {
@@ -36,7 +36,7 @@ namespace Goldline.UI.Security
             var user = _userAccessHandler.TryAuthentication(UsernameTextBox.Text, PasswordBox.Password);
             if (user != null)
             {
-                if (user.UserType == UserType.Manager) DialogResult = true;
+                if (user.AccessMode == UserType.Manager) DialogResult = true;
                 Close();
             }
             else

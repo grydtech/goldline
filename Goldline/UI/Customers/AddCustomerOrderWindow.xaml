@@ -4,11 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:orders="clr-namespace:Core.Model.Orders;assembly=Core"
-        xmlns:products="clr-namespace:Core.Model.Products;assembly=Core"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:goldline="clr-namespace:Goldline"
-        Title="AddCustomerOrderWindow"
+        Title="AddOrderWindow"
         Width="1024"
         Height="576"
         MinWidth="1024"
@@ -208,7 +206,7 @@
                           Focusable="False"
                           HorizontalScrollBarVisibility="Disabled"
                           IsReadOnly="True"
-                          ItemsSource="{Binding Path=Order.OrderEntries,
+                          ItemsSource="{Binding Path=Order.OrderItems,
                                                 Mode=TwoWay}"
                           Opacity="0.8"
                           ScrollViewer.CanContentScroll="True"

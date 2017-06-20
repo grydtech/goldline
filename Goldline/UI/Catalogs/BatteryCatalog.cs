@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using Core.Model.Enums;
-using Core.Model.Handlers;
-using Core.Model.Products;
+using Core.Domain.Enums;
+using Core.Domain.Handlers;
+using Core.Domain.Model.Inventory;
 
 namespace Goldline.UI.Catalogs
 {

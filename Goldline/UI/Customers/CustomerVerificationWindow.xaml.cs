@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using Core.Model.Handlers;
-using Core.Model.Persons;
+using Core.Domain.Handlers;
+using Core.Domain.Model.Customers;
 
 //using log4net;
 

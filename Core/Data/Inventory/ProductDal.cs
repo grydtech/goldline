@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Core.Model.Enums;
-using Core.Model.Products;
+using Core.Domain.Enums;
+using Core.Domain.Model.Inventory;
 using Dapper;
 
-namespace Core.Data
+namespace Core.Data.Inventory
 {
     internal class ProductDal : Dal
     {
         internal ProductDal(IDbConnection connection) : base(connection)
         {
         }
+
+        #region Tyres
 
         /// <summary>
         ///     Inserts a tyre into database and assigns its Id
@@ -36,63 +38,6 @@ namespace Core.Data
 
             // Execute sql command
             Connection.Execute(command);
-        }
-
-        /// <summary>
-        ///     Inserts an alloywheel into database and assigns its Id
-        /// </summary>
-        /// <param name="alloywheel"></param>
-        internal void InsertAlloywheel(Alloywheel alloywheel)
-        {
-            // Insert record into items and assign its Id
-            InsertItem(alloywheel);
-
-            // Define sql command
-            var command = new CommandDefinition(
-                "insert into alloywheels (id_product, brand, dimension) values (@id_product, @brand, @dimension)",
-                new
-                {
-                    id_product = alloywheel.Id,
-                    brand = alloywheel.Brand,
-                    dimension = alloywheel.Dimension
-                });
-
-            // Execute sql command
-            Connection.Execute(command);
-        }
-
-        /// <summary>
-        ///     Inserts a battery into database and assigns its Id
-        /// </summary>
-        /// <param name="battery"></param>
-        internal void InsertBattery(Battery battery)
-        {
-            // Insert record into items and assign its Id
-            InsertItem(battery);
-
-            // Define sql command
-            var command = new CommandDefinition(
-                "insert into batteries (id_product, brand, capacity, voltage) values (@id_product, @brand, @capacity, @voltage)",
-                new
-                {
-                    id_product = battery.Id,
-                    brand = battery.Brand,
-                    capacity = uint.Parse(battery.Capacity),
-                    voltage = uint.Parse(battery.Voltage)
-                });
-
-            // Execute sql command
-            Connection.Execute(command);
-        }
-
-        /// <summary>
-        ///     Inserts a service into databse and assigns its Id
-        /// </summary>
-        /// <param name="service"></param>
-        internal void InsertService(Service service)
-        {
-            // Insert record into products and assign its Id
-            InsertProduct(service);
         }
 
         /// <summary>
@@ -121,6 +66,121 @@ namespace Core.Data
         }
 
         /// <summary>
+        ///     Returns a list of all tyres in the database.
+        ///     This method is used to show tyre catalog
+        /// </summary>
+        internal IEnumerable<Tyre> GetAllTyres()
+        {
+            // Define sql command
+            var command = new CommandDefinition(
+                "select id_product 'Id', name_product 'Name', qty_stocks 'StockQty', " +
+                "unit_price 'UnitPrice', Brand, Dimension, Country from tyres " +
+                "join items USING(id_product) " +
+                "join products USING(id_product) " +
+                "order by name_product");
+
+            // Execute sql command
+            return Connection.Query<Tyre>(command);
+        }
+
+        /// <summary>
+        ///     Returns a list of tyres matching given search parameters
+        /// </summary>
+        /// <param name="name"></param>
+        internal IEnumerable<Tyre> GetTyres(string name)
+        {
+            // Define sql command
+            var command = new CommandDefinition(
+                "select id_product 'Id', name_product 'Name', qty_stocks 'StockQty', " +
+                "unit_price 'UnitPrice', Brand, Dimension, Country from tyres " +
+                "join items USING(id_product) " +
+                "join products USING(id_product) " +
+                "where name_product like @name_product " +
+                "order by name_product",
+                new {name_product = "%" + name + "%"});
+
+            // Execute sql command
+            return Connection.Query<Tyre>(command);
+        }
+
+        internal void InsertTyreBrand(string tyreBrand)
+        {
+            // Define sql command
+            var command = new CommandDefinition("insert ignore into tyres_brands values (@value)",
+                new {value = tyreBrand});
+
+            // Execute sql command
+            Connection.Execute(command);
+        }
+
+        /// <summary>
+        ///     Inserts a new tyre dimension or ignores if exists
+        /// </summary>
+        /// <param name="tyreDimension"></param>
+        internal void InsertTyreDimension(string tyreDimension)
+        {
+            // Define sql command
+            var command = new CommandDefinition("insert ignore into tyres_dimensions values (@value)",
+                new {value = tyreDimension});
+
+            // Execute sql command
+            Connection.Execute(command);
+        }
+
+        /// <summary>
+        ///     Returns a list of all records in tyres_brands table as string
+        /// </summary>
+        /// <returns></returns>
+        internal IEnumerable<string> GetAllTyreBrands()
+        {
+            // Define sql command
+            var command = new CommandDefinition("select brand from tyres_brands");
+
+            // Execute sql command
+            return Connection.Query<string>(command);
+        }
+
+        /// <summary>
+        ///     Returns a list of all records in tyres_dimensions table as string
+        /// </summary>
+        /// <returns></returns>
+        internal IEnumerable<string> GetAllTyreDimensions()
+        {
+            // Define sql command
+            var command = new CommandDefinition("select dimension from tyres_dimensions");
+
+            // Execute sql command
+            return Connection.Query<string>(command);
+        }
+
+        #endregion
+
+        #region AlloyWheels
+
+        /// <summary>
+        ///     Inserts an alloywheel into database and assigns its Id
+        /// </summary>
+        /// <param name="alloywheel"></param>
+        internal void InsertAlloywheel(Alloywheel alloywheel)
+        {
+            // Insert record into items and assign its Id
+            InsertItem(alloywheel);
+
+            // Define sql command
+            var command = new CommandDefinition(
+                "insert into alloywheels (id_product, brand, dimension) values (@id_product, @brand, @dimension)",
+                new
+                {
+                    id_product = alloywheel.Id,
+                    brand = alloywheel.Brand,
+                    dimension = alloywheel.Dimension
+                });
+
+            // Execute sql command
+            Connection.Execute(command);
+        }
+
+        /// <summary>
         ///     Updates an existing alloywheel in database
         /// </summary>
         /// <param name="alloywheel"></param>
@@ -138,6 +198,126 @@ namespace Core.Data
                     id_product = alloywheel.Id,
                     brand = alloywheel.Brand,
                     dimension = alloywheel.Dimension
+                });
+
+            // Execute sql command
+            Connection.Execute(command);
+        }
+
+        /// <summary>
+        ///     Returns a list of all alloywheels in the database.
+        ///     This method is used to show alloywheel catalog
+        /// </summary>
+        internal IEnumerable<Alloywheel> GetAllAlloywheels()
+        {
+            // Define sql command
+            var command = new CommandDefinition(
+                "select id_product 'Id', name_product 'Name', qty_stocks 'StockQty', " +
+                "unit_price 'UnitPrice', Brand, Dimension from alloywheels " +
+                "join items USING(id_product) " +
+                "join products USING(id_product) " +
+                "order by name_product");
+
+            // Execute sql command
+            return Connection.Query<Alloywheel>(command);
+        }
+
+        /// <summary>
+        ///     Returns a list of alloywheels matching given search parameters
+        /// </summary>
+        /// <param name="name"></param>
+        internal IEnumerable<Alloywheel> GetAlloywheels(string name)
+        {
+            // Define sql command
+            var command = new CommandDefinition(
+                "select id_product 'Id', name_product 'Name', qty_stocks 'StockQty', " +
+                "unit_price 'UnitPrice', Brand, Dimension from alloywheels " +
+                "join items USING(id_product) " +
+                "join products USING(id_product) " +
+                "where name_product like @name_product " +
+                "order by name_product",
+                new {name_product = "%" + name + "%"});
+
+            // Execute sql command
+            return Connection.Query<Alloywheel>(command);
+        }
+
+        /// <summary>
+        ///     Inserts a new alloywheel brand or ignores if exists
+        /// </summary>
+        /// <param name="alloywheelBrand"></param>
+        internal void InsertAlloywheelBrand(string alloywheelBrand)
+        {
+            // Define sql command
+            var command = new CommandDefinition("insert ignore into alloywheels_brands values (@value)",
+                new {value = alloywheelBrand});
+
+            // Execute sql command
+            Connection.Execute(command);
+        }
+
+        /// <summary>
+        ///     Inserts a new alloywheel dimension or ignores if exists
+        /// </summary>
+        /// <param name="alloywheelDimension"></param>
+        internal void InsertAlloywheelDimension(string alloywheelDimension)
+        {
+            // Define sql command
+            var command = new CommandDefinition("insert ignore into alloywheels_dimensions values (@value)",
+                new {value = alloywheelDimension});
+
+            // Execute sql command
+            Connection.Execute(command);
+        }
+
+        /// <summary>
+        ///     Returns a list of all records in alloywheels_brands table as string
+        /// </summary>
+        /// <returns></returns>
+        internal IEnumerable<string> GetAllAlloywheelBrands()
+        {
+            // Define sql command
+            var command = new CommandDefinition("select brand from alloywheels_brands");
+
+            // Execute sql command
+            return Connection.Query<string>(command);
+        }
+
+        /// <summary>
+        ///     Returns a list of all records in alloywheels_dimensions table as string
+        /// </summary>
+        /// <returns></returns>
+        internal IEnumerable<string> GetAllAlloywheelDimensions()
+        {
+            // Define sql command
+            var command = new CommandDefinition("select dimension from alloywheels_dimensions");
+
+            // Execute sql command
+            return Connection.Query<string>(command);
+        }
+
+        #endregion
+
+        #region Batteries
+
+        /// <summary>
+        ///     Inserts a battery into database and assigns its Id
+        /// </summary>
+        /// <param name="battery"></param>
+        internal void InsertBattery(Battery battery)
+        {
+            // Insert record into items and assign its Id
+            InsertItem(battery);
+
+            // Define sql command
+            var command = new CommandDefinition(
+                "insert into batteries (id_product, brand, capacity, voltage) values (@id_product, @brand, @capacity, @voltage)",
+                new
+                {
+                    id_product = battery.Id,
+                    brand = battery.Brand,
+                    capacity = uint.Parse(battery.Capacity),
+                    voltage = uint.Parse(battery.Voltage)
                 });
 
             // Execute sql command
@@ -170,6 +350,85 @@ namespace Core.Data
         }
 
         /// <summary>
+        ///     Returns a list of all batteries in the database.
+        ///     This method is used to show battery catalog
+        /// </summary>
+        internal IEnumerable<Battery> GetAllBatteries()
+        {
+            // Define sql command
+            var command = new CommandDefinition(
+                "select id_product 'Id', name_product 'Name', qty_stocks 'StockQty', " +
+                "unit_price 'UnitPrice', Brand, Capacity, Voltage from batteries " +
+                "join items USING(id_product) " +
+                "join products USING(id_product) " +
+                "order by name_product");
+
+            // Execute sql command
+            return Connection.Query<Battery>(command);
+        }
+
+        /// <summary>
+        ///     Returns a list of batteries matching given search parameters
+        /// </summary>
+        /// <param name="name"></param>
+        internal IEnumerable<Battery> GetBatteries(string name)
+        {
+            // Define sql command
+            var command = new CommandDefinition(
+                "select id_product 'Id', name_product 'Name', qty_stocks 'StockQty', " +
+                "unit_price 'UnitPrice', Brand, Capacity, Voltage from batteries " +
+                "join items USING(id_product) " +
+                "join products USING(id_product) " +
+                "where name_product like @name_product " +
+                "order by name_product",
+                new {name_product = "%" + name + "%"});
+
+            // Execute sql command
+            return Connection.Query<Battery>(command);
+        }
+
+        /// <summary>
+        ///     Inserts a new battery brand or ignores if exists
+        /// </summary>
+        /// <param name="batteryBrand"></param>
+        internal void InsertBatteryBrand(string batteryBrand)
+        {
+            // Define sql command
+            var command = new CommandDefinition("insert ignore into batteries_brands values (@value)",
+                new {value = batteryBrand});
+
+            // Execute sql command
+            Connection.Execute(command);
+        }
+
+        /// <summary>
+        ///     Returns a list of all records in batteries_brands table as string
+        /// </summary>
+        /// <returns></returns>
+        internal IEnumerable<string> GetAllBatteryBrands()
+        {
+            // Define sql command
+            var command = new CommandDefinition("select brand from batteries_brands");
+
+            // Execute sql command
+            return Connection.Query<string>(command);
+        }
+
+        #endregion
+
+        #region Services
+
+        /// <summary>
+        ///     Inserts a service into databse and assigns its Id
+        /// </summary>
+        /// <param name="service"></param>
+        internal void InsertService(Service service)
+        {
+            // Insert record into products and assign its Id
+            InsertProduct(service);
+        }
+
+        /// <summary>
         ///     Updates an existing service in database
         /// </summary>
         /// <param name="service"></param>
@@ -178,6 +437,43 @@ namespace Core.Data
             // Update record in products
             UpdateProduct(service);
         }
+
+        /// <summary>
+        ///     Returns a list of all services in database
+        ///     This method is used to show service catalog
+        /// </summary>
+        internal IEnumerable<Service> GetAllServices()
+        {
+            // Define sql command
+            var command = new CommandDefinition(
+                "select id_product 'Id', name_product 'Name' from products " +
+                "where type_product = 'Service' " +
+                "order by name_product");
+
+            // Execute sql command
+            return Connection.Query<Service>(command);
+        }
+
+        /// <summary>
+        ///     Returns a list of services matching given search parameters
+        /// </summary>
+        /// <param name="name"></param>
+        internal IEnumerable<Service> GetServices(string name)
+        {
+            // Define sql command
+            var command = new CommandDefinition(
+                "select id_product 'Id', name_product 'Name' from products " +
+                "where type_product = 'Service' and name_product like @name_product " +
+                "order by name_product",
+                new {name_product = "%" + name + "%"});
+
+            // Execute sql command
+            return Connection.Query<Service>(command);
+        }
+
+        #endregion
+
+        #region Items
 
         /// <summary>
         ///     Inserts an item into database and assigns its Id
@@ -226,6 +522,56 @@ namespace Core.Data
         }
 
         /// <summary>
+        ///     Returns a list of items matching given search parameters
+        /// </summary>
+        /// <param name="name"></param>
+        internal IEnumerable<Item> GetItems(string name)
+        {
+            // Define sql command
+            var command = new CommandDefinition(
+                "select products.id_product 'Id', name_product 'Name', type_product-1 'ProductType', " +
+                "qty_stocks 'StockQty', unit_price 'UnitPrice' from products " +
+                "join items USING(id_product) " +
+                "join products USING(id_product) " +
+                "where name_product like @name_product " +
+                "order by name_product",
+                new {name_product = "%" + name + "%"});
+
+            // Execute sql command
+            return Connection.Query<dynamic>(command).Select(o =>
+            {
+                Item item;
+
+                switch ((ProductType) o.ProductType)
+                {
+                    case ProductType.Alloywheel:
+                        item = new Alloywheel();
+                        break;
+                    case ProductType.Battery:
+                        item = new Battery();
+                        break;
+                    case ProductType.Tyre:
+                        item = new Tyre();
+                        break;
+                    default:
+                        Console.WriteLine("Enum value was invalid when initializing");
+                        throw new ArgumentException();
+                }
+
+                item.Id = (uint) o.Id;
+                item.Name = o.Name;
+                item.ProductType = (ProductType) o.ProductType;
+                item.StockQty = o.StockQty;
+                item.UnitPrice = o.UnitPrice;
+                return item;
+            });
+        }
+
+        #endregion
+
+        #region Products
+
+        /// <summary>
         ///     Inserts a product into database and assigns its Id
         /// </summary>
         /// <param name="product"></param>
@@ -266,153 +612,6 @@ namespace Core.Data
 
             // Execute sql command
             Connection.Execute(command);
-        }
-
-        /// <summary>
-        ///     Returns a list of all tyres in the database.
-        ///     This method is used to show tyre catalog
-        /// </summary>
-        internal IEnumerable<Tyre> GetAllTyres()
-        {
-            // Define sql command
-            var command = new CommandDefinition(
-                "select id_product 'Id', name_product 'Name', qty_stocks 'StockQty', " +
-                "unit_price 'UnitPrice', Brand, Dimension, Country from tyres " +
-                "join items USING(id_product) " +
-                "join products USING(id_product) " +
-                "order by name_product");
-
-            // Execute sql command
-            return Connection.Query<Tyre>(command);
-        }
-
-        /// <summary>
-        ///     Returns a list of all alloywheels in the database.
-        ///     This method is used to show alloywheel catalog
-        /// </summary>
-        internal IEnumerable<Alloywheel> GetAllAlloywheels()
-        {
-            // Define sql command
-            var command = new CommandDefinition(
-                "select id_product 'Id', name_product 'Name', qty_stocks 'StockQty', " +
-                "unit_price 'UnitPrice', Brand, Dimension from alloywheels " +
-                "join items USING(id_product) " +
-                "join products USING(id_product) " +
-                "order by name_product");
-
-            // Execute sql command
-            return Connection.Query<Alloywheel>(command);
-        }
-
-        /// <summary>
-        ///     Returns a list of all batteries in the database.
-        ///     This method is used to show battery catalog
-        /// </summary>
-        internal IEnumerable<Battery> GetAllBatteries()
-        {
-            // Define sql command
-            var command = new CommandDefinition(
-                "select id_product 'Id', name_product 'Name', qty_stocks 'StockQty', " +
-                "unit_price 'UnitPrice', Brand, Capacity, Voltage from batteries " +
-                "join items USING(id_product) " +
-                "join products USING(id_product) " +
-                "order by name_product");
-
-            // Execute sql command
-            return Connection.Query<Battery>(command);
-        }
-
-        /// <summary>
-        ///     Returns a list of all services in database
-        ///     This method is used to show service catalog
-        /// </summary>
-        internal IEnumerable<Service> GetAllServices()
-        {
-            // Define sql command
-            var command = new CommandDefinition(
-                "select id_product 'Id', name_product 'Name' from products " +
-                "where type_product = 'Service' " +
-                "order by name_product");
-
-            // Execute sql command
-            return Connection.Query<Service>(command);
-        }
-
-        /// <summary>
-        ///     Returns a list of tyres matching given search parameters
-        /// </summary>
-        /// <param name="name"></param>
-        internal IEnumerable<Tyre> GetTyres(string name)
-        {
-            // Define sql command
-            var command = new CommandDefinition(
-                "select id_product 'Id', name_product 'Name', qty_stocks 'StockQty', " +
-                "unit_price 'UnitPrice', Brand, Dimension, Country from tyres " +
-                "join items USING(id_product) " +
-                "join products USING(id_product) " +
-                "where name_product like @name_product " +
-                "order by name_product",
-                new {name_product = "%" + name + "%"});
-
-            // Execute sql command
-            return Connection.Query<Tyre>(command);
-        }
-
-        /// <summary>
-        ///     Returns a list of alloywheels matching given search parameters
-        /// </summary>
-        /// <param name="name"></param>
-        internal IEnumerable<Alloywheel> GetAlloywheels(string name)
-        {
-            // Define sql command
-            var command = new CommandDefinition(
-                "select id_product 'Id', name_product 'Name', qty_stocks 'StockQty', " +
-                "unit_price 'UnitPrice', Brand, Dimension from alloywheels " +
-                "join items USING(id_product) " +
-                "join products USING(id_product) " +
-                "where name_product like @name_product " +
-                "order by name_product",
-                new {name_product = "%" + name + "%"});
-
-            // Execute sql command
-            return Connection.Query<Alloywheel>(command);
-        }
-
-        /// <summary>
-        ///     Returns a list of batteries matching given search parameters
-        /// </summary>
-        /// <param name="name"></param>
-        internal IEnumerable<Battery> GetBatteries(string name)
-        {
-            // Define sql command
-            var command = new CommandDefinition(
-                "select id_product 'Id', name_product 'Name', qty_stocks 'StockQty', " +
-                "unit_price 'UnitPrice', Brand, Capacity, Voltage from batteries " +
-                "join items USING(id_product) " +
-                "join products USING(id_product) " +
-                "where name_product like @name_product " +
-                "order by name_product",
-                new {name_product = "%" + name + "%"});
-
-            // Execute sql command
-            return Connection.Query<Battery>(command);
-        }
-
-        /// <summary>
-        ///     Returns a list of services matching given search parameters
-        /// </summary>
-        /// <param name="name"></param>
-        internal IEnumerable<Service> GetServices(string name)
-        {
-            // Define sql command
-            var command = new CommandDefinition(
-                "select id_product 'Id', name_product 'Name' from products " +
-                "where type_product = 'Service' and name_product like @name_product " +
-                "order by name_product",
-                new {name_product = "%" + name + "%"});
-
-            // Execute sql command
-            return Connection.Query<Service>(command);
         }
 
         /// <summary>
@@ -458,50 +657,37 @@ namespace Core.Data
             });
         }
 
+        #endregion
+
+        #region Countries
+
         /// <summary>
-        ///     Returns a list of items matching given search parameters
+        ///     Inserts a new country or ignores if exists
         /// </summary>
-        /// <param name="name"></param>
-        internal IEnumerable<Item> GetItems(string name)
+        /// <param name="country"></param>
+        internal void InsertCountry(string country)
         {
             // Define sql command
-            var command = new CommandDefinition(
-                "select products.id_product 'Id', name_product 'Name', type_product-1 'ProductType', " +
-                "qty_stocks 'StockQty', unit_price 'UnitPrice' from products " +
-                "join items USING(id_product) " +
-                "join products USING(id_product) " +
-                "where name_product like @name_product " +
-                "order by name_product",
-                new {name_product = "%" + name + "%"});
+            var command = new CommandDefinition("insert ignore into countries values (@value)",
+                new {value = country});
 
             // Execute sql command
-            return Connection.Query<dynamic>(command).Select(o =>
-            {
-                Item item;
-
-                switch ((ProductType) o.ProductType)
-                {
-                    case ProductType.Alloywheel:
-                        item = new Alloywheel();
-                        break;
-                    case ProductType.Battery:
-                        item = new Battery();
-                        break;
-                    case ProductType.Tyre:
-                        item = new Tyre();
-                        break;
-                    default:
-                        Console.WriteLine("Enum value was invalid when initializing");
-                        throw new ArgumentException();
-                }
-
-                item.Id = (uint) o.Id;
-                item.Name = o.Name;
-                item.ProductType = (ProductType) o.ProductType;
-                item.StockQty = o.StockQty;
-                item.UnitPrice = o.UnitPrice;
-                return item;
-            });
+            Connection.Execute(command);
         }
+
+        /// <summary>
+        ///     Returns a list of all records in countries table as strings
+        /// </summary>
+        /// <returns></returns>
+        internal IEnumerable<string> GetAllCountries()
+        {
+            // Define sql command
+            var command = new CommandDefinition("select country from countries");
+
+            // Execute sql command
+            return Connection.Query<string>(command);
+        }
+
+        #endregion
     }
 }

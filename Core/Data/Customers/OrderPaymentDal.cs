@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using Core.Model.Payments;
+using Core.Domain.Model.Customers;
 using Dapper;
 
-namespace Core.Data
+namespace Core.Data.Customers
 {
     internal class OrderPaymentDal : Dal
     {

@@ -1,4 +1,6 @@
-﻿namespace Goldline.UI.Invoices
+﻿using Core.Domain.Model.Customers;
+
+namespace Goldline.UI.Invoices
 {
     partial class CustomerOrderInvoice
     {
@@ -40,7 +42,7 @@
             // 
             // CustomerOrderBindingSource
             // 
-            this.CustomerOrderBindingSource.DataSource = typeof(Core.Model.Orders.CustomerOrder);
+            this.CustomerOrderBindingSource.DataSource = typeof(Order);
             // 
             // reportViewer
             // 
@@ -58,7 +60,7 @@
             // 
             // orderEntriesBindingSource
             // 
-            this.orderEntriesBindingSource.DataMember = "OrderEntries";
+            this.orderEntriesBindingSource.DataMember = "OrderItems";
             this.orderEntriesBindingSource.DataSource = this.CustomerOrderBindingSource;
             // 
             // CustomerOrderInvoice

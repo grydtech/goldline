@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Core.Model.Handlers;
-using Core.Model.Payments;
-using Core.Model.Persons;
+using Core.Domain.Handlers;
+using Core.Domain.Model.Customers;
 
 namespace Goldline.UI.Customers
 {
@@ -55,8 +54,8 @@ namespace Goldline.UI.Customers
             {
                 if (SelectedCustomer.Id == null) return;
 
-                var cs = new OrderPayment(decimal.Parse(AmountTextBox.Text), NoteTextBox.Text,
-                    (uint) SelectedCustomer.Id);
+                var cs = new OrderPayment((uint)SelectedCustomer.Id, decimal.Parse(AmountTextBox.Text),
+                    NoteTextBox.Text);
                 try
                 {
                     _customerPaymentHandler.AddNewCustomerPayment(cs);

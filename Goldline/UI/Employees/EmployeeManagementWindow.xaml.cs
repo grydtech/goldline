@@ -4,8 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using Core.Model.Handlers;
-using Core.Model.Persons;
+using Core.Domain.Handlers;
+using Core.Domain.Model.Employees;
 using Goldline.UI.Security;
 
 namespace Goldline.UI.Employees

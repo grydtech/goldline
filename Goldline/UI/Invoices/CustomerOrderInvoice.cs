@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Windows.Forms;
-using Core.Model.Orders;
+using Core.Domain.Model.Customers;
 
 namespace Goldline.UI.Invoices
 {
     public partial class CustomerOrderInvoice : Form
     {
-        private readonly CustomerOrder _customerOrder;
+        private readonly Order _order;
 
-        public CustomerOrderInvoice(CustomerOrder customerOrder)
+        public CustomerOrderInvoice(Order order)
         {
-            _customerOrder = customerOrder;
+            _order = order;
             InitializeComponent();
         }
 
         private void CustomerOrderInvoice_Load(object sender, EventArgs e)
         {
-            CustomerOrderBindingSource.DataSource = _customerOrder;
+            CustomerOrderBindingSource.DataSource = _order;
             reportViewer.RefreshReport();
         }
     }

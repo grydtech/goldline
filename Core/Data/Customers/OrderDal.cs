@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Core.Model.Orders;
+using Core.Domain.Model.Customers;
 using Dapper;
 
-namespace Core.Data
+namespace Core.Data.Customers
 {
     internal class OrderDal : Dal
     {
@@ -16,9 +16,9 @@ namespace Core.Data
         ///     Inserts a new customer order into database and assign its Id
         ///     Order entries should be inserted seperately
         /// </summary>
-        /// <param name="customerOrder"></param>
+        /// <param name="order"></param>
         /// <param name="userId">user who inserts the order</param>
-        internal void InsertOrder(CustomerOrder customerOrder, uint customerId)
+        internal void InsertOrder(Order order, uint customerId)
         {
             // Define sql command
             var command = new CommandDefinition(
@@ -26,16 +26,16 @@ namespace Core.Data
                 new
                 {
                     id_customer = customerId,
-                    amount = customerOrder.Total,
-                    note = customerOrder.Note
+                    amount = order.Total,
+                    note = order.Note
                 });
 
             // Execute sql command
             Connection.Execute(command);
 
             // Assign attributes
-            customerOrder.Id = GetLastInsertId();
-            customerOrder.CustomerId = customerId;
+            order.Id = GetLastInsertId();
+            order.CustomerId = customerId;
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Core.Data
         /// </summary>
         /// <param name="orderId"></param>
         /// <param name="orderEntries"></param>
-        internal void InsertOrderEntries(uint orderId, IEnumerable<OrderEntry> orderEntries)
+        internal void InsertOrderEntries(uint orderId, IEnumerable<OrderItem> orderEntries)
         {
             foreach (var orderEntry in orderEntries)
             {
@@ -55,7 +55,7 @@ namespace Core.Data
                     new
                     {
                         id_order = orderId,
-                        id_product = orderEntry.ProductId,
+                        id_product = orderEntry.Product,
                         unit_price = orderEntry.UnitPrice,
                         qty = orderEntry.Qty
                     });
@@ -86,41 +86,42 @@ namespace Core.Data
         /// </summary>
         /// <param name="limit">number of orders returned</param>
         /// <param name="isCredit">if null, return both credit and non credit orders, else return only given type</param>
-        internal IEnumerable<CustomerOrder> GetRecentCustomerOrders(uint limit, bool? isCredit)
+        internal IEnumerable<Order> GetRecentCustomerOrders(uint limit, bool? isCredit)
         {
             // Define sql command
             var command = new CommandDefinition(
                 "select id_order 'Id', amount 'Amount', note 'Note', date_order 'Date', order_due_amount(id_order) 'DueAmount', is_cancelled 'IsCancelled' from orders " +
-                (isCredit == null ? "" : "where (order_due_amount(id_order) != 0) = @isCredit ") + 
+                (isCredit == null ? "" : "where (order_due_amount(id_order) != 0) = @isCredit ") +
                 "order by id_order desc limit @limit",
                 new
                 {
-                    limit, isCredit
+                    limit,
+                    isCredit
                 });
 
             // Execute sql command
-            return Connection.Query<CustomerOrder>(command);
+            return Connection.Query<Order>(command);
         }
 
         /// <summary>
         ///     Loads the list of order entries into a given order
         /// </summary>
-        /// <param name="customerOrder"></param>
+        /// <param name="order"></param>
         /// <returns></returns>
-        internal void LoadOrderEntries(CustomerOrder customerOrder)
+        internal void LoadOrderEntries(Order order)
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_product 'ProductId', name_product 'ProductName', unit_price 'UnitPrice', qty 'Qty' from orders_products " +
+                "select id_product 'Product', name_product 'ProductName', unit_price 'UnitPrice', qty 'Qty' from orders_products " +
                 "join products USING(id_product) where id_order = @id_order",
                 new
                 {
-                    id_order = customerOrder.Id
+                    id_order = order.Id
                 });
 
             // Execute sql command
-            var orderEntries = Connection.Query<OrderEntry>(command);
-            customerOrder.OrderEntries = orderEntries.ToList();
+            var orderEntries = Connection.Query<OrderItem>(command);
+            order.OrderItems = orderEntries.ToList();
         }
 
         /// <summary>
@@ -129,11 +130,11 @@ namespace Core.Data
         /// </summary>
         /// <param name="customerId"></param>
         /// <param name="limit"></param>
-        internal IEnumerable<CustomerOrder> GetOrders(uint customerId, uint limit)
+        internal IEnumerable<Order> GetOrders(uint customerId, uint limit)
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_order 'Id', date_order 'Date', id_customer = @id_customer, amount 'Amount', note 'Note', (is_settled = false) 'IsCredit', " +
+                "select id_order 'Id', date_order 'Date', id_customer = @id_customer, amount 'Amount', note 'Note', (is_settled = false) 'IsSettled', " +
                 "is_cancelled 'IsCancelled' from orders " +
                 "where id_customer = @id_customer " +
                 "order by id_order desc limit @limit",
@@ -144,7 +145,7 @@ namespace Core.Data
                 });
 
             // Execute sql command
-            return Connection.Query<CustomerOrder>(command);
+            return Connection.Query<Order>(command);
         }
 
         /// <summary>
@@ -153,11 +154,11 @@ namespace Core.Data
         /// </summary>
         /// <param name="note">serch by note</param>
         /// <returns></returns>
-        internal IEnumerable<CustomerOrder> GetOrders(string note)
+        internal IEnumerable<Order> GetOrders(string note)
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_order 'Id', amount 'Amount', note 'Note', date_order 'Date', is_credit 'IsCredit', is_cancelled 'IsCancelled' from orders " +
+                "select id_order 'Id', amount 'Amount', note 'Note', date_order 'Date', is_credit 'IsSettled', is_cancelled 'IsCancelled' from orders " +
                 "where note like @note " +
                 "order by id_order desc",
                 new
@@ -166,26 +167,26 @@ namespace Core.Data
                 });
 
             // Execute sql command
-            return Connection.Query<CustomerOrder>(command);
+            return Connection.Query<Order>(command);
         }
 
         /// <summary>
         ///     Updates a customer order in the database.
-        ///     The properties that will be update are: Note, IsCredit, IsCancelled
+        ///     The properties that will be update are: Note, IsSettled, IsCancelled
         /// </summary>
-        /// <param name="customerOrder"></param>
-        internal void UpdateCustomerOrderDetails(CustomerOrder customerOrder)
+        /// <param name="order"></param>
+        internal void UpdateCustomerOrderDetails(Order order)
         {
             // Define sql command
             var command = new CommandDefinition(
                 "update orders set note = @note, is_settled = @is_settled, is_cancelled = @is_cancelled where id_order = @id_order",
                 new
                 {
-                    id_order = customerOrder.Id,
-                    note = customerOrder.Note,
+                    id_order = order.Id,
+                    note = order.Note,
                     // KEEP IN MIND OF THE 'NOT' CONDITION APPLIED HERE
-                    is_credit = !customerOrder.IsCredit,
-                    is_cancelled = customerOrder.IsCancelled
+                    is_credit = !order.IsSettled,
+                    is_cancelled = order.IsCancelled
                 });
 
             // Execute sql command

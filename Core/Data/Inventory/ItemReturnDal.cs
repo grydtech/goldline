@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using Core.Model;
-using Core.Model.Enums;
+using Core.Domain.Model.Inventory;
 using Dapper;
 
-namespace Core.Data
+namespace Core.Data.Inventory
 {
     internal class ItemReturnDal : Dal
     {

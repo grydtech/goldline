@@ -2,8 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Core.Model.Handlers;
-using Core.Model.Orders;
+using Core.Domain.Handlers;
+using Core.Domain.Model.Customers;
 using Goldline.UI.Security;
 
 //using log4net;
@@ -25,7 +25,7 @@ namespace Goldline.UI.Customers
             InitializeComponent();
         }
 
-        public IEnumerable<CustomerOrder> Orders { get; set; }
+        public IEnumerable<Order> Orders { get; set; }
 
         private void OrdersDatagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -53,7 +53,7 @@ namespace Goldline.UI.Customers
 
         private void ReverseButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedOrder = OrdersDataGrid.SelectedItem as CustomerOrder;
+            var selectedOrder = OrdersDataGrid.SelectedItem as Order;
             if (selectedOrder == null)
             {
                 MessageBox.Show("Please select and verify an order to continue");

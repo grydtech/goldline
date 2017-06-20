@@ -1,4 +1,6 @@
-﻿namespace Goldline.UI.Catalogs
+﻿using Core.Domain.Model.Inventory;
+
+namespace Goldline.UI.Catalogs
 {
     partial class TyreCatalog
     {
@@ -37,7 +39,7 @@
             // 
             // TyreBindingSource
             // 
-            this.TyreBindingSource.DataSource = typeof(Core.Model.Products.Tyre);
+            this.TyreBindingSource.DataSource = typeof(Tyre);
             // 
             // reportViewer
             // 

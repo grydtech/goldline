@@ -1,4 +1,6 @@
-﻿namespace Goldline.UI.Catalogs
+﻿using Core.Domain.Model.Inventory;
+
+namespace Goldline.UI.Catalogs
 {
     partial class AlloywheelCatalog
     {
@@ -37,7 +39,7 @@
             // 
             // AlloywheelBindingSource
             // 
-            this.AlloywheelBindingSource.DataSource = typeof(Core.Model.Products.Alloywheel);
+            this.AlloywheelBindingSource.DataSource = typeof(Alloywheel);
             // 
             // reportViewer
             // 

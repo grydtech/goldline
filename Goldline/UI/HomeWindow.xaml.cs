@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Threading;
-using Core.Security;
+using Core.Domain.Model.Employees;
 using Goldline.UI.Customers;
 using Goldline.UI.Employees;
 using Goldline.UI.Products;

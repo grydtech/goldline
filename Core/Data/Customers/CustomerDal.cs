@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using Core.Model;
-using Core.Model.Persons;
+using Core.Domain.Model.Customers;
 using Dapper;
 
-namespace Core.Data
+namespace Core.Data.Customers
 {
     internal class CustomerDal : Dal
     {
@@ -92,68 +91,6 @@ namespace Core.Data
 
             // Execute sql command
             Connection.Execute(command);
-        }
-
-        /// <summary>
-        ///     Inserts a new customer vehicle into database or update last visited date if record exists
-        /// </summary>
-        /// <param name="customerId"></param>
-        /// <param name="customerVehicle"></param>
-        internal void InsertCustomerVehicle(uint customerId, CustomerVehicle customerVehicle)
-        {
-            // Define sql command
-            var command = new CommandDefinition(
-                "insert into customers_vehicles (vehicle_no, id_customer) values (@vehicle_no, @id_customer)",
-                new
-                {
-                    vehicle_no = customerVehicle.Number,
-                    id_customer = customerId
-                });
-
-            // Execute sql command
-            Connection.Execute(command);
-
-            // Assign attributes
-            customerVehicle.CustomerId = customerId;
-        }
-
-        /// <summary>
-        ///     Updates last visited date of existing customer vehicle in database
-        /// </summary>
-        /// <param name="customerVehicle"></param>
-        internal void UpdateCustomerVehicleDate(CustomerVehicle customerVehicle)
-        {
-            // Define sql command
-            var command = new CommandDefinition(
-                "update customers_vehicles set date_last_seen = CURRENT_TIMESTAMP where vehicle_no = @vehicle_no",
-                new
-                {
-                    vehicle_no = customerVehicle.Number
-                });
-
-            // Execute sql command
-            Connection.Execute(command);
-        }
-
-        /// <summary>
-        ///     Returns a list of customer vehicles matching the customer's Id
-        /// </summary>
-        /// <param name="customer"></param>
-        /// <returns></returns>
-        internal IEnumerable<CustomerVehicle> GetCustomerVehicles(Customer customer)
-        {
-            // Define sql command
-            var command = new CommandDefinition(
-                "select vehicle_no 'Number', id_customer 'OrderId', date_last_seen 'LastVisitDate' from customers_vehicles " +
-                "where id_customer = @id_customer " +
-                "order by vehicle_no",
-                new
-                {
-                    id_customer = customer.Id
-                });
-
-            // Execute sql command
-            return Connection.Query<CustomerVehicle>(command);
         }
     }
 }

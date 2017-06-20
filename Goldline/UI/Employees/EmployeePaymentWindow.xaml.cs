@@ -2,9 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Core.Model.Handlers;
-using Core.Model.Payments;
-using Core.Model.Persons;
+using Core.Domain.Handlers;
+using Core.Domain.Model.Employees;
 
 namespace Goldline.UI.Employees
 {

@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:products="clr-namespace:Core.Model.Products;assembly=Core"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:goldline="clr-namespace:Goldline"
         Title="InventoryManagementWindow"

@@ -3,9 +3,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Core.Model.Handlers;
-using Core.Model.Persons;
-using Core.Model.Products;
+using Core.Domain.Handlers;
+using Core.Domain.Model.Inventory;
+using Core.Domain.Model.Suppliers;
 
 namespace Goldline.UI.Suppliers
 {

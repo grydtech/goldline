@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Core.Model.Handlers;
-using Core.Model.Orders;
+using Core.Domain.Handlers;
+using Core.Domain.Model.Suppliers;
 using Control = System.Windows.Forms.Control;
 
 namespace Goldline.UI.Suppliers
