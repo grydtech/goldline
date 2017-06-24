@@ -24,7 +24,7 @@ namespace Goldline.UI.Customers
         public CustomerVerificationWindow()
         {
             _customerHandler = new CustomerHandler();
-            _customerMatches = _customerHandler.GetAllCustomers();
+            _customerMatches = CustomerHandler.GetCustomers();
             //    ItemSource = _customerMatches;
             InitializeComponent();
 
@@ -42,8 +42,8 @@ namespace Goldline.UI.Customers
                     _customerMatches.Where(customer => customer.Name.Contains(textBox.Text.Trim()));
 
             //ItemSource = textBox.Text != "" && CustomerDataGrid != null
-            //   ? _customerHandler.GetCustomer(textBox.Text)
-            //   :_customerHandler.GetAllCustomers();
+            //   ? _customerHandler.GetCustomers(textBox.Text)
+            //   :_customerHandler.GetCustomers();
             //CustomerDataGrid.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
         }
 

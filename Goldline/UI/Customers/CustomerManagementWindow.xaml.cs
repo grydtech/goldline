@@ -19,7 +19,7 @@ namespace Goldline.UI.Customers
         {
             _customerHandler = new CustomerHandler();
             _customerPaymentHandler = new CustomerPaymentHandler();
-            CustomerSource = _customerHandler.GetCustomer("");
+            CustomerSource = _customerHandler.GetCustomers("");
             InitializeComponent();
             RefreshButtonEnabled();
         }
@@ -75,7 +75,7 @@ namespace Goldline.UI.Customers
 
         private void RefreshDataGrid()
         {
-            CustomerSource = _customerHandler.GetCustomer(SearchTextBox.Text);
+            CustomerSource = _customerHandler.GetCustomers(SearchTextBox.Text);
             CustomerDataGrid?.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
             CustomerDataGrid?.Items.Refresh();
         }

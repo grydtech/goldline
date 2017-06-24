@@ -30,7 +30,7 @@ namespace Goldline.UI.Customers
                 decimal.Parse(DueTextBox.Text));
             try
             {
-                customerHandler.AddNewCustomer(customer);
+                customerHandler.AddCustomer(customer);
                 MessageBox.Show("Customer added successfully");
             }
             catch (Exception ex)

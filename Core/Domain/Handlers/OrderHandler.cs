@@ -35,13 +35,13 @@ namespace Core.Domain.Handlers
                     var customerOrderDal = new OrderDal(connection);
 
                     // Insert order record
-                    customerOrderDal.InsertOrder(order);
+                    customerOrderDal.Insert(order);
                     if (order.Id == null)
                         throw new ArgumentNullException(nameof(order.Id),
                             "Order has not been set after insert");
 
                     // Insert order entries
-                    customerOrderDal.InsertOrderEntries((uint) order.Id, order.OrderItems);
+                    customerOrderDal.InsertOrderItems((uint) order.Id, order.OrderItems);
 
                     // Insert as credit order if IsSettled true
                     if (order.IsSettled)
@@ -64,7 +64,7 @@ namespace Core.Domain.Handlers
                 using (var connection = Connector.GetConnection())
                 {
                     var customerOrderDal = new OrderDal(connection);
-                    var orders = customerOrderDal.GetRecentCustomerOrders(
+                    var orders = customerOrderDal.Get(
                         isLimited ? Constraints.DefaultLimit : Constraints.ExtendedLimit, isCredit);
 
                     if (!isOrderEntriesLoaded)
@@ -73,7 +73,7 @@ namespace Core.Domain.Handlers
                     else
                         foreach (var customerOrder in orders)
                         {
-                            customerOrderDal.LoadOrderEntries(customerOrder);
+                            customerOrderDal.GetOrderItems(customerOrder);
                             yield return customerOrder;
                         }
                 }
@@ -123,7 +123,7 @@ namespace Core.Domain.Handlers
                 else
                     foreach (var customerOrder in orders)
                     {
-                        customerOrderDal.LoadOrderEntries(customerOrder);
+                        customerOrderDal.GetOrderItems(customerOrder);
                         yield return customerOrder;
                     }
             }
@@ -156,15 +156,15 @@ namespace Core.Domain.Handlers
                 using (var connection = Connector.GetConnection())
                 {
                     var customerOrderDal = new OrderDal(connection);
-                    customerOrderDal.UpdateCustomerOrderDetails(order);
+                    customerOrderDal.Update(TODO);
 
                     if (order.IsSettled)
                         customerOrderDal.InsertAsCreditOrder((uint) order.Id, (uint) order.CustomerId);
 
                     if (isEntriesUpdated)
                     {
-                        customerOrderDal.RemoveOrder((uint) order.Id);
-                        customerOrderDal.InsertOrderEntries((uint) order.Id,
+                        customerOrderDal.Delete((uint) order.Id);
+                        customerOrderDal.InsertOrderItems((uint) order.Id,
                             order.OrderItems);
                     }
                 }

@@ -9,12 +9,10 @@ namespace Core.Data
     internal abstract class Dal
     {
         protected readonly IDbConnection Connection;
-        protected readonly IDbTransaction Transaction;
 
-        internal Dal(IDbConnection connection, IDbTransaction transaction = null)
+        internal Dal(IDbConnection connection)
         {
             Connection = connection;
-            Transaction = transaction;
         }
 
         /// <summary>
@@ -23,7 +21,7 @@ namespace Core.Data
         /// <returns></returns>
         internal uint GetLastInsertId()
         {
-            var command = new CommandDefinition("select last_insert_id()", null, Transaction);
+            var command = new CommandDefinition("select last_insert_id()");
             return Connection.QuerySingle<uint>(command);
         }
     }

@@ -7,7 +7,7 @@ using Core.Domain.Model.Employees;
 
 namespace Core.Domain.Handlers
 {
-    public class CustomerPaymentHandler
+    public class OrderPaymentHandler
     {
         /// <summary>
         ///     Adds a new payment to customer and return if successful or not
@@ -17,7 +17,7 @@ namespace Core.Domain.Handlers
         {
             using (var connection = Connector.GetConnection())
             {
-                new OrderPaymentDal(connection).InsertOrderPayment(orderPayment, User.CurrentUser.EmployeeId);
+                new OrderPaymentDal(connection).Insert(TODO, TODO);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Core.Domain.Handlers
 
             using (var connection = Connector.GetConnection())
             {
-                new OrderPaymentDal(connection).RemoveOrderPayment((uint) orderPayment.Id);
+                new OrderPaymentDal(connection).Delete((uint) orderPayment.Id);
             }
         }
 
@@ -51,8 +51,7 @@ namespace Core.Domain.Handlers
 
             using (var connection = Connector.GetConnection())
             {
-                return new OrderPaymentDal(connection).GetOrderPayments((uint) customer.Id,
-                    isLimited ? Constraints.DefaultLimit : Constraints.ExtendedLimit);
+                return new OrderPaymentDal(connection).Search(customer.Id.Value);
             }
         }
 
@@ -64,7 +63,7 @@ namespace Core.Domain.Handlers
         {
             using (var connection = Connector.GetConnection())
             {
-                return new OrderPaymentDal(connection).GetRecentPayments(Constraints.DefaultLimit);
+                return new OrderPaymentDal(connection).SearchRecent(Constraints.DefaultLimit);
             }
         }
     }

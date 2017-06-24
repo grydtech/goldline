@@ -12,18 +12,19 @@ namespace Core.Domain.Handlers
         ///     Adds a new customer
         /// </summary>
         /// <param name="customer"></param>
-        public void AddNewCustomer(Customer customer)
+        public void AddCustomer(Customer customer)
         {
             // Exception handling
+            if(customer == null) throw new ArgumentNullException(nameof(customer.Name), "Customer is null");
             if (customer.Name == null) throw new ArgumentNullException(nameof(customer.Name), "Customer name is null");
-            if (customer.Contact == null)
-                throw new ArgumentNullException(nameof(customer.Contact), "Customer contact is null");
+            if (customer.Contact == null) throw new ArgumentNullException(nameof(customer.Contact), "Customer contact is null");
             if (customer.Nic == null) throw new ArgumentNullException(nameof(customer.Nic), "Customer Nic is null");
 
             using (var connection = Connector.GetConnection())
             {
                 var customerDal = new CustomerDal(connection);
-                customerDal.InsertCustomer(customer);
+                customerDal.Insert(customer);
+                customer.Id = customerDal.GetLastInsertId();
             }
         }
 
@@ -32,13 +33,13 @@ namespace Core.Domain.Handlers
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public IEnumerable<Customer> GetCustomer(string name)
+        public IEnumerable<Customer> GetCustomers(string name)
         {
             // Exception handling
             if (name == null) throw new ArgumentNullException(nameof(name), "Name is null");
             using (var connection = Connector.GetConnection())
             {
-                return new CustomerDal(connection).GetCustomers(name);
+                return new CustomerDal(connection).Search(name);
             }
         }
 
@@ -46,11 +47,11 @@ namespace Core.Domain.Handlers
         ///     Returns a list of all customers
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Customer> GetAllCustomers()
+        public static IEnumerable<Customer> GetCustomers()
         {
             using (var connection = Connector.GetConnection())
             {
-                return new CustomerDal(connection).GetAllCustomers();
+                return new CustomerDal(connection).Get();
             }
         }
 
@@ -59,7 +60,10 @@ namespace Core.Domain.Handlers
         ///     The properties that will be updated are: Name, Nic, Contact, DueAmount
         /// </summary>
         /// <param name="customer"></param>
-        public void UpdateCustomer(Customer customer)
+        /// <param name="name"></param>
+        /// <param name="nic"></param>
+        /// <param name="contact"></param>
+        public void UpdateCustomer(Customer customer, string name = null,string nic = null, string contact = null)
         {
             // Exception handling
             if (customer.Id == null) throw new ArgumentNullException(nameof(customer.Id), "Customer Id is null");
@@ -70,7 +74,7 @@ namespace Core.Domain.Handlers
 
             using (var connection = Connector.GetConnection())
             {
-                new CustomerDal(connection).UpdateCustomerDetails(customer);
+                new CustomerDal(connection).Update(customer, name, nic, contact);
             }
         }
 
@@ -89,7 +93,7 @@ namespace Core.Domain.Handlers
 
             using (var connection = Connector.GetConnection())
             {
-                new CustomerDal(connection).InsertCustomerVehicle((uint) customer.Id, vehicle);
+                new VehicleDal(connection).Insert(vehicle.Number, customer.Id.Value);
             }
         }
 
@@ -105,7 +109,7 @@ namespace Core.Domain.Handlers
 
             using (var connection = Connector.GetConnection())
             {
-                new CustomerDal(connection).UpdateCustomerVehicleDate(vehicle);
+                new VehicleDal(connection).Update(vehicle.Number);
             }
         }
 
@@ -120,7 +124,7 @@ namespace Core.Domain.Handlers
 
             using (var connection = Connector.GetConnection())
             {
-                return new CustomerDal(connection).GetCustomerVehicles(customer);
+                return new VehicleDal(connection).Search(customer.Id.Value);
             }
         }
 

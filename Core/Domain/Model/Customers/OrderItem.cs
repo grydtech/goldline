@@ -5,12 +5,10 @@ namespace Core.Domain.Model.Customers
 {
     public class OrderItem
     {
-        public OrderItem(Product product, decimal unitPrice, uint qty)
+        public OrderItem(uint productId, string productName, decimal unitPrice, uint qty)
         {
-            // Exception handling
-            if (product?.Id == null) throw new ArgumentNullException(nameof(product.Id), "Product/Id is null");
-
-            Product = product;
+            ProductId = productId;
+            ProductName = productName;
             UnitPrice = unitPrice;
             Qty = qty;
         }
@@ -22,7 +20,8 @@ namespace Core.Domain.Model.Customers
         {
         }
 
-        public Product Product { get; private set; }
+        public uint ProductId { get; private set; }
+        public string ProductName { get; private set; }
         public decimal UnitPrice { get; set; }
         public uint Qty { get; set; }
         public decimal NetPrice => UnitPrice * Qty;

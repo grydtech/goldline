@@ -18,7 +18,7 @@ namespace Goldline.UI.Customers
         public CustomerPaymentWindow()
         {
             _customerPaymentHandler = new CustomerPaymentHandler();
-            CustomerSource = new CustomerHandler().GetAllCustomers();
+            CustomerSource = CustomerHandler.GetCustomers();
 
             InitializeComponent();
         }
@@ -68,7 +68,7 @@ namespace Goldline.UI.Customers
                 finally
                 {
                     AmountTextBox.Text = "";
-                    CustomerSource = new CustomerHandler().GetAllCustomers();
+                    CustomerSource = CustomerHandler.GetCustomers();
                     RefreshCustomerComboBox();
                     RefreshDataGrid();
                 }

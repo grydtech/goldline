@@ -19,6 +19,6 @@ namespace Core.Domain.Model.Customers
 
         public string Number { get; set; }
         public uint CustomerId { get; set; }
-        public DateTime LastVisitDate { get; set; }
+        public DateTime LastSeenDate { get; set; }
     }
 }

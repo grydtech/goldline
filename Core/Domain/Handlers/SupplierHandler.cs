@@ -37,7 +37,7 @@ namespace Core.Domain.Handlers
         }
 
         /// <summary>
-        ///     Get a list of suppliers matching search parameters
+        ///     Search a list of suppliers matching search parameters
         /// </summary>
         /// <param name="name"></param>
         /// <param name="isSuppliedItemsLoaded"></param>
@@ -119,7 +119,7 @@ namespace Core.Domain.Handlers
         }
 
         /// <summary>
-        ///     Get a list of supplied items which a supplier provides
+        ///     Search a list of supplied items which a supplier provides
         /// </summary>
         /// <param name="supplier"></param>
         /// <returns></returns>

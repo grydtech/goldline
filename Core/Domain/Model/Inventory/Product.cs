@@ -4,7 +4,7 @@ namespace Core.Domain.Model.Inventory
 {
     public abstract class Product
     {
-        public Product(string name, ProductType productType)
+        protected Product(string name, ProductType productType)
         {
             Name = name;
             ProductType = productType;
@@ -13,7 +13,7 @@ namespace Core.Domain.Model.Inventory
         /// <summary>
         ///     For database initialization
         /// </summary>
-        public Product()
+        protected Product()
         {
         }
 

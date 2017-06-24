@@ -12,87 +12,55 @@ namespace Core.Data.Customers
         }
 
         /// <summary>
-        ///     Inserts a new orderPayment into database
-        /// </summary>
-        /// <param name="orderPayment"></param>
-        internal void InsertOrderPayment(OrderPayment orderPayment)
-        {
-            // Define sql command
-            var command = new CommandDefinition(
-                "insert into orders_payments (id_order, amount) values (@id_order, @amount)",
-                new
-                {
-                    id_customer = orderPayment.OrderId,
-                    amount = orderPayment.Amount
-                });
-
-            // Execute sql command
-            Connection.Execute(command);
-
-            // Assign attributes
-            orderPayment.Id = GetLastInsertId();
-        }
-
-        /// <summary>
-        ///     Removes given customer payment from database
-        /// </summary>
-        /// <param name="paymentId"></param>
-        internal void RemoveOrderPayment(uint paymentId)
-        {
-            // Define sql command
-            var command = new CommandDefinition(
-                "delete from orders_payments where id_payment = @paymentId",
-                new
-                {
-                    paymentId
-                });
-
-            // Execute sql command
-            Connection.Execute(command);
-        }
-
-        /// <summary>
-        ///     Returns payments of a given order from database
+        ///     Inserts a record into [orders_payments] table
         /// </summary>
         /// <param name="orderId"></param>
+        /// <param name="amount"></param>
+        internal void Insert(uint orderId, decimal amount)
+        {
+            // Define sql command
+            var command = new CommandDefinition(
+                "insert into orders_payments (id_order, amount) values (@orderId, @amount)",
+                new {orderId, amount});
+
+            // Execute sql command
+            Connection.Execute(command);
+        }
+
+        /// <summary>
+        ///     Searches records in [orders_payments] table
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
         /// <returns></returns>
-        internal IEnumerable<OrderPayment> GetOrderPayments(uint orderId)
+        internal IEnumerable<OrderPayment> Search(uint? orderId = null, int offset = 0, int limit = int.MaxValue)
         {
             // Define sql command
             var command = new CommandDefinition(
                 "select id_payment 'Id', @orderId 'OrderId', date_paid 'Date' amount_paid 'Amount' " +
                 "from orders_payments " +
-                "where id_order = @orderId " +
-                "order by id_payment desc",
-                new
-                {
-                    orderId
-                });
+                (orderId == null ? "" : "where id_order = @orderId ") +
+                "order by id_payment desc limit @offset, @limit",
+                new {orderId, offset, limit});
 
             // Execute sql command
             return Connection.Query<OrderPayment>(command);
         }
 
         /// <summary>
-        ///     Returns a list of most recent CustomerPayments.
-        ///     The number of rows loaded is given as recordLimit.
+        ///     Deletes a record from [orders_payments] table
         /// </summary>
-        /// <param name="limit"></param>
-        /// <returns></returns>
-        internal IEnumerable<OrderPayment> GetRecentPayments(uint limit)
+        /// <param name="id"></param>
+        internal void Delete(uint id)
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_payment 'Id', id_order 'OrderId', date_paid 'Date', amount_paid 'Amount', note 'Note', id_customer 'CustomerId' " +
-                "from orders_payments JOIN orders USING (id_order) " +
-                "order by id_payment desc limit @limit",
-                new
-                {
-                    limit
-                });
+                "delete from orders_payments where id_payment = @id",
+                new {id});
 
             // Execute sql command
-            return Connection.Query<OrderPayment>(command);
+            Connection.Execute(command);
         }
     }
 }

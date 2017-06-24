@@ -26,6 +26,7 @@ namespace Core.Domain.Model.Customers
         }
 
         public uint? Id { get; set; }
+        public uint? CustomerId { get; set; }
 
         public decimal Total
         {
@@ -35,10 +36,9 @@ namespace Core.Domain.Model.Customers
 
         public string Note { get; set; }
         public DateTime Date { get; set; }
-        public uint? CustomerId { get; set; }
         public uint UserId { get; set; }
         public bool IsCancelled { get; set; }
-        public bool IsSettled { get; set; }
+        public bool IsSettled => DueAmount == (decimal) 0;
         public decimal DueAmount { get; set; }
         public List<OrderItem> OrderItems { get; set; }
 

@@ -39,7 +39,7 @@ namespace Goldline.UI.Returns
             _customerHandler = new CustomerHandler();
             _itemReturnHandler = new ItemReturnHandler();
             _itemsSource = _productHandler.GetItems("");
-            _customerSource = _customerHandler.GetAllCustomers();
+            _customerSource = CustomerHandler.GetCustomers();
             RefreshInventoryDataGrid();
             RefreshCustomerDataGrid();
         }
@@ -281,7 +281,7 @@ namespace Goldline.UI.Returns
             if (dataGridNo == 1)
                 _itemsSource = _productHandler.GetItems(name);
             else
-                _customerSource = _customerHandler.GetCustomer(name);
+                _customerSource = _customerHandler.GetCustomers(name);
         }
 
         private void RefreshInventoryDataGrid(string name = "%")

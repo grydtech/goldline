@@ -7,7 +7,7 @@ using Core.Domain.Model.Employees;
 
 namespace Core.Domain.Handlers
 {
-    public class UserAccessHandler
+    public class SecurityHandler
     {
         /// <summary>
         ///     Try logging in with the provided credentials or with default password
