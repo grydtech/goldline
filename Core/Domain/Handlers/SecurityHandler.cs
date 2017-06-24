@@ -21,8 +21,8 @@ namespace Core.Domain.Handlers
             using (var connection = Connector.GetConnection())
             {
                 var userAccessDal = new UserDal(connection);
-                return userAccessDal.GetUser(username, password) ??
-                       userAccessDal.GetUser(username, User.DefaultPassword);
+                return userAccessDal.Search(username, password) ??
+                       userAccessDal.Search(username, User.DefaultPassword);
             }
         }
 
@@ -63,7 +63,7 @@ namespace Core.Domain.Handlers
                 {
                     new EmployeeDal(connection).UpdateEmployeeType(employee, EmployeeType.User);
                     newUser = new User((uint) employee.Id, userType, username);
-                    new UserDal(connection).InsertUser(newUser);
+                    new UserDal(connection).Insert(newUser);
                 }
                 scope.Complete();
             }
@@ -81,7 +81,7 @@ namespace Core.Domain.Handlers
         {
             using (var connection = Connector.GetConnection())
             {
-                new UserDal(connection).UpdateUserType(user, newUserType);
+                new UserDal(connection).Update(user, newUserType);
             }
         }
 
@@ -94,7 +94,7 @@ namespace Core.Domain.Handlers
         {
             using (var connection = Connector.GetConnection())
             {
-                return new UserDal(connection).GetUser(employeeId);
+                return new UserDal(connection).Search(employeeId);
             }
         }
 

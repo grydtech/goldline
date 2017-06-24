@@ -12,86 +12,55 @@ namespace Core.Data.Employees
         }
 
         /// <summary>
-        ///     Inserts a new employee payment into database
-        /// </summary>
-        /// <param name="employeePayment"></param>
-        internal void InsertEmployeePayment(EmployeePayment employeePayment)
-        {
-            // Define sql command
-            var command = new CommandDefinition(
-                "insert into employees_payments (id_employee, amount, note) values (@id_employee, @amount, @note)",
-                new
-                {
-                    id_employee = employeePayment.EmployeeId,
-                    amount = employeePayment.Amount,
-                    note = employeePayment.Note
-                });
-
-            // Execute sql command
-            Connection.Execute(command);
-
-            // Assign attributes
-            employeePayment.Id = GetLastInsertId();
-        }
-
-        /// <summary>
-        ///     Removes given employee payment from database
-        /// </summary>
-        /// <param name="employeePaymentId"></param>
-        internal void RemoveEmployeePayment(uint employeePaymentId)
-        {
-            // Define sql command
-            var command = new CommandDefinition(
-                "delete from employees_payments where id_payment = @id_payment",
-                new
-                {
-                    id_payment = employeePaymentId
-                });
-
-            // Execute sql command
-            Connection.Execute(command);
-        }
-
-        /// <summary>
-        ///     Returns payments of a given Employee from database
+        ///     Inserts a record into [employees_payments] table
         /// </summary>
         /// <param name="employeeId"></param>
-        /// <param name="recordLimit">number of employee payments returned</param>
-        internal IEnumerable<EmployeePayment> GetEmployeePayments(uint employeeId, uint recordLimit)
+        /// <param name="amount"></param>
+        /// <param name="note"></param>
+        internal void Insert(uint employeeId, decimal amount, string note)
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_payment 'Id', id_employee 'EmployeeId', amount 'Amount', note 'Note', date_paid 'Date' " +
-                "from employees_payments where id_employee = @id_employee " +
-                "order by id_payment desc limit @limit",
-                new
-                {
-                    id_employee = employeeId,
-                    limit = recordLimit
-                });
+                "insert into employees_payments (id_employee, amount, note) values (@employeeId, @amount, @note)",
+                new {employeeId, amount, note});
+
+            // Execute sql command
+            Connection.Execute(command);
+        }
+
+        /// <summary>
+        ///     Searches records in [employees_payments] table
+        /// </summary>
+        /// <param name="employeeId"></param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        internal IEnumerable<EmployeePayment> Search(uint? employeeId = null, int offset = 0, int limit = int.MaxValue)
+        {
+            // Define sql command
+            var command = new CommandDefinition(
+                "select id_payment 'Id', id_employee 'EmployeeId', date_paid 'Date', amount_paid 'Amount', note 'Note' " +
+                "from employees_payments " +
+                (employeeId == null ? "" : "where id_employee = @employeeId ") +
+                "order by id_payment desc limit @offset, @limit",
+                new {employeeId, offset, limit});
 
             // Execute sql command
             return Connection.Query<EmployeePayment>(command);
         }
 
         /// <summary>
-        ///     Returns a list of most recent payments from database
+        ///     Deletes a record from [employees_payments] table
         /// </summary>
-        /// <param name="recordLimit">number of employee payments returned</param>
-        internal IEnumerable<EmployeePayment> GetRecentEmployeePayments(uint recordLimit)
+        /// <param name="employeePaymentId"></param>
+        internal void Delete(uint id)
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_payment 'Id', id_employee 'EmployeeId', amount 'Amount', note 'Note', date_paid 'Date' " +
-                "from employees_payments " +
-                "order by id_payment desc limit @limit",
-                new
-                {
-                    limit = recordLimit
-                });
+                "delete from employees_payments where id_payment = @id",
+                new {id});
 
             // Execute sql command
-            return Connection.Query<EmployeePayment>(command);
+            Connection.Execute(command);
         }
     }
 }

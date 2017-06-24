@@ -2,9 +2,9 @@ namespace Core.Domain.Enums
 {
     public enum AccessMode
     {
-        Manager,
-        InventoryManager,
+        None,
         Cashier,
-        None
+        InventoryManager,
+        Manager,
     }
 }

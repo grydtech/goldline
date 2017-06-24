@@ -16,7 +16,7 @@ namespace Core.Domain.Handlers
         {
             using (var connection = Connector.GetConnection())
             {
-                new EmployeePaymentDal(connection).InsertEmployeePayment(employeePayment, User.CurrentUser.EmployeeId);
+                new EmployeePaymentDal(connection).Insert(employeePayment, User.CurrentUser.EmployeeId);
             }
         }
 
@@ -31,7 +31,7 @@ namespace Core.Domain.Handlers
                 throw new ArgumentNullException(nameof(employeePayment.Id), "Employee payment id is null");
             using (var connection = Connector.GetConnection())
             {
-                new EmployeePaymentDal(connection).RemoveEmployeePayment((uint) employeePayment.Id);
+                new EmployeePaymentDal(connection).Delete((uint) employeePayment.Id);
             }
         }
 
@@ -48,7 +48,7 @@ namespace Core.Domain.Handlers
 
             using (var connection = Connector.GetConnection())
             {
-                return new EmployeePaymentDal(connection).GetEmployeePayments((uint) employee.Id,
+                return new EmployeePaymentDal(connection).Search((uint) employee.Id,
                     isLimited ? Constraints.DefaultLimit : Constraints.ExtendedLimit);
             }
         }

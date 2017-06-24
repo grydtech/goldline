@@ -16,7 +16,7 @@ namespace Core.Domain.Handlers
         {
             using (var connection = Connector.GetConnection())
             {
-                new EmployeeDal(connection).InsertEmployee(employee);
+                new EmployeeDal(connection).Insert(employee);
             }
         }
 
@@ -30,7 +30,7 @@ namespace Core.Domain.Handlers
         {
             using (var connection = Connector.GetConnection())
             {
-                return new EmployeeDal(connection).GetEmployees(name, isActive);
+                return new EmployeeDal(connection).Search(name, isActive);
             }
         }
 
@@ -42,7 +42,7 @@ namespace Core.Domain.Handlers
         {
             using (var connection = Connector.GetConnection())
             {
-                new EmployeeDal(connection).UpdateEmployeeDetails(employee);
+                new EmployeeDal(connection).Update(employee);
             }
         }
 
