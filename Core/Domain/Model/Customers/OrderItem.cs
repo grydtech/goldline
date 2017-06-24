@@ -5,7 +5,7 @@ namespace Core.Domain.Model.Customers
 {
     public class OrderItem
     {
-        public OrderItem(uint productId, string productName, decimal unitPrice, uint qty)
+        public OrderItem(uint productId, string productName, uint qty, decimal unitPrice)
         {
             ProductId = productId;
             ProductName = productName;
@@ -22,8 +22,8 @@ namespace Core.Domain.Model.Customers
 
         public uint ProductId { get; private set; }
         public string ProductName { get; private set; }
-        public decimal UnitPrice { get; set; }
         public uint Qty { get; set; }
+        public decimal UnitPrice { get; set; }
         public decimal NetPrice => UnitPrice * Qty;
     }
 }

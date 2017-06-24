@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Core.Domain.Model.Inventory;
 using Dapper;
 
@@ -41,7 +38,7 @@ namespace Core.Data.Inventory
         {
             // Define sql command
             var command = new CommandDefinition("insert ignore into tyres_brands values (@brand)",
-                new { brand });
+                new {brand});
 
             // Execute sql command
             Connection.Execute(command);
@@ -55,7 +52,7 @@ namespace Core.Data.Inventory
         {
             // Define sql command
             var command = new CommandDefinition("insert ignore into tyres_dimensions values (@dimension)",
-                new { dimension });
+                new {dimension});
 
             // Execute sql command
             Connection.Execute(command);
@@ -69,7 +66,7 @@ namespace Core.Data.Inventory
         {
             // Define sql command
             var command = new CommandDefinition("insert ignore into countries values (@country)",
-                new { country });
+                new {country});
 
             // Execute sql command
             Connection.Execute(command);
@@ -91,7 +88,7 @@ namespace Core.Data.Inventory
                 "join products USING(id_product) " +
                 (nameExp == null ? "" : "where name_product LIKE @nameExp ") +
                 "order by name_product limit @offset, @limit",
-                new { nameExp, offset, limit });
+                new {nameExp, offset, limit});
 
             // Execute sql command
             return Connection.Query<Tyre>(command);
@@ -155,7 +152,7 @@ namespace Core.Data.Inventory
                  (dimension == null ? "" : "dimension = @dimension, ") +
                  (country == null ? "" : "country = @country, ")).TrimEnd(' ', ',') +
                 " where id_product = @productId",
-                new { productId, brand, dimension, country });
+                new {productId, brand, dimension, country});
 
             // Execute sql command
             Connection.Execute(command);

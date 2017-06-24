@@ -5,15 +5,11 @@ namespace Core.Domain.Model.Suppliers
 {
     public class PurchaseItem
     {
-        public PurchaseItem(Item item, uint qty, decimal price)
+        public PurchaseItem(uint itemId, string itemName, uint qty)
         {
-            // Exception handling
-            if (item.Id == null) throw new ArgumentNullException(nameof(item.Id), "Item Id is null");
-
-            ItemId = (uint) item.Id;
-            ItemName = item.Name;
+            ItemId = itemId;
+            ItemName = itemName ?? throw new ArgumentNullException(nameof(itemName), "Item Name is null");
             Qty = qty;
-            Price = price;
         }
 
         /// <summary>
@@ -26,6 +22,5 @@ namespace Core.Domain.Model.Suppliers
         public uint ItemId { get; set; }
         public string ItemName { get; set; }
         public uint Qty { get; set; }
-        public decimal Price { get; set; }
     }
 }

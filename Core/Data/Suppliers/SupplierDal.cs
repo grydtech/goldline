@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using Core.Domain.Model.Suppliers;
 using Dapper;
@@ -12,91 +13,72 @@ namespace Core.Data.Suppliers
         }
 
         /// <summary>
-        ///     Inserts a new supplier into database.
-        ///     The supplied items are not inserted through this
+        ///     Inserts a record into [suppliers] table
         /// </summary>
-        /// <param name="supplier"></param>
-        internal void InsertSupplier(Supplier supplier)
+        /// <param name="name"></param>
+        /// <param name="contact"></param>
+        internal void Insert(string name, string contact)
         {
             // Define sql command
             var command = new CommandDefinition(
                 "insert ignore into suppliers (name, contact) values (@name, @contact)",
-                new
-                {
-                    name = supplier.Name,
-                    contact = supplier.Contact
-                });
+                new {name, contact});
 
             // Execute sql command
             Connection.Execute(command);
-
-            // Assign attributes
-            supplier.Id = GetLastInsertId();
         }
 
         /// <summary>
-        ///     Returns a list of all suppliers matching given search parameters
+        ///     Searches records in [suppliers] table
         /// </summary>
-        /// <param name="name">search by name</param>
-        internal IEnumerable<Supplier> GetSuppliers(string name)
+        /// <param name="nameExp">search by name</param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        internal IEnumerable<Supplier> Search(string nameExp = null, int offset = 0, int limit = int.MaxValue)
         {
             // Define sql command
             var command = new CommandDefinition(
                 "select id_supplier 'Id', name 'Name', Contact from suppliers " +
-                "where name like @name " +
-                "order by name",
-                new {name = "%" + name + "%"});
+                (nameExp == null ? "" : "where name like @nameExp ") +
+                "order by name limit @offset, @limit",
+                new {nameExp, offset, limit});
 
             // Execute sql command
             return Connection.Query<Supplier>(command);
         }
 
         /// <summary>
-        ///     Returns a list of all suppliers
+        ///     Updates a record in [suppliers] table
         /// </summary>
-        internal IEnumerable<Supplier> GetAllSuppliers()
+        /// <param name="supplierId"></param>
+        /// <param name="name"></param>
+        /// <param name="contact"></param>
+        internal void Update(uint supplierId, string name = null, string contact = null)
         {
-            // Define sql command
-            var command =
-                new CommandDefinition("select id_supplier 'Id', name 'Name', Contact from suppliers " +
-                                      "order by name");
-
-            // Execute sql command
-            return Connection.Query<Supplier>(command);
-        }
-
-        /// <summary>
-        ///     Updates an existing supplier details in database.
-        ///     The properties that will be updated are Name, Contact
-        /// </summary>
-        /// <param name="supplier"></param>
-        internal void UpdateSupplierDetails(Supplier supplier)
-        {
+            if (name == null && contact == null)
+                throw new ArgumentNullException(nameof(Update), @"No update parameters were passed.");
             // Define sql command
             var command = new CommandDefinition(
-                "update suppliers set name = @name, contact = @contact " +
-                "where id_supplier = @id_supplier",
-                new
-                {
-                    id_supplier = supplier.Id,
-                    name = supplier.Name,
-                    contact = supplier.Contact
-                });
+                "update suppliers set " +
+                ((name == null ? "" : "name = @name, ") +
+                 (contact == null ? "" : "contact = @contact, ")).TrimEnd(' ', ',') +
+                " where id_supplier = @supplierId",
+                new {supplierId, name, contact});
 
             // Execute sql command
             Connection.Execute(command);
         }
 
         /// <summary>
-        ///     Removes existing supplier from database if constraints allow
+        ///     Deletes a record from [suppliers] table
         /// </summary>
         /// <param name="supplierId"></param>
-        internal void RemoveSupplier(uint supplierId)
+        internal void Delete(uint supplierId)
         {
             // Define sql command
             var command = new CommandDefinition(
-                "delete from suppliers where id_supplier = @id_supplier",
-                new {id_supplier = supplierId});
+                "delete from suppliers where id_supplier = @supplierId",
+                new {supplierId});
 
             // Execute sql command
             Connection.Execute(command);

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Core.Domain.Enums;
 using Core.Domain.Model.Inventory;
 using Dapper;
@@ -13,7 +11,7 @@ namespace Core.Data.Inventory
     internal class ItemDal : Dal
     {
         public ItemDal(IDbConnection connection) : base(connection)
-        {   
+        {
         }
 
         /// <summary>
@@ -55,7 +53,7 @@ namespace Core.Data.Inventory
             {
                 Item item;
 
-                switch ((ProductType)o.ProductType)
+                switch ((ProductType) o.ProductType)
                 {
                     case ProductType.Alloywheel:
                         item = new Alloywheel();
@@ -71,7 +69,7 @@ namespace Core.Data.Inventory
                         throw new ArgumentException();
                 }
 
-                item.Id = (uint)o.Id;
+                item.Id = (uint) o.Id;
                 item.Name = o.Name;
                 item.StockQty = o.StockQty;
                 item.UnitPrice = o.UnitPrice;
@@ -96,7 +94,7 @@ namespace Core.Data.Inventory
                 ((stockQty == null ? "" : "qty_stocks = @stockQty, ") +
                  (unitPrice == null ? "" : "unit_price = @unitPrice, ")).TrimEnd(' ', ',') +
                 " where id_product = @productId",
-                new { productId, stockQty, unitPrice });
+                new {productId, stockQty, unitPrice});
 
             // Execute sql command
             Connection.Execute(command);

@@ -51,9 +51,9 @@ namespace Core.Data.Customers
             var command = new CommandDefinition(
                 "select id_product 'ProductId', name_product 'ProductName', unit_price 'UnitPrice', qty 'Qty' from orders_products " +
                 "join products USING(id_product) " +
-                (orderId == null ? "" : "where id_order = @orderId ") + 
+                (orderId == null ? "" : "where id_order = @orderId ") +
                 "limit @offset, limit",
-                new { orderId, offset, limit });
+                new {orderId, offset, limit});
 
             // Execute sql command
             return Connection.Query<OrderItem>(command);

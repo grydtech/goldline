@@ -8,7 +8,9 @@ namespace Core.Data.Customers
 {
     internal class CustomerDal : Dal
     {
-        private const string DueAmtExp = "(SELECT COALESCE(SUM(due_amount),0) from orders_view O where O.id_customer = C.id_customer)";
+        private const string DueAmtExp =
+            "(SELECT COALESCE(SUM(due_amount),0) from orders_view O where O.id_customer = C.id_customer)";
+
         internal CustomerDal(IDbConnection connection) : base(connection)
         {
         }
@@ -43,7 +45,7 @@ namespace Core.Data.Customers
             var command = new CommandDefinition(
                 "select id_customer 'Id', name 'Name', nic 'Nic', contact 'Contact', " +
                 $"{DueAmtExp} 'DueAmount' from customers C " +
-                (nameExp == null? "" : "where name like @nameExp ") +
+                (nameExp == null ? "" : "where name like @nameExp ") +
                 "order by name limit @offset, @limit",
                 new {nameExp, offset, limit});
 
@@ -66,8 +68,8 @@ namespace Core.Data.Customers
             var command = new CommandDefinition(
                 "update customers set " +
                 ((name == null ? "" : "name = @name, ") +
-                (nic == null ? "" : "nic = @nic, ") +
-                (contact == null ? "" : "contact = @contact, ")).TrimEnd(' ', ',') +
+                 (nic == null ? "" : "nic = @nic, ") +
+                 (contact == null ? "" : "contact = @contact, ")).TrimEnd(' ', ',') +
                 " where id_customer = @id",
                 new {id, name, nic, contact});
 
@@ -84,7 +86,7 @@ namespace Core.Data.Customers
             // Define sql command
             var command = new CommandDefinition(
                 "delete from customers where id_customer = @id",
-                new { id });
+                new {id});
 
             // Execute sql command
             Connection.Execute(command);

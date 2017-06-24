@@ -57,6 +57,7 @@
     <Compile Include="Data\Inventory\ItemReturnDal.cs" />
     <Compile Include="Data\Inventory\ProductDal.cs" />
     <Compile Include="Data\Inventory\TyreDal.cs" />
+    <Compile Include="Data\Suppliers\PurchaseItemDal.cs" />
     <Compile Include="Data\Suppliers\PurchasePaymentDal.cs" />
     <Compile Include="Data\Suppliers\SupplierDal.cs" />
     <Compile Include="Data\Suppliers\PurchaseDal.cs" />

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Core.Domain.Model.Inventory;
 using Dapper;
 
@@ -42,7 +39,7 @@ namespace Core.Data.Inventory
         {
             // Define sql command
             var command = new CommandDefinition("insert ignore into batteries_brands values (@brand)",
-                new { brand });
+                new {brand});
 
             // Execute sql command
             Connection.Execute(command);
@@ -64,12 +61,12 @@ namespace Core.Data.Inventory
                 "join products USING(id_product) " +
                 (nameExp == null ? "" : "where name_product LIKE @nameExp ") +
                 "order by name_product limit @offset, @limit",
-                new { nameExp, offset, limit });
+                new {nameExp, offset, limit});
 
             // Execute sql command
             return Connection.Query<Battery>(command);
         }
-        
+
         /// <summary>
         ///     Searches records in [batteries_brands] table
         /// </summary>
@@ -102,7 +99,7 @@ namespace Core.Data.Inventory
                  (capacity == null ? "" : "capacity = @capacity, ") +
                  (voltage == null ? "" : "voltage = @voltage, ")).TrimEnd(' ', ',') +
                 " where id_product = @productId",
-                new { productId, brand, capacity, voltage });
+                new {productId, brand, capacity, voltage});
 
             // Execute sql command
             Connection.Execute(command);

@@ -21,7 +21,7 @@ namespace Core.Domain.Handlers
                 using (var connection = Connector.GetConnection())
                 {
                     var supplierDal = new SupplierDal(connection);
-                    supplierDal.InsertSupplier(supplier);
+                    supplierDal.Insert(supplier);
 
                     // Exception handling
                     if (supplier.Id == null)
@@ -45,7 +45,7 @@ namespace Core.Domain.Handlers
         {
             using (var connection = Connector.GetConnection())
             {
-                var suppliers = new SupplierDal(connection).GetSuppliers(name).ToList();
+                var suppliers = new SupplierDal(connection).Search(name).ToList();
 
                 if (!isSuppliedItemsLoaded)
                     return suppliers;
@@ -73,7 +73,7 @@ namespace Core.Domain.Handlers
 
             using (var connection = Connector.GetConnection())
             {
-                new SupplierDal(connection).UpdateSupplierDetails(supplier);
+                new SupplierDal(connection).Update(supplier);
             }
         }
 
@@ -88,7 +88,7 @@ namespace Core.Domain.Handlers
 
             using (var connection = Connector.GetConnection())
             {
-                new SupplierDal(connection).RemoveSupplier((uint) supplier.Id);
+                new SupplierDal(connection).Delete((uint) supplier.Id);
             }
         }
 
@@ -140,7 +140,7 @@ namespace Core.Domain.Handlers
         {
             using (var connection = Connector.GetConnection())
             {
-                return new SupplierDal(connection).GetAllSuppliers();
+                return new SupplierDal(connection).Search();
             }
         }
     }

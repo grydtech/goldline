@@ -41,7 +41,8 @@ namespace Core.Data.Inventory
         /// <param name="endDate"></param>
         /// <param name="offset"></param>
         /// <param name="limit">number of items returned</param>
-        internal IEnumerable<ItemReturn> Search(string noteExp = null, bool? isHandled = null,  DateTime? startDate = null, DateTime? endDate = null, int offset = 0, int limit = int.MaxValue)
+        internal IEnumerable<ItemReturn> Search(string noteExp = null, bool? isHandled = null,
+            DateTime? startDate = null, DateTime? endDate = null, int offset = 0, int limit = int.MaxValue)
         {
             // Define sql command
             var command = new CommandDefinition(
@@ -50,8 +51,13 @@ namespace Core.Data.Inventory
                 (noteExp == null && isHandled == null && startDate == null && endDate == null ? "" : "where ") +
                 (noteExp == null ? "" : "note like @noteExp ") +
                 (isHandled == null ? "" : (noteExp == null ? "" : "and ") + "is_handled = @isHandled ") +
-                (startDate == null ? "" : (noteExp == null && isHandled == null ? "" : "and ") + "date_return >= @startDate ") +
-                (endDate == null ? "" : (noteExp == null && isHandled == null && startDate == null ? "" : "and ") + "date_return <= @endDate ") +
+                (startDate == null
+                    ? ""
+                    : (noteExp == null && isHandled == null ? "" : "and ") + "date_return >= @startDate ") +
+                (endDate == null
+                    ? ""
+                    : (noteExp == null && isHandled == null && startDate == null ? "" : "and ") +
+                      "date_return <= @endDate ") +
                 "order by id_return desc limit @offset, @limit",
                 new {noteExp, isHandled, startDate, endDate});
 
@@ -67,7 +73,8 @@ namespace Core.Data.Inventory
         /// <param name="qty"></param>
         /// <param name="isHandled"></param>
         /// <param name="note"></param>
-        internal void Update(uint itemReturnId, uint? itemId = null, uint? qty = null, bool? isHandled = null, string note = null)
+        internal void Update(uint itemReturnId, uint? itemId = null, uint? qty = null, bool? isHandled = null,
+            string note = null)
         {
             if (itemId == null && qty == null && isHandled == null && note == null)
                 throw new ArgumentNullException(nameof(Update), @"No update parameters were passed.");
@@ -76,9 +83,9 @@ namespace Core.Data.Inventory
             var command = new CommandDefinition(
                 "update items_returns set " +
                 ((itemId == null ? "" : "id_item = @itemId, ") +
-                (qty == null ? "" : "qty_return = @qty, ") +
-                (isHandled == null ? "" : "is_handled = @isHandled, ") +
-                (note == null ? "" : "note = @note, ")).TrimEnd(' ', ',') +
+                 (qty == null ? "" : "qty_return = @qty, ") +
+                 (isHandled == null ? "" : "is_handled = @isHandled, ") +
+                 (note == null ? "" : "note = @note, ")).TrimEnd(' ', ',') +
                 " where id_return = @itemReturnId",
                 new {itemReturnId, itemId, qty, isHandled, note});
 

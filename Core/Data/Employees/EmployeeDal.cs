@@ -35,7 +35,8 @@ namespace Core.Data.Employees
         /// <param name="isActive"></param>
         /// <param name="offset"></param>
         /// <param name="limit"></param>
-        internal IEnumerable<Employee> Search(string nameExp = null, bool? isActive = null, int offset = 0, int limit = int.MaxValue)
+        internal IEnumerable<Employee> Search(string nameExp = null, bool? isActive = null, int offset = 0,
+            int limit = int.MaxValue)
         {
             // Define sql command
             var command = new CommandDefinition(
@@ -60,15 +61,15 @@ namespace Core.Data.Employees
         /// <param name="name"></param>
         internal void Update(uint employeeId, string name = null, string contact = null, bool? isActive = null)
         {
-            if(name == null && contact == null && isActive == null)
+            if (name == null && contact == null && isActive == null)
                 throw new ArgumentNullException(nameof(Update), @"No update parameters were passed.");
 
             // Define sql command
             var command = new CommandDefinition(
                 "update employees set " +
                 ((name == null ? "" : "name = @name, ") +
-                (contact == null ? "" : "contact = @contact, ") +
-                (isActive == null ? "" : "is_active = @isActive, ")).TrimEnd(' ', ',') +
+                 (contact == null ? "" : "contact = @contact, ") +
+                 (isActive == null ? "" : "is_active = @isActive, ")).TrimEnd(' ', ',') +
                 " where id_employee = @employeeId",
                 new {employeeId, name, contact, isActive});
 

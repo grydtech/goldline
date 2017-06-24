@@ -37,7 +37,8 @@ namespace Core.Data.Inventory
         /// <param name="type"></param>
         /// <param name="offset"></param>
         /// <param name="limit"></param>
-        internal IEnumerable<Product> Search(string nameExp = null, ProductType? type = null, int offset = 0, int limit = int.MaxValue)
+        internal IEnumerable<Product> Search(string nameExp = null, ProductType? type = null, int offset = 0,
+            int limit = int.MaxValue)
         {
             // Define sql command
             var command = new CommandDefinition(
@@ -71,7 +72,7 @@ namespace Core.Data.Inventory
                         return null;
                 }
 
-                product.Id = (uint)o.Id;
+                product.Id = (uint) o.Id;
                 product.Name = o.Name;
                 return product;
             });

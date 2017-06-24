@@ -26,7 +26,7 @@ namespace Core.Data.Employees
             var command = new CommandDefinition(
                 "insert into users (id_employee, type_user, username, password) " +
                 "values(@employeeId, @accessMode, @username, @password)",
-                new { employeeId, accessMode, username, password });
+                new {employeeId, accessMode, username, password});
 
             // Execute sql command
             Connection.Execute(command);
@@ -41,7 +41,8 @@ namespace Core.Data.Employees
         /// <param name="offset"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        public IEnumerable<User> Search(uint? employeeId = null, string username = null, string password = null, int offset = 0, int limit = int.MaxValue)
+        public IEnumerable<User> Search(uint? employeeId = null, string username = null, string password = null,
+            int offset = 0, int limit = int.MaxValue)
         {
             // Define sql command
             var command = new CommandDefinition(
@@ -50,7 +51,9 @@ namespace Core.Data.Employees
                 (employeeId == null && username == null && password == null ? "" : "where ") +
                 (employeeId == null ? "" : "id_employee = @id_employee ") +
                 (username == null ? "" : (employeeId == null ? "" : "and ") + "username = @username ") +
-                (password == null ? "" : (employeeId == null && username == null ? "" : "and ") + "password = @password ") +
+                (password == null
+                    ? ""
+                    : (employeeId == null && username == null ? "" : "and ") + "password = @password ") +
                 "limit @offset, @limit",
                 new {employeeId, username, password, offset, limit});
 
@@ -65,7 +68,8 @@ namespace Core.Data.Employees
         /// <param name="accessMode"></param>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        public void Update(uint employeeId, AccessMode? accessMode = null, string username = null, string password = null)
+        public void Update(uint employeeId, AccessMode? accessMode = null, string username = null,
+            string password = null)
         {
             if (accessMode == null && username == null && password == null)
                 throw new ArgumentNullException(nameof(Update), @"No update parameters were passed.");
@@ -74,8 +78,8 @@ namespace Core.Data.Employees
             var command = new CommandDefinition(
                 "update users set " +
                 ((accessMode == null ? "" : "type_user = @accessMode, ") +
-                (username == null ? "" : "username = @username, ") +
-                (password == null ? "" : "password = @password, ")).TrimEnd(' ', ',') +
+                 (username == null ? "" : "username = @username, ") +
+                 (password == null ? "" : "password = @password, ")).TrimEnd(' ', ',') +
                 " where id_employee = @employeeId",
                 new {employeeId, accessMode, username, password});
 

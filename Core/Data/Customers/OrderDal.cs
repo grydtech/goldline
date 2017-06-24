@@ -23,7 +23,7 @@ namespace Core.Data.Customers
             // Define sql command
             var command = new CommandDefinition(
                 "insert into orders (id_customer, amount, note) values (@customerId, @amount, @note)",
-                new { customerId, amount, note });
+                new {customerId, amount, note});
 
             // Execute sql command
             Connection.Execute(command);
@@ -37,7 +37,8 @@ namespace Core.Data.Customers
         /// <param name="limit">number of orders returned</param>
         /// <param name="isCredit">if null, return both credit and non credit orders, else return only given type</param>
         /// <param name="customerId"></param>
-        internal IEnumerable<Order> Search(bool? isCredit = null, uint? customerId = null, string noteExp = null, int offset = 0, int limit = int.MaxValue)
+        internal IEnumerable<Order> Search(bool? isCredit = null, uint? customerId = null, string noteExp = null,
+            int offset = 0, int limit = int.MaxValue)
         {
             // Define sql command
             var command = new CommandDefinition(
@@ -46,7 +47,9 @@ namespace Core.Data.Customers
                 (isCredit == null && customerId == null && noteExp == null ? "" : "where ") +
                 (isCredit == null ? "" : $"(due_amount > 0) = @isCredit ") +
                 (customerId == null ? "" : (isCredit == null ? "" : "and ") + "customerId = @customerId ") +
-                (noteExp == null ? "" : (isCredit == null && customerId == null ? "" : "and ") + "note LIKE @noteExp ") +
+                (noteExp == null
+                    ? ""
+                    : (isCredit == null && customerId == null ? "" : "and ") + "note LIKE @noteExp ") +
                 "order by id_order desc limit @offset, @limit",
                 new {offset, limit, isCredit, customerId, noteExp});
 
@@ -71,8 +74,8 @@ namespace Core.Data.Customers
             var command = new CommandDefinition(
                 "update orders set " +
                 ((customerId == null ? "" : "id_customer = @customerId, ") +
-                (note == null ? "" : "note = @note, ") +
-                (isCancelled == null ? "" : "is_cancelled = @isCancelled, ")).TrimEnd(' ', ',') +
+                 (note == null ? "" : "note = @note, ") +
+                 (isCancelled == null ? "" : "is_cancelled = @isCancelled, ")).TrimEnd(' ', ',') +
                 " where id_order = @id",
                 new {id, customerId, note, isCancelled});
 

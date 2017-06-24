@@ -183,7 +183,7 @@ namespace Core.Domain.Handlers
                 using (var connection = Connector.GetConnection())
                 {
                     var supplyOrderDal = new PurchaseDal(connection);
-                    supplyOrderDal.InsertPurchase(supplyorder, User.CurrentUser.EmployeeId);
+                    supplyOrderDal.Insert(supplyorder, User.CurrentUser.EmployeeId);
 
                     if (supplyorder.Id == null)
                         throw new ArgumentNullException(nameof(supplyorder.Id),
@@ -204,7 +204,7 @@ namespace Core.Domain.Handlers
         {
             using (var connection = Connector.GetConnection())
             {
-                return new PurchaseDal(connection).GetPurchases(note);
+                return new PurchaseDal(connection).Search(note);
             }
         }
 
@@ -223,7 +223,7 @@ namespace Core.Domain.Handlers
                         throw new ArgumentNullException(nameof(purchase.Id), "Supply Order Id is null");
 
                     var supplyOrderDal = new PurchaseDal(connection);
-                    supplyOrderDal.UpdatePurchase(purchase);
+                    supplyOrderDal.Update(purchase);
 
                     if (!isEntriesUpdated) return;
 
@@ -251,7 +251,7 @@ namespace Core.Domain.Handlers
 
             using (var connection = Connector.GetConnection())
             {
-                return new PurchaseDal(connection).GetPurchases(
+                return new PurchaseDal(connection).Search(
                     (uint) supplier.Id,
                     isLimited ? Constraints.DefaultLimit : Constraints.ExtendedLimit);
             }
@@ -278,9 +278,9 @@ namespace Core.Domain.Handlers
         {
             using (var connection = Connector.GetConnection())
             {
-                return new PurchaseDal(connection).GetRecentPurchases(isLimited
+                return new PurchaseDal(connection).Search((uint) (isLimited
                     ? Constraints.DefaultLimit
-                    : Constraints.ExtendedLimit);
+                    : Constraints.ExtendedLimit));
             }
         }
 
@@ -295,7 +295,7 @@ namespace Core.Domain.Handlers
 
             using (var connection = Connector.GetConnection())
             {
-                return new PurchaseDal(connection).GetPurchases((uint) supplier.Id, Constraints.DefaultLimit,
+                return new PurchaseDal(connection).Search((uint) supplier.Id, Constraints.DefaultLimit,
                     SupplyOrderStatus.Pending);
             }
         }
@@ -314,7 +314,7 @@ namespace Core.Domain.Handlers
 
             using (var connection = Connector.GetConnection())
             {
-                new PurchaseDal(connection).UpdatePurchaseSettled(purchase, SupplyOrderStatus.Paid);
+                new PurchaseDal(connection).Update(purchase, SupplyOrderStatus.Paid);
                 purchase.Status = SupplyOrderStatus.Paid;
             }
         }
@@ -333,7 +333,7 @@ namespace Core.Domain.Handlers
                     foreach (var supplyOrder in supplyOrders)
                     {
                         supplyOrder.Status = SupplyOrderStatus.Paid;
-                        supplyOrderDal.UpdatePurchaseSettled(supplyOrder, SupplyOrderStatus.Paid);
+                        supplyOrderDal.Update(supplyOrder, SupplyOrderStatus.Paid);
                     }
                 }
                 scope.Complete();
@@ -354,7 +354,7 @@ namespace Core.Domain.Handlers
 
             using (var connection = Connector.GetConnection())
             {
-                new PurchaseDal(connection).UpdatePurchaseSettled(purchase, SupplyOrderStatus.Cancelled);
+                new PurchaseDal(connection).Update(purchase, SupplyOrderStatus.Cancelled);
                 purchase.Status = SupplyOrderStatus.Cancelled;
             }
         }

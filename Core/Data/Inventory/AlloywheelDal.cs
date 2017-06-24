@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Core.Domain.Model.Inventory;
 using Dapper;
 
@@ -76,7 +73,7 @@ namespace Core.Data.Inventory
                 "join products USING(id_product) " +
                 (nameExp == null ? "" : "where name_product LIKE @nameExp ") +
                 "order by name_product limit @offset, @limit",
-                new { nameExp, offset, limit });
+                new {nameExp, offset, limit});
 
             // Execute sql command
             return Connection.Query<Alloywheel>(command);
@@ -125,7 +122,7 @@ namespace Core.Data.Inventory
                 ((brand == null ? "" : "brand = @brand, ") +
                  (dimension == null ? "" : "dimension = @dimension, ")).TrimEnd(' ', ',') +
                 " where id_product = @productId",
-                new { productId, brand, dimension });
+                new {productId, brand, dimension});
 
             // Execute sql command
             Connection.Execute(command);
