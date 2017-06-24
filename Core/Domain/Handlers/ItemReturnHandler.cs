@@ -18,7 +18,7 @@ namespace Core.Domain.Handlers
         {
             using (var connection = Connector.GetConnection())
             {
-                new ItemReturnDal(connection).InsertItemReturn(itemreturn, User.CurrentUser.EmployeeId);
+                new ItemReturnDal(connection).Insert(itemreturn, User.CurrentUser.EmployeeId);
             }
         }
 
@@ -30,7 +30,7 @@ namespace Core.Domain.Handlers
         {
             using (var connection = Connector.GetConnection())
             {
-                new ItemReturnDal(connection).UpdateItemReturnDetails(itemreturn);
+                new ItemReturnDal(connection).Update(itemreturn);
             }
         }
 
@@ -69,8 +69,8 @@ namespace Core.Domain.Handlers
         {
             using (var connection = Connector.GetConnection())
             {
-                return new ItemReturnDal(connection).GetItemReturns(note, condition,
-                    isLimited ? Constraints.DefaultLimit : Constraints.ExtendedLimit);
+                return new ItemReturnDal(connection).Search(note, condition,
+                    offset: isLimited ? Constraints.DefaultLimit : Constraints.ExtendedLimit);
             }
         }
     }

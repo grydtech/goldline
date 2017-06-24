@@ -51,8 +51,12 @@
     <Compile Include="Data\Dal.cs" />
     <Compile Include="Data\Employees\EmployeeDal.cs" />
     <Compile Include="Data\Employees\EmployeePaymentDal.cs" />
+    <Compile Include="Data\Inventory\AlloywheelDal.cs" />
+    <Compile Include="Data\Inventory\BatteryDal.cs" />
+    <Compile Include="Data\Inventory\ItemDal.cs" />
     <Compile Include="Data\Inventory\ItemReturnDal.cs" />
     <Compile Include="Data\Inventory\ProductDal.cs" />
+    <Compile Include="Data\Inventory\TyreDal.cs" />
     <Compile Include="Data\Suppliers\PurchasePaymentDal.cs" />
     <Compile Include="Data\Suppliers\SupplierDal.cs" />
     <Compile Include="Data\Suppliers\PurchaseDal.cs" />

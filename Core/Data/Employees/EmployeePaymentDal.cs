@@ -51,7 +51,7 @@ namespace Core.Data.Employees
         /// <summary>
         ///     Deletes a record from [employees_payments] table
         /// </summary>
-        /// <param name="employeePaymentId"></param>
+        /// <param name="id"></param>
         internal void Delete(uint id)
         {
             // Define sql command

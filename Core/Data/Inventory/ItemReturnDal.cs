@@ -13,118 +13,92 @@ namespace Core.Data.Inventory
         }
 
         /// <summary>
-        ///     Inserts a new item return to database and assigns its Id
+        ///     Inserts a record into [items_returns] table
         /// </summary>
-        /// <param name="itemReturn"></param>
-        /// <param name="userId">user who inserts the item return</param>
-        internal void InsertItemReturn(ItemReturn itemReturn, uint userId)
+        /// <param name="itemId"></param>
+        /// <param name="customerId"></param>
+        /// <param name="qty"></param>
+        /// <param name="isHandled"></param>
+        /// <param name="note"></param>
+        internal void Insert(uint itemId, uint customerId, uint qty, bool isHandled, string note)
         {
             // Define sql command
             var command = new CommandDefinition(
                 "insert into items_returns (id_item, id_customer, qty_return, is_handled, note) " +
-                "values (@id_item, @id_customer, @qty_return, @is_handled, @note)",
-                new
-                {
-                    id_item = itemReturn.ItemId,
-                    id_customer = itemReturn.CustomerId,
-                    qty_return = itemReturn.ReturnQty,
-                    is_handled = itemReturn.Condition,
-                    note = itemReturn.Note
-                });
-
-            // Execute sql command
-            Connection.Execute(command);
-
-            // Assign attributes
-            itemReturn.Id = GetLastInsertId();
-            itemReturn.UserId = userId;
-        }
-
-        /// <summary>
-        ///     Updates the details of an item return
-        ///     The properties that can be updated are : ItemId, ReturnQty, Note
-        /// </summary>
-        /// <param name="itemReturn"></param>
-        /// <param name="isHandled"></param>
-        internal void UpdateItemReturnDetails(ItemReturn itemReturn, bool isHandled)
-        {
-            // Define sql command
-            var command = new CommandDefinition(
-                "update items_returns set id_item = @id_item, qty_return = @qty_return, note = @note, is_handled = @is_handled " +
-                "where id_return = @id_return",
-                new
-                {
-                    id_return = itemReturn.Id,
-                    id_item = itemReturn.ItemId,
-                    qty_return = itemReturn.ReturnQty,
-                    note = itemReturn.Note
-                });
+                "values (@itemId, @customerId, @qty, @isHandled, @note)",
+                new {itemId, customerId, qty, isHandled, note});
 
             // Execute sql command
             Connection.Execute(command);
         }
 
         /// <summary>
-        ///     Removes an existing item return from database
+        ///     Searches records in [items_returns] table
         /// </summary>
-        /// <param name="itemReturnId"></param>
-        internal void RemoveItemReturn(uint itemReturnId)
-        {
-            // Define sql command
-            var command = new CommandDefinition(
-                "delete from items_returns where id_return = @id_return",
-                new {id_return = itemReturnId});
-
-            // Execute sql command
-            Connection.Execute(command);
-        }
-
-        /// <summary>
-        ///     Returns a list of item returns matching given search parameters
-        /// </summary>
-        /// <param name="note">search by note</param>
+        /// <param name="noteExp">search by note</param>
         /// <param name="isHandled">if null, return all irrespective of return condition, else return only given type</param>
-        /// <param name="recordLimit">number of items returned</param>
-        internal IEnumerable<ItemReturn> GetItemReturns(string note, bool? isHandled, uint recordLimit)
-        {
-            // Define sql command
-            var command = new CommandDefinition(
-                "select id_return 'Id', id_item 'ItemId', id_customer 'OrderId', qty_return 'ReturnQty', " +
-                "date_return 'Date', condition_return-1 'ReturnCondition', note 'Note', id_user 'UserId' " +
-                "from items_returns where note like @return_note " +
-                (isHandled == null ? "" : "and is_handled = @is_handled") +
-                "order by id_return desc limit @limit",
-                new
-                {
-                    return_note = note,
-                    is_handled = isHandled,
-                    limit = recordLimit
-                });
-
-            // Execute sql command
-            return Connection.Query<ItemReturn>(command);
-        }
-
-        /// <summary>
-        ///     Returns a list of all item returns betweeen the given dates
-        /// </summary>
         /// <param name="startDate"></param>
         /// <param name="endDate"></param>
-        internal IEnumerable<ItemReturn> GetAllItemReturns(DateTime startDate, DateTime endDate)
+        /// <param name="offset"></param>
+        /// <param name="limit">number of items returned</param>
+        internal IEnumerable<ItemReturn> Search(string noteExp = null, bool? isHandled = null,  DateTime? startDate = null, DateTime? endDate = null, int offset = 0, int limit = int.MaxValue)
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_return 'Id', id_item 'ItemId', id_customer 'OrderId', qty_return 'ReturnQty', " +
-                "date_return 'Date', is_handled 'IsHandled', note 'Note' " +
-                "from items_returns where date_return between @start_date and @end_date",
-                new
-                {
-                    start_date = startDate,
-                    end_date = endDate
-                });
+                "select id_return 'Id', date_return 'Date', id_item 'ItemId', id_customer 'OrderId', " +
+                "qty_return 'ReturnQty', is_handled 'IsHandled', note 'Note' from items_returns " +
+                (noteExp == null && isHandled == null && startDate == null && endDate == null ? "" : "where ") +
+                (noteExp == null ? "" : "note like @noteExp ") +
+                (isHandled == null ? "" : (noteExp == null ? "" : "and ") + "is_handled = @isHandled ") +
+                (startDate == null ? "" : (noteExp == null && isHandled == null ? "" : "and ") + "date_return >= @startDate ") +
+                (endDate == null ? "" : (noteExp == null && isHandled == null && startDate == null ? "" : "and ") + "date_return <= @endDate ") +
+                "order by id_return desc limit @offset, @limit",
+                new {noteExp, isHandled, startDate, endDate});
 
             // Execute sql command
             return Connection.Query<ItemReturn>(command);
+        }
+
+        /// <summary>
+        ///     Updates a record in [items_returns] table
+        /// </summary>
+        /// <param name="itemReturnId"></param>
+        /// <param name="itemId"></param>
+        /// <param name="qty"></param>
+        /// <param name="isHandled"></param>
+        /// <param name="note"></param>
+        internal void Update(uint itemReturnId, uint? itemId = null, uint? qty = null, bool? isHandled = null, string note = null)
+        {
+            if (itemId == null && qty == null && isHandled == null && note == null)
+                throw new ArgumentNullException(nameof(Update), @"No update parameters were passed.");
+
+            // Define sql command
+            var command = new CommandDefinition(
+                "update items_returns set " +
+                ((itemId == null ? "" : "id_item = @itemId, ") +
+                (qty == null ? "" : "qty_return = @qty, ") +
+                (isHandled == null ? "" : "is_handled = @isHandled, ") +
+                (note == null ? "" : "note = @note, ")).TrimEnd(' ', ',') +
+                " where id_return = @itemReturnId",
+                new {itemReturnId, itemId, qty, isHandled, note});
+
+            // Execute sql command
+            Connection.Execute(command);
+        }
+
+        /// <summary>
+        ///     Deletes a record from [items_returns] table
+        /// </summary>
+        /// <param name="id"></param>
+        internal void Delete(uint id)
+        {
+            // Define sql command
+            var command = new CommandDefinition(
+                "delete from items_returns where id_return = @id",
+                new {id});
+
+            // Execute sql command
+            Connection.Execute(command);
         }
     }
 }

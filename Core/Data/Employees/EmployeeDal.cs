@@ -66,10 +66,10 @@ namespace Core.Data.Employees
             // Define sql command
             var command = new CommandDefinition(
                 "update employees set " +
-                (name == null ? "" : "name = @name, ") +
+                ((name == null ? "" : "name = @name, ") +
                 (contact == null ? "" : "contact = @contact, ") +
-                (isActive == null ? "" : "is_active = @isActive, ") +
-                "where id_employee = @employeeId",
+                (isActive == null ? "" : "is_active = @isActive, ")).TrimEnd(' ', ',') +
+                " where id_employee = @employeeId",
                 new {employeeId, name, contact, isActive});
 
             // Execute sql command

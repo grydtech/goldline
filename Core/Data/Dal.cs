@@ -8,7 +8,7 @@ namespace Core.Data
     /// </summary>
     internal abstract class Dal
     {
-        protected readonly IDbConnection Connection;
+        internal readonly IDbConnection Connection;
 
         internal Dal(IDbConnection connection)
         {

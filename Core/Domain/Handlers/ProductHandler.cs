@@ -87,7 +87,7 @@ namespace Core.Domain.Handlers
                     case ProductType.Service:
                         return productDal.GetServices(name);
                     case null:
-                        return productDal.GetProducts(name);
+                        return productDal.Search(name);
                     default:
                         throw new ArgumentOutOfRangeException(
                             nameof(productType),

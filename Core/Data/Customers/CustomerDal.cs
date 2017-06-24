@@ -65,10 +65,10 @@ namespace Core.Data.Customers
             // Define sql command
             var command = new CommandDefinition(
                 "update customers set " +
-                (name == null ? "" : "name = @name, ") +
+                ((name == null ? "" : "name = @name, ") +
                 (nic == null ? "" : "nic = @nic, ") +
-                (contact == null ? "" : "contact = @contact, ") +
-                "where id_customer = @id",
+                (contact == null ? "" : "contact = @contact, ")).TrimEnd(' ', ',') +
+                " where id_customer = @id",
                 new {id, name, nic, contact});
 
             // Execute sql command

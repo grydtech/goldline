@@ -73,10 +73,10 @@ namespace Core.Data.Employees
             // Define sql command
             var command = new CommandDefinition(
                 "update users set " +
-                (accessMode == null ? "" : "type_user = @accessMode, ") +
+                ((accessMode == null ? "" : "type_user = @accessMode, ") +
                 (username == null ? "" : "username = @username, ") +
-                (password == null ? "" : "password = @password, ") +
-                "where id_employee = @employeeId",
+                (password == null ? "" : "password = @password, ")).TrimEnd(' ', ',') +
+                " where id_employee = @employeeId",
                 new {employeeId, accessMode, username, password});
 
             // Execute sql command
