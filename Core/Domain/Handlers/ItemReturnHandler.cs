@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using Core.Data;
 using Core.Data.Inventory;
-using Core.Domain.Enums;
-using Core.Domain.Model.Employees;
 using Core.Domain.Model.Inventory;
 
 namespace Core.Domain.Handlers
@@ -14,11 +12,13 @@ namespace Core.Domain.Handlers
         ///     Adds a new Item return
         /// </summary>
         /// <param name="itemreturn"></param>
-        public void AddNewItemReturn(ItemReturn itemreturn)
+        public void AddItemReturn(ItemReturn itemreturn)
         {
+            if(itemreturn.CustomerId == null)
+                throw new ArgumentNullException(nameof(itemreturn.CustomerId), "ItemReturn CustomerId is null");
             using (var connection = Connector.GetConnection())
             {
-                new ItemReturnDal(connection).Insert(itemreturn, User.CurrentUser.EmployeeId);
+                new ItemReturnDal(connection).Insert(itemreturn.ItemId, itemreturn.CustomerId.Value, itemreturn.ReturnQty, itemreturn.IsHandled, itemreturn.Note);
             }
         }
 
@@ -26,22 +26,20 @@ namespace Core.Domain.Handlers
         ///     Updates an item return record with new attributes
         /// </summary>
         /// <param name="itemreturn"></param>
-        public void UpdateItemReturn(ItemReturn itemreturn)
+        /// <param name="customerId"></param>
+        /// <param name="itemId"></param>
+        /// <param name="qty"></param>
+        /// <param name="isHandled"></param>
+        /// <param name="note"></param>
+        public void UpdateItemReturn(ItemReturn itemreturn, uint? customerId = null, uint? itemId = null, uint? qty = null, bool? isHandled = null,
+            string note = null)
         {
-            using (var connection = Connector.GetConnection())
-            {
-                new ItemReturnDal(connection).Update(itemreturn);
-            }
-        }
-
-        public void UpdateItemReturnStatus(ItemReturn itemReturn, ReturnCondition returnCondition)
-        {
-            // Exception handling
-            if (itemReturn.Id == null) throw new ArgumentNullException(nameof(itemReturn.Id), "Item return Id is null");
+            if (itemreturn.Id == null)
+                throw new ArgumentNullException(nameof(itemreturn.CustomerId), "ItemReturn Id is null");
 
             using (var connection = Connector.GetConnection())
             {
-                new ItemReturnDal(connection).UpdateItemReturnCondition((uint) itemReturn.Id, returnCondition);
+                new ItemReturnDal(connection).Update(itemreturn.Id.Value, customerId, itemId, qty, isHandled, note);
             }
         }
 
@@ -49,28 +47,11 @@ namespace Core.Domain.Handlers
         ///     Returns a list of all item returns
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<ItemReturn> GetAllItemReturns(DateTime startDate, DateTime endDate)
+        public IEnumerable<ItemReturn> GetItemReturns(string note = null, bool? isHandled = null, DateTime? startDate = null, DateTime? endDate = null)
         {
             using (var connection = Connector.GetConnection())
             {
-                return new ItemReturnDal(connection).GetAllItemReturns(startDate, endDate);
-            }
-        }
-
-        /// <summary>
-        ///     Returns list of ItemReturns based on given search parameters. If condition not specified, returns all
-        /// </summary>
-        /// <param name="note"></param>
-        /// <param name="condition"></param>
-        /// <param name="isLimited">By default the limit is 20 records. Mark this as false to get all records</param>
-        /// <returns></returns>
-        public IEnumerable<ItemReturn> SearchItemReturns(string note, ReturnCondition? condition = null,
-            bool isLimited = true)
-        {
-            using (var connection = Connector.GetConnection())
-            {
-                return new ItemReturnDal(connection).Search(note, condition,
-                    offset: isLimited ? Constraints.DefaultLimit : Constraints.ExtendedLimit);
+                return new ItemReturnDal(connection).Search(note, isHandled, startDate, endDate);
             }
         }
     }

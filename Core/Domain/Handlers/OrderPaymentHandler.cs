@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Core.Data;
 using Core.Data.Customers;
 using Core.Domain.Model.Customers;
-using Core.Domain.Model.Employees;
 
 namespace Core.Domain.Handlers
 {
@@ -12,12 +11,14 @@ namespace Core.Domain.Handlers
         /// <summary>
         ///     Adds a new payment to customer and return if successful or not
         /// </summary>
-        /// <param name="orderPayment"></param>
-        public void AddNewCustomerPayment(OrderPayment orderPayment)
+        /// <param name="payment"></param>
+        public void AddPayment(OrderPayment payment)
         {
             using (var connection = Connector.GetConnection())
             {
-                new OrderPaymentDal(connection).Insert(TODO, TODO);
+                var paymentDal = new OrderPaymentDal(connection);
+                paymentDal.Insert(payment.OrderId, payment.Amount);
+                payment.Id = paymentDal.GetLastInsertId();
             }
         }
 
@@ -25,7 +26,7 @@ namespace Core.Domain.Handlers
         ///     Undo an erroneous customer payment
         /// </summary>
         /// <param name="orderPayment"></param>
-        public void UndoCustomerPayment(OrderPayment orderPayment)
+        public void DeletePayment(OrderPayment orderPayment)
         {
             // Exception handling
             if (orderPayment.Id == null)
@@ -34,36 +35,20 @@ namespace Core.Domain.Handlers
 
             using (var connection = Connector.GetConnection())
             {
-                new OrderPaymentDal(connection).Delete((uint) orderPayment.Id);
+                new OrderPaymentDal(connection).Delete(orderPayment.Id.Value);
             }
         }
 
         /// <summary>
-        ///     Gets a list of payments done by a customer
+        ///     Gets a list of payments
         /// </summary>
-        /// <param name="customer"></param>
-        /// <param name="isLimited">By default only returns 10 records. If more needed, mark this as false</param>
+        /// <param name="customerId"></param>
         /// <returns></returns>
-        public IEnumerable<OrderPayment> GetCustomerPayments(Customer customer, bool isLimited = true)
-        {
-            // Exception handling
-            if (customer.Id == null) throw new ArgumentNullException(nameof(customer.Id), "Customer Id is null");
-
-            using (var connection = Connector.GetConnection())
-            {
-                return new OrderPaymentDal(connection).Search(customer.Id.Value);
-            }
-        }
-
-        /// <summary>
-        ///     Gets the most recent payments by each customer
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<OrderPayment> GetMostRecentPayments()
+        public IEnumerable<OrderPayment> GetPayments(uint? customerId = null)
         {
             using (var connection = Connector.GetConnection())
             {
-                return new OrderPaymentDal(connection).SearchRecent(Constraints.DefaultLimit);
+                return new OrderPaymentDal(connection).Search(customerId);
             }
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Core.Domain.Enums;
+using Core.Domain.Handlers;
 using Core.Domain.Model.Inventory;
 using Dapper;
 
@@ -20,7 +21,7 @@ namespace Core.Data.Inventory
         /// <param name="productId"></param>
         /// <param name="stockQty"></param>
         /// <param name="unitPrice"></param>
-        private void Insert(uint productId, uint stockQty, decimal unitPrice)
+        internal void Insert(uint productId, uint stockQty, decimal unitPrice)
         {
             // Define sql command
             var command = new CommandDefinition(
@@ -35,18 +36,21 @@ namespace Core.Data.Inventory
         ///     Searches records in [items] table
         /// </summary>
         /// <param name="nameExp"></param>
+        /// <param name="productType"></param>
         /// <param name="offset"></param>
         /// <param name="limit"></param>
-        internal IEnumerable<Item> Search(string nameExp = null, int offset = 0, int limit = int.MaxValue)
+        internal IEnumerable<Item> Search(string nameExp = null, ProductType? productType = null, int offset = 0, int limit = int.MaxValue)
         {
             // Define sql command
             var command = new CommandDefinition(
                 "select id_product 'Id', name_product 'Name', type_product-1 'ProductType', " +
                 "qty_stocks 'StockQty', unit_price 'UnitPrice' from items " +
                 "join products USING(id_product) " +
-                (nameExp == null ? "" : "where name_product like @name ") +
+                (nameExp == null && productType == null ? "" : "where ") +
+                (nameExp == null ? "" : "name_product like @name ") +
+                (productType == null ? "" : (nameExp == null ? "" : "and ") + "type_product-1 = @productType ") +
                 "order by name_product limit @offset, @limit",
-                new {nameExp, offset, limit});
+                new {nameExp, productType, offset, limit});
 
             // Execute sql command
             return Connection.Query<dynamic>(command).Select(o =>
@@ -83,7 +87,7 @@ namespace Core.Data.Inventory
         /// <param name="productId"></param>
         /// <param name="stockQty"></param>
         /// <param name="unitPrice"></param>
-        private void Update(uint productId, uint? stockQty = null, decimal? unitPrice = null)
+        internal void Update(uint productId, uint? stockQty = null, decimal? unitPrice = null)
         {
             if (stockQty == null && unitPrice == null)
                 throw new ArgumentNullException(nameof(Update), @"No update parameters were passed.");

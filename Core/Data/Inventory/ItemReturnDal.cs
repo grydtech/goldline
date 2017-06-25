@@ -69,11 +69,12 @@ namespace Core.Data.Inventory
         ///     Updates a record in [items_returns] table
         /// </summary>
         /// <param name="itemReturnId"></param>
+        /// <param name="customerId"></param>
         /// <param name="itemId"></param>
         /// <param name="qty"></param>
         /// <param name="isHandled"></param>
         /// <param name="note"></param>
-        internal void Update(uint itemReturnId, uint? itemId = null, uint? qty = null, bool? isHandled = null,
+        internal void Update(uint itemReturnId, uint? customerId, uint? itemId = null, uint? qty = null, bool? isHandled = null,
             string note = null)
         {
             if (itemId == null && qty == null && isHandled == null && note == null)
@@ -82,12 +83,13 @@ namespace Core.Data.Inventory
             // Define sql command
             var command = new CommandDefinition(
                 "update items_returns set " +
-                ((itemId == null ? "" : "id_item = @itemId, ") +
+                ((customerId == null ? "" : "id_customer = @customerId, ") + 
+                 (itemId == null ? "" : "id_item = @itemId, ") +
                  (qty == null ? "" : "qty_return = @qty, ") +
                  (isHandled == null ? "" : "is_handled = @isHandled, ") +
                  (note == null ? "" : "note = @note, ")).TrimEnd(' ', ',') +
                 " where id_return = @itemReturnId",
-                new {itemReturnId, itemId, qty, isHandled, note});
+                new {itemReturnId, customerId, itemId, qty, isHandled, note});
 
             // Execute sql command
             Connection.Execute(command);

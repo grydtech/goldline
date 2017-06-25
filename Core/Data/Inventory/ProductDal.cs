@@ -19,7 +19,7 @@ namespace Core.Data.Inventory
         /// </summary>
         /// <param name="name"></param>
         /// <param name="type"></param>
-        private void Insert(string name, ProductType type)
+        internal void Insert(string name, ProductType type)
         {
             // Define sql command
             var command = new CommandDefinition(
@@ -84,7 +84,7 @@ namespace Core.Data.Inventory
         /// <param name="productId"></param>
         /// <param name="name"></param>
         /// <param name="type"></param>
-        private void Update(uint productId, string name = null, ProductType? type = null)
+        internal void Update(uint productId, string name = null, ProductType? type = null)
         {
             if (name == null && type == null)
                 throw new ArgumentNullException(nameof(Update), @"No update parameters were passed.");

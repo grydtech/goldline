@@ -12,18 +12,19 @@ namespace Core.Domain.Handlers
         ///     Adds a new customer
         /// </summary>
         /// <param name="customer"></param>
-        public void AddCustomer(Customer customer)
+        public static void AddCustomer(Customer customer)
         {
             // Exception handling
-            if(customer == null) throw new ArgumentNullException(nameof(customer.Name), "Customer is null");
-            if (customer.Name == null) throw new ArgumentNullException(nameof(customer.Name), "Customer name is null");
-            if (customer.Contact == null) throw new ArgumentNullException(nameof(customer.Contact), "Customer contact is null");
+            if (customer == null) throw new ArgumentNullException(nameof(customer), "Customer is null");
+            if (customer.Name == null) throw new ArgumentNullException(nameof(customer.Name), "Customer Name is null");
+            if (customer.Contact == null)
+                throw new ArgumentNullException(nameof(customer.Contact), "Customer Contact is null");
             if (customer.Nic == null) throw new ArgumentNullException(nameof(customer.Nic), "Customer Nic is null");
 
             using (var connection = Connector.GetConnection())
             {
                 var customerDal = new CustomerDal(connection);
-                customerDal.Insert(customer);
+                customerDal.Insert(customer.Name, customer.Nic, customer.Contact);
                 customer.Id = customerDal.GetLastInsertId();
             }
         }
@@ -33,25 +34,11 @@ namespace Core.Domain.Handlers
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public IEnumerable<Customer> GetCustomers(string name)
-        {
-            // Exception handling
-            if (name == null) throw new ArgumentNullException(nameof(name), "Name is null");
-            using (var connection = Connector.GetConnection())
-            {
-                return new CustomerDal(connection).Search(name);
-            }
-        }
-
-        /// <summary>
-        ///     Returns a list of all customers
-        /// </summary>
-        /// <returns></returns>
-        public static IEnumerable<Customer> GetCustomers()
+        public static IEnumerable<Customer> GetCustomers(string name = null)
         {
             using (var connection = Connector.GetConnection())
             {
-                return new CustomerDal(connection).Get();
+                return new CustomerDal(connection).Search(name == null ? null : $"%{name}%");
             }
         }
 
@@ -63,37 +50,44 @@ namespace Core.Domain.Handlers
         /// <param name="name"></param>
         /// <param name="nic"></param>
         /// <param name="contact"></param>
-        public void UpdateCustomer(Customer customer, string name = null,string nic = null, string contact = null)
+        public static void UpdateCustomer(Customer customer, string name = null, string nic = null,
+            string contact = null)
         {
             // Exception handling
+            if (customer == null) throw new ArgumentNullException(nameof(customer), "Customer is null");
             if (customer.Id == null) throw new ArgumentNullException(nameof(customer.Id), "Customer Id is null");
-            if (customer.Name == null) throw new ArgumentNullException(nameof(customer.Name), "Customer name is null");
+            if (customer.Name == null) throw new ArgumentNullException(nameof(customer.Name), "Customer Name is null");
             if (customer.Contact == null)
-                throw new ArgumentNullException(nameof(customer.Contact), "Customer contact is null");
+                throw new ArgumentNullException(nameof(customer.Contact), "Customer Contact is null");
             if (customer.Nic == null) throw new ArgumentNullException(nameof(customer.Nic), "Customer Nic is null");
 
             using (var connection = Connector.GetConnection())
             {
-                new CustomerDal(connection).Update(customer, name, nic, contact);
+                new CustomerDal(connection).Update(customer.Id.Value, name, nic, contact);
+                customer.Name = name ?? customer.Name;
+                customer.Nic = nic ?? customer.Nic;
+                customer.Contact = contact ?? customer.Contact;
             }
         }
 
         /// <summary>
-        ///     Adds a new vehicle to customer
+        ///     Adds a new vehicle
         /// </summary>
-        /// <param name="customer"></param>
         /// <param name="vehicle"></param>
-        public void AddNewCustomerVehicle(Customer customer, Vehicle vehicle)
+        public void AddVehicle(Vehicle vehicle)
         {
             // Exception handling
+            if (vehicle == null)
+                throw new ArgumentNullException(nameof(vehicle), "Vehicle is null");
             if (vehicle.Number == null)
-                throw new ArgumentNullException(nameof(vehicle.Number), "Vehicle number is null");
-            if (customer.Id == null)
-                throw new ArgumentNullException(nameof(customer.Id), "Customer id is null");
+                throw new ArgumentNullException(nameof(vehicle.Number), "Vehicle Number is null");
+            if (vehicle.CustomerId == default(uint))
+                throw new ArgumentNullException(nameof(vehicle.CustomerId), "Vehicle CustomerId is not specified");
 
             using (var connection = Connector.GetConnection())
             {
-                new VehicleDal(connection).Insert(vehicle.Number, customer.Id.Value);
+                new VehicleDal(connection).Insert(vehicle.Number, vehicle.CustomerId);
+                vehicle.LastSeenDate = DateTime.Now;
             }
         }
 
@@ -101,44 +95,34 @@ namespace Core.Domain.Handlers
         ///     Mark the visit of a vehicle
         /// </summary>
         /// <param name="vehicle"></param>
-        public void MarkVehicleVisit(Vehicle vehicle)
+        /// <param name="lastSeen"></param>
+        public void UpdateVehicle(Vehicle vehicle, DateTime lastSeen)
         {
             // Exception handling
+            if (vehicle == null)
+                throw new ArgumentNullException(nameof(vehicle), "Vehicle is null");
             if (vehicle.Number == null)
                 throw new ArgumentNullException(nameof(vehicle.Number), "Vehicle number is null");
+            if (lastSeen == null)
+                throw new ArgumentNullException(nameof(vehicle.Number), "Last Seen DateTime is null");
 
             using (var connection = Connector.GetConnection())
             {
-                new VehicleDal(connection).Update(vehicle.Number);
+                new VehicleDal(connection).Update(vehicle.Number, lastSeen);
+                vehicle.LastSeenDate = lastSeen;
             }
         }
 
         /// <summary>
         ///     Gets a list of vehicles belonging to a customer
         /// </summary>
-        /// <param name="customer"></param>
-        public IEnumerable<Vehicle> GetVehiclesOfCustomer(Customer customer)
+        /// <param name="customerId"></param>
+        public IEnumerable<Vehicle> GetVehicles(uint customerId)
         {
-            // Exception handling
-            if (customer.Id == null) throw new ArgumentNullException(nameof(customer.Id), "Customer Id is null");
-
             using (var connection = Connector.GetConnection())
             {
-                return new VehicleDal(connection).Search(customer.Id.Value);
+                return new VehicleDal(connection).Search(customerId);
             }
-        }
-
-        /// <summary>
-        ///     Method to check if entered nic has correct format
-        /// </summary>
-        /// <param name="nic"></param>
-        /// <returns></returns>
-        public bool IsNicValid(string nic)
-        {
-            int n;
-            var maxIndex = nic.Length - 1;
-            return nic.Length == 10 && int.TryParse(nic.Substring(1, maxIndex - 1), out n) &&
-                   (nic.Substring(maxIndex).ToUpper() == "V" || nic.Substring(maxIndex).ToUpper() == "X");
         }
     }
 }

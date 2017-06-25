@@ -8,11 +8,11 @@ namespace Core.Domain.Model.Customers
     {
         private decimal _total;
 
-        public Order(uint? customerId, IEnumerable<OrderItem> orderItems, bool isSettled, bool isCancelled, string note)
+        public Order(uint? customerId, IEnumerable<OrderItem> orderItems, bool isCancelled, string note)
         {
             CustomerId = customerId;
             OrderItems = orderItems?.ToList() ?? new List<OrderItem>();
-            IsSettled = isSettled;
+            DueAmount = Amount;
             IsCancelled = isCancelled;
             Note = note;
         }
@@ -28,7 +28,7 @@ namespace Core.Domain.Model.Customers
         public uint? Id { get; set; }
         public uint? CustomerId { get; set; }
 
-        public decimal Total
+        public decimal Amount
         {
             get { return OrderItems?.Sum(oe => oe.NetPrice) ?? _total; }
             set => _total = value;
@@ -36,9 +36,8 @@ namespace Core.Domain.Model.Customers
 
         public string Note { get; set; }
         public DateTime Date { get; set; }
-        public uint UserId { get; set; }
         public bool IsCancelled { get; set; }
-        public bool IsSettled => DueAmount == (decimal) 0;
+        public bool IsSettled => DueAmount == 0;
         public decimal DueAmount { get; set; }
         public List<OrderItem> OrderItems { get; set; }
 

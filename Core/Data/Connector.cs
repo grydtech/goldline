@@ -4,17 +4,26 @@ namespace Core.Data
 {
     public static class Connector
     {
-        private const string MacConnectionString =
+        private const string ConStringMac =
             "server=localhost.mac;user id=goldline;password=1234;persistsecurityinfo=True;database=goldline";
 
-        private const string MySqlConnectionString =
+        private const string ConStringLocal =
             "server=localhost;user id=goldline;password=1234;persistsecurityinfo=True;database=goldline";
 
         public static MySqlConnection GetConnection()
         {
-            var connection = new MySqlConnection(MacConnectionString);
-            connection.Open();
-            return connection;
+            try
+            {
+                var connection = new MySqlConnection(ConStringMac);
+                connection.Open();
+                return connection;
+            }
+            catch (MySqlException)
+            {
+                var connection = new MySqlConnection(ConStringLocal);
+                connection.Open();
+                return connection;
+            }
         }
     }
 }

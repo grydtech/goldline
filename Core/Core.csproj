@@ -62,6 +62,7 @@
     <Compile Include="Data\Suppliers\SupplierDal.cs" />
     <Compile Include="Data\Suppliers\PurchaseDal.cs" />
     <Compile Include="Data\Employees\UserDal.cs" />
+    <Compile Include="Domain\Handlers\PurchaseHandler.cs" />
     <Compile Include="Domain\Model\Customers\Vehicle.cs" />
     <Compile Include="Data\Connector.cs" />
     <Compile Include="Domain\Enums\ProductType.cs" />
