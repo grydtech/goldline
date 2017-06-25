@@ -18,7 +18,12 @@ namespace Core.Domain.Model.Inventory
         public string Dimension { get; set; }
         public string Country { get; set; }
 
-        public override string Name { get; set; }
+        public override string Name
+        {
+            get { return ToString(); }
+            set { }
+        }
+
         public override string ToString()
         {
             return

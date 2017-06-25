@@ -21,7 +21,7 @@ namespace Core.Domain.Handlers
                 using (var connection = Connector.GetConnection())
                 {
                     var productDal = new ProductDal(connection);
-                    productDal.Insert(product.Name, product.ProductType);
+                    productDal.Insert(product is Item ? ((Item)product).Model : product.Name, product.ProductType);
                     var id = productDal.GetLastInsertId();
                     product.Id = id;
                     if (product.Id == null) throw new ArgumentNullException(nameof(product.Id), "Product Id is null");

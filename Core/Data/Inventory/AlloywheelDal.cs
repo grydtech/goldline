@@ -67,7 +67,7 @@ namespace Core.Data.Inventory
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_product 'Id', name_product 'Name', qty_stocks 'StockQty', " +
+                "select id_product 'Id', name_product 'Model', qty_stocks 'StockQty', " +
                 "unit_price 'UnitPrice', Brand, Dimension from alloywheels " +
                 "join items USING(id_product) " +
                 "join products USING(id_product) " +

@@ -18,7 +18,12 @@ namespace Core.Domain.Model.Inventory
         public string Capacity { get; set; }
         public string Voltage { get; set; }
 
-        public override string Name { get; set; }
+        public override string Name
+        {
+            get { return ToString(); }
+            set { }
+        }
+
         public override string ToString()
         {
             return

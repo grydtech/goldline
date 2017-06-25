@@ -64,8 +64,8 @@ namespace Goldline.UI.Products
         public string Country { get; set; }
         public string Capacity { get; set; }
         public string Voltage { get; set; }
-        public string Stocks { get; set; }
-        public string UnitPrice { get; set; }
+        public uint Stocks { get; set; }
+        public decimal UnitPrice { get; set; }
 
         #endregion
 
@@ -109,16 +109,13 @@ namespace Goldline.UI.Products
             switch (_productType)
             {
                 case ProductType.Alloywheel:
-                    item = new Alloywheel(Brand, Model, uint.Parse(Stocks ?? "0"), decimal.Parse(UnitPrice ?? "0"),
-                        Dimension);
+                    item = new Alloywheel(Brand, Model, Stocks, UnitPrice, Dimension);
                     break;
                 case ProductType.Battery:
-                    item = new Battery(Brand, Model, uint.Parse(Stocks ?? "0"), decimal.Parse(UnitPrice ?? "0"),
-                        Capacity, Voltage);
+                    item = new Battery(Brand, Model, Stocks, UnitPrice, Capacity, Voltage);
                     break;
                 case ProductType.Tyre:
-                    item = new Tyre(Brand, Model, uint.Parse(Stocks ?? "0"), decimal.Parse(UnitPrice ?? "0"),
-                        Dimension, Country);
+                    item = new Tyre(Brand, Model, Stocks, UnitPrice, Dimension, Country);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
