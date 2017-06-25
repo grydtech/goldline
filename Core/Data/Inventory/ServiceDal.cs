@@ -34,7 +34,7 @@ namespace Core.Data.Inventory
             var command = new CommandDefinition(
                 "select id_product 'Id', name_product 'Name', type_product-1 'ProductType' from products where " +
                 (nameExp == null ? "" : "name_product LIKE @nameExp and ") +
-                "type_product = @type " +
+                "type_product-1 = @type " +
                 "order by name_product limit @offset, @limit",
                 new { nameExp, offset, limit, type = ProductType.Service });
 

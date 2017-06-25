@@ -23,8 +23,8 @@ namespace Core.Data.Inventory
         {
             // Define sql command
             var command = new CommandDefinition(
-                "insert into products (name_product, type_product) values (@name, @type)",
-                new {name, type});
+                "insert ignore into products (name_product, type_product) values (@name, @type)",
+                new {name, type = type.ToString()});
 
             // Execute sql command
             Connection.Execute(command);
@@ -78,7 +78,7 @@ namespace Core.Data.Inventory
                 ((name == null ? "" : "name_product = @name, ") +
                  (type == null ? "" : "type_product = @type, ")).TrimEnd(' ', ',') +
                 " where id_product = @productId",
-                new {productId, name, type});
+                new {productId, name, type = type?.ToString()});
 
             // Execute sql command
             Connection.Execute(command);

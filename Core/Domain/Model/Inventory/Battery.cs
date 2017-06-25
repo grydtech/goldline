@@ -30,7 +30,8 @@ namespace Core.Domain.Model.Inventory
 
         public override bool Validate()
         {
-            throw new System.NotImplementedException();
+            return !(string.IsNullOrWhiteSpace(Brand) || string.IsNullOrWhiteSpace(Model) ||
+                     string.IsNullOrWhiteSpace(Capacity) || string.IsNullOrWhiteSpace(Voltage));
         }
     }
 }
