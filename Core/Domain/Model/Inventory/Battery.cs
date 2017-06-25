@@ -27,5 +27,10 @@ namespace Core.Domain.Model.Inventory
                 (string.IsNullOrEmpty(Capacity) ? "" : Capacity.Trim() + "Ah ") +
                 (string.IsNullOrEmpty(Voltage) ? "" : Voltage.Trim() + "V").Trim();
         }
+
+        public override bool Validate()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -27,5 +27,10 @@ namespace Core.Domain.Model.Inventory
                 (string.IsNullOrEmpty(Model) ? "" : Model.Trim() + " ") +
                 (string.IsNullOrEmpty(Country) ? "" : "- " + Country.Trim()).Trim();
         }
+
+        public override bool Validate()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
