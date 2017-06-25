@@ -77,7 +77,7 @@ namespace Goldline.UI.Products
 
         private bool IsDataInCorrectForm()
         {
-            return ItemCodeTextBox.Text != "" && BrandComboBox.Text != "" && PriceTextBox.Text != "" &&
+            return BrandComboBox.Text != "" && PriceTextBox.Text != "" &&
                    PriceTextBox.Text != "" && StockTextBox.Text != "" && Property1ComboBox.Text != "" &&
                    (Property2ComboBox.Text != "" || (ProductType) ItemTypeComboBox.SelectedIndex ==
                     ProductType.Alloywheel);
@@ -282,15 +282,68 @@ namespace Goldline.UI.Products
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+            var item = (Item) InventoryDataGrid.SelectedItem;
+            var name = NameTextBox.Text;
+            var stockqty = uint.Parse(StockTextBox.Text);
+            var unitPrice = decimal.Parse(PriceTextBox.Text);
+            var brand = BrandComboBox.Text;
+            var prop1 = Property1ComboBox.Text;
+            var prop2 = Property2ComboBox.Text;
+
             if (IsDataInCorrectForm())
-                if (UpdateAllItems())
+            {
+                try
+                {
+                    switch ((ProductType)ItemTypeComboBox.SelectedIndex)
+                    {
+                        case ProductType.Alloywheel:
+                            var alloywheel = (Alloywheel) item;
+                            _alloywheelHandler.Update(
+                                alloywheel,
+                                name == alloywheel.Name ? null : name,
+                                stockqty == alloywheel.StockQty ? null : (uint?) stockqty,
+                                unitPrice == alloywheel.UnitPrice ? null : (decimal?) unitPrice,
+                                brand == alloywheel.Brand ? null : brand,
+                                prop1 == alloywheel.Dimension ? null : prop1);
+                            break;
+                        case ProductType.Battery:
+                            var battery = (Battery) item;
+                            _batteryHandler.Update(
+                                battery,
+                                name == battery.Name ? null : name,
+                                stockqty == battery.StockQty ? null : (uint?) stockqty,
+                                unitPrice == battery.UnitPrice ? null : (decimal?) unitPrice,
+                                brand == battery.Brand ? null : brand,
+                                prop1 == battery.Capacity ? null : prop1,
+                                prop2 == battery.Voltage ? null : prop2);
+                            break;
+                        case ProductType.Tyre:
+                            var tyre = (Tyre) item;
+                            _tyreHandler.Update(
+                                tyre,
+                                name == tyre.Name ? null : name,
+                                stockqty == tyre.StockQty ? null : (uint?) stockqty,
+                                unitPrice == tyre.UnitPrice ? null : (decimal?) unitPrice,
+                                brand == tyre.Brand ? null : brand,
+                                prop1 == tyre.Dimension ? null : prop1,
+                                prop2 == tyre.Country ? null : prop2);
+                            break;
+                        case ProductType.Service:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
                     MessageBox.Show("Successfully Updated", "Information", MessageBoxButton.OK);
-                else
-                    MessageBox.Show("Duplicate Entry", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show(exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
             else
-                MessageBox.Show("Please Check The Entered Data!!", "Information", MessageBoxButton.OK,
+                MessageBox.Show("Some parameters are invalid", "Information", MessageBoxButton.OK,
                     MessageBoxImage.Exclamation);
-            SearchTextBox.Text = "";
+            SearchTextBox.Clear();
             LoadAllSources();
             RefreshDataGrid();
         }
