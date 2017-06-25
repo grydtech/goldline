@@ -5,6 +5,6 @@ namespace Core.Domain.Enums
         None,
         Cashier,
         InventoryManager,
-        Manager,
+        Manager
     }
 }

@@ -74,7 +74,8 @@ namespace Core.Data.Inventory
         /// <param name="qty"></param>
         /// <param name="isHandled"></param>
         /// <param name="note"></param>
-        internal void Update(uint itemReturnId, uint? customerId, uint? itemId = null, uint? qty = null, bool? isHandled = null,
+        internal void Update(uint itemReturnId, uint? customerId, uint? itemId = null, uint? qty = null,
+            bool? isHandled = null,
             string note = null)
         {
             if (itemId == null && qty == null && isHandled == null && note == null)
@@ -83,7 +84,7 @@ namespace Core.Data.Inventory
             // Define sql command
             var command = new CommandDefinition(
                 "update items_returns set " +
-                ((customerId == null ? "" : "id_customer = @customerId, ") + 
+                ((customerId == null ? "" : "id_customer = @customerId, ") +
                  (itemId == null ? "" : "id_item = @itemId, ") +
                  (qty == null ? "" : "qty_return = @qty, ") +
                  (isHandled == null ? "" : "is_handled = @isHandled, ") +

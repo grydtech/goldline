@@ -34,8 +34,8 @@ namespace Goldline
 
         public bool JustPositivDecimalInput
         {
-            get => (bool) GetValue(JustPositivDecimalInputProperty);
-            set => SetValue(JustPositivDecimalInputProperty, value);
+            get { return (bool) GetValue(JustPositivDecimalInputProperty); }
+            set { SetValue(JustPositivDecimalInputProperty, value); }
         }
 
         protected override void OnAttached()

@@ -1,5 +1,4 @@
 ﻿using System;
-using Core.Domain.Model.Inventory;
 
 namespace Core.Domain.Model.Suppliers
 {
@@ -7,8 +6,9 @@ namespace Core.Domain.Model.Suppliers
     {
         public PurchaseItem(uint itemId, string itemName, uint qty)
         {
+            if (itemName == null) throw new ArgumentNullException(nameof(itemName), "Item Name is null");
             ItemId = itemId;
-            ItemName = itemName ?? throw new ArgumentNullException(nameof(itemName), "Item Name is null");
+            ItemName = itemName;
             Qty = qty;
         }
 

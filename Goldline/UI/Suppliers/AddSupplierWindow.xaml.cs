@@ -1,8 +1,5 @@
-﻿using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using Core.Domain.Handlers;
-using Core.Domain.Model.Inventory;
 using Core.Domain.Model.Suppliers;
 
 namespace Goldline.UI.Suppliers
@@ -26,9 +23,7 @@ namespace Goldline.UI.Suppliers
             addSuppliedItemWindow.ShowDialog();
 
             if (addSuppliedItemWindow.DialogResult != true)
-            {
                 MessageBox.Show("Not successful");
-            }
         }
 
         private void RefreshListBox()

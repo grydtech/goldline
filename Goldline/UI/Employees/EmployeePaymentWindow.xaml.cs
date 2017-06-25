@@ -30,7 +30,7 @@ namespace Goldline.UI.Employees
 
         private void PayButton_Click(object sender, RoutedEventArgs e)
         {
-            var employee = ((Employee) EmployeeDataGrid.SelectedItem);
+            var employee = (Employee) EmployeeDataGrid.SelectedItem;
             if (employee.Id == null) return;
             var employeePayment = new EmployeePayment(DateTime.Now, decimal.Parse(AmountTextBox.Text), NoteTextBox.Text,
                 employee.Id.Value);

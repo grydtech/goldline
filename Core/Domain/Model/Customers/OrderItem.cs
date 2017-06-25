@@ -1,7 +1,4 @@
-﻿using System;
-using Core.Domain.Model.Inventory;
-
-namespace Core.Domain.Model.Customers
+﻿namespace Core.Domain.Model.Customers
 {
     public class OrderItem
     {
@@ -20,8 +17,8 @@ namespace Core.Domain.Model.Customers
         {
         }
 
-        public uint ProductId { get; private set; }
-        public string ProductName { get; private set; }
+        public uint ProductId { get; }
+        public string ProductName { get; }
         public uint Qty { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal NetPrice => UnitPrice * Qty;

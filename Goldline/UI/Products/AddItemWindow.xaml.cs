@@ -13,11 +13,11 @@ namespace Goldline.UI.Products
     /// </summary>
     public partial class AddItemWindow : Window
     {
-        private readonly ProductType _ProductType;
         private readonly ProductHandler _productHandler;
-        private readonly ProductHandler.TyreHandler tyreHandler;
-        private readonly ProductHandler.BatteryHandler batteryHandler;
+        private readonly ProductType _ProductType;
         private readonly ProductHandler.AlloywheelHandler alloywheelHandler;
+        private readonly ProductHandler.BatteryHandler batteryHandler;
+        private readonly ProductHandler.TyreHandler tyreHandler;
 
         public AddItemWindow(ProductType ProductType)
         {

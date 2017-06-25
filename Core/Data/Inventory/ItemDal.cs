@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Core.Domain.Enums;
-using Core.Domain.Handlers;
 using Core.Domain.Model.Inventory;
 using Dapper;
 
@@ -39,7 +38,8 @@ namespace Core.Data.Inventory
         /// <param name="productType"></param>
         /// <param name="offset"></param>
         /// <param name="limit"></param>
-        internal IEnumerable<Item> Search(string nameExp = null, ProductType? productType = null, int offset = 0, int limit = int.MaxValue)
+        internal IEnumerable<Item> Search(string nameExp = null, ProductType? productType = null, int offset = 0,
+            int limit = int.MaxValue)
         {
             // Define sql command
             var command = new CommandDefinition(

@@ -28,7 +28,7 @@ namespace Goldline.UI.Customers
                 MessageBox.Show("Please make sure your inputs are valid");
                 return;
             }
-            
+
             try
             {
                 customerHandler.AddCustomer(customer);

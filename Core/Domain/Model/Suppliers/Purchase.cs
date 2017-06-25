@@ -6,7 +6,8 @@ namespace Core.Domain.Model.Suppliers
 {
     public class Purchase
     {
-        public Purchase(uint? supplierId, IEnumerable<PurchaseItem> orderEntries, decimal amount, string note, bool isSettled)
+        public Purchase(uint? supplierId, IEnumerable<PurchaseItem> orderEntries, decimal amount, string note,
+            bool isSettled)
         {
             SupplierId = supplierId;
             PurchaseItems = orderEntries?.ToList() ?? new List<PurchaseItem>();

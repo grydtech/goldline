@@ -14,11 +14,12 @@ namespace Core.Domain.Handlers
         /// <param name="itemreturn"></param>
         public void AddItemReturn(ItemReturn itemreturn)
         {
-            if(itemreturn.CustomerId == null)
+            if (itemreturn.CustomerId == null)
                 throw new ArgumentNullException(nameof(itemreturn.CustomerId), "ItemReturn CustomerId is null");
             using (var connection = Connector.GetConnection())
             {
-                new ItemReturnDal(connection).Insert(itemreturn.ItemId, itemreturn.CustomerId.Value, itemreturn.ReturnQty, itemreturn.IsHandled, itemreturn.Note);
+                new ItemReturnDal(connection).Insert(itemreturn.ItemId, itemreturn.CustomerId.Value,
+                    itemreturn.ReturnQty, itemreturn.IsHandled, itemreturn.Note);
             }
         }
 
@@ -31,7 +32,8 @@ namespace Core.Domain.Handlers
         /// <param name="qty"></param>
         /// <param name="isHandled"></param>
         /// <param name="note"></param>
-        public void UpdateItemReturn(ItemReturn itemreturn, uint? customerId = null, uint? itemId = null, uint? qty = null, bool? isHandled = null,
+        public void UpdateItemReturn(ItemReturn itemreturn, uint? customerId = null, uint? itemId = null,
+            uint? qty = null, bool? isHandled = null,
             string note = null)
         {
             if (itemreturn.Id == null)
@@ -47,7 +49,8 @@ namespace Core.Domain.Handlers
         ///     Returns a list of all item returns
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<ItemReturn> GetItemReturns(string note = null, bool? isHandled = null, DateTime? startDate = null, DateTime? endDate = null)
+        public IEnumerable<ItemReturn> GetItemReturns(string note = null, bool? isHandled = null,
+            DateTime? startDate = null, DateTime? endDate = null)
         {
             using (var connection = Connector.GetConnection())
             {

@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Core.Domain.Enums;
 using Core.Domain.Handlers;
 using Core.Domain.Model.Customers;
-using Core.Domain.Model.Employees;
 using Core.Domain.Model.Inventory;
 
 namespace Goldline.UI.Returns

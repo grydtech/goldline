@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Core.Domain.Enums;
 using Core.Domain.Handlers;
 using Core.Domain.Model.Inventory;
 
@@ -16,9 +14,9 @@ namespace Goldline.UI.Returns
     {
         private readonly string _defaultText = "Enter your text here..";
         private readonly ItemReturnHandler _itemReturnHandler;
-        private bool? isHandled;
         private IEnumerable<ItemReturn> _returnedItemSource;
         private ItemReturn _selectedItemReturn;
+        private bool? isHandled;
 
         public ItemReturnManagementWindow()
         {

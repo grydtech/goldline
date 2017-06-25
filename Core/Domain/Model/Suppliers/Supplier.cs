@@ -10,7 +10,7 @@
         ///     For database initialization
         /// </summary>
         public Supplier()
-        {  
+        {
         }
     }
 }

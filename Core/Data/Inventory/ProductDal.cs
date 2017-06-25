@@ -54,7 +54,7 @@ namespace Core.Data.Inventory
             {
                 Product product;
 
-                switch (o.ProductType)
+                switch ((ProductType) o.ProductType)
                 {
                     case ProductType.Alloywheel:
                         product = new Alloywheel();

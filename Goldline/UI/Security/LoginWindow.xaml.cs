@@ -2,7 +2,6 @@
 using System.Windows.Input;
 using Core.Domain.Handlers;
 using Core.Domain.Model;
-using Core.Domain.Model.Employees;
 
 namespace Goldline.UI.Security
 {

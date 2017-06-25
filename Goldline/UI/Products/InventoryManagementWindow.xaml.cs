@@ -15,9 +15,9 @@ namespace Goldline.UI.Products
     /// </summary>
     public partial class InventoryManagementWindow : Window
     {
-        private readonly ProductHandler _productHandler;
         private readonly ProductHandler.AlloywheelHandler _alloywheelHandler;
         private readonly ProductHandler.BatteryHandler _batteryHandler;
+        private readonly ProductHandler _productHandler;
         private readonly ProductHandler.TyreHandler _tyreHandler;
 
         public InventoryManagementWindow()
@@ -27,7 +27,7 @@ namespace Goldline.UI.Products
             _batteryHandler = new ProductHandler.BatteryHandler();
             _tyreHandler = new ProductHandler.TyreHandler();
             ItemSource = _productHandler.GetItems();
-            ItemTypeSource = Enum.GetNames(typeof(ProductType)).ToList().GetRange(0,3);
+            ItemTypeSource = Enum.GetNames(typeof(ProductType)).ToList().GetRange(0, 3);
             LoadAllSources();
 
             InitializeComponent();
@@ -44,18 +44,12 @@ namespace Goldline.UI.Products
             if (!IsDataInCorrectForm()) return false;
             foreach (var item in ItemSource)
             {
-                if (item is Alloywheel alloywheel)
-                {
-                    _alloywheelHandler.Update(alloywheel);
-                }
-                if (item is Battery battery)
-                {
-                    _batteryHandler.Update(battery);
-                }
-                if (item is Tyre tyre)
-                {
-                    _tyreHandler.Update(tyre);
-                }
+                if (item is Alloywheel)
+                    _alloywheelHandler.Update((Alloywheel) item);
+                if (item is Battery)
+                    _batteryHandler.Update((Battery) item);
+                if (item is Tyre)
+                    _tyreHandler.Update((Tyre) item);
             }
             return true;
         }
@@ -85,7 +79,8 @@ namespace Goldline.UI.Products
         {
             return ItemCodeTextBox.Text != "" && BrandComboBox.Text != "" && PriceTextBox.Text != "" &&
                    PriceTextBox.Text != "" && StockTextBox.Text != "" && Property1ComboBox.Text != "" &&
-                   (Property2ComboBox.Text != "" || (ProductType) ItemTypeComboBox.SelectedIndex == ProductType.Alloywheel);
+                   (Property2ComboBox.Text != "" || (ProductType) ItemTypeComboBox.SelectedIndex ==
+                    ProductType.Alloywheel);
         }
 
         #endregion

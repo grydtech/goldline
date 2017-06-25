@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Core.Domain.Handlers;
-using Core.Domain.Model.Inventory;
 using Core.Domain.Model.Suppliers;
 
 namespace Goldline.UI.Suppliers
@@ -90,9 +88,7 @@ namespace Goldline.UI.Suppliers
             if (!IsAllDataEntered()) return;
 
             foreach (var supplier in SupplierSource)
-            {
                 _supplierHandler.UpdateSupplierDetails(supplier);
-            }
         }
 
         private void DiscardButton_Click(object sender, RoutedEventArgs e)

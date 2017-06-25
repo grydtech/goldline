@@ -4,7 +4,6 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Core.Domain.Enums;
 using Core.Domain.Handlers;
 using Core.Domain.Model.Inventory;
 using Core.Domain.Model.Suppliers;
@@ -21,8 +20,9 @@ namespace Goldline.UI.Suppliers
         private static readonly ILog Logger = LogManager.GetLogger
             (MethodBase.GetCurrentMethod().DeclaringType);
 
-        private readonly PurchaseHandler _purchaseHandler;
         private readonly ProductHandler _productHandler;
+
+        private readonly PurchaseHandler _purchaseHandler;
 
         public AddSupplierOrderWindow()
         {
@@ -129,7 +129,7 @@ namespace Goldline.UI.Suppliers
         {
             var item = (Item) InventoryDataGrid.SelectedItem;
             if (item.Id == null) return;
-            var purchaseItem = new PurchaseItem(item.Id.Value,item.Name, uint.Parse(QuantityTextBox.Text));
+            var purchaseItem = new PurchaseItem(item.Id.Value, item.Name, uint.Parse(QuantityTextBox.Text));
             Purchase.AddPurchaseItem(purchaseItem);
             RefreshSupplyOrderEntriesDataGrid();
         }

@@ -16,7 +16,8 @@ namespace Goldline.UI.Catalogs
 
         private void BatteryCatalog_Load(object sender, EventArgs e)
         {
-            BatteryBindingSource.DataSource = new ProductHandler.BatteryHandler().GetProducts(productType: ProductType.Battery)
+            BatteryBindingSource.DataSource = new ProductHandler.BatteryHandler()
+                .GetProducts(productType: ProductType.Battery)
                 .Cast<Battery>();
             reportViewer.RefreshReport();
         }

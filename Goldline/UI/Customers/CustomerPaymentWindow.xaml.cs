@@ -54,7 +54,7 @@ namespace Goldline.UI.Customers
             {
                 if (SelectedCustomer.Id == null) return;
 
-                var cs = new OrderPayment((uint)SelectedCustomer.Id, decimal.Parse(AmountTextBox.Text),
+                var cs = new OrderPayment((uint) SelectedCustomer.Id, decimal.Parse(AmountTextBox.Text),
                     NoteTextBox.Text);
                 try
                 {

@@ -25,7 +25,8 @@
         {
             if (Nic.Length != 10) return false;
             var maxIndex = Nic.Length - 1;
-            return int.TryParse(Nic.Substring(1, maxIndex - 1), out int n) &&
+            int n;
+            return int.TryParse(Nic.Substring(1, maxIndex - 1), out n) &&
                    (Nic.Substring(maxIndex).ToUpper() == "V" || Nic.Substring(maxIndex).ToUpper() == "X");
         }
     }

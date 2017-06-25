@@ -1,5 +1,4 @@
 ﻿using System;
-using Core.Domain.Enums;
 
 namespace Core.Domain.Model.Inventory
 {

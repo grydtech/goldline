@@ -26,25 +26,29 @@ namespace Core.Domain.Handlers
                     product.Id = id;
                     if (product.Id == null) throw new ArgumentNullException(nameof(product.Id), "Product Id is null");
 
-                    if (product is Item item)
+                    if (product is Item)
                     {
+                        var item = (Item) product;
                         var itemDal = new ItemDal(connection);
                         itemDal.Insert(id, item.StockQty, item.UnitPrice);
 
-                        if (item is Alloywheel alloywheel)
+                        if (item is Alloywheel)
                         {
+                            var alloywheel = (Alloywheel) item;
                             var alloywheelDal = new AlloywheelDal(connection);
                             alloywheelDal.Insert(id, alloywheel.Brand, alloywheel.Dimension);
                         }
 
-                        if (item is Tyre tyre)
+                        if (item is Tyre)
                         {
+                            var tyre = (Tyre) item;
                             var tyreDal = new TyreDal(connection);
                             tyreDal.Insert(id, tyre.Brand, tyre.Dimension, tyre.Country);
                         }
 
-                        if (item is Battery battery)
+                        if (item is Battery)
                         {
+                            var battery = (Battery) item;
                             var batteryDal = new BatteryDal(connection);
                             batteryDal.Insert(id, battery.Brand, battery.Capacity, battery.Voltage);
                         }
@@ -78,7 +82,8 @@ namespace Core.Domain.Handlers
         /// <returns></returns>
         public IEnumerable<Item> GetItems(string name = null, ProductType? productType = null)
         {
-            if (productType == ProductType.Service) throw new NotSupportedException("ProductType 'Service' is not applicable here");
+            if (productType == ProductType.Service)
+                throw new NotSupportedException("ProductType 'Service' is not applicable here");
             using (var connection = Connector.GetConnection())
             {
                 var itemDal = new ItemDal(connection);
@@ -133,9 +138,11 @@ namespace Core.Domain.Handlers
             /// <param name="unitPrice"></param>
             /// <param name="brand"></param>
             /// <param name="dimension"></param>
-            public void Update(Alloywheel alloywheel, string name = null, uint? stockqty = null, decimal? unitPrice = null, string brand = null, string dimension = null)
+            public void Update(Alloywheel alloywheel, string name = null, uint? stockqty = null,
+                decimal? unitPrice = null, string brand = null, string dimension = null)
             {
-                if (alloywheel.Id == null) throw new ArgumentNullException(nameof(alloywheel.Id), "Updating component does not have Id");
+                if (alloywheel.Id == null)
+                    throw new ArgumentNullException(nameof(alloywheel.Id), "Updating component does not have Id");
                 using (var scope = new TransactionScope())
                 {
                     using (var connection = Connector.GetConnection())
@@ -213,9 +220,11 @@ namespace Core.Domain.Handlers
             /// <param name="brand"></param>
             /// <param name="capacity"></param>
             /// <param name="voltage"></param>
-            public void Update(Battery battery, string name = null, uint? stockqty = null, decimal? unitPrice = null, string brand = null, string capacity = null, string voltage = null)
+            public void Update(Battery battery, string name = null, uint? stockqty = null, decimal? unitPrice = null,
+                string brand = null, string capacity = null, string voltage = null)
             {
-                if (battery.Id == null) throw new ArgumentNullException(nameof(battery.Id), "Updating component does not have Id");
+                if (battery.Id == null)
+                    throw new ArgumentNullException(nameof(battery.Id), "Updating component does not have Id");
                 using (var scope = new TransactionScope())
                 {
                     using (var connection = Connector.GetConnection())
@@ -268,9 +277,11 @@ namespace Core.Domain.Handlers
             /// <param name="brand"></param>
             /// <param name="dimension"></param>
             /// <param name="country"></param>
-            public void Update(Tyre tyre, string name = null, uint? stockqty = null, decimal? unitPrice = null, string brand = null, string dimension = null, string country = null)
+            public void Update(Tyre tyre, string name = null, uint? stockqty = null, decimal? unitPrice = null,
+                string brand = null, string dimension = null, string country = null)
             {
-                if (tyre.Id == null) throw new ArgumentNullException(nameof(tyre.Id), "Updating component does not have Id");
+                if (tyre.Id == null)
+                    throw new ArgumentNullException(nameof(tyre.Id), "Updating component does not have Id");
                 using (var scope = new TransactionScope())
                 {
                     using (var connection = Connector.GetConnection())

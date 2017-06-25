@@ -17,7 +17,7 @@ namespace Core.Domain.Handlers
             using (var connection = Connector.GetConnection())
             {
                 var employeePaymentDal = new EmployeePaymentDal(connection);
-                employeePaymentDal.Insert(payment.EmployeeId,payment.Amount, payment.Note);
+                employeePaymentDal.Insert(payment.EmployeeId, payment.Amount, payment.Note);
                 payment.Id = employeePaymentDal.GetLastInsertId();
             }
         }
@@ -44,7 +44,6 @@ namespace Core.Domain.Handlers
         /// <returns></returns>
         public IEnumerable<EmployeePayment> GetPayments(Employee employee = null)
         {
-
             using (var connection = Connector.GetConnection())
             {
                 return new EmployeePaymentDal(connection).Search(employee?.Id);
