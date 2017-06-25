@@ -4,20 +4,15 @@ namespace Core.Domain.Model.Inventory
 {
     public sealed class Tyre : Item
     {
-        public Tyre(string name, decimal unitPrice, string brand, string dimension,
-            string country = null, uint stockQty = 0) : base(ProductType.Tyre, unitPrice, stockQty)
+        public Tyre(string brand, string model, uint stockQty, decimal unitPrice, string dimension,
+            string country) : base(brand, model, stockQty, unitPrice)
         {
-            Brand = brand;
             Dimension = dimension;
             Country = country;
         }
 
-        /// <summary>
-        ///     For database initialization
-        /// </summary>
         public Tyre()
         {
-            ProductType = ProductType.Tyre;
         }
 
         public string Dimension { get; set; }

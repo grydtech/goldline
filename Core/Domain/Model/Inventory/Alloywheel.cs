@@ -4,20 +4,14 @@ namespace Core.Domain.Model.Inventory
 {
     public sealed class Alloywheel : Item
     {
-        public Alloywheel(string name, decimal unitPrice, string brand,
-            string dimension, uint stockQty = 0) : base(ProductType.Alloywheel, unitPrice, stockQty)
+        public Alloywheel(string brand, string model, uint stockQty,
+            decimal unitPrice, string dimension) : base(brand, model, stockQty, unitPrice)
         {
-            Name = name;
-            Brand = brand;
             Dimension = dimension;
         }
 
-        /// <summary>
-        ///     For database initialization
-        /// </summary>
         public Alloywheel()
         {
-            ProductType = ProductType.Alloywheel;
         }
 
         public string Dimension { get; set; }

@@ -4,17 +4,13 @@ namespace Core.Domain.Model.Inventory
 {
     public sealed class Service : Product
     {
-        public Service(string name) : base(ProductType.Service)
+        public Service(string name)
         {
             Name = name;
         }
 
-        /// <summary>
-        ///     For database initialization
-        /// </summary>
         public Service()
         {
-            ProductType = ProductType.Service;
         }
 
         public override string Name { get; set; }

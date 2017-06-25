@@ -40,42 +40,25 @@ namespace Core.Data.Inventory
         internal IEnumerable<Product> Search(string nameExp = null, ProductType? type = null, int offset = 0,
             int limit = int.MaxValue)
         {
-            // Define sql command
-            var command = new CommandDefinition(
-                "select id_product 'Id', name_product 'Name', type_product-1 'ProductType' from products " +
-                (nameExp == null && type == null ? "" : "where ") +
-                (nameExp == null ? "" : "name_product LIKE @nameExp ") +
-                (type == null ? "" : (nameExp == null ? "" : "and ") + "type_product = @type ") +
-                "order by name_product limit @offset, @limit",
-                new {nameExp, offset, limit});
-
-            // Execute sql command
-            return Connection.Query<dynamic>(command).Select(o =>
+            switch (type)
             {
-                Product product;
-
-                switch ((ProductType) o.ProductType)
-                {
-                    case ProductType.Alloywheel:
-                        product = new Alloywheel();
-                        break;
-                    case ProductType.Battery:
-                        product = new Battery();
-                        break;
-                    case ProductType.Tyre:
-                        product = new Tyre();
-                        break;
-                    case ProductType.Service:
-                        product = new Service();
-                        break;
-                    default:
-                        return null;
-                }
-
-                product.Id = (uint) o.Id;
-                product.Name = o.Name;
-                return product;
-            });
+                case ProductType.Alloywheel:
+                    return new AlloywheelDal(Connection).Search(nameExp, offset, limit);
+                case ProductType.Battery:
+                    return new BatteryDal(Connection).Search(nameExp, offset, limit);
+                case ProductType.Tyre:
+                    return new TyreDal(Connection).Search(nameExp, offset, limit);
+                case ProductType.Service:
+                    return new ServiceDal(Connection).Search(nameExp, offset, limit);
+                case null:
+                    return new AlloywheelDal(Connection).Search(nameExp, offset, limit).Cast<Product>()
+                        .Concat(new BatteryDal(Connection).Search(nameExp, offset, limit))
+                        .Concat(new TyreDal(Connection).Search(nameExp, offset, limit))
+                        .Concat(new ServiceDal(Connection).Search(nameExp, offset, limit))
+                        .OrderBy(c => c.Name);
+                default:
+                    return null;
+            }
         }
 
         /// <summary>

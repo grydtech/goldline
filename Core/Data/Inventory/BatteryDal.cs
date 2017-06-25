@@ -17,7 +17,6 @@ namespace Core.Data.Inventory
         /// </summary>
         /// <param name="productId"></param>
         /// <param name="brand"></param>
-        /// <param name="Capacity, Voltage"></param>
         /// <param name="capacity"></param>
         /// <param name="voltage"></param>
         internal void Insert(uint productId, string brand, string capacity, string voltage)

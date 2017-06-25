@@ -4,21 +4,15 @@ namespace Core.Domain.Model.Inventory
 {
     public sealed class Battery : Item
     {
-        public Battery(string name, decimal unitPrice, string brand,
-            string capacity, string voltage, uint stockQty = 0) : base(ProductType.Battery, unitPrice, stockQty)
+        public Battery(string brand, string model, uint stockQty,
+            decimal unitPrice, string capacity, string voltage) : base(brand, model, stockQty, unitPrice)
         {
-            Name = name;
-            Brand = brand;
             Capacity = capacity;
             Voltage = voltage;
         }
 
-        /// <summary>
-        ///     For database initialization
-        /// </summary>
         public Battery()
         {
-            ProductType = ProductType.Battery;
         }
 
         public string Capacity { get; set; }

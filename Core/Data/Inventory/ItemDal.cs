@@ -41,44 +41,22 @@ namespace Core.Data.Inventory
         internal IEnumerable<Item> Search(string nameExp = null, ProductType? productType = null, int offset = 0,
             int limit = int.MaxValue)
         {
-            // Define sql command
-            var command = new CommandDefinition(
-                "select id_product 'Id', name_product 'Name', type_product-1 'ProductType', " +
-                "qty_stocks 'StockQty', unit_price 'UnitPrice' from items " +
-                "join products USING(id_product) " +
-                (nameExp == null && productType == null ? "" : "where ") +
-                (nameExp == null ? "" : "name_product like @name ") +
-                (productType == null ? "" : (nameExp == null ? "" : "and ") + "type_product-1 = @productType ") +
-                "order by name_product limit @offset, @limit",
-                new {nameExp, productType, offset, limit});
-
-            // Execute sql command
-            return Connection.Query<dynamic>(command).Select(o =>
+            switch (productType)
             {
-                Item item;
-
-                switch ((ProductType) o.ProductType)
-                {
-                    case ProductType.Alloywheel:
-                        item = new Alloywheel();
-                        break;
-                    case ProductType.Battery:
-                        item = new Battery();
-                        break;
-                    case ProductType.Tyre:
-                        item = new Tyre();
-                        break;
-                    default:
-                        Console.WriteLine("Enum value was invalid when initializing");
-                        throw new ArgumentException();
-                }
-
-                item.Id = (uint) o.Id;
-                item.Name = o.Name;
-                item.StockQty = o.StockQty;
-                item.UnitPrice = o.UnitPrice;
-                return item;
-            });
+                case ProductType.Alloywheel:
+                    return new AlloywheelDal(Connection).Search(nameExp, offset, limit);
+                case ProductType.Battery:
+                    return new BatteryDal(Connection).Search(nameExp, offset, limit);
+                case ProductType.Tyre:
+                    return new TyreDal(Connection).Search(nameExp, offset, limit);
+                case null:
+                    return new AlloywheelDal(Connection).Search(nameExp, offset, limit).Cast<Item>()
+                        .Concat(new BatteryDal(Connection).Search(nameExp, offset, limit))
+                        .Concat(new TyreDal(Connection).Search(nameExp, offset, limit))
+                        .OrderBy(c => c.Name);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(productType), productType, null);
+            }
         }
 
         /// <summary>
