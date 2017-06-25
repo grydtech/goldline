@@ -19,7 +19,7 @@ namespace Goldline.UI.Customers
         public ServiceOrderWindow()
         {
             _productHandler = new ProductHandler();
-            ServiceSource = _productHandler.GetProducts("", ProductType.Service).Cast<Service>();
+            ServiceSource = _productHandler.GetProducts(productType: ProductType.Service).Cast<Service>();
             InitializeComponent();
             ServiceNameComboBox.Focus();
         }
@@ -53,23 +53,19 @@ namespace Goldline.UI.Customers
                 ServiceCharge = decimal.Parse(ServiceChargeTextBox.Text);
 
                 // Search in database for current service name and check for any existing records
-                var searchResults = _productHandler.GetProducts(serviceName, ProductType.Service).ToArray();
-
+                var searchResults = ServiceSource.Where(s => s.Name == serviceName).ToArray();
                 Debug.WriteLine("Search Parameter: " + serviceName + ". Results count: " + searchResults.Length);
 
                 //if service IS there in DB,
-                switch (searchResults.Length)
+                if (searchResults.Length == 1)
                 {
-                    case 1:
-                        // Get the only element which is selected
-                        SelectedService = (Service) searchResults.Single();
-                        break;
-                    default:
-                        // Create new service with current name
-                        _productHandler.AddProduct(new Service(serviceName));
-                        SelectedService =
-                            (Service) _productHandler.GetProducts(serviceName, ProductType.Service).Single();
-                        break;
+                    SelectedService = searchResults.Single();
+                }
+                else
+                {
+                    var service = new Service(serviceName);
+                    _productHandler.AddProduct(service);
+                    SelectedService = service;
                 }
 
                 DialogResult = true;

@@ -23,7 +23,7 @@ namespace Core.Data.Suppliers
             var command = new CommandDefinition(
                 "insert into purchases_items (id_purchase, id_item, qty) " +
                 "values (@purchaseId, @itemId, @qty)",
-                new[] {purchaseItems.Select(i => new {purchaseId, itemId = i.ItemId, qty = i.Qty})});
+                purchaseItems.Select(i => new {purchaseId, itemId = i.ItemId, qty = i.Qty}));
 
             // Execute sql command
             Connection.Execute(command);

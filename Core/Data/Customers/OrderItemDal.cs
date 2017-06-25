@@ -23,16 +23,13 @@ namespace Core.Data.Customers
             var command = new CommandDefinition(
                 "insert into orders_products (id_order, id_product, unit_price, qty) " +
                 "values (@orderId, @id_product, @unit_price, @qty)",
-                new[]
+                orderItems.Select(o => new
                 {
-                    orderItems.Select(o => new
-                    {
-                        orderId,
-                        id_product = o.ProductId,
-                        unit_price = o.UnitPrice,
-                        qty = o.Qty
-                    })
-                });
+                    orderId,
+                    id_product = o.ProductId,
+                    unit_price = o.UnitPrice,
+                    qty = o.Qty
+                }));
 
             // Execute sql command
             Connection.Execute(command);
