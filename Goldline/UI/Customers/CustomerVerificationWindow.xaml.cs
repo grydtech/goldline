@@ -24,7 +24,7 @@ namespace Goldline.UI.Customers
         public CustomerVerificationWindow()
         {
             _customerHandler = new CustomerHandler();
-            _customerMatches = CustomerHandler.GetCustomers();
+            _customerMatches = _customerHandler.GetCustomers();
             //    ItemSource = _customerMatches;
             InitializeComponent();
 

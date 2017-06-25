@@ -14,21 +14,21 @@ namespace Goldline.UI.Suppliers
     /// </summary>
     public partial class SupplierOrdersWindow : Window
     {
-        private readonly OrderHandler _orderHandler;
+        private readonly PurchaseHandler _purchaseHandler;
 
         public SupplierOrdersWindow()
         {
-            _orderHandler = new OrderHandler();
-            SupplyOrderSource = _orderHandler.GetSupplyOrders("");
+            _purchaseHandler = new PurchaseHandler();
+            PurchaseSource = _purchaseHandler.GetPurchases();
             InitializeComponent();
         }
 
-        public IEnumerable<Purchase> SupplyOrderSource { get; set; }
+        public IEnumerable<Purchase> PurchaseSource { get; set; }
 
         public void RefreshDataGrid()
         {
-            SupplyOrderSource = _orderHandler.GetSupplyOrders(SearchTextBox.Text);
-            SupplyOrdersDataGrid.Items.Refresh();
+            PurchaseSource = _purchaseHandler.GetPurchases(note: SearchTextBox.Text);
+            PurchasesDataGrid.Items.Refresh();
         }
 
         public Point GetMousePosition()
@@ -42,22 +42,22 @@ namespace Goldline.UI.Suppliers
             switch (e.Key)
             {
                 case Key.Down:
-                    if (SupplyOrdersDataGrid.SelectedIndex < SupplyOrdersDataGrid.Items.Count - 1)
-                        SupplyOrdersDataGrid.SelectedIndex++;
+                    if (PurchasesDataGrid.SelectedIndex < PurchasesDataGrid.Items.Count - 1)
+                        PurchasesDataGrid.SelectedIndex++;
                     e.Handled = true;
                     break;
                 case Key.Up:
-                    if (SupplyOrdersDataGrid.SelectedIndex > 0) SupplyOrdersDataGrid.SelectedIndex--;
+                    if (PurchasesDataGrid.SelectedIndex > 0) PurchasesDataGrid.SelectedIndex--;
                     e.Handled = true;
                     break;
             }
         }
 
-        private void SupplyOrdersDataGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void PurchasesDataGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (SupplyOrdersDataGrid.SelectedItem == null) return;
+            if (PurchasesDataGrid.SelectedItem == null) return;
             var mousePosition = GetMousePosition();
-            new SupplierOrderDetailsPopupWindow((Purchase) SupplyOrdersDataGrid.SelectedItem)
+            new SupplierOrderDetailsPopupWindow((Purchase) PurchasesDataGrid.SelectedItem)
             {
                 Left = mousePosition.X,
                 Top = mousePosition.Y
@@ -73,13 +73,15 @@ namespace Goldline.UI.Suppliers
 
         private void ReverseButton_Click(object sender, RoutedEventArgs e)
         {
-            if (SupplyOrdersDataGrid.SelectedItem == null) return;
+            if (PurchasesDataGrid.SelectedItem == null) return;
             var result = MessageBox.Show("Confirm Supply Order", "Confirmation", MessageBoxButton.YesNo,
                 MessageBoxImage.Question);
             if (result == MessageBoxResult.No) return;
             try
             {
-                _orderHandler.CancelSupplyOrder((Purchase) SupplyOrdersDataGrid.SelectedItem);
+                var purchase = (Purchase) PurchasesDataGrid.SelectedItem;
+                if (purchase.Id == null) return;
+                _purchaseHandler.DeletePurchase(purchase.Id.Value);
                 MessageBox.Show("Successfully Reversed", "Successful", MessageBoxButton.OK,
                     MessageBoxImage.Information);
                 RefreshDataGrid();

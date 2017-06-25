@@ -21,17 +21,17 @@ namespace Goldline.UI.Suppliers
         private static readonly ILog Logger = LogManager.GetLogger
             (MethodBase.GetCurrentMethod().DeclaringType);
 
-        private readonly OrderHandler _orderHandler;
+        private readonly PurchaseHandler _purchaseHandler;
         private readonly ProductHandler _productHandler;
 
         public AddSupplierOrderWindow()
         {
             // Set up variables and properties prior to initialization
-            _orderHandler = new OrderHandler();
+            _purchaseHandler = new PurchaseHandler();
             _productHandler = new ProductHandler();
             Purchase = new Purchase();
-            SupplierSource = new SupplierHandler().GetAllSuppliers();
-            ItemSource = _productHandler.GetItems("");
+            SupplierSource = new SupplierHandler().GetSuppliers();
+            ItemSource = _productHandler.GetItems();
 
             InitializeComponent();
             Logger.Info("AddSupplierOrderWindow Loaded successfully");
@@ -113,7 +113,7 @@ namespace Goldline.UI.Suppliers
             //try
             //{
             // Set total and price variables before adding
-            _orderHandler.AddSupplyOrder(Purchase);
+            _purchaseHandler.AddPurchase(Purchase);
             MessageBox.Show("Successfully Added", "Information", MessageBoxButton.OK,
                 MessageBoxImage.Information);
             InitializeNewSupplyOrder();
@@ -127,9 +127,10 @@ namespace Goldline.UI.Suppliers
 
         public void AddSelectedItemToOrder()
         {
-            var orderEntry = new PurchasedItem((Item) InventoryDataGrid.SelectedItem,
-                uint.Parse(QuantityTextBox.Text), decimal.Parse(PriceTextBox.Text));
-            Purchase.AddOrderEntry(orderEntry);
+            var item = (Item) InventoryDataGrid.SelectedItem;
+            if (item.Id == null) return;
+            var purchaseItem = new PurchaseItem(item.Id.Value,item.Name, uint.Parse(QuantityTextBox.Text));
+            Purchase.AddPurchaseItem(purchaseItem);
             RefreshSupplyOrderEntriesDataGrid();
         }
 
@@ -197,7 +198,7 @@ namespace Goldline.UI.Suppliers
         private void CheckoutButton_Click(object sender, RoutedEventArgs e)
         {
             Purchase.Note = NoteTextBox.Text;
-            if (!Purchase.OrderEntries.Any())
+            if (!Purchase.PurchaseItems.Any())
             {
                 MessageBox.Show("No entries found in order!", "Information", MessageBoxButton.OK,
                     MessageBoxImage.Exclamation);
@@ -214,13 +215,13 @@ namespace Goldline.UI.Suppliers
 
         private void RemoveEntryButton_Click(object sender, RoutedEventArgs e)
         {
-            Purchase.RemoveOrderEntry((PurchasedItem) SupplyOrderEntriesDataGrid.SelectedItem);
+            Purchase.RemovePurchaseItem((PurchaseItem) SupplyOrderEntriesDataGrid.SelectedItem);
             RefreshSupplyOrderEntriesDataGrid();
         }
 
         private void CheckBox_OnChecked(object sender, RoutedEventArgs e)
         {
-            Purchase.Status = CheckBox.IsChecked == true ? SupplyOrderStatus.Paid : SupplyOrderStatus.Pending;
+            Purchase.IsSettled = CheckBox.IsChecked == true;
         }
 
         #endregion

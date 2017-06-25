@@ -12,7 +12,7 @@ namespace Core.Domain.Handlers
         ///     Adds a new customer
         /// </summary>
         /// <param name="customer"></param>
-        public static void AddCustomer(Customer customer)
+        public void AddCustomer(Customer customer)
         {
             // Exception handling
             if (customer == null) throw new ArgumentNullException(nameof(customer), "Customer is null");
@@ -34,7 +34,7 @@ namespace Core.Domain.Handlers
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static IEnumerable<Customer> GetCustomers(string name = null)
+        public IEnumerable<Customer> GetCustomers(string name = null)
         {
             using (var connection = Connector.GetConnection())
             {
@@ -50,7 +50,7 @@ namespace Core.Domain.Handlers
         /// <param name="name"></param>
         /// <param name="nic"></param>
         /// <param name="contact"></param>
-        public static void UpdateCustomer(Customer customer, string name = null, string nic = null,
+        public void UpdateCustomer(Customer customer, string name = null, string nic = null,
             string contact = null)
         {
             // Exception handling

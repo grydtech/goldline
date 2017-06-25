@@ -17,7 +17,7 @@ namespace Goldline.UI.Suppliers
         public AddSuppliedItemWindow()
         {
             _productHandler = new ProductHandler();
-            ItemSource = _productHandler.GetItems("");
+            ItemSource = _productHandler.GetItems();
 
             InitializeComponent();
         }

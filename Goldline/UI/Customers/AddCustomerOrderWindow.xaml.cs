@@ -32,9 +32,9 @@ namespace Goldline.UI.Customers
                 _productHandler = new ProductHandler();
                 _orderHandler = new OrderHandler();
                 Order = new Order();
-                ItemSource = _productHandler.GetItems("");
+                ItemSource = _productHandler.GetItems(Uid);
                 InitializeComponent();
-                ComboBox.ItemsSource = Enum.GetNames(typeof(ItemType));
+                ComboBox.ItemsSource = Enum.GetNames(typeof(ProductType)).ToList().GetRange(0, 3);
                 ComboBox.Focus();
             }
             catch (Exception ex)
@@ -121,7 +121,7 @@ namespace Goldline.UI.Customers
 
         public bool IsAlreadyEntered(uint? id)
         {
-            return Order.OrderItems.Any(orderEntry => orderEntry.Product == id);
+            return Order.OrderItems.Any(orderEntry => orderEntry.ProductId == id);
         }
 
         private void UpdateGrandTotalLabel()
@@ -133,15 +133,15 @@ namespace Goldline.UI.Customers
         {
             // Update Data Grid with new set of products
             ItemSource = ComboBox.SelectedItem != null && SearchDataGrid != null
-                ? _productHandler.GetItems(SearchTextBox.Text, (ItemType) ComboBox.SelectedIndex)
+                ? _productHandler.GetItems(SearchTextBox.Text, (ProductType) ComboBox.SelectedIndex)
                 : _productHandler.GetItems(SearchTextBox.Text);
             SearchDataGrid?.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
         }
 
-        public void RefreshOrderEntriesDataGrid()
+        public void RefreshOrderItemsDataGrid()
         {
-            OrderEntriesDataGrid?.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
-            OrderEntriesDataGrid?.Items.Refresh();
+            OrderItemsDataGrid?.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
+            OrderItemsDataGrid?.Items.Refresh();
         }
 
 
@@ -211,13 +211,13 @@ namespace Goldline.UI.Customers
                     else
                     {
                         var salePrice = _unitPrice != 0 ? _unitPrice : selectedItem.UnitPrice * (100 - _discount) / 100;
-                        var orderEntry = new OrderEntry(selectedItem, salePrice, quantity);
+                        var orderItem = new OrderItem(selectedItem.Id.Value, selectedItem.Name, quantity, salePrice);
 
                         // add items to the order entries list
-                        Order.AddOrderEntry(orderEntry);
+                        Order.AddOrderItem(orderItem);
                         UpdateGrandTotalLabel();
                         RefreshSearchDataGrid();
-                        RefreshOrderEntriesDataGrid();
+                        RefreshOrderItemsDataGrid();
 
                         ComboBox.Focus();
                     }
@@ -257,9 +257,8 @@ namespace Goldline.UI.Customers
                 if (window.DialogResult == true)
                 {
                     // Mark order as credit order and assign customerId to it
-                    Order.IsSettled = true;
                     Order.CustomerId = window.SelectedCustomer.Id;
-                    _orderHandler.AddCustomerOrder(Order);
+                    _orderHandler.AddOrder(Order);
 
                     MessageBox.Show(
                         "Order added successfully. " +
@@ -289,7 +288,7 @@ namespace Goldline.UI.Customers
             try
             {
                 Order.Note = NoteTextBox.Text;
-                _orderHandler.AddCustomerOrder(Order);
+                _orderHandler.AddOrder(Order);
                 MessageBox.Show("Order added successfully. Order Type: Cash");
 
                 GenerateInvoice();
@@ -303,12 +302,12 @@ namespace Goldline.UI.Customers
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedEntry = OrderEntriesDataGrid.SelectedItem as OrderEntry;
+            var selectedEntry = OrderItemsDataGrid.SelectedItem as OrderItem;
             if (selectedEntry != null)
             {
-                Order.RemoveOrderEntry(selectedEntry);
+                Order.RemoveOrderItem(selectedEntry);
                 UpdateGrandTotalLabel();
-                RefreshOrderEntriesDataGrid();
+                RefreshOrderItemsDataGrid();
             }
             else
             {
@@ -329,9 +328,9 @@ namespace Goldline.UI.Customers
 
             if (!IsAlreadyEntered(selectedService.Id))
             {
-                Order.OrderItems.Add(new OrderEntry(selectedService, serviceCharge));
+                Order.OrderItems.Add(new OrderItem(selectedService.Id.Value, selectedService.Name, 1, serviceCharge));
                 UpdateGrandTotalLabel();
-                RefreshOrderEntriesDataGrid();
+                RefreshOrderItemsDataGrid();
             }
             else
             {

@@ -31,14 +31,14 @@ namespace Core.Domain.Model.Suppliers
         public bool IsSettled { get; set; }
         public List<PurchaseItem> PurchaseItems { get; set; }
 
-        public void AddOrderEntry(PurchaseItem purchasedItem)
+        public void AddPurchaseItem(PurchaseItem purchaseItem)
         {
-            PurchaseItems.Add(purchasedItem);
+            PurchaseItems.Add(purchaseItem);
         }
 
-        public void RemoveOrderEntry(PurchaseItem purchasedItem)
+        public void RemovePurchaseItem(PurchaseItem purchaseItem)
         {
-            PurchaseItems.Remove(purchasedItem);
+            PurchaseItems.Remove(purchaseItem);
         }
     }
 }

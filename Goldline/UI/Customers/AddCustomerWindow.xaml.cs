@@ -18,16 +18,17 @@ namespace Goldline.UI.Customers
         private void OkButton_OnClick(object sender, RoutedEventArgs e)
         {
             var customerHandler = new CustomerHandler();
-            if (NameTextBox.Text == "" || ContactInfoTextBox.Text == "" || !customerHandler.IsNicValid(NicTextBox.Text))
+            var customer = new Customer(
+                NameTextBox.Text,
+                ContactInfoTextBox.Text,
+                NicTextBox.Text);
+
+            if (NameTextBox.Text == "" || ContactInfoTextBox.Text == "" || !customer.IsNicValid())
             {
                 MessageBox.Show("Please make sure your inputs are valid");
                 return;
             }
-            var customer = new Customer(
-                NameTextBox.Text,
-                ContactInfoTextBox.Text,
-                NicTextBox.Text,
-                decimal.Parse(DueTextBox.Text));
+            
             try
             {
                 customerHandler.AddCustomer(customer);

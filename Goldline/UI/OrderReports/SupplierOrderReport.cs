@@ -17,7 +17,7 @@ namespace Goldline.UI.OrderReports
 
         private void SupplyOrderReport_Load(object sender, EventArgs e)
         {
-            var supplyOrders = new OrderHandler().GetRecentSupplyOrders(false);
+            var supplyOrders = new PurchaseHandler().GetPurchases();
             SupplyOrderBindingSource.DataSource = supplyOrders;
             reportViewer.RefreshReport();
         }

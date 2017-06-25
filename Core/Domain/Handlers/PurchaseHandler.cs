@@ -110,6 +110,23 @@ namespace Core.Domain.Handlers
         }
 
         /// <summary>
+        ///     Deletes a purchase
+        /// </summary>
+        /// <param name="purchaseId"></param>
+        public void DeletePurchase(uint purchaseId)
+        {
+            using (var scope = new TransactionScope())
+            {
+                using (var connection = Connector.GetConnection())
+                {
+                    var purchaseDal = new PurchaseDal(connection);
+                    purchaseDal.Delete(purchaseId);
+                }
+                scope.Complete();
+            }
+        }
+
+        /// <summary>
         ///     Load purchaseItems of a purchase
         /// </summary>
         /// <param name="purchase"></param>

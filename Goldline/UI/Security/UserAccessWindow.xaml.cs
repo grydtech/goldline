@@ -13,7 +13,7 @@ namespace Goldline.UI.Security
     public partial class UserAccessWindow : Window
     {
         private readonly Employee _employee;
-        private readonly UserAccessHandler _uaHandler;
+        private readonly SecurityHandler _uaHandler;
         private readonly User _user;
         private bool _isExpanded;
         private bool? _isUserNameUnique;
@@ -27,18 +27,18 @@ namespace Goldline.UI.Security
             if (_employee.Id == null) throw new ArgumentNullException(nameof(employee.Id), @"Employee Id is null");
 
             // Initialize variables
-            _uaHandler = new UserAccessHandler();
+            _uaHandler = new SecurityHandler();
             _user = _uaHandler.GetUser((uint) _employee.Id);
 
-            if (_employee.AccessMode == EmployeeType.User && _user == null)
+            if (_employee.AccessMode != AccessMode.None && _user == null)
                 throw new ArgumentNullException(nameof(_user), @"Employee type is user but no user found");
 
             #region Initialize UI
 
             EmployeeIdTextBox.Text = _employee.Id.ToString();
             NameTextBox.Text = _employee.Name;
-            UserTypeComboBox.ItemsSource = Enum.GetNames(typeof(UserType));
-            if (_employee.AccessMode != EmployeeType.User) return;
+            UserTypeComboBox.ItemsSource = Enum.GetNames(typeof(AccessMode));
+            if (_employee.AccessMode == AccessMode.None) return;
 
             // If employee is already a user, make user access expander expanded and disable editing username
             ProvideUserAccessExpander.IsExpanded = true;
@@ -61,7 +61,7 @@ namespace Goldline.UI.Security
 
             #region Username validation for regular employees
 
-            if (_employee.AccessMode == EmployeeType.Regular)
+            if (_employee.AccessMode == AccessMode.None)
             {
                 if (UserNameTextBox.Text == "") MessageBox.Show("One or more fields are empty");
                 if (_isUserNameUnique == null) CheckIfUserNameAvailable();
@@ -71,21 +71,17 @@ namespace Goldline.UI.Security
 
             #endregion
 
-            switch (_employee.AccessMode)
+            if (_employee.AccessMode != AccessMode.None)
             {
-                case EmployeeType.Regular:
-                    // should add new user to database
-                    _uaHandler.AddNewUserAccess(_employee, (UserType) UserTypeComboBox.SelectedIndex,
-                        UserNameTextBox.Text);
-                    MessageBox.Show("User AccessMode provided Successfully");
-                    break;
-                case EmployeeType.User:
-                    // should update existing employee if there are any changes
-                    _uaHandler.UpdateUserAccess(
-                        _user,
-                        (UserType) UserTypeComboBox.SelectedIndex);
-                    MessageBox.Show("User access updated successfully");
-                    break;
+                // should update existing employee if there are any changes
+                _uaHandler.UpdateUserAccess(_user, (AccessMode) UserTypeComboBox.SelectedIndex);
+                MessageBox.Show("User access updated successfully");
+            }
+            else
+            {
+                // should add new user to database
+                _uaHandler.AddUserAccess(_employee, (AccessMode) UserTypeComboBox.SelectedIndex, UserNameTextBox.Text);
+                MessageBox.Show("User AccessMode provided Successfully");
             }
             Close();
         }
@@ -123,7 +119,7 @@ namespace Goldline.UI.Security
 
         private void ProvideUserAccessExpander_Collapsed(object sender, RoutedEventArgs e)
         {
-            if (_employee.AccessMode == EmployeeType.User)
+            if (_employee.AccessMode != AccessMode.None)
             {
                 MessageBox.Show("You cannot remove user access for existing users!");
                 ((Expander) sender).IsExpanded = true;

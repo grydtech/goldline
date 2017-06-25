@@ -13,12 +13,12 @@ namespace Goldline.UI.Invoices
         {
             InitializeComponent();
             IsVerified = false;
-            OrderEntriesDataGrid.ItemsSource = purchase.OrderEntries;
+            OrderEntriesDataGrid.ItemsSource = purchase.PurchaseItems;
             IdLabel.Content = "Purchase: " + purchase.Id;
             SupplierNameLabel.Content = supplier.Name;
             ContactLabel.Content = supplier.Contact;
             TotalLabel.Content = purchase.Amount;
-            CashCreditLabel.Content = purchase.Status.ToString();
+            CashCreditLabel.Content = purchase.IsSettled.ToString();
         }
 
         public bool IsVerified { get; private set; }

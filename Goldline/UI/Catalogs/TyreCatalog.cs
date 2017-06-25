@@ -16,8 +16,8 @@ namespace Goldline.UI.Catalogs
 
         private void TyreCatalog_Load(object sender, EventArgs e)
         {
-            var tyres = new ReportHandler().GetCatalog(ProductType.Tyre).Cast<Tyre>();
-            TyreBindingSource.DataSource = tyres;
+            TyreBindingSource.DataSource = new ProductHandler.TyreHandler().GetProducts(productType: ProductType.Tyre)
+                .Cast<Tyre>();
             reportViewer.RefreshReport();
         }
     }

@@ -12,15 +12,14 @@ namespace Goldline.UI.Suppliers
     /// </summary>
     public partial class SupplierPaymentsWindow : Window
     {
-        private readonly OrderHandler _orderHandler;
+        private readonly PurchaseHandler _purchaseHandler;
         private readonly Supplier _supplier;
 
         public SupplierPaymentsWindow(Supplier supplier)
         {
             _supplier = supplier;
-            _orderHandler = new OrderHandler();
-            DueSupplyOrders = _orderHandler.GetDueSupplyOrders(_supplier);
-
+            _purchaseHandler = new PurchaseHandler();
+            DueSupplyOrders = _purchaseHandler.GetPurchases(_supplier.Id);
             InitializeComponent();
             SupplierIdTextBox.Text = _supplier.Id.ToString();
             NameTextBox.Text = _supplier.Name;
@@ -30,7 +29,7 @@ namespace Goldline.UI.Suppliers
 
         private void PayButton_Click(object sender, RoutedEventArgs e)
         {
-            if (SupplyOrdersDataGrid.SelectedItems.Count == 0)
+            if (PurchasesDataGrid.SelectedItems.Count == 0)
             {
                 MessageBox.Show("Please Select supply orders", "Nothing Selected", MessageBoxButton.OK,
                     MessageBoxImage.Information);
@@ -42,7 +41,7 @@ namespace Goldline.UI.Suppliers
             if (messageBoxResult == MessageBoxResult.Cancel) return;
 
             // payoff all selected supplier orders
-            _orderHandler.PayoffSupplyOrders((IEnumerable<Purchase>) SupplyOrdersDataGrid.SelectedItems);
+            _purchaseHandler.UpdatePurchaseMultiple((IEnumerable<Purchase>) PurchasesDataGrid.SelectedItems, true);
             MessageBox.Show("Successfully Updated!!", "Result", MessageBoxButton.OK, MessageBoxImage.Information);
             RefreshDataGrid();
         }
@@ -50,13 +49,13 @@ namespace Goldline.UI.Suppliers
         private void SupplierDataGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             AmountTextBox.Text =
-                SupplyOrdersDataGrid.SelectedItems.Cast<Purchase>().Sum(order => order.Amount).ToString();
+                PurchasesDataGrid.SelectedItems.Cast<Purchase>().Sum(order => order.Amount).ToString();
         }
 
         private void RefreshDataGrid()
         {
-            DueSupplyOrders = _orderHandler.GetDueSupplyOrders(_supplier);
-            SupplyOrdersDataGrid.Items.Refresh();
+            DueSupplyOrders = _purchaseHandler.GetPurchases(_supplier.Id, false);
+            PurchasesDataGrid.Items.Refresh();
         }
     }
 }

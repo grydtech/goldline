@@ -17,7 +17,7 @@ namespace Goldline.UI.OrderReports
 
         private void CustomerCashOrderReport_Load(object sender, EventArgs e)
         {
-            var cashOrders = new OrderHandler().GetRecentCustomerOrders(false, false, false);
+            var cashOrders = new OrderHandler().GetOrders();
             CustomerOrderBindingSource.DataSource = cashOrders;
             reportViewer.RefreshReport();
         }

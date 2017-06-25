@@ -17,7 +17,7 @@ namespace Goldline.UI.PaymentReports
 
         private void EmployeePaymentReport_Load(object sender, EventArgs e)
         {
-            var employeePayments = new EmployeePaymentHandler().GetRecentEmployeePayments();
+            var employeePayments = new EmployeePaymentHandler().GetPayments();
             EmployeePaymentBindingSource.DataSource = employeePayments;
             reportViewer.RefreshReport();
         }

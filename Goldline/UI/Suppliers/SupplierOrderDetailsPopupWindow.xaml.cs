@@ -13,8 +13,7 @@ namespace Goldline.UI.Suppliers
         public SupplierOrderDetailsPopupWindow(Purchase purchase)
         {
             Purchase = purchase;
-            new OrderHandler().LoadSupplyOrderEntries(Purchase);
-
+            new PurchaseHandler().LoadPurchaseItems(Purchase);
             InitializeComponent();
         }
 

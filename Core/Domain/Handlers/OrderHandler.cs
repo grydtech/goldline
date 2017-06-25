@@ -78,7 +78,7 @@ namespace Core.Domain.Handlers
         /// <param name="customerId"></param>
         /// <param name="note"></param>
         /// <param name="isCancelled"></param>
-        public void UpdateOrder(Order order, IEnumerable<OrderItem> orderItems, uint? customerId = null, string note = null, bool? isCancelled = null)
+        public void UpdateOrder(Order order, IEnumerable<OrderItem> orderItems = null, uint? customerId = null, string note = null, bool? isCancelled = null)
         {
             // Exception handling
             if (order.Id == null)

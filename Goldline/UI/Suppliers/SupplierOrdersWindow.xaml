@@ -64,7 +64,7 @@
                 BorderBrush="{DynamicResource Goldline.Border}"
                 BorderThickness="1"
                 CornerRadius="10">
-            <DataGrid x:Name="SupplyOrdersDataGrid"
+            <DataGrid x:Name="PurchasesDataGrid"
                       Margin="5"
                       AlternatingRowBackground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
                       AutoGenerateColumns="False"
@@ -73,7 +73,7 @@
                       HorizontalScrollBarVisibility="Disabled"
                       IsReadOnly="True"
                       IsTextSearchEnabled="True"
-                      MouseDoubleClick="SupplyOrdersDataGrid_OnMouseDoubleClick"
+                      MouseDoubleClick="PurchasesDataGrid_OnMouseDoubleClick"
                       Opacity="0.8"
                       ScrollViewer.CanContentScroll="True"
                       SelectionMode="Single">

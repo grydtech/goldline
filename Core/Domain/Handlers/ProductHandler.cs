@@ -91,7 +91,7 @@ namespace Core.Domain.Handlers
         /// </summary>
         /// <param name="productId"></param>
         /// <param name="name"></param>
-        private void UpdateProduct(uint productId, string name = null)
+        private void Update(uint productId, string name = null)
         {
             using (var scope = new TransactionScope())
             {
@@ -109,7 +109,7 @@ namespace Core.Domain.Handlers
         /// <param name="productId"></param>
         /// <param name="stockQty"></param>
         /// <param name="unitPrice"></param>
-        private void UpdateItem(uint productId, uint? stockQty = null, decimal? unitPrice = null)
+        private void Update(uint productId, uint? stockQty = null, decimal? unitPrice = null)
         {
             using (var scope = new TransactionScope())
             {
@@ -133,7 +133,7 @@ namespace Core.Domain.Handlers
             /// <param name="unitPrice"></param>
             /// <param name="brand"></param>
             /// <param name="dimension"></param>
-            public void UpdateAlloywheel(Alloywheel alloywheel, string name = null, uint? stockqty = null, decimal? unitPrice = null, string brand = null, string dimension = null)
+            public void Update(Alloywheel alloywheel, string name = null, uint? stockqty = null, decimal? unitPrice = null, string brand = null, string dimension = null)
             {
                 if (alloywheel.Id == null) throw new ArgumentNullException(nameof(alloywheel.Id), "Updating component does not have Id");
                 using (var scope = new TransactionScope())
@@ -141,8 +141,8 @@ namespace Core.Domain.Handlers
                     using (var connection = Connector.GetConnection())
                     {
                         var id = alloywheel.Id.Value;
-                        UpdateProduct(id, name);
-                        UpdateItem(id, stockqty, unitPrice);
+                        Update(id, name);
+                        Update(id, stockqty, unitPrice);
                         new AlloywheelDal(connection).Update(alloywheel.Id.Value, brand, dimension);
                     }
                     scope.Complete();
@@ -152,26 +152,26 @@ namespace Core.Domain.Handlers
             /// <summary>
             ///     Adds a new alloywheel brand or ignore if already exists
             /// </summary>
-            /// <param name="brandName"></param>
+            /// <param name="brand"></param>
             /// <returns></returns>
-            public void AddAlloywheelBrand(string brandName)
+            public void AddBrand(string brand)
             {
                 using (var connection = Connector.GetConnection())
                 {
-                    new AlloywheelDal(connection).InsertBrand(brandName);
+                    new AlloywheelDal(connection).InsertBrand(brand);
                 }
             }
 
             /// <summary>
             ///     Adds a new alloywheel dimension or ignore if already exists
             /// </summary>
-            /// <param name="alloywheelDimension"></param>
+            /// <param name="dimension"></param>
             /// <returns></returns>
-            public void AddAlloywheelDimension(string alloywheelDimension)
+            public void AddDimension(string dimension)
             {
                 using (var connection = Connector.GetConnection())
                 {
-                    new AlloywheelDal(connection).InsertDimension(alloywheelDimension);
+                    new AlloywheelDal(connection).InsertDimension(dimension);
                 }
             }
 
@@ -179,7 +179,7 @@ namespace Core.Domain.Handlers
             ///     Returns a list of all stored alloywheel brands
             /// </summary>
             /// <returns></returns>
-            public IEnumerable<string> GetAlloywheelBrands()
+            public IEnumerable<string> GetBrands()
             {
                 using (var connection = Connector.GetConnection())
                 {
@@ -191,7 +191,7 @@ namespace Core.Domain.Handlers
             ///     Returns a list of all stored alloywheel dimensions
             /// </summary>
             /// <returns></returns>
-            public IEnumerable<string> GetAlloywheelDimensions()
+            public IEnumerable<string> GetDimensions()
             {
                 using (var connection = Connector.GetConnection())
                 {
@@ -213,7 +213,7 @@ namespace Core.Domain.Handlers
             /// <param name="brand"></param>
             /// <param name="capacity"></param>
             /// <param name="voltage"></param>
-            public void UpdateBattery(Battery battery, string name = null, uint? stockqty = null, decimal? unitPrice = null, string brand = null, string capacity = null, string voltage = null)
+            public void Update(Battery battery, string name = null, uint? stockqty = null, decimal? unitPrice = null, string brand = null, string capacity = null, string voltage = null)
             {
                 if (battery.Id == null) throw new ArgumentNullException(nameof(battery.Id), "Updating component does not have Id");
                 using (var scope = new TransactionScope())
@@ -221,8 +221,8 @@ namespace Core.Domain.Handlers
                     using (var connection = Connector.GetConnection())
                     {
                         var id = battery.Id.Value;
-                        UpdateProduct(id, name);
-                        UpdateItem(id, stockqty, unitPrice);
+                        Update(id, name);
+                        Update(id, stockqty, unitPrice);
                         new BatteryDal(connection).Update(battery.Id.Value, brand, capacity, voltage);
                     }
                     scope.Complete();
@@ -232,13 +232,13 @@ namespace Core.Domain.Handlers
             /// <summary>
             ///     Adds a new battery brand or ignore if already exists
             /// </summary>
-            /// <param name="batteryBrand"></param>
+            /// <param name="brand"></param>
             /// <returns></returns>
-            public void AddBatteryBrand(string batteryBrand)
+            public void AddBrand(string brand)
             {
                 using (var connection = Connector.GetConnection())
                 {
-                    new BatteryDal(connection).InsertBrand(batteryBrand);
+                    new BatteryDal(connection).InsertBrand(brand);
                 }
             }
 
@@ -246,7 +246,7 @@ namespace Core.Domain.Handlers
             ///     Returns a list of all stored battery brands
             /// </summary>
             /// <returns></returns>
-            public IEnumerable<string> GetBatteryBrands()
+            public IEnumerable<string> GetBrands()
             {
                 using (var connection = Connector.GetConnection())
                 {
@@ -268,7 +268,7 @@ namespace Core.Domain.Handlers
             /// <param name="brand"></param>
             /// <param name="dimension"></param>
             /// <param name="country"></param>
-            public void UpdateTyre(Tyre tyre, string name = null, uint? stockqty = null, decimal? unitPrice = null, string brand = null, string dimension = null, string country = null)
+            public void Update(Tyre tyre, string name = null, uint? stockqty = null, decimal? unitPrice = null, string brand = null, string dimension = null, string country = null)
             {
                 if (tyre.Id == null) throw new ArgumentNullException(nameof(tyre.Id), "Updating component does not have Id");
                 using (var scope = new TransactionScope())
@@ -276,8 +276,8 @@ namespace Core.Domain.Handlers
                     using (var connection = Connector.GetConnection())
                     {
                         var id = tyre.Id.Value;
-                        UpdateProduct(id, name);
-                        UpdateItem(id, stockqty, unitPrice);
+                        Update(id, name);
+                        Update(id, stockqty, unitPrice);
                         new TyreDal(connection).Update(tyre.Id.Value, brand, dimension, country);
                     }
                     scope.Complete();
@@ -287,26 +287,26 @@ namespace Core.Domain.Handlers
             /// <summary>
             ///     Adds a new tyre brand or ignore if already exists
             /// </summary>
-            /// <param name="tyreBrand"></param>
+            /// <param name="brand"></param>
             /// <returns></returns>
-            public void AddTyreBrand(string tyreBrand)
+            public void AddBrand(string brand)
             {
                 using (var connection = Connector.GetConnection())
                 {
-                    new TyreDal(connection).InsertBrand(tyreBrand);
+                    new TyreDal(connection).InsertBrand(brand);
                 }
             }
 
             /// <summary>
             ///     Adds a new tyre dimension or ignore if already exists
             /// </summary>
-            /// <param name="tyreDimension"></param>
+            /// <param name="dimension"></param>
             /// <returns></returns>
-            public void AddTyreDimension(string tyreDimension)
+            public void AddDimension(string dimension)
             {
                 using (var connection = Connector.GetConnection())
                 {
-                    new TyreDal(connection).InsertDimension(tyreDimension);
+                    new TyreDal(connection).InsertDimension(dimension);
                 }
             }
 
@@ -327,7 +327,7 @@ namespace Core.Domain.Handlers
             ///     Returns a list of all stored tyre brands
             /// </summary>
             /// <returns></returns>
-            public IEnumerable<string> GetTyreBrands()
+            public IEnumerable<string> GetBrands()
             {
                 using (var connection = Connector.GetConnection())
                 {
@@ -339,7 +339,7 @@ namespace Core.Domain.Handlers
             ///     Returns a list of all stored tyre dimensions
             /// </summary>
             /// <returns></returns>
-            public IEnumerable<string> GetTyreDimensions()
+            public IEnumerable<string> GetDimensions()
             {
                 using (var connection = Connector.GetConnection())
                 {
@@ -368,11 +368,11 @@ namespace Core.Domain.Handlers
             /// </summary>
             /// <param name="service"></param>
             /// <param name="name"></param>
-            public void UpdateService(Service service, string name = null)
+            public void Update(Service service, string name = null)
             {
                 if (service.Id == null)
                     throw new ArgumentNullException(nameof(service.Id), "Updating component does not have Id");
-                UpdateProduct(service.Id.Value, name);
+                Update(service.Id.Value, name);
             }
         }
     }

@@ -13,12 +13,12 @@ namespace Goldline.UI.Customers
     public partial class CustomerManagementWindow : Window
     {
         private readonly CustomerHandler _customerHandler;
-        private readonly CustomerPaymentHandler _customerPaymentHandler;
+        private readonly OrderPaymentHandler _customerPaymentHandler;
 
         public CustomerManagementWindow()
         {
             _customerHandler = new CustomerHandler();
-            _customerPaymentHandler = new CustomerPaymentHandler();
+            _customerPaymentHandler = new OrderPaymentHandler();
             CustomerSource = _customerHandler.GetCustomers("");
             InitializeComponent();
             RefreshButtonEnabled();

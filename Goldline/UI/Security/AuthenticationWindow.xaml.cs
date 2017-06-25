@@ -10,11 +10,11 @@ namespace Goldline.UI.Security
     /// </summary>
     public partial class AuthenticationWindow : Window
     {
-        private readonly UserAccessHandler _userAccessHandler;
+        private readonly SecurityHandler _securityHandler;
 
         public AuthenticationWindow()
         {
-            _userAccessHandler = new UserAccessHandler();
+            _securityHandler = new SecurityHandler();
             InitializeComponent();
             UsernameTextBox.Focus();
         }
@@ -33,10 +33,10 @@ namespace Goldline.UI.Security
 
         private void AuthenticateButton_Click(object sender, RoutedEventArgs e)
         {
-            var user = _userAccessHandler.TryAuthentication(UsernameTextBox.Text, PasswordBox.Password);
+            var user = _securityHandler.TryAuthentication(UsernameTextBox.Text, PasswordBox.Password);
             if (user != null)
             {
-                if (user.AccessMode == UserType.Manager) DialogResult = true;
+                if (user.AccessMode == AccessMode.Manager) DialogResult = true;
                 Close();
             }
             else

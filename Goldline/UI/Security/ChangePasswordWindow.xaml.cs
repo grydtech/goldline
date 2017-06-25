@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using Core.Domain.Handlers;
+using Core.Domain.Model;
 using Core.Domain.Model.Employees;
 
 namespace Goldline.UI.Security
@@ -18,9 +19,9 @@ namespace Goldline.UI.Security
             OldPasswordBox.Focus();
 
             // If password is default password, set it to oldpasswordbox and disable it
-            if (User.IsDefaultPassword())
+            if (Session.CurrentUser.IsDefaultPassword())
             {
-                OldPasswordBox.Password = User.DefaultPassword;
+                OldPasswordBox.Password = Session.DefaultPassword;
                 OldPasswordBox.IsEnabled = false;
             }
         }
@@ -35,7 +36,7 @@ namespace Goldline.UI.Security
         {
             #region Validation
 
-            if (OldPasswordBox.Password != User.CurrentUser.Password)
+            if (OldPasswordBox.Password != Session.CurrentUser.Password)
             {
                 MessageBox.Show("Please enter your old password correctly");
                 return;
@@ -53,7 +54,7 @@ namespace Goldline.UI.Security
                 return;
             }
 
-            if (NewPasswordBox.Password == OldPasswordBox.Password || User.IsDefaultPassword())
+            if (NewPasswordBox.Password == OldPasswordBox.Password || Session.CurrentUser.IsDefaultPassword())
             {
                 MessageBox.Show("You cannot use this password again");
                 return;
@@ -63,7 +64,7 @@ namespace Goldline.UI.Security
 
             try
             {
-                new UserAccessHandler().ChangePassword(User.CurrentUser, NewPasswordBox.Password);
+                new SecurityHandler().ChangePassword(Session.CurrentUser, NewPasswordBox.Password);
                 MessageBox.Show("Password changed successfully");
                 Close();
             }
@@ -76,7 +77,7 @@ namespace Goldline.UI.Security
         private void ChangePasswordWindow_OnClosing(object sender, CancelEventArgs e)
         {
             // if current user password is default password, give error and stop closing
-            if (User.IsDefaultPassword())
+            if (Session.CurrentUser.IsDefaultPassword())
             {
                 MessageBox.Show("Password change is mandatory for security reasons");
                 e.Cancel = true;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -19,7 +20,7 @@ namespace Goldline.UI.Employees
         {
             _employeeHandler = new EmployeeHandler();
             _employeePaymentHandler = new EmployeePaymentHandler();
-            EmployeeSource = _employeeHandler.GetAllEmployees();
+            EmployeeSource = _employeeHandler.GetEmployees();
             InitializeComponent();
         }
 
@@ -29,12 +30,11 @@ namespace Goldline.UI.Employees
 
         private void PayButton_Click(object sender, RoutedEventArgs e)
         {
-            var employeePayment = new EmployeePayment(
-                decimal.Parse(AmountTextBox.Text),
-                NoteTextBox.Text,
-                (uint) ((Employee) EmployeeDataGrid.SelectedItem).Id);
-
-            _employeePaymentHandler.AddNewEmployeePayment(employeePayment);
+            var employee = ((Employee) EmployeeDataGrid.SelectedItem);
+            if (employee.Id == null) return;
+            var employeePayment = new EmployeePayment(DateTime.Now, decimal.Parse(AmountTextBox.Text), NoteTextBox.Text,
+                employee.Id.Value);
+            _employeePaymentHandler.AddPayment(employeePayment);
             ReloadDataGrid();
         }
 
@@ -58,7 +58,7 @@ namespace Goldline.UI.Employees
         private void ReloadDataGrid()
         {
             // Update Data Grid with new set of employees
-            EmployeeSource = _employeeHandler.GetAllEmployees();
+            EmployeeSource = _employeeHandler.GetEmployees();
             EmployeeDataGrid.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
         }
 

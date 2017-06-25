@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Threading;
+using Core.Domain.Model;
 using Core.Domain.Model.Employees;
 using Goldline.UI.Customers;
 using Goldline.UI.Employees;
@@ -19,7 +20,7 @@ namespace Goldline.UI
         public HomeWindow()
         {
             InitializeComponent();
-            NameLabel.Content = User.CurrentUser.Username;
+            NameLabel.Content = Session.CurrentUser.Username;
 
             // Enable options depending on user access restrictions
 

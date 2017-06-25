@@ -84,5 +84,20 @@ namespace Core.Data.Suppliers
             // Execute sql command
             return Connection.Query<Purchase>(command);
         }
+
+        /// <summary>
+        ///     Deletes a records from [purchases] table
+        /// </summary>
+        /// <param name="purchaseId"></param>
+        public void Delete(uint purchaseId)
+        {
+            // Define sql command
+            var command = new CommandDefinition(
+                "delete from purchases where id_purchase = @purchaseId",
+                new {purchaseId});
+
+            // Execute sql command
+            Connection.Execute(command);
+        }
     }
 }

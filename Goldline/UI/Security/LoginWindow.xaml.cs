@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using Core.Domain.Handlers;
+using Core.Domain.Model;
 using Core.Domain.Model.Employees;
 
 namespace Goldline.UI.Security
@@ -31,7 +32,7 @@ namespace Goldline.UI.Security
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             // Try authenticating with given username and password
-            var uaHandler = new UserAccessHandler();
+            var uaHandler = new SecurityHandler();
             var user = uaHandler.TryAuthentication(UsernameTextBox.Text, PasswordBox.Password);
 
             // If user returned is null, show error and return
@@ -44,9 +45,9 @@ namespace Goldline.UI.Security
             }
 
             // Else assign it to currentuser and show home window
-            User.CurrentUser = user;
+            Session.CurrentUser = user;
 
-            if (User.IsDefaultPassword())
+            if (Session.CurrentUser.IsDefaultPassword())
                 new ChangePasswordWindow().ShowDialog();
 
             new HomeWindow().Show();

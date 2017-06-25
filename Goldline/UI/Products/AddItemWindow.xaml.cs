@@ -13,14 +13,15 @@ namespace Goldline.UI.Products
     /// </summary>
     public partial class AddItemWindow : Window
     {
-        private readonly ItemType _itemType;
-        private readonly ProductDetailHandler _productDetailHandler;
+        private readonly ProductType _ProductType;
         private readonly ProductHandler _productHandler;
+        private readonly ProductHandler.TyreHandler tyreHandler;
+        private readonly ProductHandler.BatteryHandler batteryHandler;
+        private readonly ProductHandler.AlloywheelHandler alloywheelHandler;
 
-        public AddItemWindow(ItemType itemType)
+        public AddItemWindow(ProductType ProductType)
         {
-            _itemType = itemType;
-            _productDetailHandler = new ProductDetailHandler();
+            _ProductType = ProductType;
             _productHandler = new ProductHandler();
             LoadPropertySources();
             Item = InitializeItem();
@@ -28,12 +29,12 @@ namespace Goldline.UI.Products
             InitializeComponent();
             RefreshComboBoxes();
 
-            // If itemType is alloywheel, hide property2 row contents
-            var rowItemVisibility = _itemType == ItemType.Alloywheel ? Visibility.Hidden : Visibility.Visible;
+            // If ProductType is alloywheel, hide property2 row contents
+            var rowItemVisibility = _ProductType == ProductType.Alloywheel ? Visibility.Hidden : Visibility.Visible;
             Property2Label.Visibility = rowItemVisibility;
             Property2ComboBox.Visibility = rowItemVisibility;
 
-            AddProperty2Button.Visibility = _itemType == ItemType.Alloywheel || _itemType == ItemType.Tyre
+            AddProperty2Button.Visibility = _ProductType == ProductType.Alloywheel || _ProductType == ProductType.Tyre
                 ? Visibility.Hidden
                 : Visibility.Visible;
         }
@@ -48,21 +49,21 @@ namespace Goldline.UI.Products
         /// </summary>
         private void LoadPropertySources()
         {
-            switch (_itemType)
+            switch (_ProductType)
             {
-                case ItemType.Alloywheel:
-                    BrandSource = _productDetailHandler.GetAllAlloywheelBrands();
-                    Property1Source = _productDetailHandler.GetAllAlloywheelDimensions();
+                case ProductType.Alloywheel:
+                    BrandSource = alloywheelHandler.GetBrands();
+                    Property1Source = alloywheelHandler.GetDimensions();
                     Property2Source = null;
                     break;
-                case ItemType.Battery:
-                    BrandSource = _productDetailHandler.GetAllBatteryBrands();
-                    Property1Source = _productDetailHandler.GetAllBatteryCapacities();
-                    Property2Source = _productDetailHandler.GetAllBatteryVoltages();
+                case ProductType.Battery:
+                    BrandSource = batteryHandler.GetBrands();
+                    Property1Source = null;
+                    Property2Source = null;
                     break;
-                case ItemType.Tyre:
-                    BrandSource = _productDetailHandler.GetAllTyreBrands();
-                    Property1Source = _productDetailHandler.GetAllTyreDimensions();
+                case ProductType.Tyre:
+                    BrandSource = tyreHandler.GetBrands();
+                    Property1Source = tyreHandler.GetDimensions();
                     Property2Source = App.GetAllCountries();
                     break;
                 default:
@@ -88,16 +89,16 @@ namespace Goldline.UI.Products
             Item.Brand = (string) BrandComboBox.SelectedItem;
             Item.Model = ModelTextBox.Text;
 
-            switch (_itemType)
+            switch (_ProductType)
             {
-                case ItemType.Alloywheel:
+                case ProductType.Alloywheel:
                     ((Alloywheel) Item).Dimension = (string) Property1ComboBox.SelectedItem;
                     break;
-                case ItemType.Battery:
+                case ProductType.Battery:
                     ((Battery) Item).Capacity = (string) Property1ComboBox.SelectedItem;
                     ((Battery) Item).Voltage = (string) Property2ComboBox.SelectedItem;
                     break;
-                case ItemType.Tyre:
+                case ProductType.Tyre:
                     ((Tyre) Item).Dimension = (string) Property1ComboBox.SelectedItem;
                     ((Tyre) Item).Country = (string) Property2ComboBox.SelectedItem;
                     break;
@@ -112,13 +113,13 @@ namespace Goldline.UI.Products
         /// <returns></returns>
         private Item InitializeItem()
         {
-            switch (_itemType)
+            switch (_ProductType)
             {
-                case ItemType.Tyre:
+                case ProductType.Tyre:
                     return new Tyre();
-                case ItemType.Alloywheel:
+                case ProductType.Alloywheel:
                     return new Alloywheel();
-                case ItemType.Battery:
+                case ProductType.Battery:
                     return new Battery();
                 default:
                     return null;
@@ -130,7 +131,7 @@ namespace Goldline.UI.Products
             return
                 !(ItemCodeTextBox.Text == "" || (string) BrandComboBox.SelectedItem == "" ||
                   (string) Property1ComboBox.SelectedItem == "" ||
-                  _itemType != ItemType.Alloywheel && (string) Property2ComboBox.SelectedItem == "" ||
+                  _ProductType != ProductType.Alloywheel && (string) Property2ComboBox.SelectedItem == "" ||
                   StockTextBox.Text == "" || PriceTextBox.Text == "");
         }
 
@@ -175,13 +176,13 @@ namespace Goldline.UI.Products
         {
             get
             {
-                switch (_itemType)
+                switch (_ProductType)
                 {
-                    case ItemType.Alloywheel:
+                    case ProductType.Alloywheel:
                         return nameof(Alloywheel.Dimension);
-                    case ItemType.Battery:
+                    case ProductType.Battery:
                         return nameof(Battery.Capacity);
-                    case ItemType.Tyre:
+                    case ProductType.Tyre:
                         return nameof(Tyre.Dimension);
                     default:
                         return null;
@@ -193,13 +194,13 @@ namespace Goldline.UI.Products
         {
             get
             {
-                switch (_itemType)
+                switch (_ProductType)
                 {
-                    case ItemType.Alloywheel:
+                    case ProductType.Alloywheel:
                         return null;
-                    case ItemType.Battery:
+                    case ProductType.Battery:
                         return nameof(Battery.Voltage);
-                    case ItemType.Tyre:
+                    case ProductType.Tyre:
                         return nameof(Tyre.Country);
                     default:
                         return null;
@@ -213,16 +214,16 @@ namespace Goldline.UI.Products
 
         private void AddNewBrand(string brand)
         {
-            switch (_itemType)
+            switch (_ProductType)
             {
-                case ItemType.Alloywheel:
-                    _productDetailHandler.AddNewAlloywheelBrand(brand);
+                case ProductType.Alloywheel:
+                    alloywheelHandler.AddBrand(brand);
                     break;
-                case ItemType.Battery:
-                    _productDetailHandler.AddNewBatteryBrand(brand);
+                case ProductType.Battery:
+                    batteryHandler.AddBrand(brand);
                     break;
-                case ItemType.Tyre:
-                    _productDetailHandler.AddNewTyreBrand(brand);
+                case ProductType.Tyre:
+                    tyreHandler.AddBrand(brand);
                     break;
                 default:
                     return;
@@ -232,16 +233,13 @@ namespace Goldline.UI.Products
 
         private void AddNewProperty1(string property)
         {
-            switch (_itemType)
+            switch (_ProductType)
             {
-                case ItemType.Alloywheel:
-                    _productDetailHandler.AddNewAlloywheelDimension(property);
+                case ProductType.Alloywheel:
+                    alloywheelHandler.AddDimension(property);
                     break;
-                case ItemType.Tyre:
-                    _productDetailHandler.AddNewTyreDimension(property);
-                    break;
-                case ItemType.Battery:
-                    _productDetailHandler.AddNewBatteryCapacity(uint.Parse(property));
+                case ProductType.Tyre:
+                    alloywheelHandler.AddDimension(property);
                     break;
                 default:
                     return;
@@ -251,14 +249,6 @@ namespace Goldline.UI.Products
 
         private void AddNewProperty2(string property)
         {
-            switch (_itemType)
-            {
-                case ItemType.Battery:
-                    _productDetailHandler.AddNewBatteryVoltage(uint.Parse(property));
-                    break;
-                default:
-                    return;
-            }
             LoadPropertySources();
         }
 
@@ -269,17 +259,17 @@ namespace Goldline.UI.Products
         private void AddBrandButton_OnClick(object sender, RoutedEventArgs e)
         {
             InputDialog inputDialog;
-            switch (_itemType)
+            switch (_ProductType)
             {
-                case ItemType.Alloywheel:
+                case ProductType.Alloywheel:
                     inputDialog = new InputDialog("Add Brand", "Enter Alloywheel Brand");
                     inputDialog.ShowDialog();
                     break;
-                case ItemType.Battery:
+                case ProductType.Battery:
                     inputDialog = new InputDialog("Add Brand", "Enter Battery Brand");
                     inputDialog.ShowDialog();
                     break;
-                case ItemType.Tyre:
+                case ProductType.Tyre:
                     inputDialog = new InputDialog("Add Brand", "Enter Tyre Brand");
                     inputDialog.ShowDialog();
                     break;
@@ -295,17 +285,17 @@ namespace Goldline.UI.Products
         private void AddProperty1Button_OnClick(object sender, RoutedEventArgs e)
         {
             InputDialog inputDialog;
-            switch (_itemType)
+            switch (_ProductType)
             {
-                case ItemType.Alloywheel:
+                case ProductType.Alloywheel:
                     inputDialog = new InputDialog("Add Dimension", "Enter Alloywheel Dimension");
                     inputDialog.ShowDialog();
                     break;
-                case ItemType.Battery:
+                case ProductType.Battery:
                     inputDialog = new InputDialog("Add Capacity", "Enter Battery Capacity");
                     inputDialog.ShowDialog();
                     break;
-                case ItemType.Tyre:
+                case ProductType.Tyre:
                     inputDialog = new InputDialog("Add Dimension", "Enter Tyre Dimension");
                     inputDialog.ShowDialog();
                     break;
@@ -321,9 +311,9 @@ namespace Goldline.UI.Products
         private void AddProperty2Button_OnClick(object sender, RoutedEventArgs e)
         {
             InputDialog inputDialog;
-            switch (_itemType)
+            switch (_ProductType)
             {
-                case ItemType.Battery:
+                case ProductType.Battery:
                     inputDialog = new InputDialog("Add Voltage", "Enter Battery Voltage");
                     inputDialog.ShowDialog();
                     break;

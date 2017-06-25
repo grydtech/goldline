@@ -92,7 +92,6 @@ namespace Goldline.UI.Suppliers
             foreach (var supplier in SupplierSource)
             {
                 _supplierHandler.UpdateSupplierDetails(supplier);
-                _supplierHandler.UpdateSuppliedItems(supplier);
             }
         }
 
@@ -120,25 +119,12 @@ namespace Goldline.UI.Suppliers
             addSuppliedItemWindow.ShowDialog();
 
             if (addSuppliedItemWindow.DialogResult != true) return;
-
-            if (
-                selectedSupplier.SuppliedItems.Any(
-                    suppliedItem => suppliedItem.Id == addSuppliedItemWindow.SelectedItem.Id))
-            {
-                MessageBox.Show("Item is already in the list.");
-            }
-            else
-            {
-                selectedSupplier.SuppliedItems.Add(addSuppliedItemWindow.SelectedItem);
-                RefreshListBox();
-            }
         }
 
         private void ItemRemoveButton_Click(object sender, RoutedEventArgs e)
         {
             if (SupplierDataGrid.SelectedItem == null) return;
             if (ListBox.SelectedItem == null) return;
-            ((Supplier) SupplierDataGrid.SelectedItem).SuppliedItems.Remove((Item) ListBox.SelectedItem);
             RefreshListBox();
         }
 

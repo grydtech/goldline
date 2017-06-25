@@ -17,7 +17,7 @@ namespace Goldline.UI.OrderReports
 
         private void CustomerCreditOrderReport_Load(object sender, EventArgs e)
         {
-            var creditOrders = new OrderHandler().GetRecentCustomerOrders(false, false, true);
+            var creditOrders = new OrderHandler().GetOrders();
             CustomerOrderBindingSource.DataSource = creditOrders;
             reportViewer.RefreshReport();
         }

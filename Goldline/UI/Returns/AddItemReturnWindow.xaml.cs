@@ -38,8 +38,8 @@ namespace Goldline.UI.Returns
             _productHandler = new ProductHandler();
             _customerHandler = new CustomerHandler();
             _itemReturnHandler = new ItemReturnHandler();
-            _itemsSource = _productHandler.GetItems("");
-            _customerSource = CustomerHandler.GetCustomers();
+            _itemsSource = _productHandler.GetItems();
+            _customerSource = new CustomerHandler().GetCustomers();
             RefreshInventoryDataGrid();
             RefreshCustomerDataGrid();
         }
@@ -61,9 +61,8 @@ namespace Goldline.UI.Returns
                     (uint) _selectedItem.Id,
                     (uint) _selectedCustomer.Id,
                     uint.Parse(QuantityTextBox.Text),
-                    ReturnCondition.Pending,
-                    NotesTextBox.Text,
-                    User.CurrentUser.EmployeeId);
+                    false,
+                    NotesTextBox.Text);
             }
             catch (Exception e)
             {
@@ -126,7 +125,7 @@ namespace Goldline.UI.Returns
         {
             if (IsDataInCorrectForm())
             {
-                _itemReturnHandler.AddNewItemReturn(CreateItemReturnFromData());
+                _itemReturnHandler.AddItemReturn(CreateItemReturnFromData());
                 if (_selectedCustomer == null) return;
                 _selectedCustomer.Contact = CustomerInfoTextBox.Text;
                 _customerHandler.UpdateCustomer(_selectedCustomer);

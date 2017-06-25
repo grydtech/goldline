@@ -17,7 +17,7 @@ namespace Goldline.UI.PaymentReports
 
         private void CustomerPaymentReport_Load(object sender, EventArgs e)
         {
-            var customerPayments = new CustomerPaymentHandler().GetMostRecentPayments();
+            var customerPayments = new OrderPaymentHandler().GetPayments();
             CustomerPaymentBindingSource.DataSource = customerPayments;
             reportViewer.RefreshReport();
         }

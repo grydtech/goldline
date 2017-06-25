@@ -21,7 +21,7 @@ namespace Goldline.UI.Customers
         public CustomerOrderDetailsWindow()
         {
             _orderHandler = new OrderHandler();
-            Orders = _orderHandler.GetCustomerOrders("");
+            Orders = _orderHandler.GetOrders(note: "");
             InitializeComponent();
         }
 
@@ -46,7 +46,7 @@ namespace Goldline.UI.Customers
         private void RefreshOrdersDataGrid()
         {
             // Search for orders by note text
-            Orders = _orderHandler.GetCustomerOrders(SearchTextBox.Text);
+            Orders = _orderHandler.GetOrders(note: SearchTextBox.Text);
             OrdersDataGrid?.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
             OrdersDataGrid?.Items.Refresh();
         }
@@ -72,7 +72,7 @@ namespace Goldline.UI.Customers
                 if (authWindow.DialogResult != true) return;
 
                 selectedOrder.IsCancelled = true;
-                _orderHandler.UpdateCustomerOrderDetails(selectedOrder);
+                _orderHandler.UpdateOrder(selectedOrder);
 
                 MessageBox.Show("Successfully Reversed the order :" + selectedOrder.Id);
                 RefreshOrdersDataGrid();

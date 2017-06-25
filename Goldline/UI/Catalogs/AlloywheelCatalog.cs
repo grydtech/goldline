@@ -16,8 +16,8 @@ namespace Goldline.UI.Catalogs
 
         private void AlloywheelCatalog_Load(object sender, EventArgs e)
         {
-            var alloywheels = new ReportHandler().GetCatalog(ProductType.Alloywheel).Cast<Alloywheel>();
-            AlloywheelBindingSource.DataSource = alloywheels;
+            AlloywheelBindingSource.DataSource = new ProductHandler.AlloywheelHandler().GetProducts(productType: ProductType.Alloywheel)
+                .Cast<Alloywheel>();
             reportViewer.RefreshReport();
         }
     }

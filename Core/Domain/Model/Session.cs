@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Core.Domain.Model.Employees;
+﻿using Core.Domain.Model.Employees;
+using Core.Domain.Security;
 
 namespace Core.Domain.Model
 {
@@ -11,5 +7,6 @@ namespace Core.Domain.Model
     {
         public const string DefaultPassword = "dEf@ult";
         public static User CurrentUser { get; set; }
+        public static Clearance Clearance { get; set; }
     }
 }

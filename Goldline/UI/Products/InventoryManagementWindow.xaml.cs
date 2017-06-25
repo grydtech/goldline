@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -14,15 +15,19 @@ namespace Goldline.UI.Products
     /// </summary>
     public partial class InventoryManagementWindow : Window
     {
-        private readonly ProductDetailHandler _productDetailHandler;
         private readonly ProductHandler _productHandler;
+        private readonly ProductHandler.AlloywheelHandler _alloywheelHandler;
+        private readonly ProductHandler.BatteryHandler _batteryHandler;
+        private readonly ProductHandler.TyreHandler _tyreHandler;
 
         public InventoryManagementWindow()
         {
             _productHandler = new ProductHandler();
-            _productDetailHandler = new ProductDetailHandler();
-            ItemSource = _productHandler.GetItems("");
-            ItemTypeSource = Enum.GetNames(typeof(ItemType));
+            _alloywheelHandler = new ProductHandler.AlloywheelHandler();
+            _batteryHandler = new ProductHandler.BatteryHandler();
+            _tyreHandler = new ProductHandler.TyreHandler();
+            ItemSource = _productHandler.GetItems();
+            ItemTypeSource = Enum.GetNames(typeof(ProductType)).ToList().GetRange(0,3);
             LoadAllSources();
 
             InitializeComponent();
@@ -32,29 +37,46 @@ namespace Goldline.UI.Products
         public IEnumerable<Item> ItemSource { get; set; }
         public IEnumerable<string> ItemTypeSource { get; set; }
 
+        #region MyRegion
+
         private bool UpdateAllItems()
         {
             if (!IsDataInCorrectForm()) return false;
             foreach (var item in ItemSource)
-                _productHandler.UpdateProduct(item);
+            {
+                if (item is Alloywheel alloywheel)
+                {
+                    _alloywheelHandler.Update(alloywheel);
+                }
+                if (item is Battery battery)
+                {
+                    _batteryHandler.Update(battery);
+                }
+                if (item is Tyre tyre)
+                {
+                    _tyreHandler.Update(tyre);
+                }
+            }
             return true;
         }
+
+        #endregion
 
         /// <summary>
         ///     Updates the source variables from database
         /// </summary>
         private void LoadAllSources()
         {
-            _tyreBrandSource = _productDetailHandler.GetAllTyreBrands();
-            _tyreDimensionSource = _productDetailHandler.GetAllTyreDimensions();
-            _tyreCountrySource = App.GetAllCountries();
+            _tyreBrandSource = _tyreHandler.GetBrands();
+            _tyreDimensionSource = _tyreHandler.GetDimensions();
+            _tyreCountrySource = _tyreHandler.GetCountries();
 
-            _alloywheelBrandSource = _productDetailHandler.GetAllAlloywheelBrands();
-            _alloywheelDimensionSource = _productDetailHandler.GetAllAlloywheelDimensions();
+            _alloywheelBrandSource = _alloywheelHandler.GetBrands();
+            _alloywheelDimensionSource = _alloywheelHandler.GetDimensions();
 
-            _batteryBrandSource = _productDetailHandler.GetAllBatteryBrands();
-            _batteryCapacitySource = _productDetailHandler.GetAllBatteryCapacities();
-            _batteryVoltageSource = _productDetailHandler.GetAllBatteryVoltages();
+            _batteryBrandSource = _batteryHandler.GetBrands();
+            _batteryCapacitySource = null;
+            _batteryVoltageSource = null;
         }
 
         #region ItemProperty TextBoxes Text
@@ -63,7 +85,7 @@ namespace Goldline.UI.Products
         {
             return ItemCodeTextBox.Text != "" && BrandComboBox.Text != "" && PriceTextBox.Text != "" &&
                    PriceTextBox.Text != "" && StockTextBox.Text != "" && Property1ComboBox.Text != "" &&
-                   (Property2ComboBox.Text != "" || (ItemType) ItemTypeComboBox.SelectedIndex == ItemType.Alloywheel);
+                   (Property2ComboBox.Text != "" || (ProductType) ItemTypeComboBox.SelectedIndex == ProductType.Alloywheel);
         }
 
         #endregion
@@ -102,13 +124,13 @@ namespace Goldline.UI.Products
         {
             get
             {
-                switch ((ItemType) ItemTypeComboBox.SelectedIndex)
+                switch ((ProductType) ItemTypeComboBox.SelectedIndex)
                 {
-                    case ItemType.Alloywheel:
+                    case ProductType.Alloywheel:
                         return nameof(Alloywheel.Dimension);
-                    case ItemType.Battery:
+                    case ProductType.Battery:
                         return nameof(Battery.Capacity);
-                    case ItemType.Tyre:
+                    case ProductType.Tyre:
                         return nameof(Tyre.Dimension);
                     default:
                         return null;
@@ -120,13 +142,13 @@ namespace Goldline.UI.Products
         {
             get
             {
-                switch ((ItemType) ItemTypeComboBox.SelectedIndex)
+                switch ((ProductType) ItemTypeComboBox.SelectedIndex)
                 {
-                    case ItemType.Alloywheel:
+                    case ProductType.Alloywheel:
                         return null;
-                    case ItemType.Battery:
+                    case ProductType.Battery:
                         return nameof(Battery.Voltage);
-                    case ItemType.Tyre:
+                    case ProductType.Tyre:
                         return nameof(Tyre.Country);
                     default:
                         return null;
@@ -138,13 +160,13 @@ namespace Goldline.UI.Products
         {
             get
             {
-                switch ((ItemType) ItemTypeComboBox.SelectedIndex)
+                switch ((ProductType) ItemTypeComboBox.SelectedIndex)
                 {
-                    case ItemType.Alloywheel:
+                    case ProductType.Alloywheel:
                         return _alloywheelBrandSource;
-                    case ItemType.Battery:
+                    case ProductType.Battery:
                         return _batteryBrandSource;
-                    case ItemType.Tyre:
+                    case ProductType.Tyre:
                         return _tyreBrandSource;
                     default:
                         return null;
@@ -156,13 +178,13 @@ namespace Goldline.UI.Products
         {
             get
             {
-                switch ((ItemType) ItemTypeComboBox.SelectedIndex)
+                switch ((ProductType) ItemTypeComboBox.SelectedIndex)
                 {
-                    case ItemType.Alloywheel:
+                    case ProductType.Alloywheel:
                         return _alloywheelDimensionSource;
-                    case ItemType.Battery:
+                    case ProductType.Battery:
                         return _batteryCapacitySource;
-                    case ItemType.Tyre:
+                    case ProductType.Tyre:
                         return _tyreDimensionSource;
                     default:
                         return null;
@@ -174,13 +196,13 @@ namespace Goldline.UI.Products
         {
             get
             {
-                switch ((ItemType) ItemTypeComboBox.SelectedIndex)
+                switch ((ProductType) ItemTypeComboBox.SelectedIndex)
                 {
-                    case ItemType.Alloywheel:
+                    case ProductType.Alloywheel:
                         return null;
-                    case ItemType.Battery:
+                    case ProductType.Battery:
                         return _batteryVoltageSource;
-                    case ItemType.Tyre:
+                    case ProductType.Tyre:
                         return _tyreCountrySource;
                     default:
                         return null;
@@ -230,7 +252,7 @@ namespace Goldline.UI.Products
 
         private void RefreshDataGrid()
         {
-            ItemSource = _productHandler.GetItems(SearchTextBox?.Text, (ItemType?) ItemTypeComboBox?.SelectedIndex);
+            ItemSource = _productHandler.GetItems(SearchTextBox?.Text, (ProductType?) ItemTypeComboBox?.SelectedIndex);
             InventoryDataGrid?.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
         }
 
@@ -247,7 +269,7 @@ namespace Goldline.UI.Products
 
         private void UpdateControlVisibility()
         {
-            var rowVisibility = (ItemType) ItemTypeComboBox.SelectedIndex == ItemType.Alloywheel
+            var rowVisibility = (ProductType) ItemTypeComboBox.SelectedIndex == ProductType.Alloywheel
                 ? Visibility.Hidden
                 : Visibility.Visible;
             if (Property2ComboBox != null) Property2ComboBox.Visibility = rowVisibility;
@@ -280,7 +302,7 @@ namespace Goldline.UI.Products
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
-            var addItemWindow = new AddItemWindow((ItemType) ItemTypeComboBox.SelectedIndex);
+            var addItemWindow = new AddItemWindow((ProductType) ItemTypeComboBox.SelectedIndex);
             addItemWindow.ShowDialog();
             LoadAllSources();
             RefreshComboBoxes();

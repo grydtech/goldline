@@ -41,14 +41,14 @@ namespace Core.Domain.Model.Customers
         public decimal DueAmount { get; set; }
         public List<OrderItem> OrderItems { get; set; }
 
-        public void AddOrderEntry(OrderItem orderEntry)
+        public void AddOrderItem(OrderItem orderItem)
         {
-            OrderItems.Add(orderEntry);
+            OrderItems.Add(orderItem);
         }
 
-        public void RemoveOrderEntry(OrderItem orderEntry)
+        public void RemoveOrderItem(OrderItem orderItem)
         {
-            OrderItems.Remove(orderEntry);
+            OrderItems.Remove(orderItem);
         }
     }
 }

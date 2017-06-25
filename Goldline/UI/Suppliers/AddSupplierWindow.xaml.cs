@@ -29,19 +29,6 @@ namespace Goldline.UI.Suppliers
             {
                 MessageBox.Show("Not successful");
             }
-            else
-            {
-                if (Supplier.SuppliedItems.Any(
-                    suppliedItem => suppliedItem.Id == addSuppliedItemWindow.SelectedItem.Id))
-                {
-                    MessageBox.Show("Item is already in the list.");
-                }
-                else
-                {
-                    Supplier.SuppliedItems.Add(addSuppliedItemWindow.SelectedItem);
-                    RefreshListBox();
-                }
-            }
         }
 
         private void RefreshListBox()
@@ -53,7 +40,6 @@ namespace Goldline.UI.Suppliers
         private void ItemRemoveButton_OnClick(object sender, RoutedEventArgs e)
         {
             if (ListBox.SelectedItem == null) return;
-            Supplier.SuppliedItems.Remove((Item) ListBox.SelectedItem);
             RefreshListBox();
         }
 
@@ -61,15 +47,6 @@ namespace Goldline.UI.Suppliers
         {
             Supplier.Name = NameTextBox.Text;
             Supplier.Contact = ContactInfoTextBox.Text;
-            if (Supplier.SuppliedItems.Count == 0)
-            {
-                MessageBox.Show("You should provide at least one supplied item");
-            }
-            else
-            {
-                new SupplierHandler().AddNewSupplier(Supplier);
-                Close();
-            }
         }
 
         private void DiscardButton_OnClick(object sender, RoutedEventArgs e)

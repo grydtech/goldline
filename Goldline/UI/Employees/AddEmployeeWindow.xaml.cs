@@ -13,16 +13,16 @@ namespace Goldline.UI.Employees
     public partial class AddEmployeeWindow : Window
     {
         private readonly EmployeeHandler _employeeHandler;
-        private readonly UserAccessHandler _userAccessHandler;
+        private readonly SecurityHandler _securityHandler;
         private bool _isUser;
         private bool? _isUserNameUnique;
 
         public AddEmployeeWindow()
         {
             InitializeComponent();
-            UserTypeComboBox.ItemsSource = Enum.GetNames(typeof(UserType));
+            AccessModeComboBox.ItemsSource = Enum.GetNames(typeof(AccessMode));
             _employeeHandler = new EmployeeHandler();
-            _userAccessHandler = new UserAccessHandler();
+            _securityHandler = new SecurityHandler();
         }
 
         private void OkButton_OnClick(object sender, RoutedEventArgs e)
@@ -36,7 +36,7 @@ namespace Goldline.UI.Employees
             }
 
             if (_isUser && _isUserNameUnique == null)
-                _isUserNameUnique = _userAccessHandler.IsUsernameAvailable(UserNameTextBox.Text);
+                _isUserNameUnique = _securityHandler.IsUsernameAvailable(UserNameTextBox.Text);
 
             if (_isUser && _isUserNameUnique == false)
             {
@@ -47,14 +47,11 @@ namespace Goldline.UI.Employees
             #endregion
 
             // Should insert employee into database before giving user access.
-            var employee = new Employee(
-                NameTextBox.Text,
-                ContactInfoTextBox.Text,
-                _isUser ? EmployeeType.User : EmployeeType.Regular);
+            var employee = new Employee(NameTextBox.Text, ContactInfoTextBox.Text, true, AccessMode.None);
 
             try
             {
-                _employeeHandler.AddNewEmployee(employee);
+                _employeeHandler.AddEmployee(employee);
                 MessageBox.Show("Employee added successfully");
             }
             catch (Exception exception)
@@ -65,7 +62,7 @@ namespace Goldline.UI.Employees
             if (_isUser)
                 try
                 {
-                    new UserAccessHandler().AddNewUserAccess(employee, (UserType) UserTypeComboBox.SelectedIndex,
+                    new SecurityHandler().AddUserAccess(employee, (AccessMode) AccessModeComboBox.SelectedIndex,
                         UserNameTextBox.Text);
                     MessageBox.Show("User access provided successfully");
                 }
@@ -92,7 +89,7 @@ namespace Goldline.UI.Employees
         private void VerifyButton_OnClick(object sender, RoutedEventArgs e)
         {
             // Verify if username is available
-            MessageBox.Show(_userAccessHandler.IsUsernameAvailable(UserNameTextBox.Text)
+            MessageBox.Show(_securityHandler.IsUsernameAvailable(UserNameTextBox.Text)
                 ? "This username is available!"
                 : "This UserName is already taken. Please choose another");
         }

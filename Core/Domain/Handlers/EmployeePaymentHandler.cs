@@ -42,14 +42,12 @@ namespace Core.Domain.Handlers
         /// </summary>
         /// <param name="employee"></param>
         /// <returns></returns>
-        public IEnumerable<EmployeePayment> GetPayments(Employee employee)
+        public IEnumerable<EmployeePayment> GetPayments(Employee employee = null)
         {
-            // Exception handling
-            if (employee.Id == null) throw new ArgumentNullException(nameof(employee.Id), "Employee id is null");
 
             using (var connection = Connector.GetConnection())
             {
-                return new EmployeePaymentDal(connection).Search(employee.Id);
+                return new EmployeePaymentDal(connection).Search(employee?.Id);
             }
         }
     }

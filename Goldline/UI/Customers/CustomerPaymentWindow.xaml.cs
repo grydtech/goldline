@@ -13,12 +13,12 @@ namespace Goldline.UI.Customers
     /// </summary>
     public partial class CustomerPaymentWindow : Window
     {
-        private readonly CustomerPaymentHandler _customerPaymentHandler;
+        private readonly OrderPaymentHandler _orderPaymentHandler;
 
         public CustomerPaymentWindow()
         {
-            _customerPaymentHandler = new CustomerPaymentHandler();
-            CustomerSource = CustomerHandler.GetCustomers();
+            _orderPaymentHandler = new OrderPaymentHandler();
+            CustomerSource = new CustomerHandler().GetCustomers();
 
             InitializeComponent();
         }
@@ -58,7 +58,7 @@ namespace Goldline.UI.Customers
                     NoteTextBox.Text);
                 try
                 {
-                    _customerPaymentHandler.AddNewCustomerPayment(cs);
+                    _orderPaymentHandler.AddPayment(cs);
                     MessageBox.Show("Payment recorded successfully");
                 }
                 catch (Exception ex)
@@ -68,7 +68,7 @@ namespace Goldline.UI.Customers
                 finally
                 {
                     AmountTextBox.Text = "";
-                    CustomerSource = CustomerHandler.GetCustomers();
+                    CustomerSource = new CustomerHandler().GetCustomers();
                     RefreshCustomerComboBox();
                     RefreshDataGrid();
                 }
@@ -89,7 +89,7 @@ namespace Goldline.UI.Customers
         {
             CustomerPaymentSource = SelectedCustomer == null
                 ? null
-                : _customerPaymentHandler.GetCustomerPayments(SelectedCustomer);
+                : _orderPaymentHandler.GetPayments(SelectedCustomer.Id);
             CustomerDataGrid.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
             CustomerDataGrid.Items.Refresh();
         }

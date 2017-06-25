@@ -16,7 +16,7 @@ namespace Goldline.UI.Returns
     {
         private readonly string _defaultText = "Enter your text here..";
         private readonly ItemReturnHandler _itemReturnHandler;
-        private ReturnCondition? _condition;
+        private bool? isHandled;
         private IEnumerable<ItemReturn> _returnedItemSource;
         private ItemReturn _selectedItemReturn;
 
@@ -24,12 +24,12 @@ namespace Goldline.UI.Returns
         {
             InitializeComponent();
             _itemReturnHandler = new ItemReturnHandler();
-            ComboBox.ItemsSource = Enum.GetNames(typeof(ReturnCondition));
+            ComboBox.ItemsSource = new[] {"True", "False"};
         }
 
         public void RefreshDataGrid(string text = "%")
         {
-            _returnedItemSource = _itemReturnHandler.SearchItemReturns(text, _condition);
+            _returnedItemSource = _itemReturnHandler.GetItemReturns(text, isHandled);
             InventoryDataGrid.ItemsSource = _returnedItemSource;
             _selectedItemReturn = (ItemReturn) InventoryDataGrid.SelectedItem;
         }
@@ -77,7 +77,7 @@ namespace Goldline.UI.Returns
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _condition = (ReturnCondition?) ComboBox.SelectedIndex;
+            isHandled = ComboBox.SelectedIndex == 0;
             RefreshDataGrid();
             SearchTextBox.Text = _defaultText;
         }
@@ -95,23 +95,20 @@ namespace Goldline.UI.Returns
 
         private void RejectedButton_Click(object sender, RoutedEventArgs e)
         {
-            UpdateItemReturn(ReturnCondition.Rejected);
         }
 
         private void AcceptedButton_Click(object sender, RoutedEventArgs e)
         {
-            UpdateItemReturn(ReturnCondition.Accepted);
         }
 
         private void CompletedButton_Click(object sender, RoutedEventArgs e)
         {
-            UpdateItemReturn(ReturnCondition.Completed);
         }
 
-        private void UpdateItemReturn(ReturnCondition condition)
+        private void UpdateItemReturn(bool handled)
         {
             if (_selectedItemReturn == null) return;
-            _selectedItemReturn.Condition = condition;
+            _selectedItemReturn.IsHandled = handled;
             _itemReturnHandler.UpdateItemReturn(_selectedItemReturn);
             RefreshDataGrid();
         }

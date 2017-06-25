@@ -20,7 +20,7 @@ namespace Goldline.UI.Employees
         public EmployeeManagementWindow()
         {
             _employeeHandler = new EmployeeHandler();
-            EmployeeSource = _employeeHandler.GetAllEmployees();
+            EmployeeSource = _employeeHandler.GetEmployees();
             InitializeComponent();
         }
 
@@ -54,7 +54,7 @@ namespace Goldline.UI.Employees
                 try
                 {
                     foreach (Employee employee in EmployeeDataGrid.Items)
-                        _employeeHandler.UpdateEmployeeDetails(employee);
+                        _employeeHandler.UpdateEmployee(employee);
                     MessageBox.Show("All Employees update successfully");
                 }
                 catch (Exception exception)
@@ -77,8 +77,8 @@ namespace Goldline.UI.Employees
             if (EmployeeDataGrid.SelectedItem == null) MessageBox.Show(@"No Employee Selected");
             else if (MessageBox.Show(this, @"Are You Sure?", "Confirmation", MessageBoxButton.YesNo) ==
                      MessageBoxResult.Yes)
-                _employeeHandler.UpdateEmployeeStatus((Employee) EmployeeDataGrid.SelectedItem,
-                    ((ToggleButton) sender).IsChecked == true);
+                _employeeHandler.UpdateEmployee((Employee) EmployeeDataGrid.SelectedItem,
+                    isActive: ((ToggleButton) sender).IsChecked == true);
         }
 
         private void PaymentsButton_OnClick(object sender, RoutedEventArgs e)
@@ -95,7 +95,7 @@ namespace Goldline.UI.Employees
         private void ReloadDataGrid()
         {
             // Update Data Grid with new set of employees
-            EmployeeSource = _employeeHandler.SearchEmployee(SearchTextBox.Text);
+            EmployeeSource = _employeeHandler.GetEmployees(SearchTextBox.Text);
             EmployeeDataGrid.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
         }
 
