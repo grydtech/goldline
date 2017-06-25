@@ -25,7 +25,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="75" />
                 <RowDefinition Height="50" />
-                <RowDefinition Height="200" />
+                <RowDefinition Height="250" />
                 <RowDefinition Height="40" />
                 <RowDefinition />
                 <RowDefinition Height="60" />
@@ -83,7 +83,7 @@
                 CornerRadius="10">
                 <Grid Margin="5">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="60" />
+                        <RowDefinition Height="50" />
                         <RowDefinition />
                         <RowDefinition Height="40" />
                     </Grid.RowDefinitions>
@@ -94,21 +94,22 @@
                         Style="{DynamicResource Goldline.LabelStyle.Dark}" />
                     <Grid Grid.Row="1" Margin="5">
                         <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
+                            <RowDefinition Height="2*" />
+                            <RowDefinition Height="2*" />
+                            <RowDefinition Height="2*" />
+                            <RowDefinition Height="2*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*" />
                             <ColumnDefinition Width="3*" />
                         </Grid.ColumnDefinitions>
                         <Label
-                            x:Name="QuantityLabel"
+                            Grid.Row="0" x:Name="NameLabel"
                             Grid.Column="0"
-                            Content="Quantity:"
+                            Content="Name:"
                             Style="{DynamicResource Goldline.LabelStyle.Dark}" />
                         <TextBox
-                            x:Name="QuantityTextBox"
+                            x:Name="NameTextBox"
                             Grid.Row="0"
                             Grid.Column="1"
                             Style="{DynamicResource Goldline.TextBoxStyle.Dark}">
@@ -117,14 +118,28 @@
                             </i:Interaction.Behaviors>
                         </TextBox>
                         <Label
-                            x:Name="UnitPriceLabel"
+                            Grid.Row="1" x:Name="QuantityLabel"
+                            Grid.Column="0"
+                            Content="Quantity:"
+                            Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+                        <TextBox
+                            x:Name="QuantityTextBox"
                             Grid.Row="1"
+                            Grid.Column="1"
+                            Style="{DynamicResource Goldline.TextBoxStyle.Dark}">
+                            <i:Interaction.Behaviors>
+                                <goldline:TextBoxInputBehavior InputMode="{StaticResource DigitInputMode}" />
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+                        <Label
+                            x:Name="UnitPriceLabel"
+                            Grid.Row="2"
                             Grid.Column="0"
                             Content="Unit Price:"
                             Style="{DynamicResource Goldline.LabelStyle.Dark}" />
                         <TextBox
                             x:Name="UnitPriceTextBox"
-                            Grid.Row="1"
+                            Grid.Row="2"
                             Grid.Column="1"
                             GotFocus="TextBox_OnGotFocus"
                             KeyDown="UnitPriceTextBox_OnKeyDown"
@@ -137,13 +152,13 @@
                         </TextBox>
                         <Label
                             x:Name="DiscountLabel"
-                            Grid.Row="2"
+                            Grid.Row="3"
                             Grid.Column="0"
                             Content="Discount %:"
                             Style="{DynamicResource Goldline.LabelStyle.Dark}" />
                         <TextBox
                             x:Name="DiscountTextBox"
-                            Grid.Row="2"
+                            Grid.Row="3"
                             Grid.Column="1"
                             GotFocus="TextBox_OnGotFocus"
                             KeyDown="DiscountTextBox_OnKeyDown"
@@ -186,7 +201,8 @@
                     ItemsSource="{Binding ItemSource}"
                     Opacity="0.8"
                     ScrollViewer.CanContentScroll="True"
-                    SelectionMode="Single">
+                    SelectionMode="Single"
+                    SelectionChanged="SearchDataGrid_OnSelectionChanged">
                     <DataGrid.Columns>
                         <DataGridTextColumn
                             Width="5*"
@@ -294,7 +310,7 @@
                             Grid.Column="1"
                             BorderBrush="{DynamicResource Goldline.Border}"
                             BorderThickness="1"
-                            Content="{Binding Order.Total}"
+                            Content="{Binding Order.Amount}"
                             FontSize="20"
                             FontWeight="Bold"
                             Style="{DynamicResource Goldline.LabelStyle.Dark}" />
