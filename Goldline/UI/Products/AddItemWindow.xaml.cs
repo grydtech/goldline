@@ -85,7 +85,6 @@ namespace Goldline.UI.Products
         /// <returns></returns>
         private void UpdateItemProperties()
         {
-            Item.ItemCode = ItemCodeTextBox.Text;
             Item.Brand = (string) BrandComboBox.SelectedItem;
             Item.Model = ModelTextBox.Text;
 
@@ -161,13 +160,13 @@ namespace Goldline.UI.Products
         private void ComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             UpdateItemProperties();
-            NameTextBox.Text = Item.GenerateName();
+            NameTextBox.Text = Item.ToString();
         }
 
         private void TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             UpdateItemProperties();
-            NameTextBox.Text = Item.GenerateName();
+            NameTextBox.Text = Item.ToString();
         }
 
         #region Binding Properties

@@ -87,12 +87,12 @@ namespace Goldline.UI.Products
 
         private void ComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            NameTextBox.Text = ((Item) InventoryDataGrid.SelectedItem)?.GenerateName();
+            NameTextBox.Text = ((Item) InventoryDataGrid.SelectedItem)?.ToString();
         }
 
         private void TextBox_OnSelectionChanged(object sender, RoutedEventArgs e)
         {
-            NameTextBox.Text = ((Item) InventoryDataGrid.SelectedItem)?.GenerateName();
+            NameTextBox.Text = ((Item) InventoryDataGrid.SelectedItem)?.ToString();
         }
 
         #region Encapsulated data sources

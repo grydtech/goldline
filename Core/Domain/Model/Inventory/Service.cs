@@ -2,10 +2,11 @@
 
 namespace Core.Domain.Model.Inventory
 {
-    public class Service : Product
+    public sealed class Service : Product
     {
-        public Service(string name) : base(name, ProductType.Service)
+        public Service(string name) : base(ProductType.Service)
         {
+            Name = name;
         }
 
         /// <summary>
@@ -14,6 +15,12 @@ namespace Core.Domain.Model.Inventory
         public Service()
         {
             ProductType = ProductType.Service;
+        }
+
+        public override string Name { get; set; }
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

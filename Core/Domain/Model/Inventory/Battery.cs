@@ -2,11 +2,12 @@
 
 namespace Core.Domain.Model.Inventory
 {
-    public class Battery : Item
+    public sealed class Battery : Item
     {
         public Battery(string name, decimal unitPrice, string brand,
-            string capacity, string voltage, uint stockQty = 0) : base(name, ProductType.Battery, unitPrice, stockQty)
+            string capacity, string voltage, uint stockQty = 0) : base(ProductType.Battery, unitPrice, stockQty)
         {
+            Name = name;
             Brand = brand;
             Capacity = capacity;
             Voltage = voltage;
@@ -23,15 +24,10 @@ namespace Core.Domain.Model.Inventory
         public string Capacity { get; set; }
         public string Voltage { get; set; }
 
-        /// <summary>
-        ///     Generate and return Item Name in following format
-        ///     ([ItemCode] [Brand] [Model] [Capacity Ah] [Voltage V]
-        /// </summary>
-        /// <returns></returns>
-        public override string GenerateName()
+        public override string Name { get; set; }
+        public override string ToString()
         {
             return
-                (string.IsNullOrEmpty(ItemCode) ? "" : ItemCode.Trim() + " ") +
                 (string.IsNullOrEmpty(Brand) ? "" : Brand.Trim() + " ") +
                 (string.IsNullOrEmpty(Model) ? "" : Model.Trim() + " ") +
                 (string.IsNullOrEmpty(Capacity) ? "" : Capacity.Trim() + "Ah ") +

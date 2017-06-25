@@ -4,9 +4,8 @@ namespace Core.Domain.Model.Inventory
 {
     public abstract class Product
     {
-        protected Product(string name, ProductType productType)
+        protected Product(ProductType productType)
         {
-            Name = name;
             ProductType = productType;
         }
 
@@ -18,7 +17,8 @@ namespace Core.Domain.Model.Inventory
         }
 
         public uint? Id { get; set; }
-        public string Name { get; set; }
-        public ProductType ProductType { get; set; }
+        public ProductType ProductType { get; protected set; }
+        public abstract string Name { get; set; }
+        public abstract override string ToString();
     }
 }
