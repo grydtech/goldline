@@ -13,133 +13,120 @@ namespace Goldline.UI.Products
     /// </summary>
     public partial class AddItemWindow : Window
     {
+        private readonly ProductType _productType;
         private readonly ProductHandler _productHandler;
-        private readonly ProductType _ProductType;
-        private readonly ProductHandler.AlloywheelHandler alloywheelHandler;
-        private readonly ProductHandler.BatteryHandler batteryHandler;
-        private readonly ProductHandler.TyreHandler tyreHandler;
+        private readonly ProductHandler.AlloywheelHandler _alloywheelHandler;
+        private readonly ProductHandler.BatteryHandler _batteryHandler;
+        private readonly ProductHandler.TyreHandler _tyreHandler;
 
-        public AddItemWindow(ProductType ProductType)
+        public AddItemWindow(ProductType productType)
         {
-            _ProductType = ProductType;
+            // Load handlers and initialize item
+            _productType = productType;
             _productHandler = new ProductHandler();
-            LoadPropertySources();
-            Item = InitializeItem();
-
+            _alloywheelHandler = new ProductHandler.AlloywheelHandler();
+            _batteryHandler = new ProductHandler.BatteryHandler();
+            _tyreHandler = new ProductHandler.TyreHandler();
+            LoadSources();
             InitializeComponent();
-            RefreshComboBoxes();
-
-            // If ProductType is alloywheel, hide property2 row contents
-            var rowItemVisibility = _ProductType == ProductType.Alloywheel ? Visibility.Hidden : Visibility.Visible;
-            Property2Label.Visibility = rowItemVisibility;
-            Property2ComboBox.Visibility = rowItemVisibility;
-
-            AddProperty2Button.Visibility = _ProductType == ProductType.Alloywheel || _ProductType == ProductType.Tyre
-                ? Visibility.Hidden
-                : Visibility.Visible;
+            InitializeUi();
         }
-
-        public Item Item { get; set; }
-        public IEnumerable<string> BrandSource { get; set; }
-        public IEnumerable<string> Property1Source { get; set; }
-        public IEnumerable<string> Property2Source { get; set; }
-
-        /// <summary>
-        ///     Load new sources when initializing the window, and update combo boxes
-        /// </summary>
-        private void LoadPropertySources()
+        private void InitializeUi()
         {
-            switch (_ProductType)
+            switch (_productType)
             {
                 case ProductType.Alloywheel:
-                    BrandSource = alloywheelHandler.GetBrands();
-                    Property1Source = alloywheelHandler.GetDimensions();
-                    Property2Source = null;
+                    RowCapacity.Height = new GridLength(0);
+                    RowVoltage.Height = new GridLength(0);
+                    RowCountry.Height = new GridLength(0);
                     break;
                 case ProductType.Battery:
-                    BrandSource = batteryHandler.GetBrands();
-                    Property1Source = null;
-                    Property2Source = null;
+                    RowDimension.Height = new GridLength(0);
+                    RowCountry.Height = new GridLength(0);
                     break;
                 case ProductType.Tyre:
-                    BrandSource = tyreHandler.GetBrands();
-                    Property1Source = tyreHandler.GetDimensions();
-                    Property2Source = App.GetAllCountries();
+                    RowCapacity.Height = new GridLength(0);
+                    RowVoltage.Height = new GridLength(0);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            RefreshComboBoxes();
+        }
+
+        #region Binding Properties
+
+        public IEnumerable<string> BrandSource { get; set; }
+        public IEnumerable<string> DimensionSource { get; set; }
+        public IEnumerable<string> CountrySource { get; set; }
+        public string Brand { get; set; }
+        public string Model { get; set; }
+        public string Dimension { get; set; }
+        public string Country { get; set; }
+        public string Capacity { get; set; }
+        public string Voltage { get; set; }
+        public string Stocks { get; set; }
+        public string UnitPrice { get; set; }
+
+        #endregion
+
+        /// <summary>
+        ///     Load new sources when initializing the window, and update combo boxes
+        /// </summary>
+        private void LoadSources()
+        {
+            switch (_productType)
+            {
+                case ProductType.Alloywheel:
+                    BrandSource = _alloywheelHandler.GetBrands();
+                    DimensionSource = _alloywheelHandler.GetDimensions();
+                    CountrySource = null;
+                    break;
+                case ProductType.Battery:
+                    BrandSource = _batteryHandler.GetBrands();
+                    DimensionSource = null;
+                    CountrySource = null;
+                    break;
+                case ProductType.Tyre:
+                    BrandSource = _tyreHandler.GetBrands();
+                    DimensionSource = _tyreHandler.GetDimensions();
+                    CountrySource = _tyreHandler.GetCountries();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         private void RefreshComboBoxes()
         {
             BrandComboBox?.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
-            Property1ComboBox?.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
-            Property2ComboBox?.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
-        }
-
-        /// <summary>
-        ///     Finalize item by setting the relevant properties into item
-        /// </summary>
-        /// <returns></returns>
-        private void UpdateItemProperties()
-        {
-            Item.Brand = (string) BrandComboBox.SelectedItem;
-            Item.Model = ModelTextBox.Text;
-
-            switch (_ProductType)
-            {
-                case ProductType.Alloywheel:
-                    ((Alloywheel) Item).Dimension = (string) Property1ComboBox.SelectedItem;
-                    break;
-                case ProductType.Battery:
-                    ((Battery) Item).Capacity = (string) Property1ComboBox.SelectedItem;
-                    ((Battery) Item).Voltage = (string) Property2ComboBox.SelectedItem;
-                    break;
-                case ProductType.Tyre:
-                    ((Tyre) Item).Dimension = (string) Property1ComboBox.SelectedItem;
-                    ((Tyre) Item).Country = (string) Property2ComboBox.SelectedItem;
-                    break;
-                default:
-                    return;
-            }
-        }
-
-        /// <summary>
-        ///     Initialize an item of specified type when creating window
-        /// </summary>
-        /// <returns></returns>
-        private Item InitializeItem()
-        {
-            switch (_ProductType)
-            {
-                case ProductType.Tyre:
-                    return new Tyre();
-                case ProductType.Alloywheel:
-                    return new Alloywheel();
-                case ProductType.Battery:
-                    return new Battery();
-                default:
-                    return null;
-            }
-        }
-
-        private bool IsDataInCorrectForm()
-        {
-            return
-                !(ItemCodeTextBox.Text == "" || (string) BrandComboBox.SelectedItem == "" ||
-                  (string) Property1ComboBox.SelectedItem == "" ||
-                  _ProductType != ProductType.Alloywheel && (string) Property2ComboBox.SelectedItem == "" ||
-                  StockTextBox.Text == "" || PriceTextBox.Text == "");
+            DimensionComboBox?.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
+            CountryComboBox?.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
         }
 
         private void AddButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (IsDataInCorrectForm())
+            Item item;
+            switch (_productType)
             {
-                UpdateItemProperties();
-                _productHandler.AddProduct(Item);
+                case ProductType.Alloywheel:
+                    item = new Alloywheel(Brand, Model, uint.Parse(Stocks ?? "0"), decimal.Parse(UnitPrice ?? "0"),
+                        Dimension);
+                    break;
+                case ProductType.Battery:
+                    item = new Battery(Brand, Model, uint.Parse(Stocks ?? "0"), decimal.Parse(UnitPrice ?? "0"),
+                        Capacity, Voltage);
+                    break;
+                case ProductType.Tyre:
+                    item = new Tyre(Brand, Model, uint.Parse(Stocks ?? "0"), decimal.Parse(UnitPrice ?? "0"),
+                        Dimension, Country);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            if (item.Validate())
+            {
+                _productHandler.AddProduct(item);
             }
             else
             {
@@ -157,98 +144,50 @@ namespace Goldline.UI.Products
             Close();
         }
 
-        private void ComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            UpdateItemProperties();
-            NameTextBox.Text = Item.ToString();
-        }
-
-        private void TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            UpdateItemProperties();
-            NameTextBox.Text = Item.ToString();
-        }
-
-        #region Binding Properties
-
-        public string Property1Text
-        {
-            get
-            {
-                switch (_ProductType)
-                {
-                    case ProductType.Alloywheel:
-                        return nameof(Alloywheel.Dimension);
-                    case ProductType.Battery:
-                        return nameof(Battery.Capacity);
-                    case ProductType.Tyre:
-                        return nameof(Tyre.Dimension);
-                    default:
-                        return null;
-                }
-            }
-        }
-
-        public string Property2Text
-        {
-            get
-            {
-                switch (_ProductType)
-                {
-                    case ProductType.Alloywheel:
-                        return null;
-                    case ProductType.Battery:
-                        return nameof(Battery.Voltage);
-                    case ProductType.Tyre:
-                        return nameof(Tyre.Country);
-                    default:
-                        return null;
-                }
-            }
-        }
-
-        #endregion
-
         #region Adding new properties
 
-        private void AddNewBrand(string brand)
+        private void AddBrand(string brand)
         {
-            switch (_ProductType)
+            switch (_productType)
             {
                 case ProductType.Alloywheel:
-                    alloywheelHandler.AddBrand(brand);
+                    _alloywheelHandler.AddBrand(brand);
                     break;
                 case ProductType.Battery:
-                    batteryHandler.AddBrand(brand);
+                    _batteryHandler.AddBrand(brand);
                     break;
                 case ProductType.Tyre:
-                    tyreHandler.AddBrand(brand);
+                    _tyreHandler.AddBrand(brand);
                     break;
                 default:
                     return;
             }
-            LoadPropertySources();
+            LoadSources();
+            RefreshComboBoxes();
         }
 
-        private void AddNewProperty1(string property)
+        private void AddDimension(string dimension)
         {
-            switch (_ProductType)
+            switch (_productType)
             {
                 case ProductType.Alloywheel:
-                    alloywheelHandler.AddDimension(property);
+                    _alloywheelHandler.AddDimension(dimension);
                     break;
                 case ProductType.Tyre:
-                    alloywheelHandler.AddDimension(property);
+                    _tyreHandler.AddDimension(dimension);
                     break;
                 default:
                     return;
             }
-            LoadPropertySources();
+            LoadSources();
+            RefreshComboBoxes();
         }
 
-        private void AddNewProperty2(string property)
+        private void AddCountry(string country)
         {
-            LoadPropertySources();
+            _tyreHandler.AddCountry(country);
+            LoadSources();
+            RefreshComboBoxes();
         }
 
         #endregion
@@ -258,7 +197,7 @@ namespace Goldline.UI.Products
         private void AddBrandButton_OnClick(object sender, RoutedEventArgs e)
         {
             InputDialog inputDialog;
-            switch (_ProductType)
+            switch (_productType)
             {
                 case ProductType.Alloywheel:
                     inputDialog = new InputDialog("Add Brand", "Enter Alloywheel Brand");
@@ -276,15 +215,13 @@ namespace Goldline.UI.Products
                     return;
             }
             if (inputDialog.DialogResult != true) return;
-
-            AddNewBrand(inputDialog.Response);
-            LoadPropertySources();
+            AddBrand(inputDialog.Response);
         }
 
-        private void AddProperty1Button_OnClick(object sender, RoutedEventArgs e)
+        private void AddDimensionButton_OnClick(object sender, RoutedEventArgs e)
         {
             InputDialog inputDialog;
-            switch (_ProductType)
+            switch (_productType)
             {
                 case ProductType.Alloywheel:
                     inputDialog = new InputDialog("Add Dimension", "Enter Alloywheel Dimension");
@@ -302,27 +239,23 @@ namespace Goldline.UI.Products
                     return;
             }
             if (inputDialog.DialogResult != true) return;
-
-            AddNewProperty1(inputDialog.Response);
-            LoadPropertySources();
+            AddDimension(inputDialog.Response);
         }
 
-        private void AddProperty2Button_OnClick(object sender, RoutedEventArgs e)
+        private void AddCountryButton_OnClick(object sender, RoutedEventArgs e)
         {
             InputDialog inputDialog;
-            switch (_ProductType)
+            switch (_productType)
             {
-                case ProductType.Battery:
-                    inputDialog = new InputDialog("Add Voltage", "Enter Battery Voltage");
+                case ProductType.Tyre:
+                    inputDialog = new InputDialog("Add Country", "Enter Country Name");
                     inputDialog.ShowDialog();
                     break;
                 default:
                     return;
             }
             if (inputDialog.DialogResult != true) return;
-
-            AddNewProperty2(inputDialog.Response);
-            LoadPropertySources();
+            AddCountry(inputDialog.Response);
         }
 
         #endregion

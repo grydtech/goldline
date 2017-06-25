@@ -14,6 +14,7 @@
         {   
         }
 
+        public abstract bool Validate();
         public string Brand { get; set; }
         public string Model { get; set; }
         public uint StockQty { get; set; }
