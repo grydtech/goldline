@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Transactions;
 using Core.Data;
 using Core.Data.Suppliers;
-using Core.Domain.Model.Employees;
 using Core.Domain.Model.Suppliers;
 
 namespace Core.Domain.Handlers
@@ -16,82 +16,70 @@ namespace Core.Domain.Handlers
         /// <param name="purchase"></param>
         public void AddPurchase(Purchase purchase)
         {
+            if (purchase.SupplierId == null)
+                throw new ArgumentNullException(nameof(purchase.SupplierId), "Purchase SupplierId is null");
             using (var scope = new TransactionScope())
             {
                 using (var connection = Connector.GetConnection())
                 {
-                    var supplyOrderDal = new PurchaseDal(connection);
-                    supplyOrderDal.Insert(purchase, User.CurrentUser.EmployeeId);
+                    var purchaseDal = new PurchaseDal(connection);
+                    purchaseDal.Insert(purchase.SupplierId.Value, purchase.Amount, purchase.Note, purchase.IsSettled);
+                    purchase.Id = purchaseDal.GetLastInsertId();
 
                     if (purchase.Id == null)
                         throw new ArgumentNullException(nameof(purchase.Id),
-                            "Supply order Id has not been assigned after insert");
+                            "Purchase Id null after insert");
 
-                    supplyOrderDal.InsertPurchasedItems((uint)purchase.Id, purchase.OrderEntries);
+                    var purchaseItemDal = new PurchaseItemDal(connection);
+                    purchaseItemDal.InsertMultiple(purchase.Id.Value, purchase.PurchaseItems);
                 }
                 scope.Complete();
             }
         }
 
         /// <summary>
-        ///     Returns list of supplyorders matching the given note text
+        ///     Returns list of purchases matching the given parameters
         /// </summary>
+        /// <param name="supplierId"></param>
+        /// <param name="isSettled"></param>
         /// <param name="note"></param>
         /// <returns></returns>
-        public IEnumerable<Purchase> GetPurchases(uint? supplierId = null, string note = null, bool? isSettled = null)
+        public IEnumerable<Purchase> GetPurchases(uint? supplierId = null, bool? isSettled = null, string note = null)
         {
             using (var connection = Connector.GetConnection())
             {
-                return new PurchaseDal(connection).Search(note);
+                return new PurchaseDal(connection).Search(supplierId, isSettled, note);
             }
         }
 
         /// <summary>
-        ///     Updates a supply order
+        ///     Updates a purchase
         /// </summary>
         /// <param name="purchase"></param>
-        /// <param name="isEntriesUpdated">If order entries need to be updated, set this true</param>
-        public void UpdatePurchase(Purchase purchase, decimal? amount = null, bool? isSettled = null, string note = null)
+        /// <param name="supplierId"></param>
+        /// <param name="amount"></param>
+        /// <param name="isSettled"></param>
+        /// <param name="note"></param>
+        /// <param name="purchaseItems"></param>
+        public void UpdatePurchase(Purchase purchase, uint? supplierId = null, decimal? amount = null,
+            bool? isSettled = null, string note = null, IEnumerable<PurchaseItem> purchaseItems = null)
         {
             using (var scope = new TransactionScope())
             {
                 using (var connection = Connector.GetConnection())
                 {
                     if (purchase.Id == null)
-                        throw new ArgumentNullException(nameof(purchase.Id), "Supply Order Id is null");
+                        throw new ArgumentNullException(nameof(purchase.Id), "Purchase Id is null");
 
-                    var supplyOrderDal = new PurchaseDal(connection);
-                    supplyOrderDal.Update(purchase);
+                    var purchaseDal = new PurchaseDal(connection);
+                    purchaseDal.Update(purchase.Id.Value, supplierId, amount, isSettled, note);
 
-                    if (!isEntriesUpdated) return;
-
-                    if (purchase.OrderEntries == null)
-                        throw new ArgumentNullException(
-                            nameof(purchase.OrderEntries),
-                            "Attempt to update order entries while OrderItems = null");
-
-                    supplyOrderDal.RemovePurchasedItems((uint)purchase.Id);
-                    supplyOrderDal.InsertPurchasedItems((uint)purchase.Id, purchase.OrderEntries);
-                }
-                scope.Complete();
-            }
-        }
-        
-        /// <summary>
-        ///     Update a set of supply orders as paid off
-        /// </summary>
-        /// <param name="purchases"></param>
-        public void UpdatePurchaseMultiple(IEnumerable<Purchase> purchases, bool isSettled)
-        {
-            using (var scope = new TransactionScope())
-            {
-                using (var connection = Connector.GetConnection())
-                {
-                    var supplyOrderDal = new PurchaseDal(connection);
-                    foreach (var supplyOrder in purchases)
+                    var purchaseItemsList = purchaseItems?.ToList();
+                    if (purchaseItemsList?.Any() == true)
                     {
-                        supplyOrder.Status = SupplyOrderStatus.Paid;
-                        supplyOrderDal.Update(supplyOrder, SupplyOrderStatus.Paid);
+                        var purchaseItemDal = new PurchaseItemDal(connection);
+                        purchaseItemDal.Delete(purchase.Id.Value);
+                        purchaseItemDal.InsertMultiple(purchase.Id.Value, purchaseItemsList);
                     }
                 }
                 scope.Complete();
@@ -99,14 +87,41 @@ namespace Core.Domain.Handlers
         }
 
         /// <summary>
-        ///     Load Order Entries of a supply order
+        ///     Update a set of purchases
+        /// </summary>
+        /// <param name="purchases"></param>
+        /// <param name="isSettled"></param>
+        public void UpdatePurchaseMultiple(IEnumerable<Purchase> purchases, bool isSettled)
+        {
+            var purchasesList = purchases.ToList();
+            if (purchasesList.Any(p => p.Id == null))
+                throw new ArgumentNullException(nameof(purchasesList), "Some Purchases have null Id");
+
+            using (var scope = new TransactionScope())
+            {
+                using (var connection = Connector.GetConnection())
+                {
+                    var purchaseDal = new PurchaseDal(connection);
+                    foreach (var purchase in purchasesList)
+                        purchaseDal.Update(purchase.Id.GetValueOrDefault(), isSettled: isSettled);
+                }
+                scope.Complete();
+            }
+        }
+
+        /// <summary>
+        ///     Load purchaseItems of a purchase
         /// </summary>
         /// <param name="purchase"></param>
         public void LoadPurchaseItems(Purchase purchase)
         {
+            if (purchase.Id == null)
+                throw new ArgumentNullException(nameof(purchase.Id), "Purchase Id is null");
+
             using (var connection = Connector.GetConnection())
             {
-                new PurchaseDal(connection).LoadPurchasedItems(purchase);
+                var purchaseItems = new PurchaseItemDal(connection).Search(purchase.Id.Value);
+                purchase.PurchaseItems = purchaseItems?.ToList();
             }
         }
     }

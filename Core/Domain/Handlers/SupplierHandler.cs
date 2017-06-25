@@ -21,16 +21,12 @@ namespace Core.Domain.Handlers
                 using (var connection = Connector.GetConnection())
                 {
                     var supplierDal = new SupplierDal(connection);
-                    supplierDal.Insert(supplier);
+                    supplierDal.Insert(supplier.Name, supplier.Contact);
+                    supplier.Id = supplierDal.GetLastInsertId();
 
                     // Exception handling
                     if (supplier.Id == null)
                         throw new ArgumentNullException(nameof(supplier.Id), "Supplier Id null after insert");
-                    if (supplier.SuppliedItems.Any(suppliedItem => suppliedItem.Id == null))
-                        throw new ArgumentNullException(nameof(supplier.SuppliedItems),
-                            "Some items in suppliedItems do not have Id");
-
-                    supplierDal.InsertSuppliedItems((uint) supplier.Id, supplier.SuppliedItems);
                 }
                 scope.Complete();
             }
@@ -40,40 +36,28 @@ namespace Core.Domain.Handlers
         ///     Search a list of suppliers matching search parameters
         /// </summary>
         /// <param name="name"></param>
-        /// <param name="isSuppliedItemsLoaded"></param>
-        public IEnumerable<Supplier> GetSuppliers(string name, bool isSuppliedItemsLoaded = true)
+        public IEnumerable<Supplier> GetSuppliers(string name = null)
         {
             using (var connection = Connector.GetConnection())
             {
-                var suppliers = new SupplierDal(connection).Search(name).ToList();
-
-                if (!isSuppliedItemsLoaded)
-                    return suppliers;
-
-                foreach (var supplier in suppliers)
-                {
-                    LoadSuppliedItems(supplier);
-                    return suppliers;
-                }
+                return new SupplierDal(connection).Search(name == null ? null : $"%{name}%").ToList();
             }
-            return null;
         }
 
         /// <summary>
         ///     Updates supplier name and contact
         /// </summary>
         /// <param name="supplier"></param>
-        public void UpdateSupplierDetails(Supplier supplier)
+        /// <param name="name"></param>
+        /// <param name="contact"></param>
+        public void UpdateSupplierDetails(Supplier supplier, string name = null, string contact = null)
         {
             // Exception handling
             if (supplier.Id == null) throw new ArgumentNullException(nameof(supplier.Id), "Supplier Id is null");
-            if (supplier.Name == null) throw new ArgumentNullException(nameof(supplier.Name), "Supplier Name is null");
-            if (supplier.Contact == null)
-                throw new ArgumentNullException(nameof(supplier.Contact), "Supplier Contact is null");
 
             using (var connection = Connector.GetConnection())
             {
-                new SupplierDal(connection).Update(supplier);
+                new SupplierDal(connection).Update(supplier.Id.Value, name, contact);
             }
         }
 
@@ -88,59 +72,7 @@ namespace Core.Domain.Handlers
 
             using (var connection = Connector.GetConnection())
             {
-                new SupplierDal(connection).Delete((uint) supplier.Id);
-            }
-        }
-
-        /// <summary>
-        ///     Updates the supplied items of a supplier
-        /// </summary>
-        /// <param name="supplier"></param>
-        public void UpdateSuppliedItems(Supplier supplier)
-        {
-            // Exception handling
-            if (supplier.Id == null) throw new ArgumentNullException(nameof(supplier.Id), "Supplier Id is null");
-            if (supplier.SuppliedItems == null)
-                throw new ArgumentNullException(nameof(supplier.SuppliedItems), "Supplied items is null");
-            if (supplier.SuppliedItems.Any(suppliedItem => suppliedItem.Id == null))
-                throw new ArgumentNullException(nameof(supplier.SuppliedItems),
-                    "Some items in suppliedItems do not have Id hence could not complete the action");
-
-            using (var scope = new TransactionScope())
-            {
-                using (var connection = Connector.GetConnection())
-                {
-                    var supplierDal = new SupplierDal(connection);
-                    supplierDal.ClearSuppliedItems((uint) supplier.Id);
-                    supplierDal.InsertSuppliedItems((uint) supplier.Id, supplier.SuppliedItems);
-                }
-                scope.Complete();
-            }
-        }
-
-        /// <summary>
-        ///     Search a list of supplied items which a supplier provides
-        /// </summary>
-        /// <param name="supplier"></param>
-        /// <returns></returns>
-        public void LoadSuppliedItems(Supplier supplier)
-        {
-            if (supplier.Id == null) throw new ArgumentNullException(nameof(supplier.Id), "Supplier Id is null");
-            using (var connection = Connector.GetConnection())
-            {
-                supplier.SuppliedItems = new SupplierDal(connection).GetSuppliedItems((uint) supplier.Id).ToList();
-            }
-        }
-
-        /// <summary>
-        ///     Returns a list of all suppliers
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<Supplier> GetAllSuppliers()
-        {
-            using (var connection = Connector.GetConnection())
-            {
-                return new SupplierDal(connection).Search();
+                new SupplierDal(connection).Delete(supplier.Id.Value);
             }
         }
     }

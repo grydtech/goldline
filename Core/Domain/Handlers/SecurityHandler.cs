@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Transactions;
 using Core.Data;
 using Core.Data.Employees;
 using Core.Domain.Enums;
+using Core.Domain.Model;
 using Core.Domain.Model.Employees;
 
 namespace Core.Domain.Handlers
@@ -20,9 +22,10 @@ namespace Core.Domain.Handlers
         {
             using (var connection = Connector.GetConnection())
             {
-                var userAccessDal = new UserDal(connection);
-                return userAccessDal.Search(username, password) ??
-                       userAccessDal.Search(username, User.DefaultPassword);
+                var userDal = new UserDal(connection);
+                var result = userDal.Search(username: username, password: password) ??
+                             userDal.Search(username: username, password: Session.DefaultPassword);
+                return result.SingleOrDefault();
             }
         }
 
@@ -30,13 +33,13 @@ namespace Core.Domain.Handlers
         ///     Changes the current password of a user and assigns new password to it if successful
         /// </summary>
         /// <param name="user"></param>
-        /// <param name="newPassword"></param>
+        /// <param name="password"></param>
         /// <returns></returns>
-        public void ChangePassword(User user, string newPassword)
+        public void ChangePassword(User user, string password)
         {
             using (var connection = Connector.GetConnection())
             {
-                new UserDal(connection).UpdateUserPassword(user, newPassword);
+                new UserDal(connection).Update(user.EmployeeId, password: password);
             }
         }
 
@@ -46,42 +49,39 @@ namespace Core.Domain.Handlers
         ///     and the employee will have its usertype set to User
         /// </summary>
         /// <param name="employee"></param>
-        /// <param name="userType"></param>
+        /// <param name="accessMode"></param>
         /// <param name="username"></param>
-        public User AddNewUserAccess(Employee employee, AccessMode userType, string username)
+        public User AddUserAccess(Employee employee, AccessMode accessMode, string username)
         {
             // Exception handling
-            if (employee.AccessMode == EmployeeType.User)
-                throw new ArgumentException("AccessMode of employee is already User", nameof(employee.AccessMode));
             if (employee.Id == null)
                 throw new ArgumentNullException(nameof(employee.Id), "Employee Id is null");
+            if (employee.AccessMode != AccessMode.None)
+                throw new ArgumentException("AccessMode of employee is already User", nameof(employee.AccessMode));
 
-            User newUser;
             using (var scope = new TransactionScope())
             {
                 using (var connection = Connector.GetConnection())
                 {
-                    new EmployeeDal(connection).UpdateEmployeeType(employee, EmployeeType.User);
-                    newUser = new User((uint) employee.Id, userType, username);
-                    new UserDal(connection).Insert(newUser);
+                    new UserDal(connection).Insert(employee.Id.Value, accessMode, username, Session.DefaultPassword);
                 }
                 scope.Complete();
             }
 
             // Returns user if successful
-            return newUser;
+            return new User(employee.Id.Value, accessMode, username);
         }
 
         /// <summary>
         ///     Elevate or lower user access privileges to user and return if successful
         /// </summary>
         /// <param name="user"></param>
-        /// <param name="newUserType"></param>
-        public void UpdateUserAccess(User user, AccessMode newUserType)
+        /// <param name="accessMode"></param>
+        public void UpdateUserAccess(User user, AccessMode accessMode)
         {
             using (var connection = Connector.GetConnection())
             {
-                new UserDal(connection).Update(user, newUserType);
+                new UserDal(connection).Update(user.EmployeeId, accessMode);
             }
         }
 
@@ -94,7 +94,7 @@ namespace Core.Domain.Handlers
         {
             using (var connection = Connector.GetConnection())
             {
-                return new UserDal(connection).Search(employeeId);
+                return new UserDal(connection).Search(employeeId).SingleOrDefault();
             }
         }
 
@@ -105,7 +105,7 @@ namespace Core.Domain.Handlers
         {
             using (var connection = Connector.GetConnection())
             {
-                return new UserDal(connection).IsUsernameAvailable(username);
+                return !new UserDal(connection).Search(username: username).Any();
             }
         }
     }

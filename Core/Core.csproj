@@ -74,7 +74,6 @@
     <Compile Include="Data\Customers\OrderDal.cs" />
     <Compile Include="Domain\Handlers\OrderHandler.cs" />
     <Compile Include="Domain\Handlers\ProductHandler.cs" />
-    <Compile Include="Domain\Handlers\ReportHandler.cs" />
     <Compile Include="Domain\Handlers\SupplierHandler.cs" />
     <Compile Include="Domain\Handlers\SecurityHandler.cs" />
     <Compile Include="Domain\Model\Customers\Order.cs" />
