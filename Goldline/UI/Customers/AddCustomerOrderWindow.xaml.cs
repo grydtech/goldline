@@ -126,6 +126,7 @@ namespace Goldline.UI.Customers
 
         private void UpdateGrandTotalLabel()
         {
+            
             GrandTotalValueLabel?.GetBindingExpression(ContentProperty)?.UpdateTarget();
         }
 
@@ -235,16 +236,18 @@ namespace Goldline.UI.Customers
             finally
             {
                 QuantityTextBox.Text = "";
+                UnitPriceTextBox.Text = "";
+                DiscountTextBox.Text = "";
                 SearchDataGrid.Items.Refresh();
-                UnitPriceTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
+               // UnitPriceTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
             }
         }
-
+        
         private void CreditCheckoutButton_Click(object sender, RoutedEventArgs e)
         {
             if (Order.OrderItems.Count == 0)
             {
-                MessageBox.Show("Add more products to proceed!", "Empty order");
+                MessageBox.Show("Add products to proceed!", "Empty order");
                 return;
             }
             try
@@ -258,8 +261,11 @@ namespace Goldline.UI.Customers
                 {
                     // Mark order as credit order and assign customerId to it
                     Order.CustomerId = window.SelectedCustomer.Id;
-                    _orderHandler.AddOrder(Order);
 
+                    //here AddOrder meth ssgould return bool .THEN only we can generate success msg below
+                    _orderHandler.AddOrder(Order);
+                    
+                    
                     MessageBox.Show(
                         "Order added successfully. " +
                         "Order Type: Credit. " +
@@ -281,7 +287,7 @@ namespace Goldline.UI.Customers
             // Note: update stocks handled internally using triggers so its not required here
             if (Order.OrderItems.Count == 0)
             {
-                MessageBox.Show("Add more products to proceed!", "Empty order");
+                MessageBox.Show("Add products to proceed!", "Empty order");
                 return;
             }
 
@@ -348,6 +354,10 @@ namespace Goldline.UI.Customers
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             RefreshSearchDataGrid();
+            NameTextBox.Text = "";
+            QuantityTextBox.Text = "";
+            UnitPriceTextBox.Text = "";
+            DiscountTextBox.Text = "";
         }
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -383,14 +393,39 @@ namespace Goldline.UI.Customers
             {
                 case Key.Down:
                     if (SearchDataGrid.SelectedIndex < SearchDataGrid.Items.Count - 1)
+                    {
                         SearchDataGrid.SelectedIndex++;
+                    }
                     break;
                 case Key.Up:
-                    if (SearchDataGrid.SelectedIndex > 0) SearchDataGrid.SelectedIndex--;
+                    if (SearchDataGrid.SelectedIndex > 0)
+                    {
+                        SearchDataGrid.SelectedIndex--;
+                    }
                     break;
             }
         }
 
         #endregion
+
+        private void SearchDataGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                var item = SearchDataGrid.SelectedItem as Item;
+                if (item != null)
+                {
+                    NameTextBox.Text = item.Name;
+                    QuantityTextBox.Text = "1";
+                    UnitPriceTextBox.Text = item.UnitPrice.ToString();
+                    DiscountTextBox.Text = "0";
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Exception");
+            }
+        }
     }
 }
