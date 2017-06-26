@@ -254,27 +254,28 @@ namespace Goldline.UI.Customers
             {
                 Order.Note = NoteTextBox.Text;
 
-                var window = new OrderCheckoutWindow();
+                var window = new OrderCheckoutWindow(Order);
                 window.ShowDialog();
 
                 if (window.DialogResult == true)
                 {
                     // Mark order as credit order and assign customerId to it
-                    Order.CustomerId = window.SelectedCustomer.Id;
+                    //Order.CustomerId = window.SelectedCustomer.Id;
 
                     //here AddOrder meth ssgould return bool .THEN only we can generate success msg below
-                    _orderHandler.AddOrder(Order);
+                    //_orderHandler.AddOrder(Order);
                     
-                    
-                    MessageBox.Show(
-                        "Order added successfully. " +
-                        "Order Type: Credit. " +
-                        "Customer Name: " + window.SelectedCustomer.Name);
+                    //MessageBox.Show(
+                    //    "Order added successfully. " +
+                    //    "Order Type: Credit. " +
+                    //    "Customer Name: " + window.SelectedCustomer.Name);
+                    //GenerateInvoice();
+                    //Close();
+                    Order = new Order();
                 }
 
                 // Show and print the invoice option should come here
-                GenerateInvoice();
-                Close();
+                
             }
             catch (Exception ex)
             {
@@ -284,26 +285,26 @@ namespace Goldline.UI.Customers
 
         private void CashCheckoutButton_Click(object sender, RoutedEventArgs e)
         {
-            // Note: update stocks handled internally using triggers so its not required here
-            if (Order.OrderItems.Count == 0)
-            {
-                MessageBox.Show("Add products to proceed!", "Empty order");
-                return;
-            }
+        //    // Note: update stocks handled internally using triggers so its not required here
+        //    if (Order.OrderItems.Count == 0)
+        //    {
+        //        MessageBox.Show("Add products to proceed!", "Empty order");
+        //        return;
+        //    }
 
-            try
-            {
-                Order.Note = NoteTextBox.Text;
-                _orderHandler.AddOrder(Order);
-                MessageBox.Show("Order added successfully. Order Type: Cash");
+        //    try
+        //    {
+        //        Order.Note = NoteTextBox.Text;
+        //        _orderHandler.AddOrder(Order);
+        //        MessageBox.Show("Order added successfully. Order Type: Cash");
 
-                GenerateInvoice();
-                Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message + " :   An error has occured!");
-            }
+        //        GenerateInvoice();
+        //        Close();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message + " :   An error has occured!");
+        //    }
         }
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)

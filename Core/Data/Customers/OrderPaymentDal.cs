@@ -20,7 +20,7 @@ namespace Core.Data.Customers
         {
             // Define sql command
             var command = new CommandDefinition(
-                "insert into orders_payments (id_order, amount) values (@orderId, @amount)",
+                "insert into orders_payments (id_order, amount_paid) values (@orderId, @amount)",
                 new {orderId, amount});
 
             // Execute sql command

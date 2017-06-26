@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Core.Domain.Handlers;
 using Core.Domain.Model.Customers;
+using Goldline.UI.Invoices;
 
 //using log4net;
 
@@ -15,18 +17,25 @@ namespace Goldline.UI.Customers
     public partial class OrderCheckoutWindow : Window
     {
         private readonly CustomerHandler _customerHandler;
+        private readonly OrderHandler _orderHandler;
+        private readonly OrderPaymentHandler _orderPaymentHandler;
         // private static readonly ILog log =
         //     LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly IEnumerable<Customer> _customerMatches;
         private readonly string _searchName;
+        private Order _order;
 
-        public OrderCheckoutWindow()
+        public OrderCheckoutWindow(Order order)
         {
+            _order = order;
+            _orderHandler = new OrderHandler();
             _customerHandler = new CustomerHandler();
+            _orderPaymentHandler = new OrderPaymentHandler();
             _customerMatches = _customerHandler.GetCustomers();
-            //    ItemSource = _customerMatches;
+            //ItemSource = _customerMatches;
             InitializeComponent();
+            TotalTextBox.Text = _order.Amount.ToString();
 
             CustomerDataGrid.ItemsSource = _customerMatches;
         }
@@ -84,6 +93,49 @@ namespace Goldline.UI.Customers
         {
             DialogResult = false;
             Close();
+        }
+
+        private void OrderCheckoutButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (SelectedCustomer != null)
+            {
+                _order.CustomerId = SelectedCustomer.Id;
+            }
+            
+            //here AddOrder meth ssgould return bool .THEN only we can generate success msg below
+            try
+            {
+                //_order.Amount = Decimal.Parse(PaymentTextBox.Text);
+
+                _orderHandler.AddOrder(_order);
+                _orderPaymentHandler.AddPayment(new OrderPayment(_order.Id.Value,
+                    Decimal.Parse(PaymentTextBox.Text),""));
+                //MessageBox.Show(
+                //"Order added successfully. " +
+                //"Order Type: Credit. " +
+                //"Customer Name: " + SelectedCustomer.Name);
+                GenerateInvoice();
+                Close();
+                DialogResult = true;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Exception");
+                DialogResult = false;
+                
+            }
+                
+    }
+
+        private void CancelOrderCheckoutButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+        }
+
+        public void GenerateInvoice()
+        {
+            new OrderInvoice(_order).Show();
         }
     }
 }
