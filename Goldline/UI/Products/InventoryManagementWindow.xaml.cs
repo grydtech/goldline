@@ -283,9 +283,10 @@ namespace Goldline.UI.Products
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             var item = (Item) InventoryDataGrid.SelectedItem;
-            var name = NameTextBox.Text;
+            var model = ModelTextBox.Text;
             var stockqty = uint.Parse(StockTextBox.Text);
             var unitPrice = decimal.Parse(PriceTextBox.Text);
+
             var brand = BrandComboBox.Text;
             var prop1 = Property1ComboBox.Text;
             var prop2 = Property2ComboBox.Text;
@@ -300,7 +301,7 @@ namespace Goldline.UI.Products
                             var alloywheel = (Alloywheel) item;
                             _alloywheelHandler.Update(
                                 alloywheel,
-                                name == alloywheel.Name ? null : name,
+                                model == alloywheel.Model ? null : model,
                                 stockqty == alloywheel.StockQty ? null : (uint?) stockqty,
                                 unitPrice == alloywheel.UnitPrice ? null : (decimal?) unitPrice,
                                 brand == alloywheel.Brand ? null : brand,
@@ -310,7 +311,7 @@ namespace Goldline.UI.Products
                             var battery = (Battery) item;
                             _batteryHandler.Update(
                                 battery,
-                                name == battery.Name ? null : name,
+                                model == battery.Model ? null : model,
                                 stockqty == battery.StockQty ? null : (uint?) stockqty,
                                 unitPrice == battery.UnitPrice ? null : (decimal?) unitPrice,
                                 brand == battery.Brand ? null : brand,
@@ -321,7 +322,7 @@ namespace Goldline.UI.Products
                             var tyre = (Tyre) item;
                             _tyreHandler.Update(
                                 tyre,
-                                name == tyre.Name ? null : name,
+                                model == tyre.Model ? null : model,
                                 stockqty == tyre.StockQty ? null : (uint?) stockqty,
                                 unitPrice == tyre.UnitPrice ? null : (decimal?) unitPrice,
                                 brand == tyre.Brand ? null : brand,

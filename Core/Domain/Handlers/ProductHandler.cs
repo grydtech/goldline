@@ -124,15 +124,15 @@ namespace Core.Domain.Handlers
             ///     Updates Alloywheel details
             /// </summary>
             /// <param name="alloywheel"></param>
-            /// <param name="name"></param>
+            /// <param name="model"></param>
             /// <param name="stockqty"></param>
             /// <param name="unitPrice"></param>
             /// <param name="brand"></param>
             /// <param name="dimension"></param>
-            public void Update(Alloywheel alloywheel, string name = null, uint? stockqty = null,
+            public void Update(Alloywheel alloywheel, string model = null, uint? stockqty = null,
                 decimal? unitPrice = null, string brand = null, string dimension = null)
             {
-                if(name == null && stockqty == null && unitPrice == null && brand == null && dimension == null)
+                if(model == null && stockqty == null && unitPrice == null && brand == null && dimension == null)
                     throw new ArgumentNullException(nameof(Update), "No parameters passed to update");
                 if (alloywheel.Id == null)
                     throw new ArgumentNullException(nameof(alloywheel.Id), "Updating component does not have Id");
@@ -141,7 +141,7 @@ namespace Core.Domain.Handlers
                     using (var connection = Connector.GetConnection())
                     {
                         var id = alloywheel.Id.Value;
-                        if (name != null) Update(id, name, connection);
+                        if (model != null) Update(id, model, connection);
                         if (stockqty != null || unitPrice != null) Update(id, stockqty, unitPrice, connection);
                         if (brand != null || dimension != null)
                             new AlloywheelDal(connection).Update(alloywheel.Id.Value, brand, dimension);
@@ -208,16 +208,16 @@ namespace Core.Domain.Handlers
             ///     Updates Battery details
             /// </summary>
             /// <param name="battery"></param>
-            /// <param name="name"></param>
+            /// <param name="model"></param>
             /// <param name="stockqty"></param>
             /// <param name="unitPrice"></param>
             /// <param name="brand"></param>
             /// <param name="capacity"></param>
             /// <param name="voltage"></param>
-            public void Update(Battery battery, string name = null, uint? stockqty = null, decimal? unitPrice = null,
+            public void Update(Battery battery, string model = null, uint? stockqty = null, decimal? unitPrice = null,
                 string brand = null, string capacity = null, string voltage = null)
             {
-                if (name == null && stockqty == null && unitPrice == null && brand == null && capacity == null && voltage == null)
+                if (model == null && stockqty == null && unitPrice == null && brand == null && capacity == null && voltage == null)
                     throw new ArgumentNullException(nameof(Update), "No parameters passed to update");
                 if (battery.Id == null)
                     throw new ArgumentNullException(nameof(battery.Id), "Updating component does not have Id");
@@ -226,7 +226,7 @@ namespace Core.Domain.Handlers
                     using (var connection = Connector.GetConnection())
                     {
                         var id = battery.Id.Value;
-                        if (name != null) Update(id, name, connection);
+                        if (model != null) Update(id, model, connection);
                         if (stockqty != null || unitPrice != null) Update(id, stockqty, unitPrice, connection);
                         if (brand != null || capacity != null || voltage != null)
                             new BatteryDal(connection).Update(battery.Id.Value, brand, capacity, voltage);
@@ -268,16 +268,16 @@ namespace Core.Domain.Handlers
             ///     Updates Tyre details
             /// </summary>
             /// <param name="tyre"></param>
-            /// <param name="name"></param>
+            /// <param name="model"></param>
             /// <param name="stockqty"></param>
             /// <param name="unitPrice"></param>
             /// <param name="brand"></param>
             /// <param name="dimension"></param>
             /// <param name="country"></param>
-            public void Update(Tyre tyre, string name = null, uint? stockqty = null, decimal? unitPrice = null,
+            public void Update(Tyre tyre, string model = null, uint? stockqty = null, decimal? unitPrice = null,
                 string brand = null, string dimension = null, string country = null)
             {
-                if (name == null && stockqty == null && unitPrice == null && brand == null && dimension == null && country == null)
+                if (model == null && stockqty == null && unitPrice == null && brand == null && dimension == null && country == null)
                     throw new ArgumentNullException(nameof(Update), "No parameters passed to update");
                 if (tyre.Id == null)
                     throw new ArgumentNullException(nameof(tyre.Id), "Updating component does not have Id");
@@ -286,7 +286,7 @@ namespace Core.Domain.Handlers
                     using (var connection = Connector.GetConnection())
                     {
                         var id = tyre.Id.Value;
-                        if (name != null) Update(id, name, connection);
+                        if (model != null) Update(id, model, connection);
                         if (stockqty != null || unitPrice != null) Update(id, stockqty, unitPrice, connection);
                         if (brand != null || dimension != null || country != null)
                             new TyreDal(connection).Update(tyre.Id.Value, brand, dimension, country);
