@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Transactions;
 using Core.Data;
 using Core.Data.Inventory;
@@ -96,16 +97,10 @@ namespace Core.Domain.Handlers
         /// </summary>
         /// <param name="productId"></param>
         /// <param name="name"></param>
-        private void Update(uint productId, string name = null)
+        /// <param name="connection"></param>
+        private static void Update(uint productId, string name, IDbConnection connection = null)
         {
-            using (var scope = new TransactionScope())
-            {
-                using (var connection = Connector.GetConnection())
-                {
-                    new ProductDal(connection).Update(productId, name);
-                }
-                scope.Complete();
-            }
+            new ProductDal(connection).Update(productId, name);
         }
 
         /// <summary>
@@ -114,16 +109,12 @@ namespace Core.Domain.Handlers
         /// <param name="productId"></param>
         /// <param name="stockQty"></param>
         /// <param name="unitPrice"></param>
-        private void Update(uint productId, uint? stockQty = null, decimal? unitPrice = null)
+        /// <param name="connection"></param>
+        private static void Update(uint productId, uint? stockQty = null, decimal? unitPrice = null, IDbConnection connection = null)
         {
-            using (var scope = new TransactionScope())
-            {
-                using (var connection = Connector.GetConnection())
-                {
-                    new ItemDal(connection).Update(productId, stockQty, unitPrice);
-                }
-                scope.Complete();
-            }
+            if (stockQty == null && unitPrice == null)
+                throw new ArgumentNullException(nameof(Update), "No parameters passed to update");
+            new ItemDal(connection).Update(productId, stockQty, unitPrice);
         }
 
 
@@ -141,6 +132,8 @@ namespace Core.Domain.Handlers
             public void Update(Alloywheel alloywheel, string name = null, uint? stockqty = null,
                 decimal? unitPrice = null, string brand = null, string dimension = null)
             {
+                if(name == null && stockqty == null && unitPrice == null && brand == null && dimension == null)
+                    throw new ArgumentNullException(nameof(Update), "No parameters passed to update");
                 if (alloywheel.Id == null)
                     throw new ArgumentNullException(nameof(alloywheel.Id), "Updating component does not have Id");
                 using (var scope = new TransactionScope())
@@ -148,9 +141,10 @@ namespace Core.Domain.Handlers
                     using (var connection = Connector.GetConnection())
                     {
                         var id = alloywheel.Id.Value;
-                        Update(id, name);
-                        Update(id, stockqty, unitPrice);
-                        new AlloywheelDal(connection).Update(alloywheel.Id.Value, brand, dimension);
+                        if (name != null) Update(id, name, connection);
+                        if (stockqty != null || unitPrice != null) Update(id, stockqty, unitPrice, connection);
+                        if (brand != null || dimension != null)
+                            new AlloywheelDal(connection).Update(alloywheel.Id.Value, brand, dimension);
                     }
                     scope.Complete();
                 }
@@ -223,6 +217,8 @@ namespace Core.Domain.Handlers
             public void Update(Battery battery, string name = null, uint? stockqty = null, decimal? unitPrice = null,
                 string brand = null, string capacity = null, string voltage = null)
             {
+                if (name == null && stockqty == null && unitPrice == null && brand == null && capacity == null && voltage == null)
+                    throw new ArgumentNullException(nameof(Update), "No parameters passed to update");
                 if (battery.Id == null)
                     throw new ArgumentNullException(nameof(battery.Id), "Updating component does not have Id");
                 using (var scope = new TransactionScope())
@@ -230,9 +226,10 @@ namespace Core.Domain.Handlers
                     using (var connection = Connector.GetConnection())
                     {
                         var id = battery.Id.Value;
-                        Update(id, name);
-                        Update(id, stockqty, unitPrice);
-                        new BatteryDal(connection).Update(battery.Id.Value, brand, capacity, voltage);
+                        if (name != null) Update(id, name, connection);
+                        if (stockqty != null || unitPrice != null) Update(id, stockqty, unitPrice, connection);
+                        if (brand != null || capacity != null || voltage != null)
+                            new BatteryDal(connection).Update(battery.Id.Value, brand, capacity, voltage);
                     }
                     scope.Complete();
                 }
@@ -280,6 +277,8 @@ namespace Core.Domain.Handlers
             public void Update(Tyre tyre, string name = null, uint? stockqty = null, decimal? unitPrice = null,
                 string brand = null, string dimension = null, string country = null)
             {
+                if (name == null && stockqty == null && unitPrice == null && brand == null && dimension == null && country == null)
+                    throw new ArgumentNullException(nameof(Update), "No parameters passed to update");
                 if (tyre.Id == null)
                     throw new ArgumentNullException(nameof(tyre.Id), "Updating component does not have Id");
                 using (var scope = new TransactionScope())
@@ -287,9 +286,10 @@ namespace Core.Domain.Handlers
                     using (var connection = Connector.GetConnection())
                     {
                         var id = tyre.Id.Value;
-                        Update(id, name);
-                        Update(id, stockqty, unitPrice);
-                        new TyreDal(connection).Update(tyre.Id.Value, brand, dimension, country);
+                        if (name != null) Update(id, name, connection);
+                        if (stockqty != null || unitPrice != null) Update(id, stockqty, unitPrice, connection);
+                        if (brand != null || dimension != null || country != null)
+                            new TyreDal(connection).Update(tyre.Id.Value, brand, dimension, country);
                     }
                     scope.Complete();
                 }
@@ -381,9 +381,13 @@ namespace Core.Domain.Handlers
             /// <param name="name"></param>
             public void Update(Service service, string name = null)
             {
-                if (service.Id == null)
+                if (name == null) throw new ArgumentNullException(nameof(name), "No parameters passed to update");
+                if (service?.Id == null)
                     throw new ArgumentNullException(nameof(service.Id), "Updating component does not have Id");
-                Update(service.Id.Value, name);
+                using (var connection = Connector.GetConnection())
+                {
+                    Update(service.Id.Value, name, connection);
+                }
             }
         }
     }
