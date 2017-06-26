@@ -47,7 +47,7 @@ namespace Goldline.UI.Security
             Session.CurrentUser = user;
 
             if (Session.CurrentUser.IsDefaultPassword())
-                new ChangePasswordWindow().ShowDialog();
+                new ChangePasswordDialog().ShowDialog();
 
             new HomeWindow().Show();
             Close();

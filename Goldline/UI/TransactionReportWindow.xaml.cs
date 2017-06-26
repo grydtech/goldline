@@ -49,16 +49,16 @@ namespace Goldline.UI
             switch (selectedReportType)
             {
                 case ReportType.CustomerCashOrderReport:
-                    new CustomerCashOrderReport(startDate, endDate).ShowDialog();
+                    new OrderReport(startDate, endDate).ShowDialog();
                     break;
                 case ReportType.CustomerCreditOrderReport:
-                    new CustomerCreditOrderReport(startDate, endDate).ShowDialog();
+                    new CreditOrderReport(startDate, endDate).ShowDialog();
                     break;
                 case ReportType.SupplyOrderReport:
-                    new SupplierOrderReport(startDate, endDate).ShowDialog();
+                    new PurchaseReport(startDate, endDate).ShowDialog();
                     break;
                 case ReportType.CustomerPaymentReport:
-                    new CustomerPaymentReport(startDate, endDate).ShowDialog();
+                    new OrderPaymentReport(startDate, endDate).ShowDialog();
                     break;
                 case ReportType.EmployeePaymentReport:
                     new EmployeePaymentReport(startDate, endDate).ShowDialog();

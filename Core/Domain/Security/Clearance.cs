@@ -8,7 +8,7 @@ namespace Core.Domain.Security
         public Clearance(AccessMode userType)
         {
             CanManageCustomers = false;
-            CanManageInventory = false;
+            CanManageProducts = false;
             CanManageSuppliers = false;
             CanManageEmployees = false;
             CanPlaceOrder = false;
@@ -24,7 +24,7 @@ namespace Core.Domain.Security
             {
                 case AccessMode.Manager:
                     CanManageCustomers = true;
-                    CanManageInventory = true;
+                    CanManageProducts = true;
                     CanManageSuppliers = true;
                     CanSettleCreditBillsAndViewDetails = true;
                     CanManageEmployees = true;
@@ -57,7 +57,7 @@ namespace Core.Domain.Security
 
         public bool CanManageCustomers { get; set; }
         public bool CanManageSuppliers { get; set; }
-        public bool CanManageInventory { get; set; }
+        public bool CanManageProducts { get; set; }
         public bool CanGenerateTransactionReport { get; set; }
         public bool NotifyDueCreditBills { get; set; }
         public bool CanViewActivityLog { get; set; }

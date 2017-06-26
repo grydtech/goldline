@@ -127,70 +127,70 @@
     <Compile Include="UI\Catalogs\TyreCatalog.Designer.cs">
       <DependentUpon>TyreCatalog.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Customers\AddCustomerWindow.xaml.cs">
-      <DependentUpon>AddCustomerWindow.xaml</DependentUpon>
+    <Compile Include="UI\Customers\Dialogs\AddCustomerDialog.xaml.cs">
+      <DependentUpon>AddCustomerDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Customers\CustomerVerificationWindow.xaml.cs">
-      <DependentUpon>CustomerVerificationWindow.xaml</DependentUpon>
+    <Compile Include="UI\Customers\OrderCheckoutWindow.xaml.cs">
+      <DependentUpon>OrderCheckoutWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Customers\CustomerManagementWindow.xaml.cs">
-      <DependentUpon>CustomerManagementWindow.xaml</DependentUpon>
+    <Compile Include="UI\Customers\CustomerWindow.xaml.cs">
+      <DependentUpon>CustomerWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Customers\CustomerPaymentWindow.xaml.cs">
-      <DependentUpon>CustomerPaymentWindow.xaml</DependentUpon>
+    <Compile Include="UI\Customers\OrderPaymentWindow.xaml.cs">
+      <DependentUpon>OrderPaymentWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Customers\AddCustomerOrderWindow.xaml.cs">
-      <DependentUpon>AddCustomerOrderWindow.xaml</DependentUpon>
+    <Compile Include="UI\Customers\OrderWindow.xaml.cs">
+      <DependentUpon>OrderWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Customers\CustomerOrderDetailsWindow.xaml.cs">
-      <DependentUpon>CustomerOrderDetailsWindow.xaml</DependentUpon>
+    <Compile Include="UI\Customers\OrderHistoryWindow.xaml.cs">
+      <DependentUpon>OrderHistoryWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Customers\ServiceOrderWindow.xaml.cs">
-      <DependentUpon>ServiceOrderWindow.xaml</DependentUpon>
+    <Compile Include="UI\Customers\Dialogs\AddServiceDialog.xaml.cs">
+      <DependentUpon>AddServiceDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\InputDialog.xaml.cs">
       <DependentUpon>InputDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Invoices\CustomerOrderInvoice.cs">
+    <Compile Include="UI\Invoices\OrderInvoice.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Invoices\CustomerOrderInvoice.Designer.cs">
-      <DependentUpon>CustomerOrderInvoice.cs</DependentUpon>
+    <Compile Include="UI\Invoices\OrderInvoice.Designer.cs">
+      <DependentUpon>OrderInvoice.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\OrderReports\CustomerCashOrderReport.cs">
+    <Compile Include="UI\OrderReports\OrderReport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\OrderReports\CustomerCashOrderReport.Designer.cs">
-      <DependentUpon>CustomerCashOrderReport.cs</DependentUpon>
+    <Compile Include="UI\OrderReports\OrderReport.Designer.cs">
+      <DependentUpon>OrderReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\OrderReports\CustomerCreditOrderReport.cs">
+    <Compile Include="UI\OrderReports\CreditOrderReport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\OrderReports\CustomerCreditOrderReport.Designer.cs">
-      <DependentUpon>CustomerCreditOrderReport.cs</DependentUpon>
+    <Compile Include="UI\OrderReports\CreditOrderReport.Designer.cs">
+      <DependentUpon>CreditOrderReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\OrderReports\SupplierOrderReport.cs">
+    <Compile Include="UI\OrderReports\PurchaseReport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\OrderReports\SupplierOrderReport.Designer.cs">
-      <DependentUpon>SupplierOrderReport.cs</DependentUpon>
+    <Compile Include="UI\OrderReports\PurchaseReport.Designer.cs">
+      <DependentUpon>PurchaseReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\PaymentReports\CustomerPaymentReport.cs">
+    <Compile Include="UI\PaymentReports\OrderPaymentReport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\PaymentReports\CustomerPaymentReport.Designer.cs">
-      <DependentUpon>CustomerPaymentReport.cs</DependentUpon>
+    <Compile Include="UI\PaymentReports\OrderPaymentReport.Designer.cs">
+      <DependentUpon>OrderPaymentReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Suppliers\AddSupplierWindow.xaml.cs">
-      <DependentUpon>AddSupplierWindow.xaml</DependentUpon>
+    <Compile Include="UI\Suppliers\Dialogs\AddSupplierDialog.xaml.cs">
+      <DependentUpon>AddSupplierDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="TextBoxInputBehavior.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UI\Employees\AddEmployeeWindow.xaml.cs">
-      <DependentUpon>AddEmployeeWindow.xaml</DependentUpon>
+    <Compile Include="UI\Employees\Dialogs\AddEmployeeDialog.xaml.cs">
+      <DependentUpon>AddEmployeeDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\PaymentReports\EmployeePaymentReport.cs">
       <SubType>Form</SubType>
@@ -202,23 +202,23 @@
     <Compile Include="UI\Returns\AddItemReturnWindow.xaml.cs">
       <DependentUpon>AddItemReturnWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Security\AuthenticationWindow.xaml.cs">
-      <DependentUpon>AuthenticationWindow.xaml</DependentUpon>
+    <Compile Include="UI\Security\AuthenticationDialog.xaml.cs">
+      <DependentUpon>AuthenticationDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Products\CatalogWindow.xaml.cs">
       <DependentUpon>CatalogWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Security\ChangePasswordWindow.xaml.cs">
-      <DependentUpon>ChangePasswordWindow.xaml</DependentUpon>
+    <Compile Include="UI\Security\ChangePasswordDialog.xaml.cs">
+      <DependentUpon>ChangePasswordDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Employees\EmployeeManagementWindow.xaml.cs">
-      <DependentUpon>EmployeeManagementWindow.xaml</DependentUpon>
+    <Compile Include="UI\Employees\EmployeeWindow.xaml.cs">
+      <DependentUpon>EmployeeWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Employees\EmployeePaymentWindow.xaml.cs">
       <DependentUpon>EmployeePaymentWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Products\InventoryManagementWindow.xaml.cs">
-      <DependentUpon>InventoryManagementWindow.xaml</DependentUpon>
+    <Compile Include="UI\Products\ProductWindow.xaml.cs">
+      <DependentUpon>ProductWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Security\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
@@ -232,33 +232,33 @@
     <Compile Include="UI\Returns\ItemReturnManagementWindow.xaml.cs">
       <DependentUpon>ItemReturnManagementWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Suppliers\SupplierPaymentsWindow.xaml.cs">
-      <DependentUpon>SupplierPaymentsWindow.xaml</DependentUpon>
+    <Compile Include="UI\Suppliers\PurchasePaymentWindow.xaml.cs">
+      <DependentUpon>PurchasePaymentWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Suppliers\AddSuppliedItemWindow.xaml.cs">
-      <DependentUpon>AddSuppliedItemWindow.xaml</DependentUpon>
+    <Compile Include="UI\Suppliers\Dialogs\AddSuppliedItemDialog.xaml.cs">
+      <DependentUpon>AddSuppliedItemDialog.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UI\Suppliers\SupplierManagementWindow.xaml.cs">
-      <DependentUpon>SupplierManagementWindow.xaml</DependentUpon>
+    <Compile Include="UI\Suppliers\SupplierWindow.xaml.cs">
+      <DependentUpon>SupplierWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Invoices\SupplierOrderInvoice.xaml.cs">
-      <DependentUpon>SupplierOrderInvoice.xaml</DependentUpon>
+    <Compile Include="UI\Invoices\PurchaseInvoice.xaml.cs">
+      <DependentUpon>PurchaseInvoice.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Suppliers\SupplierOrderDetailsPopupWindow.xaml.cs">
-      <DependentUpon>SupplierOrderDetailsPopupWindow.xaml</DependentUpon>
+    <Compile Include="UI\Suppliers\PurchaseItemPopup.xaml.cs">
+      <DependentUpon>PurchaseItemPopup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Suppliers\AddSupplierOrderWindow.xaml.cs">
-      <DependentUpon>AddSupplierOrderWindow.xaml</DependentUpon>
+    <Compile Include="UI\Suppliers\PurchaseWindow.xaml.cs">
+      <DependentUpon>PurchaseWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Suppliers\SupplierOrdersWindow.xaml.cs">
-      <DependentUpon>SupplierOrdersWindow.xaml</DependentUpon>
+    <Compile Include="UI\Suppliers\PurchaseHistoryWindow.xaml.cs">
+      <DependentUpon>PurchaseHistoryWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Products\AddItemWindow.xaml.cs">
-      <DependentUpon>AddItemWindow.xaml</DependentUpon>
+    <Compile Include="UI\Products\Dialogs\AddItemDialog.xaml.cs">
+      <DependentUpon>AddItemDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Security\UserAccessWindow.xaml.cs">
-      <DependentUpon>UserAccessWindow.xaml</DependentUpon>
+    <Compile Include="UI\Security\UserAccessDialog.xaml.cs">
+      <DependentUpon>UserAccessDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="TextBoxInputMode.cs" />
   </ItemGroup>
@@ -288,11 +288,11 @@
     <EmbeddedResource Include="UI\Catalogs\TyreCatalog.resx">
       <DependentUpon>TyreCatalog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Invoices\CustomerOrderInvoice.resx">
-      <DependentUpon>CustomerOrderInvoice.cs</DependentUpon>
+    <EmbeddedResource Include="UI\Invoices\OrderInvoice.resx">
+      <DependentUpon>OrderInvoice.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\OrderReports\CustomerCashOrderReport.resx">
-      <DependentUpon>CustomerCashOrderReport.cs</DependentUpon>
+    <EmbeddedResource Include="UI\OrderReports\OrderReport.resx">
+      <DependentUpon>OrderReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reporting\Payments\Report_CustomerPayment.rdlc" />
     <EmbeddedResource Include="Reporting\Orders\Report_CustomerOrder.rdlc" />
@@ -302,14 +302,14 @@
     <EmbeddedResource Include="Reporting\Catalogs\Catalog_Tyre.rdlc" />
     <EmbeddedResource Include="Reporting\Catalogs\Catalog_Battery.rdlc" />
     <EmbeddedResource Include="Reporting\Catalogs\Catalog_Alloywheel.rdlc" />
-    <EmbeddedResource Include="UI\OrderReports\CustomerCreditOrderReport.resx">
-      <DependentUpon>CustomerCreditOrderReport.cs</DependentUpon>
+    <EmbeddedResource Include="UI\OrderReports\CreditOrderReport.resx">
+      <DependentUpon>CreditOrderReport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\OrderReports\SupplierOrderReport.resx">
-      <DependentUpon>SupplierOrderReport.cs</DependentUpon>
+    <EmbeddedResource Include="UI\OrderReports\PurchaseReport.resx">
+      <DependentUpon>PurchaseReport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\PaymentReports\CustomerPaymentReport.resx">
-      <DependentUpon>CustomerPaymentReport.cs</DependentUpon>
+    <EmbeddedResource Include="UI\PaymentReports\OrderPaymentReport.resx">
+      <DependentUpon>OrderPaymentReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\PaymentReports\EmployeePaymentReport.resx">
       <DependentUpon>EmployeePaymentReport.cs</DependentUpon>
@@ -364,7 +364,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Suppliers\AddSupplierWindow.xaml">
+    <Page Include="UI\Suppliers\Dialogs\AddSupplierDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -388,35 +388,35 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Customers\AddCustomerWindow.xaml">
+    <Page Include="UI\Customers\Dialogs\AddCustomerDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Customers\CustomerVerificationWindow.xaml">
+    <Page Include="UI\Customers\OrderCheckoutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Customers\CustomerManagementWindow.xaml">
+    <Page Include="UI\Customers\CustomerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Customers\CustomerPaymentWindow.xaml">
+    <Page Include="UI\Customers\OrderPaymentWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Customers\AddCustomerOrderWindow.xaml">
+    <Page Include="UI\Customers\OrderWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Customers\CustomerOrderDetailsWindow.xaml">
+    <Page Include="UI\Customers\OrderHistoryWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Customers\ServiceOrderWindow.xaml">
+    <Page Include="UI\Customers\Dialogs\AddServiceDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Employees\AddEmployeeWindow.xaml">
+    <Page Include="UI\Employees\Dialogs\AddEmployeeDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -424,7 +424,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Security\AuthenticationWindow.xaml">
+    <Page Include="UI\Security\AuthenticationDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -432,11 +432,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Security\ChangePasswordWindow.xaml">
+    <Page Include="UI\Security\ChangePasswordDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Employees\EmployeeManagementWindow.xaml">
+    <Page Include="UI\Employees\EmployeeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -444,7 +444,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Products\InventoryManagementWindow.xaml">
+    <Page Include="UI\Products\ProductWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -464,39 +464,39 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Suppliers\SupplierPaymentsWindow.xaml">
+    <Page Include="UI\Suppliers\PurchasePaymentWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Suppliers\AddSuppliedItemWindow.xaml">
+    <Page Include="UI\Suppliers\Dialogs\AddSuppliedItemDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Suppliers\SupplierManagementWindow.xaml">
+    <Page Include="UI\Suppliers\SupplierWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Invoices\SupplierOrderInvoice.xaml">
+    <Page Include="UI\Invoices\PurchaseInvoice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Suppliers\SupplierOrderDetailsPopupWindow.xaml">
+    <Page Include="UI\Suppliers\PurchaseItemPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Suppliers\AddSupplierOrderWindow.xaml">
+    <Page Include="UI\Suppliers\PurchaseWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Suppliers\SupplierOrdersWindow.xaml">
+    <Page Include="UI\Suppliers\PurchaseHistoryWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Products\AddItemWindow.xaml">
+    <Page Include="UI\Products\Dialogs\AddItemDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Security\UserAccessWindow.xaml">
+    <Page Include="UI\Security\UserAccessDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

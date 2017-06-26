@@ -50,12 +50,12 @@ namespace Goldline.UI
 
         private void ChangePasswordButton_OnClick(object sender, RoutedEventArgs e)
         {
-            new ChangePasswordWindow().ShowDialog();
+            new ChangePasswordDialog().ShowDialog();
         }
 
-        private void ManageInventoryButton_OnClick(object sender, RoutedEventArgs e)
+        private void ManageProductsButton_OnClick(object sender, RoutedEventArgs e)
         {
-            new InventoryManagementWindow().Show();
+            new ProductWindow().Show();
         }
 
         private void ShowCatalogButton_OnClick(object sender, RoutedEventArgs e)
@@ -65,50 +65,50 @@ namespace Goldline.UI
 
         private void ManageSuppliersButton_OnClick(object sender, RoutedEventArgs e)
         {
-            new SupplierManagementWindow().Show();
+            new SupplierWindow().Show();
         }
 
-        private void NewSupplyOrderButton_OnClick(object sender, RoutedEventArgs e)
+        private void NewPurchaseButton_OnClick(object sender, RoutedEventArgs e)
         {
-            new AddSupplierOrderWindow().Show();
+            new PurchaseWindow().Show();
         }
 
-        private void SupplierOrdersButton_OnClick(object sender, RoutedEventArgs e)
+        private void PurchaseHistoryButton_OnClick(object sender, RoutedEventArgs e)
         {
-            new SupplierOrdersWindow().Show();
+            new PurchaseHistoryWindow().Show();
         }
 
-        private void NewCustomerOrderButton_OnClick(object sender, RoutedEventArgs e)
+        private void NewOrderButton_OnClick(object sender, RoutedEventArgs e)
         {
-            AddCustomerOrderWindow.GetAddCustomerOrderWindow().Show();
+            OrderWindow.GetAddCustomerOrderWindow().Show();
         }
 
-        private void ItemReturnsButton_OnClick(object sender, RoutedEventArgs e)
+        private void ItemReturnHistoryButton_OnClick(object sender, RoutedEventArgs e)
         {
             new ItemReturnManagementWindow().Show();
         }
 
-        private void AddItemReturnsButton_OnClick(object sender, RoutedEventArgs e)
+        private void NewItemReturnButton_OnClick(object sender, RoutedEventArgs e)
         {
             new AddItemReturnWindow().Show();
         }
 
         private void ManageCustomersButton_OnClick(object sender, RoutedEventArgs e)
         {
-            new CustomerManagementWindow().Show();
+            new CustomerWindow().Show();
         }
 
-        private void CustomerPaymentsButton_OnClick(object sender, RoutedEventArgs e)
+        private void OrderPaymentHistoryButton_OnClick(object sender, RoutedEventArgs e)
         {
-            new CustomerPaymentWindow().Show();
+            new OrderPaymentWindow().Show();
         }
 
         private void ManageEmployeesButton_Click(object sender, RoutedEventArgs e)
         {
-            new EmployeeManagementWindow().Show();
+            new EmployeeWindow().Show();
         }
 
-        private void EmployeePaymentsButton_OnClick(object sender, RoutedEventArgs e)
+        private void EmployeePaymentHistoryButton_OnClick(object sender, RoutedEventArgs e)
         {
             new EmployeePaymentWindow().Show();
         }
@@ -123,9 +123,9 @@ namespace Goldline.UI
             MessageBox.Show("This feature is not implemented yet");
         }
 
-        private void CustomerOrdersButton_OnClick(object sender, RoutedEventArgs e)
+        private void OrderHistoryButton_OnClick(object sender, RoutedEventArgs e)
         {
-            new CustomerOrderDetailsWindow().Show();
+            new OrderHistoryWindow().Show();
         }
     }
 }
