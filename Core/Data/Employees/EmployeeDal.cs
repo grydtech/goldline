@@ -45,11 +45,11 @@ namespace Core.Data.Employees
                 (nameExp == null && isActive == null ? "" : "where ") +
                 (nameExp == null ? "" : "name LIKE @nameExp ") +
                 (isActive == null ? "" : (nameExp == null ? "" : "and ") + "is_active = @isActive ") +
-                "order by name_employee limit @offset, @limit",
+                "order by name limit @offset, @limit",
                 new {nameExp, isActive, offset, limit});
 
             // Execute sql command
-            return Connection.Query<Employee>(command);
+           return Connection.Query<Employee>(command);
         }
 
         /// <summary>

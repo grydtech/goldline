@@ -21,7 +21,7 @@ namespace Core.Data.Employees
         {
             // Define sql command
             var command = new CommandDefinition(
-                "insert into employees_payments (id_employee, amount, note) values (@employeeId, @amount, @note)",
+                "insert into employees_payments (id_employee, amount_paid, note) values (@employeeId, @amount, @note)",
                 new {employeeId, amount, note});
 
             // Execute sql command
