@@ -11,13 +11,13 @@ namespace Core.Domain.Security
             CanManageProducts = false;
             CanManageSuppliers = false;
             CanManageEmployees = false;
-            CanPlaceOrder = false;
-            CanPlaceSupplyOrder = false;
-            CanManageReturns = false;
+            CanHandleOrders = false;
+            CanHandlePurchases = false;
+            CanHandleItemReturns = false;
             NotifyDueCreditBills = false;
-            CanSettleCreditBillsAndViewDetails = false;
+            CanHandleOrderPayments = false;
             NotifyLowStocks = false;
-            CanGenerateTransactionReport = false;
+            CanGenerateReports = false;
             CanViewActivityLog = false;
 
             switch (userType)
@@ -26,24 +26,24 @@ namespace Core.Domain.Security
                     CanManageCustomers = true;
                     CanManageProducts = true;
                     CanManageSuppliers = true;
-                    CanSettleCreditBillsAndViewDetails = true;
+                    CanHandleOrderPayments = true;
                     CanManageEmployees = true;
-                    CanPlaceOrder = true;
-                    CanManageReturns = true;
-                    CanPlaceSupplyOrder = true;
+                    CanHandleOrders = true;
+                    CanHandleItemReturns = true;
+                    CanHandlePurchases = true;
                     NotifyDueCreditBills = true;
                     NotifyLowStocks = true;
-                    CanGenerateTransactionReport = true;
+                    CanGenerateReports = true;
                     CanViewActivityLog = true;
                     break;
                 case AccessMode.InventoryManager:
-                    CanManageReturns = true;
-                    CanPlaceSupplyOrder = true;
+                    CanHandleItemReturns = true;
+                    CanHandlePurchases = true;
                     NotifyLowStocks = true;
                     break;
                 case AccessMode.Cashier:
-                    CanSettleCreditBillsAndViewDetails = true;
-                    CanPlaceOrder = true;
+                    CanHandleOrderPayments = true;
+                    CanHandleOrders = true;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(userType), userType, null);
@@ -58,21 +58,21 @@ namespace Core.Domain.Security
         public bool CanManageCustomers { get; set; }
         public bool CanManageSuppliers { get; set; }
         public bool CanManageProducts { get; set; }
-        public bool CanGenerateTransactionReport { get; set; }
+        public bool CanGenerateReports { get; set; }
         public bool NotifyDueCreditBills { get; set; }
         public bool CanViewActivityLog { get; set; }
 
 
         //Inventory Manager specific
-        public bool CanPlaceSupplyOrder { get; set; }
+        public bool CanHandlePurchases { get; set; }
 
-        public bool CanManageReturns { get; set; }
+        public bool CanHandleItemReturns { get; set; }
         public bool NotifyLowStocks { get; set; }
 
         //Cashier specific
-        public bool CanPlaceOrder { get; set; }
+        public bool CanHandleOrders { get; set; }
 
-        public bool CanSettleCreditBillsAndViewDetails { get; set; }
+        public bool CanHandleOrderPayments { get; set; }
 
         #endregion
     }

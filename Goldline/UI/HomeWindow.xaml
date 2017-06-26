@@ -135,7 +135,7 @@
                         Grid.Column="1"
                         Click="NewPurchaseButton_OnClick"
                         Content="New Purchase"
-                        IsEnabled="{Binding Path=(model:Session.Clearance).CanPlaceSupplyOrder}"
+                        IsEnabled="{Binding Path=(model:Session.Clearance).CanHandlePurchases}"
                         Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                     <Button
                         x:Name="PurchaseHistoryButton"
@@ -143,7 +143,7 @@
                         Grid.Column="1"
                         Click="PurchaseHistoryButton_OnClick"
                         Content="Purchase History"
-                        IsEnabled="{Binding Path=(model:Session.Clearance).CanPlaceSupplyOrder}"
+                        IsEnabled="{Binding Path=(model:Session.Clearance).CanHandlePurchases}"
                         Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                     <Button
                         x:Name="ManageSuppliersButton"
@@ -184,7 +184,7 @@
                         Grid.Column="1"
                         Click="NewOrderButton_OnClick"
                         Content="New Order"
-                        IsEnabled="{Binding Path=(model:Session.Clearance).CanPlaceOrder}"
+                        IsEnabled="{Binding Path=(model:Session.Clearance).CanHandleOrders}"
                         Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                     <Button
                         x:Name="NewItemReturnButton"
@@ -192,7 +192,7 @@
                         Grid.Column="1"
                         Click="NewItemReturnButton_OnClick"
                         Content="New Item Return"
-                        IsEnabled="{Binding Path=(model:Session.Clearance).CanManageReturns}"
+                        IsEnabled="{Binding Path=(model:Session.Clearance).CanHandleItemReturns}"
                         Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                     <Button
                         x:Name="OrderHistoryButton"
@@ -200,7 +200,7 @@
                         Grid.Column="1"
                         Click="OrderHistoryButton_OnClick"
                         Content="Order History"
-                        IsEnabled="{Binding Path=(model:Session.Clearance).CanPlaceOrder}"
+                        IsEnabled="{Binding Path=(model:Session.Clearance).CanHandleOrders}"
                         Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                     <Button
                         x:Name="ItemReturnHistoryButton"
@@ -208,7 +208,7 @@
                         Grid.Column="1"
                         Click="ItemReturnHistoryButton_OnClick"
                         Content="Item Return History"
-                        IsEnabled="{Binding Path=(model:Session.Clearance).CanManageReturns}"
+                        IsEnabled="{Binding Path=(model:Session.Clearance).CanHandleItemReturns}"
                         Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                 </Grid>
             </Expander>
@@ -241,7 +241,7 @@
                         Grid.Column="1"
                         Click="OrderPaymentHistoryButton_OnClick"
                         Content="Order Payment History"
-                        IsEnabled="{Binding Path=(model:Session.Clearance).CanSettleCreditBillsAndViewDetails}"
+                        IsEnabled="{Binding Path=(model:Session.Clearance).CanHandleOrderPayments}"
                         Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                     <Button
                         x:Name="ManageCustomersButton"
@@ -282,7 +282,7 @@
                         Grid.Column="1"
                         Click="EmployeePaymentHistoryButton_OnClick"
                         Content="Employee Payment History"
-                        IsEnabled="{Binding Path=(model:Session.Clearance).CanManageReturns}"
+                        IsEnabled="{Binding Path=(model:Session.Clearance).CanManageEmployees}"
                         Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                     <Button
                         x:Name="ManageEmployeesButton"
@@ -323,7 +323,7 @@
                         Grid.Column="1"
                         Click="GetReportsButton_OnClick"
                         Content="Get Reports"
-                        IsEnabled="{Binding Path=(model:Session.Clearance).CanGenerateTransactionReport}"
+                        IsEnabled="{Binding Path=(model:Session.Clearance).CanGenerateReports}"
                         Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                     <Button
                         x:Name="ActivityLogButton"
