@@ -5,7 +5,7 @@ using Core.Domain.Enums;
 using Core.Domain.Handlers;
 using Core.Domain.Model.Employees;
 
-namespace Goldline.UI.Employees
+namespace Goldline.UI.Employees.Dialogs
 {
     /// <summary>
     ///     Interaction logic for AddEmployeeDialog.xaml

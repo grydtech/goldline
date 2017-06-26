@@ -5,7 +5,7 @@ using System.Windows.Input;
 using Core.Domain.Handlers;
 using Core.Domain.Model.Inventory;
 
-namespace Goldline.UI.Suppliers
+namespace Goldline.UI.Suppliers.Dialogs
 {
     /// <summary>
     ///     Interaction logic for AddSuppliedItemDialog.xaml

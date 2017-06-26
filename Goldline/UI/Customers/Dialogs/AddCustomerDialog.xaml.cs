@@ -3,7 +3,7 @@ using System.Windows;
 using Core.Domain.Handlers;
 using Core.Domain.Model.Customers;
 
-namespace Goldline.UI.Customers
+namespace Goldline.UI.Customers.Dialogs
 {
     /// <summary>
     ///     Interaction logic for AddCustomerDialog.xaml

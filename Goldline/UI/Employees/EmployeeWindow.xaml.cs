@@ -68,7 +68,7 @@ namespace Goldline.UI.Employees
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            new AddEmployeeDialog().ShowDialog();
+            new Dialogs.AddEmployeeDialog().ShowDialog();
             ReloadDataGrid();
         }
 

@@ -32,7 +32,7 @@ namespace Goldline.UI.Customers
 
         private void AddCustomerButton_Click(object sender, RoutedEventArgs e)
         {
-            new AddCustomerDialog().ShowDialog();
+            new Dialogs.AddCustomerDialog().ShowDialog();
             RefreshDataGrid();
             RefreshButtonEnabled();
         }

@@ -351,7 +351,7 @@ namespace Goldline.UI.Products
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
-            var addItemWindow = new AddItemDialog((ProductType) ItemTypeComboBox.SelectedIndex);
+            var addItemWindow = new Dialogs.AddItemDialog((ProductType) ItemTypeComboBox.SelectedIndex);
             addItemWindow.ShowDialog();
             LoadAllSources();
             RefreshComboBoxes();

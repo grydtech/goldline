@@ -324,7 +324,7 @@ namespace Goldline.UI.Customers
 
         private void ServiceButton_Click(object sender, RoutedEventArgs e)
         {
-            var window = new AddServiceDialog();
+            var window = new Dialogs.AddServiceDialog();
             window.ShowDialog();
 
             if (window.DialogResult == null || !window.DialogResult.Value) return;

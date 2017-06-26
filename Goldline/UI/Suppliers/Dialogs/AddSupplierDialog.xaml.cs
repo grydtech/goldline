@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using Core.Domain.Model.Suppliers;
 
-namespace Goldline.UI.Suppliers
+namespace Goldline.UI.Suppliers.Dialogs
 {
     /// <summary>
     ///     Interaction logic for AddSupplierDialog.xaml

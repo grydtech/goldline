@@ -78,7 +78,7 @@ namespace Goldline.UI.Suppliers
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
-            new AddSupplierDialog().ShowDialog();
+            new Dialogs.AddSupplierDialog().ShowDialog();
             RefreshDataGrid();
             RefreshListBox();
         }
@@ -111,7 +111,7 @@ namespace Goldline.UI.Suppliers
         {
             var selectedSupplier = (Supplier) SupplierDataGrid.SelectedItem;
             if (selectedSupplier == null) return;
-            var addSuppliedItemWindow = new AddSuppliedItemDialog();
+            var addSuppliedItemWindow = new Dialogs.AddSuppliedItemDialog();
             addSuppliedItemWindow.ShowDialog();
 
             if (addSuppliedItemWindow.DialogResult != true) return;
