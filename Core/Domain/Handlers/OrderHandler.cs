@@ -52,7 +52,13 @@ namespace Core.Domain.Handlers
             using (var connection = Connector.GetConnection())
             {
                 var orderDal = new OrderDal(connection);
-                return orderDal.Search(isCredit, customerId, note == null ? null : $"%{note}%");
+                var orderItemDal = new OrderItemDal(connection);
+                var orders = orderDal.Search(isCredit, customerId, note == null ? null : $"%{note}%");
+                foreach (var order in orders)
+                {
+                    order.OrderItems = orderItemDal.Search(order.Id).ToList();
+                    yield return order;
+                }
             }
         }
 

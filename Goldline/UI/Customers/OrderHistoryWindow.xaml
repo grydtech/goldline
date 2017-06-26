@@ -131,12 +131,8 @@
                         Header="Date" />
                     <DataGridTextColumn
                         Width="2*"
-                        Binding="{Binding Total}"
+                        Binding="{Binding Amount}"
                         Header="Amount" />
-                    <DataGridTextColumn
-                        Width="1*"
-                        Binding="{Binding UserId}"
-                        Header="UId" />
                 </DataGrid.Columns>
             </DataGrid>
         </Border>

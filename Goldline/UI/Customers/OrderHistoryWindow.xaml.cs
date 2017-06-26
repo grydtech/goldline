@@ -21,7 +21,7 @@ namespace Goldline.UI.Customers
         public OrderHistoryWindow()
         {
             _orderHandler = new OrderHandler();
-            Orders = _orderHandler.GetOrders(note: "");
+            Orders = _orderHandler.GetOrders();
             InitializeComponent();
         }
 
