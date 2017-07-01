@@ -263,7 +263,7 @@ namespace Goldline.UI.Customers
             }
         }
         
-        private void CreditCheckoutButton_Click(object sender, RoutedEventArgs e)
+        private void CheckoutButton_Click(object sender, RoutedEventArgs e)
         {
             if (Order.OrderItems.Count == 0)
             {

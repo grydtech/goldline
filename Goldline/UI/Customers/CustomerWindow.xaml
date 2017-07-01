@@ -2,11 +2,12 @@
     x:Class="Goldline.UI.Customers.CustomerWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:customers="clr-namespace:Core.Domain.Model.Customers;assembly=Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-    Title="Credit Customer Management"
+    Title="Customer Management"
     Width="1024"
     Height="576"
     MinWidth="1024"
@@ -108,7 +109,7 @@
                         Grid.Column="1"
                         IsEnabled="False"
                         Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding ElementName=CustomerDataGrid, Path=SelectedItem.Id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        Text="{Binding ElementName=CustomerDataGrid, Path=SelectedItem.(customers:Customer.Id), Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <Label
                         x:Name="NameLabel"
                         Grid.Row="1"
@@ -120,7 +121,7 @@
                         Grid.Row="1"
                         Grid.Column="1"
                         Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding ElementName=CustomerDataGrid, Path=SelectedItem.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        Text="{Binding ElementName=CustomerDataGrid, Path=SelectedItem.(customers:Customer.Name), Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <Label
                         x:Name="ContactInfoLabel"
                         Grid.Row="2"
@@ -133,7 +134,7 @@
                         Grid.Column="1"
                         AcceptsReturn="True"
                         Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding ElementName=CustomerDataGrid, Path=SelectedItem.Contact, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        Text="{Binding ElementName=CustomerDataGrid, Path=SelectedItem.(customers:Customer.Contact), Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <Label
                         x:Name="JoinedOnLabel"
                         Grid.Row="3"
@@ -146,7 +147,7 @@
                         Grid.Column="1"
                         IsEnabled="False"
                         Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding ElementName=CustomerDataGrid, Path=SelectedItem.Nic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        Text="{Binding ElementName=CustomerDataGrid, Path=SelectedItem.(customers:Customer.Nic), Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
                 <Grid
                     Grid.Row="2"
@@ -222,6 +223,5 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Border>
-
     </Grid>
 </Window>

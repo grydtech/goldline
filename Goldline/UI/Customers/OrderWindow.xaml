@@ -111,13 +111,12 @@
                             Style="{DynamicResource Goldline.LabelStyle.Dark}" />
                         <TextBox
                             x:Name="NameTextBox"
-                            IsReadOnly="True "
                             Grid.Row="0"
                             Grid.Column="1"
+                            IsReadOnly="True "
                             Style="{DynamicResource Goldline.TextBoxStyle.Dark}">
                             <i:Interaction.Behaviors>
-                                <goldline:TextBoxInputBehavior
-                                    InputMode="{StaticResource DigitInputMode}" />
+                                <goldline:TextBoxInputBehavior InputMode="{StaticResource DigitInputMode}" />
                             </i:Interaction.Behaviors>
                         </TextBox>
                         <Label
@@ -149,8 +148,8 @@
                             KeyDown="UnitPriceTextBox_OnKeyDown"
                             LostFocus="UnitPriceTextBox_FocusChanged"
                             Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                            TextChanged="UnitPriceTextBox_OnTextChanged"
-                            Text="{Binding SelectedItem.UnitPrice, ElementName=SearchDataGrid, Mode=OneWay}">
+                            Text="{Binding SelectedItem.UnitPrice, ElementName=SearchDataGrid, Mode=OneWay}"
+                            TextChanged="UnitPriceTextBox_OnTextChanged">
                             <i:Interaction.Behaviors>
                                 <goldline:TextBoxInputBehavior InputMode="{StaticResource DecimalInputMode}" />
                             </i:Interaction.Behaviors>
@@ -168,8 +167,8 @@
                             GotFocus="TextBox_OnGotFocus"
                             KeyDown="DiscountTextBox_OnKeyDown"
                             LostFocus="DiscountTextBox_FocusChanged"
-                            TextChanged="DiscountTextBox_OnTextChanged"
-                            Style="{DynamicResource Goldline.TextBoxStyle.Dark}">
+                            Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
+                            TextChanged="DiscountTextBox_OnTextChanged">
                             <i:Interaction.Behaviors>
                                 <goldline:TextBoxInputBehavior InputMode="{StaticResource DecimalInputMode}" />
                             </i:Interaction.Behaviors>
@@ -295,10 +294,6 @@
                         <RowDefinition />
                         <RowDefinition Height="40" />
                     </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
                     <Grid Grid.ColumnSpan="2" Margin="5">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*" />
@@ -306,7 +301,7 @@
                         </Grid.ColumnDefinitions>
                         <Label
                             x:Name="TotalLabel"
-                            Content="Amount:"
+                            Content="Total:"
                             FontSize="20"
                             FontWeight="Bold"
                             Style="{DynamicResource Goldline.LabelStyle.Dark}" />
@@ -325,15 +320,9 @@
                         x:Name="CreditCheckoutButton"
                         Grid.Row="1"
                         Grid.Column="0"
-                        Click="CreditCheckoutButton_Click"
-                        Content="Credit Checkout"
-                        Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-                    <Button
-                        x:Name="CashCheckoutButton"
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Click="CashCheckoutButton_Click"
-                        Content="Cash Checkout"
+                        Click="CheckoutButton_Click"
+                        Content="Checkout"
+                        FontWeight="Bold"
                         Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
 
                 </Grid>

@@ -7,7 +7,7 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Width="400"
-    Height="375"
+    Height="340"
     Background="{DynamicResource Goldline.Background.Window}"
     FontSize="16"
     ResizeMode="NoResize"
@@ -41,7 +41,6 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*" />
                         <RowDefinition Height="2.25*" />
-                        <RowDefinition Height="1*" />
                         <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
                     <Label
@@ -78,21 +77,6 @@
                         Grid.Row="2"
                         Grid.Column="1"
                         Style="{DynamicResource Goldline.TextBoxStyle.Dark}" />
-                    <Label
-                        x:Name="DueLabel"
-                        Grid.Row="3"
-                        Grid.Column="0"
-                        Content="Due"
-                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                    <TextBox
-                        x:Name="DueTextBox"
-                        Grid.Row="3"
-                        Grid.Column="1"
-                        Style="{DynamicResource Goldline.TextBoxStyle.Dark}">
-                        <i:Interaction.Behaviors>
-                            <goldline:TextBoxInputBehavior InputMode="DecimalInput" />
-                        </i:Interaction.Behaviors>
-                    </TextBox>
                 </Grid>
             </Border>
             <Grid

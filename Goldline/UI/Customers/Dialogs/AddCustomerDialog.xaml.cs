@@ -46,7 +46,6 @@ namespace Goldline.UI.Customers.Dialogs
             NameTextBox.Text = "";
             ContactInfoTextBox.Text = "";
             NicTextBox.Text = "";
-            DueTextBox.Text = "";
         }
 
         private void CancelButton_OnClick(object sender, RoutedEventArgs e)

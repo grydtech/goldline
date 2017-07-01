@@ -33,7 +33,6 @@ namespace Goldline.UI.Customers
             _customerHandler = new CustomerHandler();
             _orderPaymentHandler = new OrderPaymentHandler();
             _customerMatches = _customerHandler.GetCustomers();
-            //ItemSource = _customerMatches;
             InitializeComponent();
             TotalTextBox.Text = _order.Amount.ToString();
 
@@ -41,37 +40,14 @@ namespace Goldline.UI.Customers
         }
 
         // public IEnumerable<Customer> ItemSource { get; set; }
-        public Customer SelectedCustomer { get; set; }
+        //public Customer SelectedCustomer { get; set; }
 
         private void SearchTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             var textBox = (TextBox) sender;
-            if (textBox.Text != "")
-                CustomerDataGrid.ItemsSource =
-                    _customerMatches.Where(customer => customer.Name.Contains(textBox.Text.Trim()));
-
-            //ItemSource = textBox.Text != "" && CustomerDataGrid != null
-            //   ? _customerHandler.GetCustomers(textBox.Text)
-            //   :_customerHandler.GetCustomers();
-            //CustomerDataGrid.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
-        }
-
-        private void CustomerSearchTextBox_OnFocusChanged(object sender, RoutedEventArgs e)
-        {
-            var textBox = (TextBox) sender;
-            textBox.Text =
-                textBox.Text == "" ? _searchName : textBox.Text;
-        }
-
-        private void CustomerDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            SelectedCustomer = CustomerDataGrid.SelectedItem as Customer;
-            if (SelectedCustomer == null) return;
-
-            CustomerIdTextBox.Text = SelectedCustomer.Id.ToString();
-            NameTextBox.Text = SelectedCustomer.Name;
-            ContactInfoTextBox.Text = SelectedCustomer.Contact;
-            NicTextBox.Text = SelectedCustomer.Nic;
+            CustomerDataGrid.ItemsSource = textBox.Text != ""
+                ? _customerHandler.GetCustomers(textBox.Text.Trim())
+                : _customerHandler.GetCustomers();
         }
         
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -82,11 +58,7 @@ namespace Goldline.UI.Customers
 
         private void OrderCheckoutButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (SelectedCustomer != null)
-            {
-                _order.CustomerId = SelectedCustomer.Id;
-            }
-            
+            _order.CustomerId = (CustomerDataGrid?.SelectedItem as Customer)?.Id;
             var payment = PaymentTextBox.Text == "" ? _order.Amount : decimal.Parse(PaymentTextBox.Text);
             
             //here AddOrder meth ssgould return bool .THEN only we can generate success msg below
@@ -95,6 +67,7 @@ namespace Goldline.UI.Customers
                 //_order.Amount = Decimal.Parse(PaymentTextBox.Text);
 
                 _orderHandler.AddOrder(_order);
+                if (_order.Id == null) throw new ArgumentNullException(nameof(_order), @"Order Id Not assigned");
                 _orderPaymentHandler.AddPayment(new OrderPayment(_order.Id.Value, payment, ""));
                 //MessageBox.Show(
                 //"Order added successfully. " +

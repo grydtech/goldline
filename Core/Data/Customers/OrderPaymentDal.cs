@@ -19,11 +19,10 @@ namespace Core.Data.Customers
         /// <param name="amount"></param>
         internal void Insert(uint orderId, decimal amount)
         {
-            DateTime dateTime = DateTime.Now;
             // Define sql command
             var command = new CommandDefinition(
-                "insert into orders_payments (id_order, amount_paid, date_paid) values (@orderId, @amount,@dateTime)",
-                new {orderId, amount, dateTime });
+                "insert into orders_payments (id_order, amount_paid) values (@orderId, @amount)",
+                new {orderId, amount });
 
             // Execute sql command
             Connection.Execute(command);
