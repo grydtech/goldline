@@ -21,9 +21,7 @@ namespace Core.Data.Customers
         /// <param name="orderItems"></param>
         internal void InsertMultiple(uint orderId, IEnumerable<OrderItem> orderItems)
         {
-            try
-            {
-                // Define sql command
+            // Define sql command
                 var command = new CommandDefinition(
                     "insert into orders_products (id_order, id_product, unit_price, qty) " +
                     "values (@orderId, @id_product, @unit_price, @qty)",
@@ -37,14 +35,8 @@ namespace Core.Data.Customers
 
                 // Execute sql command
                 Connection.Execute(command);
-            }
-            catch (ArgumentNullException ex)
-            {
-                Debug.Write("Argument null excep");
-            }
             
-            
-        }
+         }
 
         /// <summary>
         ///     Searches records in [orders_items] table
