@@ -451,10 +451,10 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>GOLD LINE TOURS AND TYRE CENTRE (PVT) LTD</Value>
+                  <Value>GOLD LINE TOURS AND TYRE CENTRE (PVT) LTD.</Value>
                   <Style>
-                    <FontFamily>Microsoft New Tai Lue</FontFamily>
-                    <FontSize>14pt</FontSize>
+                    <FontFamily>Yu Gothic Medium</FontFamily>
+                    <FontSize>16pt</FontSize>
                     <FontWeight>Bold</FontWeight>
                   </Style>
                 </TextRun>
@@ -466,9 +466,9 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>NO. 201/A ANAGARIKA DHARMAPALA MW</Value>
+                  <Value>NO. 201/A, ANAGARIKA DHARMAPALA MW,</Value>
                   <Style>
-                    <FontFamily>Microsoft New Tai Lue</FontFamily>
+                    <FontFamily>Yu Gothic UI Light</FontFamily>
                     <FontSize>11pt</FontSize>
                     <FontWeight>Bold</FontWeight>
                   </Style>
@@ -481,9 +481,9 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>DEHIWALA</Value>
+                  <Value>DEHIWALA.</Value>
                   <Style>
-                    <FontFamily>Microsoft New Tai Lue</FontFamily>
+                    <FontFamily>Yu Gothic UI Light</FontFamily>
                     <FontSize>11pt</FontSize>
                     <FontWeight>Bold</FontWeight>
                   </Style>
@@ -515,9 +515,9 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>Tel     :   011-2728748</Value>
+                  <Value>Tel  :   011-2728748</Value>
                   <Style>
-                    <FontFamily>Century Gothic</FontFamily>
+                    <FontFamily>Yu Gothic Light</FontFamily>
                     <FontSize>12pt</FontSize>
                     <FontWeight>Bold</FontWeight>
                   </Style>
@@ -528,9 +528,9 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>Fax    :   011-2723912</Value>
+                  <Value>Fax :   011-2723912</Value>
                   <Style>
-                    <FontFamily>Century Gothic</FontFamily>
+                    <FontFamily>Yu Gothic Light</FontFamily>
                     <FontSize>12pt</FontSize>
                     <FontWeight>Bold</FontWeight>
                   </Style>
@@ -543,7 +543,7 @@
                 <TextRun>
                   <Value>INVOICE</Value>
                   <Style>
-                    <FontFamily>Cambria</FontFamily>
+                    <FontFamily>Yu Gothic Medium</FontFamily>
                     <FontSize>18pt</FontSize>
                     <FontWeight>Bold</FontWeight>
                   </Style>

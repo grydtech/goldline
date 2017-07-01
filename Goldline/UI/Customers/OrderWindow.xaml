@@ -111,11 +111,13 @@
                             Style="{DynamicResource Goldline.LabelStyle.Dark}" />
                         <TextBox
                             x:Name="NameTextBox"
+                            IsReadOnly="True "
                             Grid.Row="0"
                             Grid.Column="1"
                             Style="{DynamicResource Goldline.TextBoxStyle.Dark}">
                             <i:Interaction.Behaviors>
-                                <goldline:TextBoxInputBehavior InputMode="{StaticResource DigitInputMode}" />
+                                <goldline:TextBoxInputBehavior
+                                    InputMode="{StaticResource DigitInputMode}" />
                             </i:Interaction.Behaviors>
                         </TextBox>
                         <Label
@@ -147,6 +149,7 @@
                             KeyDown="UnitPriceTextBox_OnKeyDown"
                             LostFocus="UnitPriceTextBox_FocusChanged"
                             Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
+                            TextChanged="UnitPriceTextBox_OnTextChanged"
                             Text="{Binding SelectedItem.UnitPrice, ElementName=SearchDataGrid, Mode=OneWay}">
                             <i:Interaction.Behaviors>
                                 <goldline:TextBoxInputBehavior InputMode="{StaticResource DecimalInputMode}" />
@@ -165,6 +168,7 @@
                             GotFocus="TextBox_OnGotFocus"
                             KeyDown="DiscountTextBox_OnKeyDown"
                             LostFocus="DiscountTextBox_FocusChanged"
+                            TextChanged="DiscountTextBox_OnTextChanged"
                             Style="{DynamicResource Goldline.TextBoxStyle.Dark}">
                             <i:Interaction.Behaviors>
                                 <goldline:TextBoxInputBehavior InputMode="{StaticResource DecimalInputMode}" />

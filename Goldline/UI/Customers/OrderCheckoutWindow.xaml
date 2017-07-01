@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:goldline="clr-namespace:Goldline"
         Title="OrderCheckoutWindow"
         Width="1024"
         Height="576"
@@ -177,14 +179,19 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Border>
-        <Label x:Name="TotalLalbe" Content="Total" Grid.Column="1" HorizontalAlignment="Left"
+        <Label x:Name="TotalLalbel" Content="Total" Grid.Column="1" HorizontalAlignment="Left"
                Margin="10,300,0,0" Grid.Row="2" VerticalAlignment="Top" Width="103"/>
         <TextBox x:Name="TotalTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" 
-                 Margin="113,304,0,0" Grid.Row="2" TextWrapping="Wrap" Text="TextBox" 
-                 VerticalAlignment="Top" Width="120"/>
+                 Margin="113,304,0,0" Grid.Row="2" TextWrapping="Wrap" 
+                 VerticalAlignment="Top" Width="120" IsReadOnly="True "/>
         <TextBox x:Name="PaymentTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" 
-                 Margin="113,339,0,0" Grid.Row="2" TextWrapping="Wrap" Text="TextBox" 
-                 VerticalAlignment="Top" Width="120"/>
+                 Margin="113,339,0,0" Grid.Row="2" TextWrapping="Wrap"  
+                 VerticalAlignment="Top" Width="120"
+                 Style="{DynamicResource Goldline.TextBoxStyle.Dark}">
+            <i:Interaction.Behaviors>
+                <goldline:TextBoxInputBehavior InputMode="{StaticResource DigitInputMode}" />
+            </i:Interaction.Behaviors> 
+            </TextBox>
         <Label x:Name="PaymentLabel" Content="Payment" Grid.Column="1" 
                HorizontalAlignment="Left" Margin="10,331,0,0" Grid.Row="2" 
                VerticalAlignment="Top"/>

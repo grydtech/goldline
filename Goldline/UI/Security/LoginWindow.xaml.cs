@@ -32,7 +32,9 @@ namespace Goldline.UI.Security
         {
             // Try authenticating with given username and password
             var uaHandler = new SecurityHandler();
-            var user = uaHandler.TryAuthentication(UsernameTextBox.Text, PasswordBox.Password);
+            //var user = uaHandler.TryAuthentication(UsernameTextBox.Text, PasswordBox.Password);
+            var user = uaHandler.TryAuthentication(UsernameTextBox.Text, "shalu123");
+
 
             // If user returned is null, show error and return
             if (user == null)

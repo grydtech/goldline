@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -61,27 +62,36 @@ namespace Goldline.UI.Customers
 
         private void CalculateUnitPrice()
         {
-            var discount = DiscountTextBox.Text == "" ? 0 : decimal.Parse(DiscountTextBox.Text);
-            discount = Math.Round(discount, 2);
-
-            var unitPriceTextBoxValue = UnitPriceTextBox.Text == "" ? 0 : decimal.Parse(UnitPriceTextBox.Text);
-
             var selectedItem = SearchDataGrid.SelectedItem as Item;
             if (selectedItem == null) return;
-
             var actualUnitPrice = selectedItem.UnitPrice;
-            if (discount <= 100)
-            {
-                _discount = discount;
-                var unitPrice = actualUnitPrice * (100 - _discount) / 100;
-                unitPrice = Math.Round(unitPrice, 2);
-                if (unitPrice == unitPriceTextBoxValue) return;
 
-                _unitPrice = unitPrice;
-                UnitPriceTextBox.Text = _unitPrice != 0 ? _unitPrice.ToString() : "";
-            }
-            else
+            try
             {
+                var discount = DiscountTextBox.Text == "" ? 0 : decimal.Parse(DiscountTextBox.Text);
+                discount = Math.Round(discount, 2);
+                var unitPriceTextBoxValue = UnitPriceTextBox.Text == "" ? 0 : decimal.Parse(UnitPriceTextBox.Text);
+                
+                if ((discount < 100) && (discount>-11))
+                {
+                    _discount = discount;
+                    var unitPrice = actualUnitPrice * (100 - _discount) / 100;
+                    unitPrice = Math.Round(unitPrice, 2);
+                    if (unitPrice == unitPriceTextBoxValue) return;
+
+                    _unitPrice = unitPrice;
+                    UnitPriceTextBox.Text = _unitPrice != 0 ? _unitPrice.ToString() : "";
+                }
+                else
+                {
+                    UnitPriceTextBox.Text = actualUnitPrice.ToString();
+                    DiscountTextBox.Text = "0";
+                }
+            }
+            catch (FormatException ex)
+            {
+                MessageBox.Show("Please Enter Values In correct Format", "Invalid Input");
+                DiscountTextBox.Text = "0";
                 UnitPriceTextBox.Text = actualUnitPrice.ToString();
             }
         }
@@ -96,17 +106,26 @@ namespace Goldline.UI.Customers
 
             var selectedItem = SearchDataGrid.SelectedItem as Item;
             if (selectedItem == null) return;
-
             if (price > 0)
             {
+                Debug.Write(price);
+
                 _unitPrice = price;
                 var actualUnitPrice = selectedItem.UnitPrice;
                 var discount = (actualUnitPrice - _unitPrice) * 100 / actualUnitPrice;
                 discount = Math.Round(discount, 2);
                 if (discount == discountTextBoxValue) return;
-
-                _discount = discount;
-                DiscountTextBox.Text = _discount != 0 ? _discount.ToString() : "";
+                if (discount >= -10)
+                {
+                    _discount = discount;
+                    DiscountTextBox.Text = _discount != 0 ? _discount.ToString() : "";
+                }
+                if (discount < -10)
+                {
+                    UnitPriceTextBox.Text = actualUnitPrice.ToString();
+                    DiscountTextBox.Text = "0";
+                    //MessageBox.Show("Entered Unit Price is Too Higher", "Invalid Unit Price");
+                }
             }
             else
             {
@@ -114,10 +133,10 @@ namespace Goldline.UI.Customers
             }
         }
 
-        public void GenerateInvoice()
-        {
-            new OrderInvoice(Order).Show();
-        }
+        //public void GenerateInvoice()
+        //{
+        //    new OrderInvoice(Order).Show();
+        //}
 
         public bool IsAlreadyEntered(uint? id)
         {
@@ -235,6 +254,7 @@ namespace Goldline.UI.Customers
             }
             finally
             {
+                NameTextBox.Text = "";
                 QuantityTextBox.Text = "";
                 UnitPriceTextBox.Text = "";
                 DiscountTextBox.Text = "";
@@ -256,25 +276,13 @@ namespace Goldline.UI.Customers
 
                 var window = new OrderCheckoutWindow(Order);
                 window.ShowDialog();
-
-                if (window.DialogResult == true)
+                
+                if (window.DialogResult==true)
                 {
-                    // Mark order as credit order and assign customerId to it
-                    //Order.CustomerId = window.SelectedCustomer.Id;
-
-                    //here AddOrder meth ssgould return bool .THEN only we can generate success msg below
-                    //_orderHandler.AddOrder(Order);
-                    
-                    //MessageBox.Show(
-                    //    "Order added successfully. " +
-                    //    "Order Type: Credit. " +
-                    //    "Customer Name: " + window.SelectedCustomer.Name);
-                    //GenerateInvoice();
-                    //Close();
                     Order = new Order();
+                    RefreshOrderItemsDataGrid();
+                    UpdateGrandTotalLabel();
                 }
-
-                // Show and print the invoice option should come here
                 
             }
             catch (Exception ex)
@@ -427,6 +435,16 @@ namespace Goldline.UI.Customers
             {
                 MessageBox.Show(ex.Message, "Exception");
             }
+        }
+
+        private void DiscountTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalculateUnitPrice();
+        }
+
+        private void UnitPriceTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalculateDiscount();
         }
     }
 }

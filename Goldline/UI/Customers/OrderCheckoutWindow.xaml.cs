@@ -102,20 +102,21 @@ namespace Goldline.UI.Customers
                 _order.CustomerId = SelectedCustomer.Id;
             }
             
+            var payment = PaymentTextBox.Text == "" ? _order.Amount : decimal.Parse(PaymentTextBox.Text);
+            
             //here AddOrder meth ssgould return bool .THEN only we can generate success msg below
             try
             {
                 //_order.Amount = Decimal.Parse(PaymentTextBox.Text);
 
                 _orderHandler.AddOrder(_order);
-                _orderPaymentHandler.AddPayment(new OrderPayment(_order.Id.Value,
-                    Decimal.Parse(PaymentTextBox.Text),""));
+                _orderPaymentHandler.AddPayment(new OrderPayment(_order.Id.Value, payment, ""));
                 //MessageBox.Show(
                 //"Order added successfully. " +
                 //"Order Type: Credit. " +
                 //"Customer Name: " + SelectedCustomer.Name);
                 GenerateInvoice();
-                Close();
+                //Close();
                 DialogResult = true;
 
             }
@@ -123,7 +124,11 @@ namespace Goldline.UI.Customers
             {
                 MessageBox.Show(ex.Message, "Exception");
                 DialogResult = false;
-                
+
+            }
+            finally
+            {
+                Close();
             }
                 
     }
@@ -137,5 +142,6 @@ namespace Goldline.UI.Customers
         {
             new OrderInvoice(_order).Show();
         }
+        
     }
 }
