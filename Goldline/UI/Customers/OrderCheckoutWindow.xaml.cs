@@ -73,22 +73,7 @@ namespace Goldline.UI.Customers
             ContactInfoTextBox.Text = SelectedCustomer.Contact;
             NicTextBox.Text = SelectedCustomer.Nic;
         }
-
-        private void VerifyButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (CustomerDataGrid.SelectedItem == null)
-            {
-                MessageBox.Show("Please select the relevant customer");
-                DialogResult = false;
-            }
-            else
-            {
-                // MessageBox.Show("Credit customer verified");
-                DialogResult = true;
-                Close();
-            }
-        }
-
+        
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
@@ -132,12 +117,6 @@ namespace Goldline.UI.Customers
             }
                 
     }
-
-        private void CancelOrderCheckoutButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            DialogResult = false;
-        }
-
         public void GenerateInvoice()
         {
             new OrderInvoice(_order).Show();

@@ -65,21 +65,23 @@ namespace Core.Data.Inventory
         /// <param name="productId"></param>
         /// <param name="stockQty"></param>
         /// <param name="unitPrice"></param>
-        internal void Update(uint productId, uint? stockQty = null, decimal? unitPrice = null)
+        internal void Update(uint productId, uint? stockQty = null, decimal? unitPrice = null, int? stockIncrement = null)
         {
-            if (stockQty == null && unitPrice == null)
+            if (stockQty == null && unitPrice == null && stockIncrement == null)
                 throw new ArgumentNullException(nameof(Update), @"No update parameters were passed.");
 
             // Define sql command
             var command = new CommandDefinition(
                 "update items set " +
                 ((stockQty == null ? "" : "qty_stocks = @stockQty, ") +
+                (stockIncrement == null ? "" : "qty_stocks = qty_stocks+@stockIncrement, ") +
                  (unitPrice == null ? "" : "unit_price = @unitPrice, ")).TrimEnd(' ', ',') +
                 " where id_product = @productId",
-                new {productId, stockQty, unitPrice});
+                new {productId, stockQty, unitPrice, stockIncrement});
 
             // Execute sql command
             Connection.Execute(command);
         }
-    }
+
+     }
 }
