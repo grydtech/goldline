@@ -100,7 +100,7 @@ namespace Goldline.UI
 
         private void OrderPaymentHistoryButton_OnClick(object sender, RoutedEventArgs e)
         {
-            new OrderPaymentWindow().Show();
+            new OrderHistoryWindow().Show();
         }
 
         private void ManageEmployeesButton_Click(object sender, RoutedEventArgs e)

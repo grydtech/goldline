@@ -40,6 +40,7 @@ namespace Core.Domain.Model.Customers
         public bool IsSettled => DueAmount == 0;
         public decimal DueAmount { get; set; }
         public List<OrderItem> OrderItems { get; set; }
+        public IEnumerable<OrderPayment> OrderPayments { get; set; }
 
         public void AddOrderItem(OrderItem orderItem)
         {

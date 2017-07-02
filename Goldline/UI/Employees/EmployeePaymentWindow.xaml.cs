@@ -32,8 +32,8 @@ namespace Goldline.UI.Employees
         {
             var employee = (Employee) EmployeeDataGrid.SelectedItem;
             if (employee.Id == null) return;
-            var employeePayment = new EmployeePayment(DateTime.Now, decimal.Parse(AmountTextBox.Text), NoteTextBox.Text,
-                employee.Id.Value);
+            var employeePayment = new EmployeePayment(employee.Id.Value, decimal.Parse(AmountTextBox.Text),
+                NoteTextBox.Text);
             _employeePaymentHandler.AddPayment(employeePayment);
             ReloadDataGrid();
         }

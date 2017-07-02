@@ -9,7 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     Title="Checkout"
-    Width="560"
+    Width="480"
     Height="480"
     Background="{DynamicResource Goldline.Background.Window}"
     FontSize="16"
@@ -28,7 +28,7 @@
             Grid.Row="0"
             Grid.ColumnSpan="2"
             VerticalContentAlignment="Center"
-            Content="Order Checkout"
+            Content="Checkout"
             FontSize="25"
             FontWeight="Bold"
             Foreground="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" />
@@ -107,7 +107,10 @@
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <Label Content="Total" Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+                <Label
+                    Content="Total"
+                    FontWeight="Bold"
+                    Style="{DynamicResource Goldline.LabelStyle.Dark}" />
                 <TextBlock
                     x:Name="TotalTextBox"
                     Grid.Row="0"

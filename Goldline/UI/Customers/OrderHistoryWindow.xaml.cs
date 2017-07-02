@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Core.Domain.Handlers;
 using Core.Domain.Model.Customers;
-using Goldline.UI.Security;
-
-//using log4net;
 
 namespace Goldline.UI.Customers
 {
@@ -15,74 +13,41 @@ namespace Goldline.UI.Customers
     /// </summary>
     public partial class OrderHistoryWindow : Window
     {
-        // private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly OrderHandler _orderHandler;
 
         public OrderHistoryWindow()
         {
             _orderHandler = new OrderHandler();
-            Orders = _orderHandler.GetOrders();
+            CustomerSource = new CustomerHandler().GetCustomers();
             InitializeComponent();
         }
 
-        public IEnumerable<Order> Orders { get; set; }
+        public IEnumerable<Order> OrdersSource { get; set; }
+        public IEnumerable<Customer> CustomerSource { get; set; }
 
-        private void OrdersDatagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CustomerComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            RefreshOrderEntriesDataGrid();
+            RefreshDataGrid();
         }
 
-        private void RefreshOrderEntriesDataGrid()
+        private void ViewDetailsButton_OnClick(object sender, RoutedEventArgs e)
         {
-            OrderEntriesDataGrid?.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
-            OrderEntriesDataGrid?.Items.Refresh();
+            var order = OrderDataGrid.SelectedItem as Order;
+            if (order != null) new OrderDetailsWindow(order).Show();
         }
 
-        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        #region UI Code Behind
+
+        #region EmployeeDataGrid Updates
+
+        private void RefreshDataGrid()
         {
-            RefreshOrdersDataGrid();
+            OrdersSource = _orderHandler.GetOrders(customerId: (CustomerComboBox.SelectedItem as Customer)?.Id);
+            OrderDataGrid.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
+            OrderDataGrid.Items.Refresh();
         }
 
-        private void RefreshOrdersDataGrid()
-        {
-            // Search for orders by note text
-            Orders = _orderHandler.GetOrders(note: SearchTextBox.Text);
-            OrdersDataGrid?.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
-            OrdersDataGrid?.Items.Refresh();
-        }
-
-        private void ReverseButton_Click(object sender, RoutedEventArgs e)
-        {
-            var selectedOrder = OrdersDataGrid.SelectedItem as Order;
-            if (selectedOrder == null)
-            {
-                MessageBox.Show("Please select and verify an order to continue");
-            }
-            else
-            {
-                var msgBoxResult = MessageBox.Show("Do you  want to reverse order "
-                                                   + selectedOrder.Id + " "
-                                                   + selectedOrder.Date,
-                    "Confirmation",
-                    MessageBoxButton.YesNo);
-                if (msgBoxResult != MessageBoxResult.Yes) return;
-
-                var authWindow = new AuthenticationDialog();
-                authWindow.ShowDialog();
-                if (authWindow.DialogResult != true) return;
-
-                selectedOrder.IsCancelled = true;
-                _orderHandler.UpdateOrder(selectedOrder);
-
-                MessageBox.Show("Successfully Reversed the order :" + selectedOrder.Id);
-                RefreshOrdersDataGrid();
-            }
-        }
-
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
+        #endregion
 
         #region Window Keydown Handling
 
@@ -91,14 +56,16 @@ namespace Goldline.UI.Customers
             switch (e.Key)
             {
                 case Key.Down:
-                    if (OrdersDataGrid.SelectedIndex < OrdersDataGrid.Items.Count - 1)
-                        OrdersDataGrid.SelectedIndex++;
+                    if (OrderDataGrid.SelectedIndex < OrderDataGrid.Items.Count - 1)
+                        OrderDataGrid.SelectedIndex++;
                     break;
                 case Key.Up:
-                    if (OrdersDataGrid.SelectedIndex > 0) OrdersDataGrid.SelectedIndex--;
+                    if (OrderDataGrid.SelectedIndex > 0) OrderDataGrid.SelectedIndex--;
                     break;
             }
         }
+
+        #endregion
 
         #endregion
     }

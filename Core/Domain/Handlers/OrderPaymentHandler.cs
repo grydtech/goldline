@@ -42,13 +42,13 @@ namespace Core.Domain.Handlers
         /// <summary>
         ///     Gets a list of payments
         /// </summary>
-        /// <param name="customerId"></param>
+        /// <param name="orderId"></param>
         /// <returns></returns>
-        public IEnumerable<OrderPayment> GetPayments(uint? customerId = null)
+        public IEnumerable<OrderPayment> GetPayments(uint? orderId = null)
         {
             using (var connection = Connector.GetConnection())
             {
-                return new OrderPaymentDal(connection).Search(customerId);
+                return new OrderPaymentDal(connection).Search(orderId);
             }
         }
     }

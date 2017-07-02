@@ -130,20 +130,23 @@
     <Compile Include="UI\Customers\Dialogs\AddCustomerDialog.xaml.cs">
       <DependentUpon>AddCustomerDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\AddPaymentDialog.xaml.cs">
+      <DependentUpon>AddPaymentDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Customers\OrderCheckoutWindow.xaml.cs">
       <DependentUpon>OrderCheckoutWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Customers\CustomerWindow.xaml.cs">
       <DependentUpon>CustomerWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Customers\OrderPaymentWindow.xaml.cs">
-      <DependentUpon>OrderPaymentWindow.xaml</DependentUpon>
+    <Compile Include="UI\Customers\OrderHistoryWindow.xaml.cs">
+      <DependentUpon>OrderHistoryWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Customers\OrderWindow.xaml.cs">
       <DependentUpon>OrderWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Customers\OrderHistoryWindow.xaml.cs">
-      <DependentUpon>OrderHistoryWindow.xaml</DependentUpon>
+    <Compile Include="UI\Customers\OrderDetailsWindow.xaml.cs">
+      <DependentUpon>OrderDetailsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Customers\Dialogs\AddServiceDialog.xaml.cs">
       <DependentUpon>AddServiceDialog.xaml</DependentUpon>
@@ -360,6 +363,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="UI\AddPaymentDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\InputDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -400,7 +407,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Customers\OrderPaymentWindow.xaml">
+    <Page Include="UI\Customers\OrderHistoryWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -408,7 +415,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Customers\OrderHistoryWindow.xaml">
+    <Page Include="UI\Customers\OrderDetailsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
