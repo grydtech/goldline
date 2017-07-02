@@ -46,7 +46,7 @@ namespace Core.Data.Customers
                 "due_amount 'DueAmount', is_cancelled 'IsCancelled' from orders_view " +
                 (isCredit == null && customerId == null && noteExp == null ? "" : "where ") +
                 (isCredit == null ? "" : $"(due_amount > 0) = @isCredit ") +
-                (customerId == null ? "" : (isCredit == null ? "" : "and ") + "customerId = @customerId ") +
+                (customerId == null ? "" : (isCredit == null ? "" : "and ") + "id_customer = @customerId ") +
                 (noteExp == null
                     ? ""
                     : (isCredit == null && customerId == null ? "" : "and ") + "note LIKE @noteExp ") +

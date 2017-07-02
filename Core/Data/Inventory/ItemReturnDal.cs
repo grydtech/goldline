@@ -59,7 +59,7 @@ namespace Core.Data.Inventory
                         : (noteExp == null && isHandled == null && startDate == null ? "" : "and ") +
                           "date_return <= @endDate ") +
                     "order by id_return desc limit @offset, @limit",
-                    new {noteExp, isHandled, startDate, endDate});
+                    new {noteExp, isHandled, startDate, endDate, offset, limit});
 
                 // Execute sql command
                 return Connection.Query<ItemReturn>(command);
