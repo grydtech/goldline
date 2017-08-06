@@ -26,193 +26,6 @@
             <ColumnDefinition />
             <ColumnDefinition Width="300" />
         </Grid.ColumnDefinitions>
-        <Border
-            Grid.Row="0"
-            Grid.Column="1"
-            Margin="2"
-            VerticalAlignment="Top"
-            Background="{DynamicResource Goldline.Background.HeaderBar}"
-            BorderBrush="{DynamicResource Goldline.Border}"
-            BorderThickness="1"
-            CornerRadius="10,0,0,10">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="40" />
-                    <RowDefinition />
-                    <RowDefinition Height="40" />
-                </Grid.RowDefinitions>
-                <Label
-                    x:Name="Label"
-                    Grid.Row="0"
-                    Content="Edit Item Information"
-                    FontSize="20"
-                    FontWeight="Bold"
-                    Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                <TextBox
-                    x:Name="NameTextBox"
-                    Grid.Row="1"
-                    FontWeight="Light"
-                    IsEnabled="False"
-                    Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                    Text="{Binding SelectedItem.(inventory:Item.Name), ElementName=InventoryDataGrid, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <Grid Grid.Row="2" Margin="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="2*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Label
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Content="Brand:"
-                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                    <ComboBox
-                        x:Name="BrandComboBox"
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Margin="5"
-                        ItemsSource="{Binding BrandSource}"
-                        SelectedItem="{Binding ElementName=InventoryDataGrid, Path=SelectedItem.(inventory:Item.Brand), Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                        SelectionChanged="ComboBox_OnSelectionChanged" />
-                    <Label
-                        x:Name="ModelLabel"
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Content="Model:"
-                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                    <TextBox
-                        x:Name="ModelTextBox"
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        SelectionChanged="TextBox_OnSelectionChanged"
-                        Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding ElementName=InventoryDataGrid, Path=SelectedItem.(inventory:Item.Model), Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <Label
-                        x:Name="Property1Label"
-                        Grid.Row="2"
-                        Grid.Column="0"
-                        Content="{Binding Property1Text}"
-                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                    <ComboBox
-                        x:Name="Property1ComboBox"
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        Margin="5"
-                        IsEnabled="True"
-                        ItemsSource="{Binding Property1Source}"
-                        SelectionChanged="ComboBox_OnSelectionChanged">
-                        <ComboBox.SelectedItem>
-                            <PriorityBinding>
-                                <Binding
-                                    ElementName="InventoryDataGrid"
-                                    Mode="OneWay"
-                                    Path="SelectedItem.(inventory:Alloywheel.Dimension)" />
-                                <Binding
-                                    ElementName="InventoryDataGrid"
-                                    Mode="OneWay"
-                                    Path="SelectedItem.(inventory:Tyre.Dimension)" />
-                                <Binding
-                                    ElementName="InventoryDataGrid"
-                                    Mode="OneWay"
-                                    Path="SelectedItem.(inventory:Battery.Capacity)" />
-                            </PriorityBinding>
-                        </ComboBox.SelectedItem>
-                    </ComboBox>
-                    <Label
-                        x:Name="Property2Label"
-                        Grid.Row="3"
-                        Grid.Column="0"
-                        Content="{Binding Property2Text}"
-                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                    <ComboBox
-                        x:Name="Property2ComboBox"
-                        Grid.Row="3"
-                        Grid.Column="1"
-                        Margin="5"
-                        ItemsSource="{Binding Property2Source}"
-                        SelectionChanged="ComboBox_OnSelectionChanged">
-                        <ComboBox.SelectedItem>
-                            <PriorityBinding>
-                                <Binding
-                                    ElementName="InventoryDataGrid"
-                                    Mode="OneWay"
-                                    Path="SelectedItem.(inventory:Tyre.Country)" />
-                                <Binding
-                                    ElementName="InventoryDataGrid"
-                                    Mode="OneWay"
-                                    Path="SelectedItem.(inventory:Battery.Voltage)" />
-                            </PriorityBinding>
-                        </ComboBox.SelectedItem>
-                    </ComboBox>
-                    <Label
-                        x:Name="PriceLabel"
-                        Grid.Row="4"
-                        Grid.Column="0"
-                        Content="Price:"
-                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                    <TextBox
-                        x:Name="PriceTextBox"
-                        Grid.Row="4"
-                        Grid.Column="1"
-                        Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding ElementName=InventoryDataGrid, Path=SelectedItem.(inventory:Item.UnitPrice), Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                        <i:Interaction.Behaviors>
-                            <goldline:TextBoxInputBehavior InputMode="{StaticResource DecimalInputMode}" />
-                        </i:Interaction.Behaviors>
-                    </TextBox>
-                    <Label
-                        x:Name="StockLabel"
-                        Grid.Row="5"
-                        Grid.Column="0"
-                        Content="Stock:"
-                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                    <TextBox
-                        x:Name="StockTextBox"
-                        Grid.Row="5"
-                        Grid.Column="1"
-                        Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding ElementName=InventoryDataGrid, Path=SelectedItem.(inventory:Item.StockQty), Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                        <i:Interaction.Behaviors>
-                            <goldline:TextBoxInputBehavior InputMode="{StaticResource DigitInputMode}" />
-                        </i:Interaction.Behaviors>
-                    </TextBox>
-                </Grid>
-                <Grid Grid.Row="3" Background="{DynamicResource Goldline.Background.StatusBar}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="6*" />
-                    </Grid.RowDefinitions>
-
-                    <Button
-                        x:Name="SaveButton"
-                        Grid.Column="0"
-                        Margin="5"
-                        Click="SaveButton_Click"
-                        Content="Save"
-                        Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-
-                    <Button
-                        x:Name="DiscardButton"
-                        Grid.Column="1"
-                        Margin="5"
-                        Click="DiscardButton_Click"
-                        Content="Discard"
-                        Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-
-                </Grid>
-            </Grid>
-        </Border>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="45" />
@@ -291,5 +104,192 @@
                 </DataGrid>
             </Border>
         </Grid>
+        <Border
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="2"
+            VerticalAlignment="Top"
+            Background="{DynamicResource Goldline.Background.HeaderBar}"
+            BorderBrush="{DynamicResource Goldline.Border}"
+            BorderThickness="1"
+            CornerRadius="10,0,0,10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition />
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
+                <Label
+                    x:Name="Label"
+                    Grid.Row="0"
+                    Content="Edit Item Information"
+                    FontSize="20"
+                    FontWeight="Bold"
+                    Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+                <TextBox
+                    x:Name="NameTextBox"
+                    Grid.Row="1"
+                    FontWeight="Light"
+                    IsEnabled="False"
+                    Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
+                    Text="{Binding SelectedItem.(inventory:Item.Name), ElementName=InventoryDataGrid, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Grid Grid.Row="2" Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Content="Brand:"
+                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+                    <ComboBox
+                        x:Name="BrandComboBox"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="5"
+                        ItemsSource="{Binding BrandSource}"
+                        SelectedItem="{Binding SelectedItem.(inventory:Item.Brand), ElementName=InventoryDataGrid, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                        SelectionChanged="ComboBox_OnSelectionChanged" />
+                    <Label
+                        x:Name="ModelLabel"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Content="Model:"
+                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+                    <TextBox
+                        x:Name="ModelTextBox"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        SelectionChanged="TextBox_OnSelectionChanged"
+                        Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
+                        Text="{Binding SelectedItem.(inventory:Item.Model), ElementName=InventoryDataGrid, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <Label
+                        x:Name="Property1Label"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Content="{Binding Property1Text}"
+                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+                    <ComboBox
+                        x:Name="Property1ComboBox"
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="5"
+                        IsEnabled="True"
+                        ItemsSource="{Binding Property1Source}"
+                        SelectionChanged="ComboBox_OnSelectionChanged">
+                        <ComboBox.SelectedItem>
+                            <PriorityBinding>
+                                <Binding
+                                    ElementName="InventoryDataGrid"
+                                    Mode="OneWay"
+                                    Path="SelectedItem.(inventory:Alloywheel.Dimension)" />
+                                <Binding
+                                    ElementName="InventoryDataGrid"
+                                    Mode="OneWay"
+                                    Path="SelectedItem.(inventory:Tyre.Dimension)" />
+                                <Binding
+                                    ElementName="InventoryDataGrid"
+                                    Mode="OneWay"
+                                    Path="SelectedItem.(inventory:Battery.Capacity)" />
+                            </PriorityBinding>
+                        </ComboBox.SelectedItem>
+                    </ComboBox>
+                    <Label
+                        x:Name="Property2Label"
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Content="{Binding Property2Text}"
+                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+                    <ComboBox
+                        x:Name="Property2ComboBox"
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Margin="5"
+                        ItemsSource="{Binding Property2Source}"
+                        SelectionChanged="ComboBox_OnSelectionChanged">
+                        <ComboBox.SelectedItem>
+                            <PriorityBinding>
+                                <Binding
+                                    ElementName="InventoryDataGrid"
+                                    Mode="OneWay"
+                                    Path="SelectedItem.(inventory:Tyre.Country)" />
+                                <Binding
+                                    ElementName="InventoryDataGrid"
+                                    Mode="OneWay"
+                                    Path="SelectedItem.(inventory:Battery.Voltage)" />
+                            </PriorityBinding>
+                        </ComboBox.SelectedItem>
+                    </ComboBox>
+                    <Label
+                        x:Name="PriceLabel"
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Content="Price:"
+                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+                    <TextBox
+                        x:Name="PriceTextBox"
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
+                        Text="{Binding SelectedItem.(inventory:Item.UnitPrice), ElementName=InventoryDataGrid, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                        <i:Interaction.Behaviors>
+                            <goldline:TextBoxInputBehavior InputMode="{StaticResource DecimalInputMode}" />
+                        </i:Interaction.Behaviors>
+                    </TextBox>
+                    <Label
+                        x:Name="StockLabel"
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        Content="Stock:"
+                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+                    <TextBox
+                        x:Name="StockTextBox"
+                        Grid.Row="5"
+                        Grid.Column="1"
+                        Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
+                        Text="{Binding SelectedItem.(inventory:Item.StockQty), ElementName=InventoryDataGrid, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                        <i:Interaction.Behaviors>
+                            <goldline:TextBoxInputBehavior InputMode="{StaticResource DigitInputMode}" />
+                        </i:Interaction.Behaviors>
+                    </TextBox>
+                </Grid>
+                <Grid Grid.Row="3" Background="{DynamicResource Goldline.Background.StatusBar}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="6*" />
+                    </Grid.RowDefinitions>
+
+                    <Button
+                        x:Name="SaveButton"
+                        Grid.Column="0"
+                        Margin="5"
+                        Click="SaveButton_Click"
+                        Content="Save"
+                        Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
+
+                    <Button
+                        x:Name="DiscardButton"
+                        Grid.Column="1"
+                        Margin="5"
+                        Click="DiscardButton_Click"
+                        Content="Discard"
+                        Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
+
+                </Grid>
+            </Grid>
+        </Border>
     </Grid>
 </Window>

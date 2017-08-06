@@ -108,7 +108,11 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extensions.cs" />
     <Compile Include="StockQtyToBrushConverter.cs" />
+    <Compile Include="ProductComboBox.xaml.cs">
+      <DependentUpon>ProductComboBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Catalogs\AlloywheelCatalog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -366,6 +370,10 @@
     <Page Include="Styles\WindowStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProductComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\AddPaymentDialog.xaml">
       <SubType>Designer</SubType>

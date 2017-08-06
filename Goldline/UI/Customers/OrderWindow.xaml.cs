@@ -21,7 +21,6 @@ namespace Goldline.UI.Customers
     public partial class OrderWindow : Window
     {
         private static OrderWindow _orderWindow;
-        private readonly OrderHandler _orderHandler;
         private readonly ProductHandler _productHandler;
         private decimal _discount;
         private decimal _unitPrice;
@@ -31,11 +30,10 @@ namespace Goldline.UI.Customers
             try
             {
                 _productHandler = new ProductHandler();
-                _orderHandler = new OrderHandler();
                 Order = new Order();
-                ItemSource = _productHandler.GetItems(Uid);
+                ItemSource = _productHandler.GetItems();
                 InitializeComponent();
-                ComboBox.ItemsSource = Enum.GetNames(typeof(ProductType)).ToList().GetRange(0, 3);
+                ComboBox.ItemsSource = Enum.GetNames(typeof(ProductType));
                 ComboBox.Focus();
             }
             catch (Exception ex)
@@ -62,7 +60,7 @@ namespace Goldline.UI.Customers
 
         private void CalculateUnitPrice()
         {
-            var selectedItem = SearchDataGrid.SelectedItem as Item;
+            var selectedItem = SearchComboBox.SelectedItem as Item;
             if (selectedItem == null) return;
             var actualUnitPrice = selectedItem.UnitPrice;
 
@@ -104,7 +102,7 @@ namespace Goldline.UI.Customers
             var discountTextBoxValue = DiscountTextBox.Text == "" ? 0 : decimal.Parse(DiscountTextBox.Text);
             discountTextBoxValue = Math.Round(discountTextBoxValue, 2);
 
-            var selectedItem = SearchDataGrid.SelectedItem as Item;
+            var selectedItem = SearchComboBox.SelectedItem as Item;
             if (selectedItem == null) return;
             if (price > 0)
             {
@@ -149,13 +147,13 @@ namespace Goldline.UI.Customers
             GrandTotalValueLabel?.GetBindingExpression(ContentProperty)?.UpdateTarget();
         }
 
-        private void RefreshSearchDataGrid()
+        private void RefreshSearchComboBox()
         {
             // Update Data Grid with new set of products
-            ItemSource = ComboBox.SelectedItem != null && SearchDataGrid != null
-                ? _productHandler.GetItems(SearchTextBox.Text, (ProductType) ComboBox.SelectedIndex)
-                : _productHandler.GetItems(SearchTextBox.Text);
-            SearchDataGrid?.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
+            ItemSource = ComboBox.SelectedItem != null && SearchComboBox != null
+                ? _productHandler.GetItems(SearchComboBox.Text, (ProductType) ComboBox.SelectedIndex)
+                : _productHandler.GetItems(SearchComboBox.Text);
+            SearchComboBox?.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
         }
 
         public void RefreshOrderItemsDataGrid()
@@ -206,7 +204,7 @@ namespace Goldline.UI.Customers
                 #endregion
 
                 var quantity = QuantityTextBox.Text == "" ? 0 : uint.Parse(QuantityTextBox.Text);
-                var selectedItem = SearchDataGrid.SelectedItem as Item;
+                var selectedItem = SearchComboBox.SelectedItem as Item;
                 _discount = DiscountTextBox.Text == "" ? 0 : decimal.Parse(DiscountTextBox.Text);
                 _unitPrice = UnitPriceTextBox.Text == "" ? 0 : decimal.Parse(UnitPriceTextBox.Text);
 
@@ -236,7 +234,7 @@ namespace Goldline.UI.Customers
                         // add items to the order entries list
                         Order.AddOrderItem(orderItem);
                         UpdateGrandTotalLabel();
-                        RefreshSearchDataGrid();
+                        RefreshSearchComboBox();
                         RefreshOrderItemsDataGrid();
 
                         ComboBox.Focus();
@@ -254,11 +252,10 @@ namespace Goldline.UI.Customers
             }
             finally
             {
-                NameTextBox.Text = "";
                 QuantityTextBox.Text = "";
                 UnitPriceTextBox.Text = "";
                 DiscountTextBox.Text = "";
-                SearchDataGrid.Items.Refresh();
+                SearchComboBox.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
                // UnitPriceTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
             }
         }
@@ -362,8 +359,7 @@ namespace Goldline.UI.Customers
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            RefreshSearchDataGrid();
-            NameTextBox.Text = "";
+            RefreshSearchComboBox();
             QuantityTextBox.Text = "";
             UnitPriceTextBox.Text = "";
             DiscountTextBox.Text = "";
@@ -371,7 +367,7 @@ namespace Goldline.UI.Customers
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            RefreshSearchDataGrid();
+            RefreshSearchComboBox();
         }
 
         private void DiscountTextBox_FocusChanged(object sender, RoutedEventArgs e)
@@ -396,35 +392,15 @@ namespace Goldline.UI.Customers
                 CalculateUnitPrice();
         }
 
-        private void Window_KeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.Key)
-            {
-                case Key.Down:
-                    if (SearchDataGrid.SelectedIndex < SearchDataGrid.Items.Count - 1)
-                    {
-                        SearchDataGrid.SelectedIndex++;
-                    }
-                    break;
-                case Key.Up:
-                    if (SearchDataGrid.SelectedIndex > 0)
-                    {
-                        SearchDataGrid.SelectedIndex--;
-                    }
-                    break;
-            }
-        }
-
         #endregion
 
-        private void SearchDataGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void SearchComboBox_OnSelectionConfirmed(object sender, RoutedEventArgs e)
         {
             try
             {
-                var item = SearchDataGrid.SelectedItem as Item;
+                var item = SearchComboBox.SelectedItem as Item;
                 if (item != null)
                 {
-                    NameTextBox.Text = item.Name;
                     QuantityTextBox.Text = "1";
                     UnitPriceTextBox.Text = item.UnitPrice.ToString();
                     DiscountTextBox.Text = "0";

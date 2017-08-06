@@ -121,7 +121,7 @@ namespace Goldline.UI.Employees
 
         #endregion
 
-        #region SearchTextBox Behaviour
+        #region SearchComboBox Behaviour
 
         private void SearchTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
