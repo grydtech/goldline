@@ -146,14 +146,14 @@
     <Compile Include="UI\Customers\OrderHistoryWindow.xaml.cs">
       <DependentUpon>OrderHistoryWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Customers\OrderWindow.xaml.cs">
-      <DependentUpon>OrderWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\Customers\OrderDetailsWindow.xaml.cs">
       <DependentUpon>OrderDetailsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Customers\Dialogs\AddServiceDialog.xaml.cs">
       <DependentUpon>AddServiceDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Customers\OrderWindow.xaml.cs">
+      <DependentUpon>OrderWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\InputDialog.xaml.cs">
       <DependentUpon>InputDialog.xaml</DependentUpon>
@@ -379,6 +379,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\Customers\OrderWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
     <Page Include="UI\InputDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -420,10 +424,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Customers\OrderHistoryWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Customers\OrderWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -166,7 +166,7 @@ namespace Goldline.UI.Returns
 
         #endregion
 
-        #region Search (TextBox & ComboBox & KeyPress)
+        #region Search (TextBox & ProductTypeComboBox & KeyPress)
 
         #region TextBoxFocus
 

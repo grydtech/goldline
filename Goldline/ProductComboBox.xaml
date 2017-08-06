@@ -51,7 +51,7 @@
                                                 Orientation="Horizontal">
                                                 <TextBlock
                                                     x:Name="Column1Header"
-                                                    Width="150"
+                                                    Width="250"
                                                     VerticalAlignment="Center"
                                                     FontWeight="Bold"
                                                     Foreground="WhiteSmoke"
@@ -65,7 +65,6 @@
                                                     Text="{Binding ColumnHeader2, FallbackValue=Column2, RelativeSource={RelativeSource FindAncestor, AncestorType=goldline:ProductComboBox}}" />
                                                 <TextBlock
                                                     x:Name="Column3Header"
-                                                    Width="100"
                                                     VerticalAlignment="Center"
                                                     FontWeight="Bold"
                                                     Foreground="WhiteSmoke"
@@ -98,6 +97,7 @@
                                     BorderThickness="0"
                                     CharacterCasing="Upper"
                                     Focusable="True"
+                                    Foreground="{TemplateBinding Foreground}"
                                     GotFocus="PART_EditableTextBox_OnGotFocus"
                                     IsReadOnly="{TemplateBinding IsReadOnly}"
                                     LostFocus="PART_EditableTextBox_OnLostFocus"
@@ -230,9 +230,9 @@
             <DataTemplate DataType="inventory:Product">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="150" SharedSizeGroup="A" />
+                        <ColumnDefinition Width="250" SharedSizeGroup="A" />
                         <ColumnDefinition Width="100" SharedSizeGroup="B" />
-                        <ColumnDefinition Width="100" SharedSizeGroup="C" />
+                        <ColumnDefinition SharedSizeGroup="C" />
                     </Grid.ColumnDefinitions>
                     <TextBlock
                         Grid.Column="0"

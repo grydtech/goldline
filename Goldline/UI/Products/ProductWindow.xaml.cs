@@ -114,7 +114,7 @@ namespace Goldline.UI.Products
 
         #region Binding Properties
 
-        // Properties to bind to different values depending on ComboBox selection
+        // Properties to bind to different values depending on ProductTypeComboBox selection
         public string Property1Text
         {
             get
@@ -207,7 +207,7 @@ namespace Goldline.UI.Products
 
         #endregion
 
-        #region SearchBar(TextBox and ComboBox and KeyPress)
+        #region SearchBar(TextBox and ProductTypeComboBox and KeyPress)
 
         private void SearchTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {

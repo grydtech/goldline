@@ -39,7 +39,7 @@ namespace Goldline.UI.Customers
             CustomerDataGrid.ItemsSource = _customerMatches;
         }
 
-        // public IEnumerable<Customer> ItemSource { get; set; }
+        // public IEnumerable<Customer> ProductSource { get; set; }
         //public Customer SelectedCustomer { get; set; }
 
         private void SearchTextBox_OnTextChanged(object sender, TextChangedEventArgs e)

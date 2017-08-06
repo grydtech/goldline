@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,7 +10,6 @@ using Core.Domain.Enums;
 using Core.Domain.Handlers;
 using Core.Domain.Model.Customers;
 using Core.Domain.Model.Inventory;
-using Goldline.UI.Invoices;
 
 //using log4net;
 
@@ -18,7 +18,7 @@ namespace Goldline.UI.Customers
     /// <summary>
     ///     Interaction logic for OrderWindow.xaml
     /// </summary>
-    public partial class OrderWindow : Window
+    public partial class OrderWindow
     {
         private static OrderWindow _orderWindow;
         private readonly ProductHandler _productHandler;
@@ -31,10 +31,10 @@ namespace Goldline.UI.Customers
             {
                 _productHandler = new ProductHandler();
                 Order = new Order();
-                ItemSource = _productHandler.GetItems();
+                ProductSource = _productHandler.GetItems();
                 InitializeComponent();
-                ComboBox.ItemsSource = Enum.GetNames(typeof(ProductType));
-                ComboBox.Focus();
+                ProductTypeComboBox.ItemsSource = Enum.GetNames(typeof(ProductType));
+                ProductTypeComboBox.Focus();
             }
             catch (Exception ex)
             {
@@ -47,7 +47,7 @@ namespace Goldline.UI.Customers
 
         public Order Order { get; set; }
 
-        public IEnumerable<Item> ItemSource { get; set; }
+        public IEnumerable<Product> ProductSource { get; set; }
 
 
         public static OrderWindow GetAddCustomerOrderWindow()
@@ -60,7 +60,7 @@ namespace Goldline.UI.Customers
 
         private void CalculateUnitPrice()
         {
-            var selectedItem = SearchComboBox.SelectedItem as Item;
+            var selectedItem = ProductComboBox.SelectedItem as Item;
             if (selectedItem == null) return;
             var actualUnitPrice = selectedItem.UnitPrice;
 
@@ -69,8 +69,8 @@ namespace Goldline.UI.Customers
                 var discount = DiscountTextBox.Text == "" ? 0 : decimal.Parse(DiscountTextBox.Text);
                 discount = Math.Round(discount, 2);
                 var unitPriceTextBoxValue = UnitPriceTextBox.Text == "" ? 0 : decimal.Parse(UnitPriceTextBox.Text);
-                
-                if ((discount < 100) && (discount>-11))
+
+                if (discount < 100 && discount > -11)
                 {
                     _discount = discount;
                     var unitPrice = actualUnitPrice * (100 - _discount) / 100;
@@ -78,19 +78,19 @@ namespace Goldline.UI.Customers
                     if (unitPrice == unitPriceTextBoxValue) return;
 
                     _unitPrice = unitPrice;
-                    UnitPriceTextBox.Text = _unitPrice != 0 ? _unitPrice.ToString() : "";
+                    UnitPriceTextBox.Text = _unitPrice != 0 ? _unitPrice.ToString(CultureInfo.InvariantCulture) : "";
                 }
                 else
                 {
-                    UnitPriceTextBox.Text = actualUnitPrice.ToString();
+                    UnitPriceTextBox.Text = actualUnitPrice.ToString(CultureInfo.InvariantCulture);
                     DiscountTextBox.Text = "0";
                 }
             }
-            catch (FormatException ex)
+            catch (FormatException)
             {
                 MessageBox.Show("Please Enter Values In correct Format", "Invalid Input");
                 DiscountTextBox.Text = "0";
-                UnitPriceTextBox.Text = actualUnitPrice.ToString();
+                UnitPriceTextBox.Text = actualUnitPrice.ToString(CultureInfo.InvariantCulture);
             }
         }
 
@@ -102,7 +102,7 @@ namespace Goldline.UI.Customers
             var discountTextBoxValue = DiscountTextBox.Text == "" ? 0 : decimal.Parse(DiscountTextBox.Text);
             discountTextBoxValue = Math.Round(discountTextBoxValue, 2);
 
-            var selectedItem = SearchComboBox.SelectedItem as Item;
+            var selectedItem = ProductComboBox.SelectedItem as Item;
             if (selectedItem == null) return;
             if (price > 0)
             {
@@ -116,11 +116,11 @@ namespace Goldline.UI.Customers
                 if (discount >= -10)
                 {
                     _discount = discount;
-                    DiscountTextBox.Text = _discount != 0 ? _discount.ToString() : "";
+                    DiscountTextBox.Text = _discount != 0 ? _discount.ToString(CultureInfo.InvariantCulture) : "";
                 }
                 if (discount < -10)
                 {
-                    UnitPriceTextBox.Text = actualUnitPrice.ToString();
+                    UnitPriceTextBox.Text = actualUnitPrice.ToString(CultureInfo.InvariantCulture);
                     DiscountTextBox.Text = "0";
                     //MessageBox.Show("Entered Unit Price is Too Higher", "Invalid Unit Price");
                 }
@@ -143,17 +143,16 @@ namespace Goldline.UI.Customers
 
         private void UpdateGrandTotalLabel()
         {
-            
             GrandTotalValueLabel?.GetBindingExpression(ContentProperty)?.UpdateTarget();
         }
 
         private void RefreshSearchComboBox()
         {
             // Update Data Grid with new set of products
-            ItemSource = ComboBox.SelectedItem != null && SearchComboBox != null
-                ? _productHandler.GetItems(SearchComboBox.Text, (ProductType) ComboBox.SelectedIndex)
-                : _productHandler.GetItems(SearchComboBox.Text);
-            SearchComboBox?.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
+            ProductSource = ProductTypeComboBox.SelectedItem != null && ProductComboBox != null
+                ? _productHandler.GetProducts(productType: (ProductType) ProductTypeComboBox.SelectedIndex)
+                : _productHandler.GetItems();
+            ProductComboBox?.GetBindingExpression(ProductComboBox.ItemsSourceProperty)?.UpdateTarget();
         }
 
         public void RefreshOrderItemsDataGrid()
@@ -204,7 +203,7 @@ namespace Goldline.UI.Customers
                 #endregion
 
                 var quantity = QuantityTextBox.Text == "" ? 0 : uint.Parse(QuantityTextBox.Text);
-                var selectedItem = SearchComboBox.SelectedItem as Item;
+                var selectedItem = ProductComboBox.SelectedItem as Item;
                 _discount = DiscountTextBox.Text == "" ? 0 : decimal.Parse(DiscountTextBox.Text);
                 _unitPrice = UnitPriceTextBox.Text == "" ? 0 : decimal.Parse(UnitPriceTextBox.Text);
 
@@ -229,7 +228,7 @@ namespace Goldline.UI.Customers
                     else
                     {
                         var salePrice = _unitPrice != 0 ? _unitPrice : selectedItem.UnitPrice * (100 - _discount) / 100;
-                        var orderItem = new OrderItem(selectedItem.Id.Value, selectedItem.Name, quantity, salePrice);
+                        var orderItem = new OrderItem(selectedItem.Id.GetValueOrDefault(), selectedItem.Name, quantity, salePrice);
 
                         // add items to the order entries list
                         Order.AddOrderItem(orderItem);
@@ -237,7 +236,7 @@ namespace Goldline.UI.Customers
                         RefreshSearchComboBox();
                         RefreshOrderItemsDataGrid();
 
-                        ComboBox.Focus();
+                        ProductTypeComboBox.Focus();
                     }
                 }
                 else
@@ -255,11 +254,11 @@ namespace Goldline.UI.Customers
                 QuantityTextBox.Text = "";
                 UnitPriceTextBox.Text = "";
                 DiscountTextBox.Text = "";
-                SearchComboBox.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
-               // UnitPriceTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
+                ProductComboBox.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
+                // UnitPriceTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
             }
         }
-        
+
         private void CheckoutButton_Click(object sender, RoutedEventArgs e)
         {
             if (Order.OrderItems.Count == 0)
@@ -273,14 +272,13 @@ namespace Goldline.UI.Customers
 
                 var window = new OrderCheckoutWindow(Order);
                 window.ShowDialog();
-                
-                if (window.DialogResult==true)
+
+                if (window.DialogResult == true)
                 {
                     Order = new Order();
                     RefreshOrderItemsDataGrid();
                     UpdateGrandTotalLabel();
                 }
-                
             }
             catch (Exception ex)
             {
@@ -288,29 +286,29 @@ namespace Goldline.UI.Customers
             }
         }
 
-        private void CashCheckoutButton_Click(object sender, RoutedEventArgs e)
-        {
-        //    // Note: update stocks handled internally using triggers so its not required here
-        //    if (Order.OrderItems.Count == 0)
-        //    {
-        //        MessageBox.Show("Add products to proceed!", "Empty order");
-        //        return;
-        //    }
+        //private void CashCheckoutButton_Click(object sender, RoutedEventArgs e)
+        //{
+            //    // Note: update stocks handled internally using triggers so its not required here
+            //    if (Order.OrderItems.Count == 0)
+            //    {
+            //        MessageBox.Show("Add products to proceed!", "Empty order");
+            //        return;
+            //    }
 
-        //    try
-        //    {
-        //        Order.Note = NoteTextBox.Text;
-        //        _orderHandler.AddOrder(Order);
-        //        MessageBox.Show("Order added successfully. Order Type: Cash");
+            //    try
+            //    {
+            //        Order.Note = NoteTextBox.Text;
+            //        _orderHandler.AddOrder(Order);
+            //        MessageBox.Show("Order added successfully. Order Type: Cash");
 
-        //        GenerateInvoice();
-        //        Close();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message + " :   An error has occured!");
-        //    }
-        }
+            //        GenerateInvoice();
+            //        Close();
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show(ex.Message + " :   An error has occured!");
+            //    }
+        //}
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
@@ -328,27 +326,27 @@ namespace Goldline.UI.Customers
             }
         }
 
-        private void ServiceButton_Click(object sender, RoutedEventArgs e)
-        {
-            var window = new Dialogs.AddServiceDialog();
-            window.ShowDialog();
+        //private void ServiceButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var window = new AddServiceDialog();
+        //    window.ShowDialog();
 
-            if (window.DialogResult == null || !window.DialogResult.Value) return;
+        //    if (window.DialogResult == null || !window.DialogResult.Value) return;
 
-            var selectedService = window.SelectedService;
-            var serviceCharge = window.ServiceCharge;
+        //    var selectedService = window.SelectedService;
+        //    var serviceCharge = window.ServiceCharge;
 
-            if (!IsAlreadyEntered(selectedService.Id))
-            {
-                Order.OrderItems.Add(new OrderItem(selectedService.Id.Value, selectedService.Name, 1, serviceCharge));
-                UpdateGrandTotalLabel();
-                RefreshOrderItemsDataGrid();
-            }
-            else
-            {
-                MessageBox.Show("Duplicate Entry in the order");
-            }
-        }
+        //    if (!IsAlreadyEntered(selectedService.Id))
+        //    {
+        //        Order.OrderItems.Add(new OrderItem(selectedService.Id.GetValueOrDefault(), selectedService.Name, 1, serviceCharge));
+        //        UpdateGrandTotalLabel();
+        //        RefreshOrderItemsDataGrid();
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("Duplicate Entry in the order");
+        //    }
+        //}
 
         private void TextBox_OnGotFocus(object sender, RoutedEventArgs e)
         {
@@ -363,11 +361,6 @@ namespace Goldline.UI.Customers
             QuantityTextBox.Text = "";
             UnitPriceTextBox.Text = "";
             DiscountTextBox.Text = "";
-        }
-
-        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            RefreshSearchComboBox();
         }
 
         private void DiscountTextBox_FocusChanged(object sender, RoutedEventArgs e)
@@ -398,14 +391,13 @@ namespace Goldline.UI.Customers
         {
             try
             {
-                var item = SearchComboBox.SelectedItem as Item;
+                var item = ProductComboBox.SelectedItem as Item;
                 if (item != null)
                 {
                     QuantityTextBox.Text = "1";
-                    UnitPriceTextBox.Text = item.UnitPrice.ToString();
+                    UnitPriceTextBox.Text = item.UnitPrice.ToString(CultureInfo.InvariantCulture);
                     DiscountTextBox.Text = "0";
                 }
-                
             }
             catch (Exception ex)
             {

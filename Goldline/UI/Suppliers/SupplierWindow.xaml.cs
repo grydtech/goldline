@@ -48,7 +48,7 @@ namespace Goldline.UI.Suppliers
             }
         }
 
-        #region SearchComboBox
+        #region ProductComboBox
 
         private void SearchTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {

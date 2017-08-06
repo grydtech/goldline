@@ -19,7 +19,7 @@
             <system:String x:Key="SearchTextBoxText">Search...</system:String>
             <goldline:TextBoxInputMode x:Key="DecimalInputMode">DecimalInput</goldline:TextBoxInputMode>
             <goldline:TextBoxInputMode x:Key="DigitInputMode">DigitInput</goldline:TextBoxInputMode>
-            <system:String x:Key="NoteTextBoxText">Enter notes here...</system:String>
+            <system:String x:Key="NoteTextBoxText">Notes...</system:String>
             <goldline:StockQtyToBrushConverter x:Key="StockQtyToBrushConverter" />
         </ResourceDictionary>
     </Application.Resources>
