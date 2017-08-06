@@ -30,7 +30,7 @@
                     <Label
                         x:Name="Label"
                         Grid.Row="0"
-                        Content="Edit User AccessMode"
+                        Content="Edit User Access"
                         FontSize="20"
                         FontWeight="Bold"
                         Style="{DynamicResource Goldline.LabelStyle.Dark}" />
@@ -73,7 +73,7 @@
                             Grid.ColumnSpan="2"
                             Collapsed="ProvideUserAccessExpander_Collapsed"
                             Expanded="ProvideUserAccessExpander_Expanded"
-                            Header="Provide user accessMode"
+                            Header="Provide User Access"
                             Style="{DynamicResource Goldline.ExpanderStyle.Dark}">
                             <Grid Background="{DynamicResource Goldline.Background.HeaderBar}">
                                 <Grid.RowDefinitions>

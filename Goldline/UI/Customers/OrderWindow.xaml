@@ -16,39 +16,23 @@
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     FontSize="16"
     PreviewKeyDown="Window_KeyDown"
+    Template="{StaticResource WindowTemplate}"
     WindowStartupLocation="CenterScreen"
     WindowState="Maximized"
     mc:Ignorable="d">
-
-    <Border>
-        <Grid>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="300" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="75" />
-                <RowDefinition Height="50" />
-                <RowDefinition Height="250" />
-                <RowDefinition Height="40" />
+                <RowDefinition Height="45" />
                 <RowDefinition />
-                <RowDefinition Height="60" />
-                <RowDefinition Height="50" />
+                <RowDefinition />
+                <RowDefinition Height="45" />
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="150" />
-                <ColumnDefinition Width="150" />
-            </Grid.ColumnDefinitions>
-            <Label
-                x:Name="TitleLabel"
-                Content="New Order"
-                FontSize="30"
-                Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-            <Image
-                x:Name="LogoImage"
-                Grid.Row="0"
-                Grid.Column="2"
-                Opacity="0.8"
-                Source="{DynamicResource Goldline.Image.Header}"
-                Stretch="UniformToFill" />
-            <Grid Grid.Row="1" Grid.Column="0">
+            <Grid Grid.Row="0" Margin="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
                     <ColumnDefinition Width="3*" />
@@ -56,7 +40,7 @@
                 </Grid.ColumnDefinitions>
                 <ComboBox
                     x:Name="ComboBox"
-                    Margin="5"
+                    Margin="2"
                     SelectedIndex="0"
                     SelectionChanged="ComboBox_SelectionChanged" />
                 <xctk:WatermarkTextBox
@@ -68,16 +52,113 @@
                 <Button
                     x:Name="ServiceButton"
                     Grid.Column="2"
+                    Margin="2"
                     Click="ServiceButton_Click"
                     Content="Service"
                     Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
             </Grid>
             <Border
                 Grid.Row="1"
-                Grid.RowSpan="2"
-                Grid.Column="1"
-                Grid.ColumnSpan="2"
-                Margin="5"
+                Margin="2"
+                Background="{DynamicResource Goldline.Background.HeaderBar}"
+                BorderBrush="{DynamicResource Goldline.Border}"
+                BorderThickness="1"
+                CornerRadius="10">
+                <DataGrid
+                    x:Name="SearchDataGrid"
+                    Margin="5"
+                    AlternatingRowBackground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
+                    AutoGenerateColumns="False"
+                    Background="{x:Null}"
+                    BorderBrush="{x:Null}"
+                    CanUserReorderColumns="False"
+                    CanUserResizeColumns="False"
+                    CanUserResizeRows="False"
+                    Focusable="False"
+                    HorizontalScrollBarVisibility="Disabled"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding ItemSource}"
+                    Opacity="0.8"
+                    ScrollViewer.CanContentScroll="True"
+                    SelectionChanged="SearchDataGrid_OnSelectionChanged"
+                    SelectionMode="Single">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Width="5*"
+                            Binding="{Binding Name}"
+                            Header="Name" />
+                        <DataGridTextColumn
+                            Width="2*"
+                            Binding="{Binding StockQty}"
+                            Header="Stock" />
+                        <DataGridTextColumn
+                            Width="3*"
+                            Binding="{Binding UnitPrice}"
+                            Header="Price" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+            <Border
+                Grid.Row="2"
+                Margin="2"
+                Background="{DynamicResource Goldline.Background.HeaderBar}"
+                BorderBrush="{DynamicResource Goldline.Border}"
+                BorderThickness="1"
+                CornerRadius="10">
+                <DataGrid
+                    x:Name="OrderItemsDataGrid"
+                    Margin="5"
+                    AlternatingRowBackground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
+                    AutoGenerateColumns="False"
+                    Background="{x:Null}"
+                    BorderBrush="{x:Null}"
+                    CanUserReorderColumns="False"
+                    CanUserResizeRows="False"
+                    CanUserSortColumns="False"
+                    Focusable="False"
+                    HorizontalScrollBarVisibility="Disabled"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding Order.OrderItems, Mode=TwoWay}"
+                    Opacity="0.8"
+                    ScrollViewer.CanContentScroll="True"
+                    SelectionMode="Single">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Width="5*"
+                            Binding="{Binding ProductName}"
+                            Header="Name" />
+                        <DataGridTextColumn
+                            Width="2*"
+                            Binding="{Binding UnitPrice}"
+                            Header="Unit Price" />
+                        <DataGridTextColumn
+                            Width="1*"
+                            Binding="{Binding Qty}"
+                            Header="Qty" />
+                        <DataGridTextColumn
+                            Width="2*"
+                            Binding="{Binding NetPrice}"
+                            Header="Net Price" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+            <xctk:WatermarkTextBox
+                x:Name="NoteTextBox"
+                Grid.Row="3"
+                Margin="2"
+                Style="{DynamicResource Goldline.WatermarkTextBoxStyle.Dark}"
+                Watermark="{DynamicResource NoteTextBoxText}" />
+
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="45" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Border
+                Grid.Row="0"
+                Margin="2"
                 BorderBrush="{DynamicResource Goldline.Border}"
                 BorderThickness="1"
                 CornerRadius="10">
@@ -182,109 +263,19 @@
                         Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                 </Grid>
             </Border>
-            <Border
-                Grid.Row="2"
-                Grid.Column="0"
-                Margin="5"
-                Background="{DynamicResource Goldline.Background.HeaderBar}"
-                BorderBrush="{DynamicResource Goldline.Border}"
-                BorderThickness="1"
-                CornerRadius="10">
-                <DataGrid
-                    x:Name="SearchDataGrid"
-                    Margin="5"
-                    AlternatingRowBackground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
-                    AutoGenerateColumns="False"
-                    Background="{x:Null}"
-                    BorderBrush="{x:Null}"
-                    CanUserReorderColumns="False"
-                    CanUserResizeColumns="False"
-                    CanUserResizeRows="False"
-                    Focusable="False"
-                    HorizontalScrollBarVisibility="Disabled"
-                    IsReadOnly="True"
-                    ItemsSource="{Binding ItemSource}"
-                    Opacity="0.8"
-                    ScrollViewer.CanContentScroll="True"
-                    SelectionChanged="SearchDataGrid_OnSelectionChanged"
-                    SelectionMode="Single">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn
-                            Width="5*"
-                            Binding="{Binding Name}"
-                            Header="Name" />
-                        <DataGridTextColumn
-                            Width="2*"
-                            Binding="{Binding StockQty}"
-                            Header="Stock" />
-                        <DataGridTextColumn
-                            Width="3*"
-                            Binding="{Binding UnitPrice}"
-                            Header="Price" />
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Border>
-
-            <Border
-                Grid.Row="3"
-                Grid.RowSpan="3"
-                Grid.Column="0"
-                Margin="5"
-                Background="{DynamicResource Goldline.Background.HeaderBar}"
-                BorderBrush="{DynamicResource Goldline.Border}"
-                BorderThickness="1"
-                CornerRadius="10">
-                <DataGrid
-                    x:Name="OrderItemsDataGrid"
-                    Margin="5"
-                    AlternatingRowBackground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
-                    AutoGenerateColumns="False"
-                    Background="{x:Null}"
-                    BorderBrush="{x:Null}"
-                    CanUserReorderColumns="False"
-                    CanUserResizeRows="False"
-                    CanUserSortColumns="False"
-                    Focusable="False"
-                    HorizontalScrollBarVisibility="Disabled"
-                    IsReadOnly="True"
-                    ItemsSource="{Binding Path=Order.OrderItems, Mode=TwoWay}"
-                    Opacity="0.8"
-                    ScrollViewer.CanContentScroll="True"
-                    SelectionMode="Single">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn
-                            Width="5*"
-                            Binding="{Binding ProductName}"
-                            Header="Name" />
-                        <DataGridTextColumn
-                            Width="2*"
-                            Binding="{Binding UnitPrice}"
-                            Header="Unit Price" />
-                        <DataGridTextColumn
-                            Width="1*"
-                            Binding="{Binding Qty}"
-                            Header="Qty" />
-                        <DataGridTextColumn
-                            Width="2*"
-                            Binding="{Binding NetPrice}"
-                            Header="Net Price" />
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Border>
-
             <Button
                 x:Name="RemoveButton"
-                Grid.Row="3"
-                Grid.Column="2"
+                Grid.Row="1"
+                Width="150"
+                Margin="2"
+                HorizontalAlignment="Right"
                 Click="RemoveButton_Click"
                 Content="Remove"
                 Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
             <Border
-                Grid.Row="5"
-                Grid.RowSpan="2"
-                Grid.Column="1"
-                Grid.ColumnSpan="2"
-                Margin="5"
+                Grid.Row="2"
+                Margin="2"
+                VerticalAlignment="Bottom"
                 Background="{DynamicResource Goldline.Background.HeaderBar}"
                 BorderBrush="{DynamicResource Goldline.Border}"
                 BorderThickness="1"
@@ -324,17 +315,8 @@
                         Content="Checkout"
                         FontWeight="Bold"
                         Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-
                 </Grid>
-
             </Border>
-            <xctk:WatermarkTextBox
-                x:Name="NoteTextBox"
-                Grid.Row="6"
-                Grid.Column="0"
-                Style="{DynamicResource Goldline.WatermarkTextBoxStyle.Dark}"
-                Watermark="{DynamicResource NoteTextBoxText}" />
-
         </Grid>
-    </Border>
+    </Grid>
 </Window>

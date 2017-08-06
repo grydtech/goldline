@@ -14,43 +14,23 @@
     Background="{DynamicResource Goldline.Background.Window}"
     FontSize="16"
     ResizeMode="NoResize"
+    Template="{StaticResource WindowTemplate}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="60" />
             <RowDefinition Height="50" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Label
-            x:Name="TitleLabel"
-            Grid.Row="0"
-            Grid.ColumnSpan="2"
-            VerticalContentAlignment="Center"
-            Content="Checkout"
-            FontSize="25"
-            FontWeight="Bold"
-            Foreground="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" />
-
-        <Image
-            x:Name="LogoImage"
-            Grid.Row="0"
-            Grid.Column="0"
-            HorizontalAlignment="Right"
-            Opacity="0.8"
-            ScrollViewer.VerticalScrollBarVisibility="Disabled"
-            Source="{DynamicResource Goldline.Image.Header}"
-            Stretch="Uniform" />
         <xctk:WatermarkTextBox
             x:Name="CustomerSearchTextBox"
-            Grid.Row="1"
             Grid.Column="0"
             Style="{DynamicResource Goldline.WatermarkTextBoxStyle.DarkRounded}"
             TextChanged="SearchTextBox_OnTextChanged"
             Watermark="Search Customer..." />
         <Border
-            Grid.Row="2"
+            Grid.Row="1"
             Grid.Column="0"
             Margin="5"
             Background="{DynamicResource Goldline.Background.HeaderBar}"
@@ -87,7 +67,7 @@
             </DataGrid>
         </Border>
         <Grid
-            Grid.Row="3"
+            Grid.Row="2"
             Grid.Column="0"
             Margin="5">
             <Grid.ColumnDefinitions>

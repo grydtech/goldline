@@ -13,35 +13,16 @@
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     FontSize="16"
     ResizeMode="NoResize"
+    Template="{StaticResource WindowTemplate}"
     WindowStartupLocation="CenterScreen"
     WindowState="Maximized"
     mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition Width="200" />
-            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="350" />
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="75" />
-            <RowDefinition Height="240" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Label
-            x:Name="TitleLabel"
-            Grid.ColumnSpan="3"
-            Content="Supplier Payments"
-            FontSize="30"
-            Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-        <Image
-            x:Name="LogoImage"
-            Grid.Row="0"
-            Grid.Column="2"
-            Opacity="0.8"
-            Source="{DynamicResource Goldline.Image.Header}"
-            Stretch="UniformToFill" />
         <Border
-            Grid.Row="1"
             Grid.RowSpan="2"
             Grid.Column="0"
             Margin="5"
@@ -98,10 +79,9 @@
             </Grid>
         </Border>
         <Border
-            Grid.Row="1"
             Grid.Column="1"
-            Grid.ColumnSpan="2"
             Margin="5"
+            VerticalAlignment="Top"
             BorderBrush="{DynamicResource Goldline.Border}"
             BorderThickness="1"
             CornerRadius="10,0,0,10">
