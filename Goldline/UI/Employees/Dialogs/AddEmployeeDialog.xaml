@@ -86,7 +86,7 @@
                             Collapsed="ProvideUserAccessExpander_Collapsed"
                             Expanded="ProvideUserAccessExpander_Expanded"
                             Foreground="White"
-                            Header="Provide user accessMode"
+                            Header="Provide User Access"
                             Style="{DynamicResource Goldline.ExpanderStyle.Dark}">
                             <Grid Margin="5">
                                 <Grid.RowDefinitions>

@@ -84,21 +84,58 @@
                                     Binding="{Binding Name}"
                                     Header="Name" />
                                 <DataGridTextColumn
-                                    Width="0.25*"
+                                    Width="0.2*"
                                     Binding="{Binding Contact}"
                                     Header="Contact" />
                                 <DataGridTextColumn
-                                    Width="0.25*"
+                                    Width="0.2*"
                                     Binding="{Binding DateJoined}"
                                     Header="Date Joined" />
-                                <DataGridCheckBoxColumn
-                                    Width="0.1*"
-                                    Binding="{Binding IsActive}"
-                                    Header="Active" />
-                                <DataGridTextColumn
-                                    Width="0.1*"
-                                    Binding="{Binding AccessMode}"
-                                    Header="Type" />
+                                <DataGridTemplateColumn Width="0.1*" Header="Active">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="employees:Employee">
+                                            <ToggleButton
+                                                x:Name="ToggleButtonEmployeeStatus"
+                                                Click="ToggleEmployeeStatusButton_Click"
+                                                IsChecked="{Binding IsActive, Mode=OneWay}"
+                                                Tag="{Binding}">
+                                                <ToggleButton.Style>
+                                                    <Style TargetType="{x:Type ToggleButton}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="ToggleButton">
+                                                                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
+                                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                                    </Border>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsChecked" Value="True">
+                                                                <Setter Property="Background" Value="Green" />
+                                                                <Setter Property="Content" Value="Y" />
+                                                            </Trigger>
+                                                            <Trigger Property="IsChecked" Value="False">
+                                                                <Setter Property="Background" Value="Red" />
+                                                                <Setter Property="Content" Value="N" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ToggleButton.Style>
+                                            </ToggleButton>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="0.2*" Header="Type">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="employees:Employee">
+                                            <Button
+                                                Click="ManageUserAccessButton_OnClick"
+                                                Content="{Binding AccessMode}"
+                                                Tag="{Binding}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                         <Grid
@@ -138,7 +175,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="45" />
                         <RowDefinition Height="5*" />
-                        <RowDefinition Height="2*" />
+                        <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
                     <Label
                         x:Name="Label"
@@ -166,7 +203,7 @@
                             Grid.Column="1"
                             IsEnabled="False"
                             Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                            Text="{Binding ElementName=EmployeeDataGrid, Path=SelectedItem.Id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Text="{Binding ElementName=EmployeeDataGrid, Path=SelectedItem.(employees:Employee.Id), Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <Label
                             x:Name="NameLabel"
                             Grid.Row="1"
@@ -178,7 +215,7 @@
                             Grid.Row="1"
                             Grid.Column="1"
                             Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                            Text="{Binding ElementName=EmployeeDataGrid, Path=SelectedItem.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Text="{Binding ElementName=EmployeeDataGrid, Path=SelectedItem.(employees:Employee.Name), Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <Label
                             x:Name="ContactInfoLabel"
                             Grid.Row="2"
@@ -191,35 +228,16 @@
                             Grid.Column="1"
                             AcceptsReturn="True"
                             Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                            Text="{Binding ElementName=EmployeeDataGrid, Path=SelectedItem.Contact, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Text="{Binding ElementName=EmployeeDataGrid, Path=SelectedItem.(employees:Employee.Contact), Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </Grid>
                     <Grid Grid.Row="2" Background="{DynamicResource Goldline.Background.StatusBar}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="1*" />
-                            <RowDefinition Height="1*" />
-                        </Grid.RowDefinitions>
-                        <Button
-                            x:Name="ManageUserAccessButton"
-                            Margin="5"
-                            Click="ManageUserAccessButton_OnClick"
-                            Content="Manage Access"
-                            Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-                        <ToggleButton
-                            x:Name="DisableEmployeeButton"
-                            Grid.Row="0"
-                            Grid.Column="1"
-                            Margin="5"
-                            Click="ToggleEmployeeStatusButton_Click"
-                            Content="Active/Inactive"
-                            IsChecked="{Binding SelectedItem.(employees:Employee.IsActive), ElementName=EmployeeDataGrid, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
                         <Button
                             x:Name="DiscardButton"
-                            Grid.Row="1"
+                            Grid.Row="0"
                             Grid.Column="0"
                             Margin="5"
                             Click="DiscardButton_Click"
@@ -227,11 +245,11 @@
                             Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                         <Button
                             x:Name="SaveButton"
-                            Grid.Row="1"
+                            Grid.Row="0"
                             Grid.Column="1"
                             Margin="5"
                             Click="SaveButton_Click"
-                            Content="Save Changes"
+                            Content="Save"
                             Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
 
                     </Grid>

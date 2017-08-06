@@ -149,7 +149,7 @@
     <Compile Include="UI\Customers\OrderDetailsWindow.xaml.cs">
       <DependentUpon>OrderDetailsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Customers\Dialogs\AddServiceDialog.xaml.cs">
+    <Compile Include="UI\Products\Dialogs\AddServiceDialog.xaml.cs">
       <DependentUpon>AddServiceDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Customers\OrderWindow.xaml.cs">
@@ -431,7 +431,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Customers\Dialogs\AddServiceDialog.xaml">
+    <Page Include="UI\Products\Dialogs\AddServiceDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

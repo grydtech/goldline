@@ -49,7 +49,7 @@ namespace Core.Data.Employees
                 "select id_employee 'EmployeeId', type_user-0 'AccessMode', username 'Username', password 'Password' " +
                 "from users " +
                 (employeeId == null && username == null && password == null ? "" : "where ") +
-                (employeeId == null ? "" : "id_employee = @id_employee ") +
+                (employeeId == null ? "" : "id_employee = @employeeId ") +
                 (username == null ? "" : (employeeId == null ? "" : "and ") + "username = @username ") +
                 (password == null
                     ? ""

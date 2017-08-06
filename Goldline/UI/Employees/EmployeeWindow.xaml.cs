@@ -28,7 +28,7 @@ namespace Goldline.UI.Employees
 
         private void ManageUserAccessButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var employee = EmployeeDataGrid.SelectedItem as Employee;
+            var employee = (sender  as Button)?.Tag as Employee;
             if (employee == null) return;
             new UserAccessDialog(employee).ShowDialog();
             ReloadDataGrid();
@@ -74,11 +74,13 @@ namespace Goldline.UI.Employees
 
         private void ToggleEmployeeStatusButton_Click(object sender, RoutedEventArgs e)
         {
-            if (EmployeeDataGrid.SelectedItem == null) MessageBox.Show(@"No Employee Selected");
+            var togglebutton = sender as ToggleButton;
+            var employee = (togglebutton)?.Tag as Employee;
+            if (employee == null) MessageBox.Show(@"No Employee Selected");
             else if (MessageBox.Show(this, @"Are You Sure?", "Confirmation", MessageBoxButton.YesNo) ==
                      MessageBoxResult.Yes)
-                _employeeHandler.UpdateEmployee((Employee) EmployeeDataGrid.SelectedItem,
-                    isActive: ((ToggleButton) sender).IsChecked == true);
+                _employeeHandler.UpdateEmployee(employee, isActive: ((ToggleButton) sender).IsChecked == true);
+            togglebutton?.GetBindingExpression(ToggleButton.IsCheckedProperty)?.UpdateTarget();
         }
 
         private void PaymentsButton_OnClick(object sender, RoutedEventArgs e)

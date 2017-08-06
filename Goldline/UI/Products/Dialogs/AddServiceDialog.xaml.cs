@@ -7,7 +7,7 @@ using Core.Domain.Enums;
 using Core.Domain.Handlers;
 using Core.Domain.Model.Inventory;
 
-namespace Goldline.UI.Customers.Dialogs
+namespace Goldline.UI.Products.Dialogs
 {
     /// <summary>
     ///     Interaction logic for AddServiceDialog.xaml

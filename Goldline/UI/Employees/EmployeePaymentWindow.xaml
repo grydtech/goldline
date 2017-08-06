@@ -67,7 +67,7 @@
                             Header="Name" />
                         <DataGridTextColumn
                             Width="0.5*"
-                            Binding="{Binding LastPaymentDate}"
+                            Binding="{Binding DateJoined}"
                             Header="Last Payment Date" />
                     </DataGrid.Columns>
                 </DataGrid>
@@ -176,7 +176,7 @@
                         Grid.Column="1"
                         IsEnabled="False"
                         Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding ElementName=EmployeeDataGrid, Path=SelectedItem.(employees:Employee.LastPaymentDate)}" />
+                        Text="{Binding ElementName=EmployeeDataGrid, Path=SelectedItem.(employees:Employee.DateJoined)}" />
                 </Grid>
                 <Grid
                     Grid.Row="2"
