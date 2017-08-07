@@ -51,13 +51,12 @@ namespace Goldline.UI.Customers
             }
             else
             {
-                foreach (var customer in CustomerSource)
-                    _customerHandler.UpdateCustomer(customer);
+                _customerHandler.UpdateCustomer((Customer) CustomerDataGrid.SelectedItem, NameTextBox.Text, NicTextBox.Text, ContactInfoTextBox.Text);
                 MessageBox.Show("Changes updated successfully", "GOLDLINE", MessageBoxButton.OK);
             }
         }
 
-        private void DiscardButton_Click(object sender, RoutedEventArgs e) // revert to original Customer information
+        private void DiscardButton_Click(object sender, RoutedEventArgs e)
         {
             RefreshDataGrid();
         }

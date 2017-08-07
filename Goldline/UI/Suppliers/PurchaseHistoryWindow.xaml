@@ -4,8 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:suppliers="clr-namespace:Core.Domain.Model.Suppliers;assembly=Core"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-    Title="PurchasesWindow"
+    Title="Purchase History"
     Width="1024"
     Height="576"
     MinWidth="1024"
@@ -62,47 +63,50 @@
                 AutoGenerateColumns="False"
                 Background="{x:Null}"
                 BorderBrush="{x:Null}"
+                CanUserResizeRows="False"
                 HorizontalScrollBarVisibility="Disabled"
                 IsReadOnly="True"
                 IsTextSearchEnabled="True"
-                MouseDoubleClick="PurchasesDataGrid_OnMouseDoubleClick"
                 Opacity="0.8"
+                RowDetailsVisibilityChanged="PurchasesDataGrid_OnRowDetailsVisibilityChanged"
+                RowDetailsVisibilityMode="VisibleWhenSelected"
                 ScrollViewer.CanContentScroll="True"
                 SelectionMode="Single">
                 <DataGrid.Resources>
-                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
-                                     Color="LightCyan" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="LightCyan" />
                 </DataGrid.Resources>
                 <DataGrid.Columns>
                     <DataGridTextColumn
-                        Width="0.05*"
-                        Binding="{Binding Id}"
-                        Header="ID" />
-                    <DataGridTextColumn
-                        Width="0.2*"
-                        Binding="{Binding SupplierId}"
-                        Header="Supplier" />
-                    <DataGridTextColumn
-                        Width="0.2*"
-                        Binding="{Binding Total}"
-                        Header="Price" />
-                    <DataGridTextColumn
-                        Width="0.05*"
-                        Binding="{Binding UserId}"
-                        Header="User_ID" />
-                    <DataGridTextColumn
-                        Width="0.2*"
-                        Binding="{Binding DateTime}"
+                        Width="150"
+                        Binding="{Binding (suppliers:Purchase.Date)}"
                         Header="Date" />
                     <DataGridTextColumn
-                        Width="0.25*"
-                        Binding="{Binding Note}"
-                        Header="Note" />
+                        Width="200"
+                        Binding="{Binding (suppliers:Purchase.SupplierId)}"
+                        Header="Supplier" />
+                    <DataGridTextColumn
+                        Width="150"
+                        Binding="{Binding (suppliers:Purchase.Amount)}"
+                        Header="Amount" />
                     <DataGridCheckBoxColumn
-                        Width="0.05*"
-                        Binding="{Binding Paid}"
-                        Header="Paid?" />
+                        Width="80"
+                        Binding="{Binding (suppliers:Purchase.IsSettled)}"
+                        Header="Settled?" />
+                    <DataGridTextColumn
+                        Width="0.25*"
+                        Binding="{Binding (suppliers:Purchase.Note)}"
+                        Header="Note" />
                 </DataGrid.Columns>
+                <DataGrid.RowDetailsTemplate>
+                    <DataTemplate DataType="suppliers:Purchase">
+                        <DataGrid ItemsSource="{Binding PurchaseItems}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Width="1*" Binding="{Binding ItemName}" />
+                                <DataGridTextColumn Width="100" Binding="{Binding Qty}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DataTemplate>
+                </DataGrid.RowDetailsTemplate>
             </DataGrid>
         </Border>
         <Grid Grid.Row="2" Grid.Column="0">

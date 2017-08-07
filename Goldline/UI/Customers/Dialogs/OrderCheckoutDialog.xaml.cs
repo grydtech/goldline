@@ -11,9 +11,9 @@ using Goldline.UI.Invoices;
 namespace Goldline.UI.Customers
 {
     /// <summary>
-    ///     Interaction logic for OrderCheckoutWindow.xaml
+    ///     Interaction logic for OrderCheckoutDialog.xaml
     /// </summary>
-    public partial class OrderCheckoutWindow : Window
+    public partial class OrderCheckoutDialog : Window
     {
         private readonly CustomerHandler _customerHandler;
         // private static readonly ILog log =
@@ -25,7 +25,7 @@ namespace Goldline.UI.Customers
         private readonly string _searchName;
         private readonly Order _order;
 
-        public OrderCheckoutWindow(Order order)
+        public OrderCheckoutDialog(Order order)
         {
             _order = order;
             _orderHandler = new OrderHandler();

@@ -271,7 +271,7 @@ namespace Goldline.UI.Customers.Dialogs
             {
                 Order.Note = NoteTextBox.Text;
 
-                var window = new OrderCheckoutWindow(Order);
+                var window = new OrderCheckoutDialog(Order);
                 window.ShowDialog();
 
                 if (window.DialogResult == true)

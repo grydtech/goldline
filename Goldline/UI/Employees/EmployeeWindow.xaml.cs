@@ -46,7 +46,7 @@ namespace Goldline.UI.Employees
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ContactInfoTextBox.Text == "")
+            if (ContactInfoTextBox.Text == string.Empty || NameTextBox.Text == string.Empty)
             {
                 MessageBox.Show("You cannot have empty contact information");
             }
@@ -54,9 +54,9 @@ namespace Goldline.UI.Employees
             {
                 try
                 {
-                    foreach (Employee employee in EmployeeDataGrid.Items)
-                        _employeeHandler.UpdateEmployee(employee);
-                    MessageBox.Show("All Employees update successfully");
+                    _employeeHandler.UpdateEmployee((Employee) EmployeeDataGrid.SelectedItem, NameTextBox.Text,
+                        ContactInfoTextBox.Text);
+                    MessageBox.Show("Updated successfully");
                 }
                 catch (Exception exception)
                 {

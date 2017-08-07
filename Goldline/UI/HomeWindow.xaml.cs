@@ -10,6 +10,7 @@ using Goldline.UI.Returns;
 using Goldline.UI.Returns.Dialogs;
 using Goldline.UI.Security;
 using Goldline.UI.Suppliers;
+using Goldline.UI.Suppliers.Dialogs;
 
 namespace Goldline.UI
 {
@@ -72,7 +73,7 @@ namespace Goldline.UI
 
         private void NewPurchaseButton_OnClick(object sender, RoutedEventArgs e)
         {
-            new PurchaseWindow().Show();
+            new AddPurchaseDialog().Show();
         }
 
         private void PurchaseHistoryButton_OnClick(object sender, RoutedEventArgs e)

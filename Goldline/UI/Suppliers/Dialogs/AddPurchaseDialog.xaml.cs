@@ -10,12 +10,12 @@ using Core.Domain.Model.Suppliers;
 using Goldline.UI.Invoices;
 using log4net;
 
-namespace Goldline.UI.Suppliers
+namespace Goldline.UI.Suppliers.Dialogs
 {
     /// <summary>
-    ///     Interaction logic for PurchaseWindow.xaml
+    ///     Interaction logic for AddPurchaseDialog.xaml
     /// </summary>
-    public partial class PurchaseWindow : Window
+    public partial class AddPurchaseDialog : Window
     {
         private static readonly ILog Logger = LogManager.GetLogger
             (MethodBase.GetCurrentMethod().DeclaringType);
@@ -24,7 +24,7 @@ namespace Goldline.UI.Suppliers
 
         private readonly PurchaseHandler _purchaseHandler;
 
-        public PurchaseWindow()
+        public AddPurchaseDialog()
         {
             // Set up variables and properties prior to initialization
             _purchaseHandler = new PurchaseHandler();
@@ -34,7 +34,7 @@ namespace Goldline.UI.Suppliers
             ItemSource = _productHandler.GetItems();
 
             InitializeComponent();
-            Logger.Info("PurchaseWindow Loaded successfully");
+            Logger.Info("AddPurchaseDialog Loaded successfully");
         }
 
         public IEnumerable<Supplier> SupplierSource { get; set; }
@@ -205,10 +205,10 @@ namespace Goldline.UI.Suppliers
             }
             else
             {
-                var confirmationWindow = new PurchaseInvoice(Purchase,
-                    (Supplier) SupplierComboBox.SelectedItem);
-                confirmationWindow.ShowDialog();
-                if (!confirmationWindow.IsVerified) return;
+                //var confirmationWindow = new OrderInvoice(Purchase,
+                //    (Supplier) SupplierComboBox.SelectedItem);
+                //confirmationWindow.ShowDialog();
+                //if (!confirmationWindow.IsVerified) return;
                 CompleteOrder();
             }
         }

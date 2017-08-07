@@ -18,9 +18,8 @@ namespace Goldline.UI.Suppliers
         public SupplierWindow()
         {
             _supplierHandler = new SupplierHandler();
-            SupplierSource = _supplierHandler.GetSuppliers("");
+            SupplierSource = _supplierHandler.GetSuppliers();
             InitializeComponent();
-            RefreshListBox();
         }
 
         public IEnumerable<Supplier> SupplierSource { get; private set; }
@@ -67,12 +66,6 @@ namespace Goldline.UI.Suppliers
             SupplierDataGrid?.Items.Refresh();
         }
 
-        private void RefreshListBox()
-        {
-            ListBox?.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
-            ListBox?.Items.Refresh();
-        }
-
         #endregion
 
         #region Buttons
@@ -81,48 +74,29 @@ namespace Goldline.UI.Suppliers
         {
             new AddSupplierDialog().ShowDialog();
             RefreshDataGrid();
-            RefreshListBox();
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             if (!IsAllDataEntered()) return;
-
-            foreach (var supplier in SupplierSource)
-                _supplierHandler.UpdateSupplierDetails(supplier);
+            _supplierHandler.UpdateSupplierDetails((Supplier) SupplierDataGrid.SelectedItem, NameTextBox.Text, ContactInfoTextBox.Text);
         }
 
         private void DiscardButton_Click(object sender, RoutedEventArgs e)
         {
             RefreshDataGrid();
         }
-
-        private void PaySupplierButton_OnClick(object sender, RoutedEventArgs e)
+        
+        private void BtnSupplierPayments_OnClick(object sender, RoutedEventArgs e)
         {
-            if (SupplierDataGrid.SelectedItem == null)
+            var button = sender as Button;
+            var supplier = button?.Tag as Supplier;
+            if (supplier == null)
                 MessageBox.Show("Please select a customer", "Information", MessageBoxButton.OK,
                     MessageBoxImage.Information);
             else
-                new PurchasePaymentWindow((Supplier) SupplierDataGrid.SelectedItem).ShowDialog();
+                new PurchasePaymentWindow(supplier).ShowDialog();
             RefreshDataGrid();
-            RefreshListBox();
-        }
-
-        private void ItemAddButton_Click(object sender, RoutedEventArgs e)
-        {
-            var selectedSupplier = (Supplier) SupplierDataGrid.SelectedItem;
-            if (selectedSupplier == null) return;
-            var addSuppliedItemWindow = new AddSuppliedItemDialog();
-            addSuppliedItemWindow.ShowDialog();
-
-            if (addSuppliedItemWindow.DialogResult != true) return;
-        }
-
-        private void ItemRemoveButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (SupplierDataGrid.SelectedItem == null) return;
-            if (ListBox.SelectedItem == null) return;
-            RefreshListBox();
         }
 
         #endregion

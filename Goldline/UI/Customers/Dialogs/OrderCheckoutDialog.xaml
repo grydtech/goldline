@@ -1,5 +1,5 @@
 ﻿<Window
-    x:Class="Goldline.UI.Customers.OrderCheckoutWindow"
+    x:Class="Goldline.UI.Customers.OrderCheckoutDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:customers="clr-namespace:Core.Domain.Model.Customers;assembly=Core"

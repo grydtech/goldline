@@ -1,24 +1,24 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using Core.Domain.Model.Suppliers;
+using Core.Domain.Model.Customers;
 
 namespace Goldline.UI.Invoices
 {
     /// <summary>
-    ///     Interaction logic for PurchaseInvoice.xaml
+    ///     Interaction logic for OrderInvoice.xaml
     /// </summary>
-    public partial class PurchaseInvoice : Window
+    public partial class OrderInvoice : Window
     {
-        public PurchaseInvoice(Purchase purchase, Supplier supplier)
+        public OrderInvoice(Order order)
         {
             InitializeComponent();
             IsVerified = false;
-            OrderEntriesDataGrid.ItemsSource = purchase.PurchaseItems;
-            IdLabel.Content = "Purchase: " + purchase.Id;
-            SupplierNameLabel.Content = supplier.Name;
-            ContactLabel.Content = supplier.Contact;
-            TotalLabel.Content = purchase.Amount;
-            CashCreditLabel.Content = purchase.IsSettled.ToString();
+            OrderEntriesDataGrid.ItemsSource = order.OrderItems;
+            IdLabel.Content = "Purchase: " + order.Id;
+            CustomerNameLabel.Content = order.CustomerId;
+            DateLabel.Content = order.Date;
+            TotalLabel.Content = order.Amount;
+            CashCreditLabel.Content = order.IsSettled.ToString();
         }
 
         public bool IsVerified { get; private set; }

@@ -140,8 +140,8 @@
     <Compile Include="UI\AddPaymentDialog.xaml.cs">
       <DependentUpon>AddPaymentDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Customers\OrderCheckoutWindow.xaml.cs">
-      <DependentUpon>OrderCheckoutWindow.xaml</DependentUpon>
+    <Compile Include="UI\Customers\Dialogs\OrderCheckoutDialog.xaml.cs">
+      <DependentUpon>OrderCheckoutDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Customers\CustomerWindow.xaml.cs">
       <DependentUpon>CustomerWindow.xaml</DependentUpon>
@@ -157,12 +157,6 @@
     </Compile>
     <Compile Include="UI\InputDialog.xaml.cs">
       <DependentUpon>InputDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Invoices\OrderInvoice.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Invoices\OrderInvoice.Designer.cs">
-      <DependentUpon>OrderInvoice.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\OrderReports\OrderReport.cs">
       <SubType>Form</SubType>
@@ -242,21 +236,14 @@
     <Compile Include="UI\Suppliers\PurchasePaymentWindow.xaml.cs">
       <DependentUpon>PurchasePaymentWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Suppliers\Dialogs\AddSuppliedItemDialog.xaml.cs">
-      <DependentUpon>AddSuppliedItemDialog.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="UI\Suppliers\SupplierWindow.xaml.cs">
       <DependentUpon>SupplierWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Invoices\PurchaseInvoice.xaml.cs">
-      <DependentUpon>PurchaseInvoice.xaml</DependentUpon>
+    <Compile Include="UI\Invoices\OrderInvoice.xaml.cs">
+      <DependentUpon>OrderInvoice.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Suppliers\PurchaseItemPopup.xaml.cs">
-      <DependentUpon>PurchaseItemPopup.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Suppliers\PurchaseWindow.xaml.cs">
-      <DependentUpon>PurchaseWindow.xaml</DependentUpon>
+    <Compile Include="UI\Suppliers\Dialogs\AddPurchaseDialog.xaml.cs">
+      <DependentUpon>AddPurchaseDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Suppliers\PurchaseHistoryWindow.xaml.cs">
       <DependentUpon>PurchaseHistoryWindow.xaml</DependentUpon>
@@ -294,9 +281,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Catalogs\TyreCatalog.resx">
       <DependentUpon>TyreCatalog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Invoices\OrderInvoice.resx">
-      <DependentUpon>OrderInvoice.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\OrderReports\OrderReport.resx">
       <DependentUpon>OrderReport.cs</DependentUpon>
@@ -415,7 +399,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Customers\OrderCheckoutWindow.xaml">
+    <Page Include="UI\Customers\Dialogs\OrderCheckoutDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -487,23 +471,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Suppliers\Dialogs\AddSuppliedItemDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UI\Suppliers\SupplierWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Invoices\PurchaseInvoice.xaml">
+    <Page Include="UI\Invoices\OrderInvoice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Suppliers\PurchaseItemPopup.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Suppliers\PurchaseWindow.xaml">
+    <Page Include="UI\Suppliers\Dialogs\AddPurchaseDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

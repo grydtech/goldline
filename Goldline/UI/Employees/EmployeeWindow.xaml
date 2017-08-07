@@ -76,8 +76,7 @@
                             ScrollViewer.CanContentScroll="True"
                             SelectionMode="Single">
                             <DataGrid.Resources>
-                                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
-                                                 Color="LightCyan" />
+                                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="LightCyan" />
                             </DataGrid.Resources>
                             <DataGrid.Columns>
                                 <DataGridTextColumn
@@ -105,10 +104,8 @@
                                                         <Setter Property="Template">
                                                             <Setter.Value>
                                                                 <ControlTemplate TargetType="ToggleButton">
-                                                                    <Border Background="{TemplateBinding Background}"
-                                                                            BorderBrush="{TemplateBinding BorderBrush}">
-                                                                        <ContentPresenter HorizontalAlignment="Center"
-                                                                                          VerticalAlignment="Center" />
+                                                                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
+                                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                                                                     </Border>
                                                                 </ControlTemplate>
                                                             </Setter.Value>
@@ -165,7 +162,7 @@
         </Grid>
         <Grid
             Grid.Column="1"
-            Height="350"
+            Height="250"
             Margin="5"
             VerticalAlignment="Top">
             <Border
@@ -178,12 +175,12 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="45" />
                         <RowDefinition Height="5*" />
-                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="45" />
                     </Grid.RowDefinitions>
                     <Label
                         x:Name="Label"
                         Grid.Row="0"
-                        Content="Edit Employee Information"
+                        Content="Edit Employee"
                         FontSize="20"
                         Style="{DynamicResource Goldline.LabelStyle.Dark}" />
                     <Grid Grid.Row="1" Margin="0">
@@ -194,7 +191,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="1*" />
                             <RowDefinition Height="1*" />
-                            <RowDefinition Height="3*" />
+                            <RowDefinition Height="2*" />
                         </Grid.RowDefinitions>
                         <Label
                             x:Name="EmployeeIdLabel"
@@ -206,7 +203,7 @@
                             Grid.Column="1"
                             IsEnabled="False"
                             Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                            Text="{Binding ElementName=EmployeeDataGrid, Path=SelectedItem.(employees:Employee.Id), Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Text="{Binding ElementName=EmployeeDataGrid, Path=SelectedItem.(employees:Employee.Id), Mode=OneWay}" />
                         <Label
                             x:Name="NameLabel"
                             Grid.Row="1"
@@ -218,7 +215,7 @@
                             Grid.Row="1"
                             Grid.Column="1"
                             Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                            Text="{Binding ElementName=EmployeeDataGrid, Path=SelectedItem.(employees:Employee.Name), Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Text="{Binding ElementName=EmployeeDataGrid, Path=SelectedItem.(employees:Employee.Name), Mode=OneWay}" />
                         <Label
                             x:Name="ContactInfoLabel"
                             Grid.Row="2"
@@ -231,7 +228,7 @@
                             Grid.Column="1"
                             AcceptsReturn="True"
                             Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                            Text="{Binding ElementName=EmployeeDataGrid, Path=SelectedItem.(employees:Employee.Contact), Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Text="{Binding ElementName=EmployeeDataGrid, Path=SelectedItem.(employees:Employee.Contact), Mode=OneWay}" />
                     </Grid>
                     <Grid Grid.Row="2" Background="{DynamicResource Goldline.Background.StatusBar}">
                         <Grid.ColumnDefinitions>
@@ -253,6 +250,7 @@
                             Margin="5"
                             Click="SaveButton_Click"
                             Content="Save"
+                            FontWeight="Bold"
                             Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
 
                     </Grid>

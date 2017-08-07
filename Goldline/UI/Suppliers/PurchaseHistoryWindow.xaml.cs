@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Core.Domain.Handlers;
 using Core.Domain.Model.Suppliers;
+using Goldline.UI.Suppliers.Dialogs;
 using Control = System.Windows.Forms.Control;
 
 namespace Goldline.UI.Suppliers
@@ -53,17 +54,6 @@ namespace Goldline.UI.Suppliers
             }
         }
 
-        private void PurchasesDataGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (PurchasesDataGrid.SelectedItem == null) return;
-            var mousePosition = GetMousePosition();
-            new PurchaseItemPopup((Purchase) PurchasesDataGrid.SelectedItem)
-            {
-                Left = mousePosition.X,
-                Top = mousePosition.Y
-            }.ShowDialog();
-        }
-
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             RefreshDataGrid();
@@ -94,10 +84,16 @@ namespace Goldline.UI.Suppliers
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
-            new PurchaseWindow().ShowDialog();
+            new AddPurchaseDialog().ShowDialog();
             RefreshDataGrid();
         }
 
         #endregion
+
+        private void PurchasesDataGrid_OnRowDetailsVisibilityChanged(object sender, DataGridRowDetailsEventArgs e)
+        {
+            if (PurchasesDataGrid.SelectedItem == null) return;
+            _purchaseHandler.LoadPurchaseItems((Purchase)PurchasesDataGrid.SelectedItem);
+        }
     }
 }
