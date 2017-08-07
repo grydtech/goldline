@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using Core.Domain.Handlers;
 using Core.Domain.Model.Customers;
 using Core.Domain.Model.Inventory;
@@ -17,10 +18,10 @@ namespace Goldline.UI.Returns.Dialogs
 
         public AddItemReturnWindow()
         {
-            InitializeComponent();
             _itemReturnHandler = new ItemReturnHandler();
             ItemsSource = new ProductHandler().GetItems();
             CustomerSource = new CustomerHandler().GetCustomers();
+            InitializeComponent();
         }
 
         public IEnumerable<Customer> CustomerSource { get; set; }
@@ -39,7 +40,7 @@ namespace Goldline.UI.Returns.Dialogs
             {
                 return new ItemReturn(
                     (SearchItemComboBox.SelectedItem as Item)?.Id.GetValueOrDefault() ?? 0,
-                    (SearchCustomerComboBox.SelectedItem as Item)?.Id.GetValueOrDefault() ?? 0,
+                    (SearchCustomerComboBox.SelectedItem as Customer)?.Id.GetValueOrDefault() ?? 0,
                     uint.Parse(QuantityTextBox.Text),
                     false,
                     NotesTextBox.Text);
@@ -102,5 +103,12 @@ namespace Goldline.UI.Returns.Dialogs
         }
 
         #endregion
+
+        private void SearchCustomerComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ContactInfoTextBox.Text != string.Empty || SearchCustomerComboBox.SelectedItem == null) return;
+            var contactInfo = (SearchCustomerComboBox.SelectedItem as Customer)?.Contact;
+            ContactInfoTextBox.Text = contactInfo;
+        }
     }
 }

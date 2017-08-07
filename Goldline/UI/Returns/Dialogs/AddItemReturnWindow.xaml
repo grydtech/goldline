@@ -80,7 +80,6 @@
                     Grid.Row="3"
                     Grid.Column="1"
                     Grid.ColumnSpan="2"
-                    IsEnabled="False"
                     Style="{DynamicResource Goldline.TextBoxStyle.Dark}" />
                 <Button
                     x:Name="ClearContactInfoButton"
@@ -104,6 +103,7 @@
                     Grid.Column="1"
                     Grid.ColumnSpan="2"
                     ItemsSource="{Binding CustomerSource}"
+                    SelectionChanged="SearchCustomerComboBox_OnSelectionChanged"
                     Style="{DynamicResource Goldline.ProductComboBoxStyle.Dark}"
                     Watermark="Select Customer}" />
                 <Label

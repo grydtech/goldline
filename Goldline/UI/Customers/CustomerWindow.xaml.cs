@@ -14,12 +14,10 @@ namespace Goldline.UI.Customers
     public partial class CustomerWindow : Window
     {
         private readonly CustomerHandler _customerHandler;
-        private readonly OrderPaymentHandler _customerPaymentHandler;
 
         public CustomerWindow()
         {
             _customerHandler = new CustomerHandler();
-            _customerPaymentHandler = new OrderPaymentHandler();
             CustomerSource = _customerHandler.GetCustomers("");
             InitializeComponent();
             RefreshButtonEnabled();
@@ -53,12 +51,15 @@ namespace Goldline.UI.Customers
             {
                 _customerHandler.UpdateCustomer((Customer) CustomerDataGrid.SelectedItem, NameTextBox.Text, NicTextBox.Text, ContactInfoTextBox.Text);
                 MessageBox.Show("Changes updated successfully", "GOLDLINE", MessageBoxButton.OK);
+                CustomerDataGrid.Items.Refresh();
             }
         }
 
         private void DiscardButton_Click(object sender, RoutedEventArgs e)
         {
-            RefreshDataGrid();
+            NameTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
+            NicTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
+            ContactInfoTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
         }
 
         #endregion

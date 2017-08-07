@@ -42,6 +42,11 @@ namespace Core.Domain.Handlers
             using (var connection = Connector.GetConnection())
             {
                 new ItemReturnDal(connection).Update(itemreturn.Id.Value, customerId, itemId, qty, isHandled, note);
+                // Update object if successful
+                itemreturn.CustomerId = customerId ?? itemreturn.CustomerId;
+                itemreturn.ItemId = itemId ?? itemreturn.ItemId;
+                itemreturn.ReturnQty = qty ?? itemreturn.ReturnQty;
+                itemreturn.IsHandled = isHandled ?? itemreturn.IsHandled;
             }
         }
 
@@ -54,7 +59,7 @@ namespace Core.Domain.Handlers
         {
             using (var connection = Connector.GetConnection())
             {
-                return new ItemReturnDal(connection).Search(note, isHandled, startDate, endDate);
+                return new ItemReturnDal(connection).Search($"%{note}%", isHandled, startDate, endDate);
             }
         }
     }

@@ -29,6 +29,7 @@ namespace Goldline.UI.Returns
         {
             _returnedItemSource = _itemReturnHandler.GetItemReturns(SearchTextBox?.Text, _isHandled);
             InventoryDataGrid.ItemsSource = _returnedItemSource;
+            InventoryDataGrid.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
         }
 
         private void ItemReturnsManagement_OnPreviewKeyDown(object sender, KeyEventArgs e)

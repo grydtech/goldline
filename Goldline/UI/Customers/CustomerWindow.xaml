@@ -176,7 +176,6 @@
                         x:Name="NicTextBox"
                         Grid.Row="3"
                         Grid.Column="1"
-                        IsEnabled="False"
                         Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
                         Text="{Binding SelectedItem.(customers:Customer.Nic), ElementName=CustomerDataGrid, Mode=OneWay}" />
                 </Grid>
