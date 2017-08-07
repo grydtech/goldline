@@ -96,7 +96,8 @@
                             Header="Stock">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="{x:Type TextBlock}">
-                                    <Setter Property="Background" Value="{Binding (inventory:Item.StockQty), Converter={StaticResource StockQtyToBrushConverter}}" />
+                                    <Setter Property="Background"
+                                            Value="{Binding (inventory:Item.StockQty), Converter={StaticResource StockQtyToBrushConverter}}" />
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>

@@ -5,6 +5,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using Core.Domain.Handlers;
 using Core.Domain.Model.Inventory;
+using Goldline.UI.Returns.Dialogs;
 
 namespace Goldline.UI.Returns
 {
@@ -13,10 +14,9 @@ namespace Goldline.UI.Returns
     /// </summary>
     public partial class ItemReturnManagementWindow
     {
-        private readonly string _defaultText = "Enter your text here..";
         private readonly ItemReturnHandler _itemReturnHandler;
-        private IEnumerable<ItemReturn> _returnedItemSource;
         private bool? _isHandled;
+        private IEnumerable<ItemReturn> _returnedItemSource;
 
         public ItemReturnManagementWindow()
         {
@@ -47,24 +47,6 @@ namespace Goldline.UI.Returns
             }
         }
 
-        #region Action Listeners
-
-        private void SearchTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            var textBox = sender as TextBox;
-            if (textBox?.Text != _defaultText)
-                Refresh();
-        }
-
-        private void FilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            _isHandled = FilterComboBox.SelectedIndex == 0 ? (bool?) null : FilterComboBox.SelectedIndex == 1;
-            Refresh();
-            SearchTextBox.Text = _defaultText;
-        }
-
-        #endregion
-
         #region Button_Click
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
@@ -87,5 +69,20 @@ namespace Goldline.UI.Returns
                 _itemReturnHandler.UpdateItemReturn(itemReturn, isHandled: ((ToggleButton) sender).IsChecked == true);
             togglebutton?.GetBindingExpression(ToggleButton.IsCheckedProperty)?.UpdateTarget();
         }
+
+        #region Action Listeners
+
+        private void SearchTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            Refresh();
+        }
+
+        private void FilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _isHandled = FilterComboBox.SelectedIndex == 0 ? (bool?) null : FilterComboBox.SelectedIndex == 1;
+            Refresh();
+        }
+
+        #endregion
     }
 }

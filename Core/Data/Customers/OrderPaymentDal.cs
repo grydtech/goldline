@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using Core.Domain.Model.Customers;
 using Dapper;
@@ -22,7 +21,7 @@ namespace Core.Data.Customers
             // Define sql command
             var command = new CommandDefinition(
                 "insert into orders_payments (id_order, amount_paid) values (@orderId, @amount)",
-                new {orderId, amount });
+                new {orderId, amount});
 
             // Execute sql command
             Connection.Execute(command);

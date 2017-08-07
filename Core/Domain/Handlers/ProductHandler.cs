@@ -22,7 +22,7 @@ namespace Core.Domain.Handlers
                 using (var connection = Connector.GetConnection())
                 {
                     var productDal = new ProductDal(connection);
-                    productDal.Insert(product is Item ? ((Item)product).Model : product.Name, product.ProductType);
+                    productDal.Insert(product is Item ? ((Item) product).Model : product.Name, product.ProductType);
                     var id = productDal.GetLastInsertId();
                     product.Id = id;
                     if (product.Id == null) throw new ArgumentNullException(nameof(product.Id), "Product Id is null");
@@ -110,7 +110,8 @@ namespace Core.Domain.Handlers
         /// <param name="stockQty"></param>
         /// <param name="unitPrice"></param>
         /// <param name="connection"></param>
-        private static void Update(uint productId, uint? stockQty = null, decimal? unitPrice = null, IDbConnection connection = null)
+        private static void Update(uint productId, uint? stockQty = null, decimal? unitPrice = null,
+            IDbConnection connection = null)
         {
             if (stockQty == null && unitPrice == null)
                 throw new ArgumentNullException(nameof(Update), "No parameters passed to update");
@@ -132,7 +133,7 @@ namespace Core.Domain.Handlers
             public void Update(Alloywheel alloywheel, string model = null, uint? stockqty = null,
                 decimal? unitPrice = null, string brand = null, string dimension = null)
             {
-                if(model == null && stockqty == null && unitPrice == null && brand == null && dimension == null)
+                if (model == null && stockqty == null && unitPrice == null && brand == null && dimension == null)
                     throw new ArgumentNullException(nameof(Update), "No parameters passed to update");
                 if (alloywheel.Id == null)
                     throw new ArgumentNullException(nameof(alloywheel.Id), "Updating component does not have Id");
@@ -217,7 +218,8 @@ namespace Core.Domain.Handlers
             public void Update(Battery battery, string model = null, uint? stockqty = null, decimal? unitPrice = null,
                 string brand = null, string capacity = null, string voltage = null)
             {
-                if (model == null && stockqty == null && unitPrice == null && brand == null && capacity == null && voltage == null)
+                if (model == null && stockqty == null && unitPrice == null && brand == null && capacity == null &&
+                    voltage == null)
                     throw new ArgumentNullException(nameof(Update), "No parameters passed to update");
                 if (battery.Id == null)
                     throw new ArgumentNullException(nameof(battery.Id), "Updating component does not have Id");
@@ -277,7 +279,8 @@ namespace Core.Domain.Handlers
             public void Update(Tyre tyre, string model = null, uint? stockqty = null, decimal? unitPrice = null,
                 string brand = null, string dimension = null, string country = null)
             {
-                if (model == null && stockqty == null && unitPrice == null && brand == null && dimension == null && country == null)
+                if (model == null && stockqty == null && unitPrice == null && brand == null && dimension == null &&
+                    country == null)
                     throw new ArgumentNullException(nameof(Update), "No parameters passed to update");
                 if (tyre.Id == null)
                     throw new ArgumentNullException(nameof(tyre.Id), "Updating component does not have Id");

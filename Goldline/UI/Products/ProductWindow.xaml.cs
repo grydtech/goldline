@@ -7,6 +7,7 @@ using System.Windows.Input;
 using Core.Domain.Enums;
 using Core.Domain.Handlers;
 using Core.Domain.Model.Inventory;
+using Goldline.UI.Products.Dialogs;
 
 namespace Goldline.UI.Products
 {
@@ -292,10 +293,9 @@ namespace Goldline.UI.Products
             var prop2 = Property2ComboBox.Text;
 
             if (IsDataInCorrectForm())
-            {
                 try
                 {
-                    switch ((ProductType)ItemTypeComboBox.SelectedIndex)
+                    switch ((ProductType) ItemTypeComboBox.SelectedIndex)
                     {
                         case ProductType.Alloywheel:
                             var alloywheel = (Alloywheel) item;
@@ -340,7 +340,6 @@ namespace Goldline.UI.Products
                 {
                     MessageBox.Show(exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-            }
             else
                 MessageBox.Show("Some parameters are invalid", "Information", MessageBoxButton.OK,
                     MessageBoxImage.Exclamation);
@@ -351,7 +350,7 @@ namespace Goldline.UI.Products
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
-            var addItemWindow = new Dialogs.AddItemDialog((ProductType) ItemTypeComboBox.SelectedIndex);
+            var addItemWindow = new AddItemDialog((ProductType) ItemTypeComboBox.SelectedIndex);
             addItemWindow.ShowDialog();
             LoadAllSources();
             RefreshComboBoxes();

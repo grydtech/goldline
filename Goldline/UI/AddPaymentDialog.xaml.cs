@@ -12,17 +12,6 @@ namespace Goldline.UI
     /// </summary>
     public partial class AddPaymentDialog : Window
     {
-        private enum PaymentType
-        {
-            OrderPayment,
-            EmployeePayment,
-            PurchasePayment
-        }
-
-        private uint ParentId { get; }
-        private decimal MaxPaymentAmount { get; }
-        private PaymentType Type { get; }
-
         public AddPaymentDialog(Order order, decimal dueAmount)
         {
             ParentId = order.Id.GetValueOrDefault();
@@ -46,6 +35,10 @@ namespace Goldline.UI
             Type = PaymentType.EmployeePayment;
             InitializeComponent();
         }
+
+        private uint ParentId { get; }
+        private decimal MaxPaymentAmount { get; }
+        private PaymentType Type { get; }
 
 
         private void PayButton_Click(object sender, RoutedEventArgs e)
@@ -80,6 +73,13 @@ namespace Goldline.UI
                 {
                     MessageBox.Show(ex.Message);
                 }
+        }
+
+        private enum PaymentType
+        {
+            OrderPayment,
+            EmployeePayment,
+            PurchasePayment
         }
     }
 }

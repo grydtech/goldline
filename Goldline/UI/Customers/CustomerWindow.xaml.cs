@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Core.Domain.Handlers;
 using Core.Domain.Model.Customers;
+using Goldline.UI.Customers.Dialogs;
 
 namespace Goldline.UI.Customers
 {
@@ -32,7 +33,7 @@ namespace Goldline.UI.Customers
 
         private void AddCustomerButton_Click(object sender, RoutedEventArgs e)
         {
-            new Dialogs.AddCustomerDialog().ShowDialog();
+            new AddCustomerDialog().ShowDialog();
             RefreshDataGrid();
             RefreshButtonEnabled();
         }

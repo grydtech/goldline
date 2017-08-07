@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Core.Domain.Handlers;
 using Core.Domain.Model.Suppliers;
+using Goldline.UI.Suppliers.Dialogs;
 
 namespace Goldline.UI.Suppliers
 {
@@ -78,7 +79,7 @@ namespace Goldline.UI.Suppliers
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
-            new Dialogs.AddSupplierDialog().ShowDialog();
+            new AddSupplierDialog().ShowDialog();
             RefreshDataGrid();
             RefreshListBox();
         }
@@ -111,7 +112,7 @@ namespace Goldline.UI.Suppliers
         {
             var selectedSupplier = (Supplier) SupplierDataGrid.SelectedItem;
             if (selectedSupplier == null) return;
-            var addSuppliedItemWindow = new Dialogs.AddSuppliedItemDialog();
+            var addSuppliedItemWindow = new AddSuppliedItemDialog();
             addSuppliedItemWindow.ShowDialog();
 
             if (addSuppliedItemWindow.DialogResult != true) return;

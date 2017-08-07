@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Core.Domain.Handlers;
@@ -15,9 +14,10 @@ namespace Goldline.UI.Customers
     /// </summary>
     public partial class OrderDetailsWindow : Window
     {
+        private readonly OrderHandler _orderHandler;
+
         // private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly OrderPaymentHandler _orderPaymentHandler;
-        private readonly OrderHandler _orderHandler;
 
         public OrderDetailsWindow(Order order)
         {

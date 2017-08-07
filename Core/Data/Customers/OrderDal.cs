@@ -68,9 +68,7 @@ namespace Core.Data.Customers
         {
             // Exception Handling
             if (customerId == null && note == null && isCancelled == null)
-            {
                 throw new ArgumentNullException(nameof(Update), @"No update parameters were passed.");
-            }
 
 
             // Define sql command

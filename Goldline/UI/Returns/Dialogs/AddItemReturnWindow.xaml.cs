@@ -5,7 +5,7 @@ using Core.Domain.Handlers;
 using Core.Domain.Model.Customers;
 using Core.Domain.Model.Inventory;
 
-namespace Goldline.UI.Returns
+namespace Goldline.UI.Returns.Dialogs
 {
     /// <summary>
     ///     Interaction logic for AddItemReturnWindow.xaml
@@ -15,9 +15,6 @@ namespace Goldline.UI.Returns
         private readonly ItemReturnHandler _itemReturnHandler;
         private ItemReturnManagementWindow _observer;
 
-        public IEnumerable<Customer> CustomerSource { get; set; }
-        public IEnumerable<Item> ItemsSource { get; set; }
-
         public AddItemReturnWindow()
         {
             InitializeComponent();
@@ -25,6 +22,9 @@ namespace Goldline.UI.Returns
             ItemsSource = new ProductHandler().GetItems();
             CustomerSource = new CustomerHandler().GetCustomers();
         }
+
+        public IEnumerable<Customer> CustomerSource { get; set; }
+        public IEnumerable<Item> ItemsSource { get; set; }
 
         private bool IsDataInCorrectForm()
         {

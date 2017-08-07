@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Core.Domain.Handlers;
@@ -17,14 +16,14 @@ namespace Goldline.UI.Customers
     public partial class OrderCheckoutWindow : Window
     {
         private readonly CustomerHandler _customerHandler;
-        private readonly OrderHandler _orderHandler;
-        private readonly OrderPaymentHandler _orderPaymentHandler;
         // private static readonly ILog log =
         //     LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly IEnumerable<Customer> _customerMatches;
+        private readonly OrderHandler _orderHandler;
+        private readonly OrderPaymentHandler _orderPaymentHandler;
         private readonly string _searchName;
-        private Order _order;
+        private readonly Order _order;
 
         public OrderCheckoutWindow(Order order)
         {
@@ -49,7 +48,7 @@ namespace Goldline.UI.Customers
                 ? _customerHandler.GetCustomers(textBox.Text.Trim())
                 : _customerHandler.GetCustomers();
         }
-        
+
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
@@ -60,7 +59,7 @@ namespace Goldline.UI.Customers
         {
             _order.CustomerId = (CustomerDataGrid?.SelectedItem as Customer)?.Id;
             var payment = PaymentTextBox.Text == "" ? _order.Amount : decimal.Parse(PaymentTextBox.Text);
-            
+
             //here AddOrder meth ssgould return bool .THEN only we can generate success msg below
             try
             {
@@ -76,24 +75,21 @@ namespace Goldline.UI.Customers
                 GenerateInvoice();
                 //Close();
                 DialogResult = true;
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Exception");
                 DialogResult = false;
-
             }
             finally
             {
                 Close();
             }
-                
-    }
+        }
+
         public void GenerateInvoice()
         {
             new OrderInvoice(_order).Show();
         }
-        
     }
 }

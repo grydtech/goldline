@@ -65,7 +65,7 @@ namespace Goldline
                 else
                 {
                     targetComboBox.Items.Filter = item =>
-                            item.ToString().StartsWith(searchText, true, CultureInfo.InvariantCulture);
+                        item.ToString().StartsWith(searchText, true, CultureInfo.InvariantCulture);
                 }
 
                 // If exact match found for string, select that item

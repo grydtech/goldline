@@ -1,6 +1,4 @@
-﻿using Core.Domain.Enums;
-
-namespace Core.Domain.Model.Inventory
+﻿namespace Core.Domain.Model.Inventory
 {
     public sealed class Battery : Item
     {

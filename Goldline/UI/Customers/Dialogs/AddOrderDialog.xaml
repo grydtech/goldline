@@ -1,5 +1,5 @@
 ﻿<Window
-    x:Class="Goldline.UI.Customers.OrderWindow"
+    x:Class="Goldline.UI.Customers.Dialogs.AddOrderDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -15,6 +15,7 @@
     Background="{DynamicResource Goldline.Background.Window}"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     FontSize="16"
+    ResizeMode="NoResize"
     Template="{StaticResource WindowTemplate}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
@@ -23,10 +24,6 @@
             <RowDefinition Height="85*" />
             <RowDefinition Height="386*" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-
         <Grid
             Grid.Row="0"
             Grid.ColumnSpan="2"

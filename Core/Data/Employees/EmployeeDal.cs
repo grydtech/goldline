@@ -49,7 +49,7 @@ namespace Core.Data.Employees
                 new {nameExp, isActive, offset, limit});
 
             // Execute sql command
-           return Connection.Query<Employee>(command);
+            return Connection.Query<Employee>(command);
         }
 
         /// <summary>

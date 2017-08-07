@@ -70,7 +70,8 @@
                 ScrollViewer.CanContentScroll="True"
                 SelectionMode="Single">
                 <DataGrid.Resources>
-                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="LightCyan" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                                     Color="LightCyan" />
                 </DataGrid.Resources>
                 <DataGrid.Columns>
                     <DataGridTextColumn

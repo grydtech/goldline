@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.Linq;
 using Core.Domain.Model.Customers;
 using Dapper;
@@ -22,21 +20,20 @@ namespace Core.Data.Customers
         internal void InsertMultiple(uint orderId, IEnumerable<OrderItem> orderItems)
         {
             // Define sql command
-                var command = new CommandDefinition(
-                    "insert into orders_products (id_order, id_product, unit_price, qty) " +
-                    "values (@orderId, @id_product, @unit_price, @qty)",
-                    orderItems.Select(o => new
-                    {
-                        orderId,
-                        id_product = o.ProductId,
-                        unit_price = o.UnitPrice,
-                        qty = o.Qty
-                    }));
+            var command = new CommandDefinition(
+                "insert into orders_products (id_order, id_product, unit_price, qty) " +
+                "values (@orderId, @id_product, @unit_price, @qty)",
+                orderItems.Select(o => new
+                {
+                    orderId,
+                    id_product = o.ProductId,
+                    unit_price = o.UnitPrice,
+                    qty = o.Qty
+                }));
 
-                // Execute sql command
-                Connection.Execute(command);
-            
-         }
+            // Execute sql command
+            Connection.Execute(command);
+        }
 
         /// <summary>
         ///     Searches records in [orders_items] table

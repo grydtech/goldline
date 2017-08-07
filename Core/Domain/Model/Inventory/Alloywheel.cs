@@ -1,6 +1,4 @@
-﻿using Core.Domain.Enums;
-
-namespace Core.Domain.Model.Inventory
+﻿namespace Core.Domain.Model.Inventory
 {
     public sealed class Alloywheel : Item
     {
@@ -15,6 +13,7 @@ namespace Core.Domain.Model.Inventory
         }
 
         public string Dimension { get; set; }
+
         public override string Name
         {
             get { return ToString(); }

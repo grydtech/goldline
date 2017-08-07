@@ -26,7 +26,7 @@
         <Grid Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*" />
-                <ColumnDefinition Width="60" />
+                <ColumnDefinition Width="50" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
@@ -55,6 +55,7 @@
                 x:Name="FilterComboBox"
                 Grid.Column="3"
                 Margin="5"
+                SelectedIndex="0"
                 SelectionChanged="FilterComboBox_SelectionChanged" />
         </Grid>
         <Border
@@ -110,8 +111,10 @@
                                             <Setter Property="Template">
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="ToggleButton">
-                                                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
-                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                        <Border Background="{TemplateBinding Background}"
+                                                                BorderBrush="{TemplateBinding BorderBrush}">
+                                                            <ContentPresenter HorizontalAlignment="Center"
+                                                                              VerticalAlignment="Center" />
                                                         </Border>
                                                     </ControlTemplate>
                                                 </Setter.Value>

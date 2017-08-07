@@ -3,9 +3,11 @@ using System.Windows;
 using System.Windows.Threading;
 using Core.Domain.Model;
 using Goldline.UI.Customers;
+using Goldline.UI.Customers.Dialogs;
 using Goldline.UI.Employees;
 using Goldline.UI.Products;
 using Goldline.UI.Returns;
+using Goldline.UI.Returns.Dialogs;
 using Goldline.UI.Security;
 using Goldline.UI.Suppliers;
 
@@ -80,7 +82,7 @@ namespace Goldline.UI
 
         private void NewOrderButton_OnClick(object sender, RoutedEventArgs e)
         {
-            OrderWindow.GetAddCustomerOrderWindow().Show();
+            AddOrderDialog.GetAddCustomerOrderWindow().Show();
         }
 
         private void ItemReturnHistoryButton_OnClick(object sender, RoutedEventArgs e)

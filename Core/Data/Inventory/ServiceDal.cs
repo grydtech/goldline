@@ -36,7 +36,7 @@ namespace Core.Data.Inventory
                 (nameExp == null ? "" : "name_product LIKE @nameExp and ") +
                 "type_product-1 = @type " +
                 "order by name_product limit @offset, @limit",
-                new { nameExp, offset, limit, type = ProductType.Service });
+                new {nameExp, offset, limit, type = ProductType.Service});
 
             // Execute sql command
             return Connection.Query<Service>(command);
@@ -55,7 +55,7 @@ namespace Core.Data.Inventory
             var command = new CommandDefinition(
                 "update products set name_product = @name " +
                 "where id_product = @productId and type_product-1 = @type",
-                new { productId, name ,type = ProductType.Service });
+                new {productId, name, type = ProductType.Service});
 
             // Execute sql command
             Connection.Execute(command);

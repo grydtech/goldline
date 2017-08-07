@@ -13,19 +13,19 @@ using Core.Domain.Model.Inventory;
 
 //using log4net;
 
-namespace Goldline.UI.Customers
+namespace Goldline.UI.Customers.Dialogs
 {
     /// <summary>
-    ///     Interaction logic for OrderWindow.xaml
+    ///     Interaction logic for AddOrderDialog.xaml
     /// </summary>
-    public partial class OrderWindow
+    public partial class AddOrderDialog
     {
-        private static OrderWindow _orderWindow;
+        private static AddOrderDialog _addOrderDialog;
         private readonly ProductHandler _productHandler;
         private decimal _discount;
         private decimal _unitPrice;
 
-        private OrderWindow()
+        private AddOrderDialog()
         {
             try
             {
@@ -50,11 +50,11 @@ namespace Goldline.UI.Customers
         public IEnumerable<Product> ProductSource { get; set; }
 
 
-        public static OrderWindow GetAddCustomerOrderWindow()
+        public static AddOrderDialog GetAddCustomerOrderWindow()
         {
-            if (_orderWindow == null || !_orderWindow.IsLoaded)
-                _orderWindow = new OrderWindow();
-            return _orderWindow;
+            if (_addOrderDialog == null || !_addOrderDialog.IsLoaded)
+                _addOrderDialog = new AddOrderDialog();
+            return _addOrderDialog;
         }
 
 
@@ -228,7 +228,8 @@ namespace Goldline.UI.Customers
                     else
                     {
                         var salePrice = _unitPrice != 0 ? _unitPrice : selectedItem.UnitPrice * (100 - _discount) / 100;
-                        var orderItem = new OrderItem(selectedItem.Id.GetValueOrDefault(), selectedItem.Name, quantity, salePrice);
+                        var orderItem = new OrderItem(selectedItem.Id.GetValueOrDefault(), selectedItem.Name, quantity,
+                            salePrice);
 
                         // add items to the order entries list
                         Order.AddOrderItem(orderItem);
@@ -288,26 +289,26 @@ namespace Goldline.UI.Customers
 
         //private void CashCheckoutButton_Click(object sender, RoutedEventArgs e)
         //{
-            //    // Note: update stocks handled internally using triggers so its not required here
-            //    if (Order.OrderItems.Count == 0)
-            //    {
-            //        MessageBox.Show("Add products to proceed!", "Empty order");
-            //        return;
-            //    }
+        //    // Note: update stocks handled internally using triggers so its not required here
+        //    if (Order.OrderItems.Count == 0)
+        //    {
+        //        MessageBox.Show("Add products to proceed!", "Empty order");
+        //        return;
+        //    }
 
-            //    try
-            //    {
-            //        Order.Note = NoteTextBox.Text;
-            //        _orderHandler.AddOrder(Order);
-            //        MessageBox.Show("Order added successfully. Order Type: Cash");
+        //    try
+        //    {
+        //        Order.Note = NoteTextBox.Text;
+        //        _orderHandler.AddOrder(Order);
+        //        MessageBox.Show("Order added successfully. Order Type: Cash");
 
-            //        GenerateInvoice();
-            //        Close();
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        MessageBox.Show(ex.Message + " :   An error has occured!");
-            //    }
+        //        GenerateInvoice();
+        //        Close();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message + " :   An error has occured!");
+        //    }
         //}
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
@@ -353,6 +354,34 @@ namespace Goldline.UI.Customers
             ((TextBox) sender).SelectAll();
         }
 
+        private void SearchComboBox_OnSelectionConfirmed(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var item = ProductComboBox.SelectedItem as Item;
+                if (item != null)
+                {
+                    QuantityTextBox.Text = "1";
+                    UnitPriceTextBox.Text = item.UnitPrice.ToString(CultureInfo.InvariantCulture);
+                    DiscountTextBox.Text = "0";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Exception");
+            }
+        }
+
+        private void DiscountTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalculateUnitPrice();
+        }
+
+        private void UnitPriceTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            CalculateDiscount();
+        }
+
         #region Window Event Handling
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -386,33 +415,5 @@ namespace Goldline.UI.Customers
         }
 
         #endregion
-
-        private void SearchComboBox_OnSelectionConfirmed(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var item = ProductComboBox.SelectedItem as Item;
-                if (item != null)
-                {
-                    QuantityTextBox.Text = "1";
-                    UnitPriceTextBox.Text = item.UnitPrice.ToString(CultureInfo.InvariantCulture);
-                    DiscountTextBox.Text = "0";
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Exception");
-            }
-        }
-
-        private void DiscountTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            CalculateUnitPrice();
-        }
-
-        private void UnitPriceTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            CalculateDiscount();
-        }
     }
 }

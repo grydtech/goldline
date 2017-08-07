@@ -13,10 +13,10 @@ namespace Goldline.UI.Products.Dialogs
     /// </summary>
     public partial class AddItemDialog : Window
     {
-        private readonly ProductType _productType;
-        private readonly ProductHandler _productHandler;
         private readonly ProductHandler.AlloywheelHandler _alloywheelHandler;
         private readonly ProductHandler.BatteryHandler _batteryHandler;
+        private readonly ProductHandler _productHandler;
+        private readonly ProductType _productType;
         private readonly ProductHandler.TyreHandler _tyreHandler;
 
         public AddItemDialog(ProductType productType)
@@ -31,6 +31,7 @@ namespace Goldline.UI.Products.Dialogs
             InitializeComponent();
             InitializeUi();
         }
+
         private void InitializeUi()
         {
             switch (_productType)
@@ -52,22 +53,6 @@ namespace Goldline.UI.Products.Dialogs
                     throw new ArgumentOutOfRangeException();
             }
         }
-
-        #region Binding Properties
-
-        public IEnumerable<string> BrandSource { get; set; }
-        public IEnumerable<string> DimensionSource { get; set; }
-        public IEnumerable<string> CountrySource { get; set; }
-        public string Brand { get; set; }
-        public string Model { get; set; }
-        public string Dimension { get; set; }
-        public string Country { get; set; }
-        public string Capacity { get; set; }
-        public string Voltage { get; set; }
-        public uint Stocks { get; set; }
-        public decimal UnitPrice { get; set; }
-
-        #endregion
 
         /// <summary>
         ///     Load new sources when initializing the window, and update combo boxes
@@ -140,6 +125,22 @@ namespace Goldline.UI.Products.Dialogs
             DialogResult = false;
             Close();
         }
+
+        #region Binding Properties
+
+        public IEnumerable<string> BrandSource { get; set; }
+        public IEnumerable<string> DimensionSource { get; set; }
+        public IEnumerable<string> CountrySource { get; set; }
+        public string Brand { get; set; }
+        public string Model { get; set; }
+        public string Dimension { get; set; }
+        public string Country { get; set; }
+        public string Capacity { get; set; }
+        public string Voltage { get; set; }
+        public uint Stocks { get; set; }
+        public decimal UnitPrice { get; set; }
+
+        #endregion
 
         #region Adding new properties
 

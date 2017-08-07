@@ -131,6 +131,9 @@
     <Compile Include="UI\Catalogs\TyreCatalog.Designer.cs">
       <DependentUpon>TyreCatalog.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Customers\Dialogs\AddOrderDialog.xaml.cs">
+      <DependentUpon>AddOrderDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Customers\Dialogs\AddCustomerDialog.xaml.cs">
       <DependentUpon>AddCustomerDialog.xaml</DependentUpon>
     </Compile>
@@ -151,9 +154,6 @@
     </Compile>
     <Compile Include="UI\Products\Dialogs\AddServiceDialog.xaml.cs">
       <DependentUpon>AddServiceDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Customers\OrderWindow.xaml.cs">
-      <DependentUpon>OrderWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\InputDialog.xaml.cs">
       <DependentUpon>InputDialog.xaml</DependentUpon>
@@ -206,7 +206,7 @@
       <DependentUpon>EmployeePaymentReport.cs</DependentUpon>
     </Compile>
     <Compile Include="ReportType.cs" />
-    <Compile Include="UI\Returns\AddItemReturnWindow.xaml.cs">
+    <Compile Include="UI\Returns\Dialogs\AddItemReturnWindow.xaml.cs">
       <DependentUpon>AddItemReturnWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Security\AuthenticationDialog.xaml.cs">
@@ -379,7 +379,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Customers\OrderWindow.xaml">
+    <Page Include="UI\Customers\Dialogs\AddOrderDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
@@ -439,7 +439,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Returns\AddItemReturnWindow.xaml">
+    <Page Include="UI\Returns\Dialogs\AddItemReturnWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

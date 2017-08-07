@@ -6,6 +6,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using Core.Domain.Handlers;
 using Core.Domain.Model.Employees;
+using Goldline.UI.Employees.Dialogs;
 using Goldline.UI.Security;
 
 namespace Goldline.UI.Employees
@@ -28,7 +29,7 @@ namespace Goldline.UI.Employees
 
         private void ManageUserAccessButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var employee = (sender  as Button)?.Tag as Employee;
+            var employee = (sender as Button)?.Tag as Employee;
             if (employee == null) return;
             new UserAccessDialog(employee).ShowDialog();
             ReloadDataGrid();
@@ -68,14 +69,14 @@ namespace Goldline.UI.Employees
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            new Dialogs.AddEmployeeDialog().ShowDialog();
+            new AddEmployeeDialog().ShowDialog();
             ReloadDataGrid();
         }
 
         private void ToggleEmployeeStatusButton_Click(object sender, RoutedEventArgs e)
         {
             var togglebutton = sender as ToggleButton;
-            var employee = (togglebutton)?.Tag as Employee;
+            var employee = togglebutton?.Tag as Employee;
             if (employee == null) MessageBox.Show(@"No Employee Selected");
             else if (MessageBox.Show(this, @"Are You Sure?", "Confirmation", MessageBoxButton.YesNo) ==
                      MessageBoxResult.Yes)

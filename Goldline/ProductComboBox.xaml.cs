@@ -73,9 +73,10 @@ namespace Goldline
             get { return (string) GetValue(ColumnHeader2Property); }
             set { SetValue(ColumnHeader2Property, value); }
         }
+
         public string ColumnHeader3
         {
-            get { return (string)GetValue(ColumnHeader3Property); }
+            get { return (string) GetValue(ColumnHeader3Property); }
             set { SetValue(ColumnHeader3Property, value); }
         }
 
@@ -144,14 +145,13 @@ namespace Goldline
         {
             Console.WriteLine(@"got focus");
             Dispatcher.BeginInvoke(new Action(() => SearchComboBox.IsDropDownOpen = true));
-
         }
 
         private void PART_EditableTextBox_OnLostFocus(object sender, RoutedEventArgs e)
         {
             Console.WriteLine(@"lost focus");
             Dispatcher.BeginInvoke(new Action(() => SearchComboBox.IsDropDownOpen = false));
-            if(SelectedItem != null) SelectionConfirmed?.Invoke(this, e);
+            if (SelectedItem != null) SelectionConfirmed?.Invoke(this, e);
         }
 
         private void SearchComboBox_OnKeyDown(object sender, KeyEventArgs e)

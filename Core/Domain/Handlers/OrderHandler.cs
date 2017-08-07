@@ -6,7 +6,6 @@ using Core.Data;
 using Core.Data.Customers;
 using Core.Data.Inventory;
 using Core.Domain.Model.Customers;
-using Core.Domain.Model.Inventory;
 
 namespace Core.Domain.Handlers
 {
@@ -42,9 +41,7 @@ namespace Core.Domain.Handlers
                     // Insert order entries
                     orderItemDal.InsertMultiple(order.Id.Value, order.OrderItems);
                     foreach (var orderItem in order.OrderItems)
-                    {
-                        itemDal.Update(orderItem.ProductId, stockIncrement:((int)-orderItem.Qty));
-                    }
+                        itemDal.Update(orderItem.ProductId, stockIncrement: (int) -orderItem.Qty);
                 }
                 scope.Complete();
             }
