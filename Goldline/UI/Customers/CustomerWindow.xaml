@@ -41,7 +41,7 @@
                     Grid.ColumnSpan="2"
                     Style="{DynamicResource ResourceKey=Goldline.WatermarkTextBoxStyle.DarkRounded}"
                     TextChanged="SearchTextBox_OnTextChanged"
-                    Watermark="{DynamicResource SearchTextBoxText}" />
+                    Watermark="{DynamicResource SearchText}" />
                 <Button
                     x:Name="AddCustomerButton"
                     Grid.Column="1"

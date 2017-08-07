@@ -36,7 +36,7 @@
                 FontSize="20"
                 Style="{DynamicResource Goldline.WatermarkTextBoxStyle.DarkRounded}"
                 TextChanged="SearchTextBox_OnTextChanged"
-                Watermark="{DynamicResource SearchTextBoxText}" />
+                Watermark="{DynamicResource SearchText}" />
             <Button
                 x:Name="NewButton"
                 Grid.Row="0"

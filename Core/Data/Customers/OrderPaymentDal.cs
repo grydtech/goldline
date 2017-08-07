@@ -39,7 +39,7 @@ namespace Core.Data.Customers
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_payment 'Id', @orderId 'OrderId', date_paid 'Date' amount_paid 'Amount' " +
+                "select id_payment 'Id', id_order 'OrderId', date_paid 'Date', amount_paid 'Amount' " +
                 "from orders_payments " +
                 (orderId == null ? "" : "where id_order = @orderId ") +
                 "order by id_payment desc limit @offset, @limit",

@@ -16,7 +16,7 @@
                 <ResourceDictionary Source="Styles/ExpanderStyles.xaml" />
                 <ResourceDictionary Source="Styles/WindowStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <system:String x:Key="SearchTextBoxText">Search...</system:String>
+            <system:String x:Key="SearchText">Search...</system:String>
             <goldline:TextBoxInputMode x:Key="DecimalInputMode">DecimalInput</goldline:TextBoxInputMode>
             <goldline:TextBoxInputMode x:Key="DigitInputMode">DigitInput</goldline:TextBoxInputMode>
             <system:String x:Key="NoteTextBoxText">Notes...</system:String>

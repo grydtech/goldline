@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using Core.Domain.Handlers;
 using Core.Domain.Model.Inventory;
@@ -10,26 +11,24 @@ namespace Goldline.UI.Returns
     /// <summary>
     ///     Interaction logic for ItemReturnManagementWindow.xaml
     /// </summary>
-    public partial class ItemReturnManagementWindow : Window
+    public partial class ItemReturnManagementWindow
     {
         private readonly string _defaultText = "Enter your text here..";
         private readonly ItemReturnHandler _itemReturnHandler;
         private IEnumerable<ItemReturn> _returnedItemSource;
-        private ItemReturn _selectedItemReturn;
-        private bool? isHandled;
+        private bool? _isHandled;
 
         public ItemReturnManagementWindow()
         {
             InitializeComponent();
             _itemReturnHandler = new ItemReturnHandler();
-            ComboBox.ItemsSource = new[] {"True", "False"};
+            FilterComboBox.ItemsSource = new[] {"All", "Handled", "Pending"};
         }
 
-        public void RefreshDataGrid(string text = "%")
+        public void Refresh()
         {
-            _returnedItemSource = _itemReturnHandler.GetItemReturns(text, isHandled);
+            _returnedItemSource = _itemReturnHandler.GetItemReturns(SearchTextBox?.Text, _isHandled);
             InventoryDataGrid.ItemsSource = _returnedItemSource;
-            _selectedItemReturn = (ItemReturn) InventoryDataGrid.SelectedItem;
         }
 
         private void ItemReturnsManagement_OnPreviewKeyDown(object sender, KeyEventArgs e)
@@ -50,33 +49,17 @@ namespace Goldline.UI.Returns
 
         #region Action Listeners
 
-        private void InventoryDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            _selectedItemReturn = ((DataGrid) sender).SelectedItem as ItemReturn;
-        }
-
         private void SearchTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             var textBox = sender as TextBox;
             if (textBox?.Text != _defaultText)
-                RefreshDataGrid(SearchTextBox.Text);
+                Refresh();
         }
 
-        private void TextBox_OnFocusChanged(object sender, RoutedEventArgs e)
+        private void FilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var textBox = (TextBox) sender;
-            textBox.Text =
-                textBox.Text == _defaultText
-                    ? ""
-                    : textBox.Text == ""
-                        ? _defaultText
-                        : textBox.Text;
-        }
-
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            isHandled = ComboBox.SelectedIndex == 0;
-            RefreshDataGrid();
+            _isHandled = FilterComboBox.SelectedIndex == 0 ? (bool?) null : FilterComboBox.SelectedIndex == 1;
+            Refresh();
             SearchTextBox.Text = _defaultText;
         }
 
@@ -91,26 +74,18 @@ namespace Goldline.UI.Returns
             newWindow.Show();
         }
 
-        private void RejectedButton_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void AcceptedButton_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void CompletedButton_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void UpdateItemReturn(bool handled)
-        {
-            if (_selectedItemReturn == null) return;
-            _selectedItemReturn.IsHandled = handled;
-            _itemReturnHandler.UpdateItemReturn(_selectedItemReturn);
-            RefreshDataGrid();
-        }
-
         #endregion
+
+        private void ToggleItemReturnHandled_OnClick(object sender, RoutedEventArgs e)
+        {
+            var togglebutton = sender as ToggleButton;
+            var itemReturn = togglebutton?.Tag as ItemReturn;
+            if (itemReturn == null) MessageBox.Show(@"No Item Return Selected");
+            else if (MessageBox.Show(this, @"Are You Sure you want to change the Status?", "Confirmation",
+                         MessageBoxButton.YesNo) ==
+                     MessageBoxResult.Yes)
+                _itemReturnHandler.UpdateItemReturn(itemReturn, isHandled: ((ToggleButton) sender).IsChecked == true);
+            togglebutton?.GetBindingExpression(ToggleButton.IsCheckedProperty)?.UpdateTarget();
+        }
     }
 }

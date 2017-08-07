@@ -66,7 +66,7 @@
                     Grid.Column="2"
                     Style="{DynamicResource Goldline.WatermarkTextBoxStyle.DarkRounded}"
                     TextChanged="SearchTextBox_TextChanged"
-                    Watermark="{DynamicResource SearchTextBoxText}" />
+                    Watermark="{DynamicResource SearchText}" />
             </Grid>
         </Border>
         <Border
