@@ -4,13 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:goldline="clr-namespace:Goldline"
-    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     Title="Order History"
-    Width="640"
+    Width="720"
     Height="576"
-    MinWidth="640"
+    MinWidth="720"
     MinHeight="576"
     Background="{DynamicResource Goldline.Background.Window}"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
@@ -33,16 +31,19 @@
             </Grid.ColumnDefinitions>
             <Label
                 Grid.Column="0"
-                Content="Filter by Customer:"
+                Content="Customer:"
                 FontWeight="Bold"
                 Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-            <ComboBox
+            <goldline:PersonComboBox
                 x:Name="CustomerComboBox"
                 Grid.Column="1"
                 Margin="2"
-                DisplayMemberPath="Name"
+                ColumnHeader1="Name"
+                ColumnHeader2="Contact"
                 ItemsSource="{Binding CustomerSource}"
-                SelectionChanged="CustomerComboBox_SelectionChanged" />
+                SelectionChanged="CustomerComboBox_SelectionChanged"
+                Style="{StaticResource Goldline.PersonComboBoxStyle.Dark}"
+                Watermark="Select a Customer..." />
         </Grid>
         <Border
             Grid.Row="1"
@@ -60,13 +61,16 @@
                 CanUserAddRows="False"
                 CanUserDeleteRows="False"
                 IsReadOnly="True"
-                ItemsSource="{Binding OrdersSource, Mode=OneWay}"
-                Opacity="0.8">
+                ItemsSource="{Binding OrdersSource, Mode=OneWay}">
                 <DataGrid.Columns>
                     <DataGridTextColumn
-                        Width="2*"
+                        Width="150"
                         Binding="{Binding Date}"
                         Header="Date" />
+                    <DataGridTextColumn
+                        Width="150"
+                        Binding="{Binding CustomerId}"
+                        Header="Customer" />
                     <DataGridTextColumn
                         Width="2*"
                         Binding="{Binding Note}"

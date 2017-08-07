@@ -12,7 +12,7 @@ namespace Goldline.UI.Customers
     /// <summary>
     ///     Interaction logic for OrderDetailsWindow.xaml
     /// </summary>
-    public partial class OrderDetailsWindow : Window
+    public partial class OrderDetailsWindow
     {
         private readonly OrderHandler _orderHandler;
 
@@ -45,9 +45,8 @@ namespace Goldline.UI.Customers
             }
             else
             {
-                var msgBoxResult = MessageBox.Show("Do you  want to reverse order "
-                                                   + selectedOrder.Id + " "
-                                                   + selectedOrder.Date,
+                var msgBoxResult = MessageBox.Show(
+                    $"Do you  want to cancel the order [{selectedOrder.Id}][{selectedOrder.Date}]?",
                     "Confirmation",
                     MessageBoxButton.YesNo);
                 if (msgBoxResult != MessageBoxResult.Yes) return;
@@ -63,7 +62,10 @@ namespace Goldline.UI.Customers
 
         private void AddPaymentButton_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            if (Order.DueAmount > 0)
+            {
+                MessageBox.Show("Pay Here");
+            }
         }
 
         #region Window Keydown Handling

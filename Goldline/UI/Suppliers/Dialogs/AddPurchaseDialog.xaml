@@ -8,324 +8,224 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:persons="clr-namespace:Core.Domain.Model.Suppliers;assembly=Core"
     xmlns:products="clr-namespace:Core.Domain.Model.Inventory;assembly=Core"
-    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     Title="Add Purchase"
     Width="1024"
-    Height="576"
+    Height="450"
     MinWidth="1024"
-    MinHeight="576"
+    MinHeight="450"
     Background="{DynamicResource Goldline.Background.Window}"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     FontSize="16"
-    PreviewKeyDown="SupplyOrderWindow_OnPreviewKeyDown"
     Template="{StaticResource WindowTemplate}"
     WindowStartupLocation="CenterScreen"
     WindowState="Maximized"
     mc:Ignorable="d">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="60" />
-            <RowDefinition />
-            <RowDefinition Height="130" />
-            <RowDefinition Height="40" />
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-
-        <Border
-            Grid.Column="0"
-            Margin="5"
-            BorderBrush="{DynamicResource Goldline.Border}"
-            BorderThickness="1"
-            CornerRadius="10">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="3*" />
-                </Grid.ColumnDefinitions>
-                <Label
-                    x:Name="SupplierNameLabel"
-                    Grid.Column="0"
-                    HorizontalContentAlignment="Right"
-                    Content="Supplier:"
-                    Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                <ComboBox
-                    x:Name="SupplierComboBox"
-                    Grid.Column="1"
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4*" />
+                <RowDefinition Height="3*" />
+            </Grid.RowDefinitions>
+            <Border
+                Grid.Column="0"
+                Margin="2"
+                BorderBrush="{DynamicResource Goldline.Border}"
+                BorderThickness="1"
+                CornerRadius="10">
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Label
+                        x:Name="SupplierNameLabel"
+                        Grid.Column="0"
+                        Content="Supplier:"
+                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+                    <goldline:PersonComboBox
+                        x:Name="SupplierComboBox"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="5"
+                        ColumnHeader1="Name"
+                        ColumnHeader2="Contact"
+                        ItemsSource="{Binding SupplierSource}"
+                        SelectionChanged="SupplierComboBox_SelectionChanged"
+                        Watermark="Select Supplier..." />
+                    <Label
+                        x:Name="NoteLabel"
+                        Grid.Row="1"
+                        Content="Contact Info:"
+                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+                    <TextBox
+                        x:Name="ContactInfoTextBox"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
+                        Text="{Binding SelectedItem.(persons:Supplier.Contact), ElementName=SupplierComboBox}" />
+                    <Label
+                        x:Name="TotalAmountLabel"
+                        Grid.Row="2"
+                        Content="Amount:"
+                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+                    <TextBox
+                        x:Name="TotalAmountTextBox"
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        IsEnabled="False"
+                        Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
+                        Text="{Binding Purchase.Amount}" />
+                    <Label
+                        x:Name="ContactInfoLabel"
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Content="Note:"
+                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+                    <TextBox
+                        x:Name="NoteTextBox"
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        IsEnabled="True"
+                        Style="{DynamicResource Goldline.TextBoxStyle.Dark}" />
+                </Grid>
+            </Border>
+            <Border
+                Grid.Row="1"
+                Margin="2"
+                BorderBrush="{DynamicResource Goldline.Border}"
+                BorderThickness="1"
+                CornerRadius="10">
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        Content="Add Items"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+                    <Label
+                        x:Name="ItemLabel"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Content="Item:"
+                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+                    <goldline:ProductComboBox
+                        x:Name="SearchProductComboBox"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="5"
+                        ColumnHeader1="Name"
+                        ColumnHeader2="Unit Price"
+                        ColumnHeader3="Stocks"
+                        ItemsSource="{Binding ItemSource}"
+                        ScrollViewer.CanContentScroll="True"
+                        Watermark="Select Item..." />
+                    <Label
+                        x:Name="QuantityLabel"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Content="Quantity:"
+                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+                    <Grid Grid.Row="2" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="60" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox
+                            x:Name="QuantityTextBox"
+                            Margin="5"
+                            Style="{DynamicResource Goldline.TextBoxStyle.Dark}">
+                            <i:Interaction.Behaviors>
+                                <goldline:TextBoxInputBehavior InputMode="{StaticResource DigitInputMode}" />
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+                        <Button
+                            x:Name="ButtonAddItem"
+                            Grid.Column="1"
+                            Margin="5"
+                            Click="ButtonAddItem_Click"
+                            Content="+"
+                            Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border
+                Grid.Row="0"
+                Margin="2"
+                Background="{DynamicResource Goldline.Background.HeaderBar}"
+                BorderBrush="{DynamicResource Goldline.Border}"
+                BorderThickness="1"
+                CornerRadius="10">
+                <DataGrid
+                    x:Name="PurchaseEntriesDataGrid"
                     Margin="5"
-                    DisplayMemberPath="Name"
+                    AlternatingRowBackground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
+                    AutoGenerateColumns="False"
+                    Background="{x:Null}"
+                    BorderBrush="{x:Null}"
+                    BorderThickness="0"
+                    HorizontalScrollBarVisibility="Disabled"
                     IsReadOnly="True"
-                    ItemsSource="{Binding SupplierSource}"
-                    SelectedIndex="0"
-                    SelectionChanged="SupplierComboBox_SelectionChanged" />
-                <xctk:WatermarkTextBox
-                    x:Name="SearchTextBox"
-                    Grid.Column="2"
-                    Style="{DynamicResource Goldline.WatermarkTextBoxStyle.DarkRounded}"
-                    TextChanged="SearchTextBox_TextChanged"
-                    Watermark="{DynamicResource SearchText}" />
-            </Grid>
-        </Border>
-        <Border
-            Grid.Column="1"
-            Grid.ColumnSpan="2"
-            Margin="5"
-            BorderBrush="{DynamicResource Goldline.Border}"
-            BorderThickness="1"
-            CornerRadius="10">
-            <Grid>
+                    IsTextSearchEnabled="True"
+                    ItemsSource="{Binding Purchase.OrderEntries}"
+                    Opacity="0.8"
+                    ScrollViewer.CanContentScroll="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Width="0.7*"
+                            Binding="{Binding ItemName}"
+                            Header="Name" />
+                        <DataGridTextColumn
+                            Width="0.3*"
+                            Binding="{Binding Qty}"
+                            Header="Quantity" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+            <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Label
-                    x:Name="TotalAmountLabel"
-                    Content="Amount:"
-                    Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                <TextBox
-                    x:Name="TotalAmountTextBox"
+                <Button
+                    x:Name="ExpressCheckoutButton"
+                    Margin="2"
+                    Click="ExpressCheckoutButton_OnClick"
+                    Content="Express Checkout"
+                    Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
+                <Button
+                    x:Name="CheckoutButton"
                     Grid.Column="1"
-                    IsEnabled="False"
-                    Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                    Text="{Binding Purchase.Amount}" />
+                    Margin="2"
+                    Click="CheckoutButton_Click"
+                    Content="Checkout"
+                    Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
             </Grid>
-        </Border>
-        <Border
-            Grid.Row="1"
-            Grid.Column="0"
-            Margin="5"
-            Background="{DynamicResource Goldline.Background.HeaderBar}"
-            BorderBrush="{DynamicResource Goldline.Border}"
-            BorderThickness="1"
-            CornerRadius="10">
-            <DataGrid
-                x:Name="InventoryDataGrid"
-                Margin="5"
-                AlternatingRowBackground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
-                AutoGenerateColumns="False"
-                Background="{x:Null}"
-                BorderBrush="{x:Null}"
-                HorizontalScrollBarVisibility="Disabled"
-                IsReadOnly="True"
-                IsTextSearchEnabled="True"
-                ItemsSource="{Binding ItemSource}"
-                Opacity="0.8"
-                ScrollViewer.CanContentScroll="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn
-                        Width="1*"
-                        Binding="{Binding Id}"
-                        Header="ID" />
-                    <DataGridTextColumn
-                        Width="3*"
-                        Binding="{Binding Name}"
-                        Header="Name" />
-                    <DataGridTextColumn
-                        Width="2*"
-                        Binding="{Binding UnitPrice}"
-                        Header="Unit Price" />
-                    <DataGridTextColumn
-                        Width="2*"
-                        Binding="{Binding StockQty}"
-                        Header="Stocks" />
-                </DataGrid.Columns>
-            </DataGrid>
-        </Border>
-        <Border
-            Grid.Row="1"
-            Grid.Column="1"
-            Grid.ColumnSpan="2"
-            Margin="5"
-            Background="{DynamicResource Goldline.Background.HeaderBar}"
-            BorderBrush="{DynamicResource Goldline.Border}"
-            BorderThickness="1"
-            CornerRadius="10">
-            <DataGrid
-                x:Name="SupplyOrderEntriesDataGrid"
-                Margin="5"
-                AlternatingRowBackground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
-                AutoGenerateColumns="False"
-                Background="{x:Null}"
-                BorderBrush="{x:Null}"
-                BorderThickness="0"
-                HorizontalScrollBarVisibility="Disabled"
-                IsReadOnly="True"
-                IsTextSearchEnabled="True"
-                ItemsSource="{Binding Path=Purchase.OrderEntries}"
-                Opacity="0.8"
-                ScrollViewer.CanContentScroll="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn
-                        Width="0.7*"
-                        Binding="{Binding ItemName}"
-                        Header="Name" />
-                    <DataGridTextColumn
-                        Width="0.3*"
-                        Binding="{Binding Qty}"
-                        Header="Quantity" />
-                </DataGrid.Columns>
-            </DataGrid>
-        </Border>
-        <Grid
-            Grid.Row="2"
-            Grid.Column="0"
-            Margin="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="2*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Label
-                x:Name="NameLabel"
-                Grid.Column="0"
-                Content="Name:"
-                Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-            <TextBox
-                x:Name="NameTextBox"
-                Grid.Row="0"
-                Grid.Column="1"
-                Grid.ColumnSpan="3"
-                IsEnabled="False"
-                Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                Text="{Binding ElementName=InventoryDataGrid, Path=SelectedItem.(products:Item.Name)}" />
-            <Label
-                x:Name="QuantityLabel"
-                Grid.Row="1"
-                Grid.Column="0"
-                Content="Quantity:"
-                Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-            <TextBox
-                x:Name="QuantityTextBox"
-                Grid.Row="1"
-                Grid.Column="1"
-                Style="{DynamicResource Goldline.TextBoxStyle.Dark}">
-                <i:Interaction.Behaviors>
-                    <goldline:TextBoxInputBehavior InputMode="{StaticResource DigitInputMode}" />
-                </i:Interaction.Behaviors>
-            </TextBox>
-            <Label
-                x:Name="PriceLabel"
-                Grid.Row="1"
-                Grid.Column="2"
-                Content="Price:"
-                Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-            <TextBox
-                x:Name="PriceTextBox"
-                Grid.Row="1"
-                Grid.Column="3"
-                Style="{DynamicResource Goldline.TextBoxStyle.Dark}">
-                <i:Interaction.Behaviors>
-                    <goldline:TextBoxInputBehavior InputMode="{StaticResource DecimalInputMode}" />
-                </i:Interaction.Behaviors>
-            </TextBox>
-        </Grid>
 
-        <Grid
-            Grid.Row="2"
-            Grid.Column="1"
-            Grid.ColumnSpan="2"
-            Margin="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="2*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Label
-                x:Name="NoteLabel"
-                Grid.Row="0"
-                Content="Contact Info:"
-                Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-            <TextBox
-                x:Name="ContactInfoTextBox"
-                Grid.Row="0"
-                Grid.Column="1"
-                Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                Text="{Binding ElementName=SupplierComboBox, Path=SelectedItem.(persons:Supplier.Contact)}" />
-            <Label
-                x:Name="ContactInfoLabel"
-                Grid.Row="1"
-                Grid.Column="0"
-                Content="Note:"
-                Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-            <TextBox
-                x:Name="NoteTextBox"
-                Grid.Row="1"
-                Grid.Column="1"
-                IsEnabled="true"
-                Style="{DynamicResource Goldline.TextBoxStyle.Dark}" />
-            <Label
-                x:Name="ContactInfoLabelCopy"
-                Grid.Row="2"
-                Grid.Column="0"
-                Content="Paid:"
-                Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-            <CheckBox
-                x:Name="CheckBox"
-                Grid.Row="2"
-                Grid.Column="1"
-                Margin="5"
-                VerticalContentAlignment="Center"
-                Checked="CheckBox_OnChecked"
-                Content="Paid upon receipt"
-                Foreground="{DynamicResource Goldline.Text.White}"
-                Unchecked="CheckBox_OnChecked" />
-        </Grid>
-        <Grid Grid.Row="3" Grid.Column="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Button
-                x:Name="AddToOrderButton"
-                Click="AddToOrderButton_Click"
-                Content="Add To Order"
-                Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-            <Button
-                x:Name="ExpressCheckoutButton"
-                Grid.Column="1"
-                Click="ExpressCheckoutButton_OnClick"
-                Content="Express Checkout"
-                Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-        </Grid>
-        <Grid
-            Grid.Row="3"
-            Grid.Column="1"
-            Grid.ColumnSpan="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Button
-                x:Name="RemoveEntryButton"
-                Click="RemoveEntryButton_Click"
-                Content="Remove Entry"
-                Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-            <Button
-                x:Name="CancelOrderButton"
-                Grid.Column="1"
-                Click="CancelOrderButton_Click"
-                Content="Cancel Order"
-                Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-            <Button
-                x:Name="CheckoutButton"
-                Grid.Column="2"
-                Click="CheckoutButton_Click"
-                Content="Checkout"
-                Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
         </Grid>
     </Grid>
 </Window>

@@ -4,11 +4,10 @@ namespace Core.Domain.Model
 {
     public abstract class Payment
     {
-        protected Payment(DateTime date, decimal amount, string note)
+        protected Payment(DateTime date, decimal amount)
         {
             Date = date;
             Amount = amount;
-            Note = note;
         }
 
         /// <summary>
@@ -21,6 +20,5 @@ namespace Core.Domain.Model
         public uint? Id { get; set; }
         public decimal Amount { get; set; }
         public DateTime Date { get; set; }
-        public string Note { get; set; }
     }
 }

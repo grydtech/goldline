@@ -16,6 +16,8 @@ namespace Goldline.UI
         {
             ParentId = order.Id.GetValueOrDefault();
             MaxPaymentAmount = dueAmount;
+            NoteLabel.Visibility = Visibility.Hidden;
+            NoteTextBox.Visibility = Visibility.Hidden;
             Type = PaymentType.OrderPayment;
             InitializeComponent();
         }
@@ -24,6 +26,8 @@ namespace Goldline.UI
         {
             ParentId = purchase.Id.GetValueOrDefault();
             MaxPaymentAmount = dueAmount;
+            NoteLabel.Visibility = Visibility.Hidden;
+            NoteTextBox.Visibility = Visibility.Hidden;
             Type = PaymentType.PurchasePayment;
             InitializeComponent();
         }
@@ -52,8 +56,7 @@ namespace Goldline.UI
                     switch (Type)
                     {
                         case PaymentType.OrderPayment:
-                            new OrderPaymentHandler().AddPayment(new OrderPayment(ParentId, paymentAmt,
-                                NoteTextBox.Text));
+                            new OrderPaymentHandler().AddPayment(new OrderPayment(ParentId, paymentAmt));
                             break;
                         case PaymentType.EmployeePayment:
                             new EmployeePaymentHandler().AddPayment(new EmployeePayment(ParentId, paymentAmt,

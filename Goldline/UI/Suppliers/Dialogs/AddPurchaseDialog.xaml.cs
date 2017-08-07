@@ -21,7 +21,6 @@ namespace Goldline.UI.Suppliers.Dialogs
             (MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly ProductHandler _productHandler;
-
         private readonly PurchaseHandler _purchaseHandler;
 
         public AddPurchaseDialog()
@@ -47,7 +46,6 @@ namespace Goldline.UI.Suppliers.Dialogs
         private void InitializeTextBoxes()
         {
             QuantityTextBox.Text = "";
-            PriceTextBox.Text = "";
         }
 
         /// <summary>
@@ -59,9 +57,8 @@ namespace Goldline.UI.Suppliers.Dialogs
             InitializeTextBoxes();
             TotalAmountTextBox.Text = "";
             NoteTextBox.Text = "";
-            CheckBox.IsChecked = false;
-            RefreshInventoryDataGrid();
-            RefreshSupplyOrderEntriesDataGrid();
+            RefreshSearchProductComboBox();
+            RefreshPurchaseEntriesDataGrid();
         }
 
         /// <summary>
@@ -85,19 +82,19 @@ namespace Goldline.UI.Suppliers.Dialogs
 
         private bool IsItemEligibleForEntry()
         {
-            if (InventoryDataGrid.SelectedItem == null)
+            if (SearchProductComboBox.SelectedItem == null)
             {
                 MessageBox.Show("Please Select a item", "Error", MessageBoxButton.OK,
                     MessageBoxImage.Error);
                 return false;
             }
-            if (QuantityTextBox.Text == "" || PriceTextBox.Text == "")
+            if (QuantityTextBox.Text == "")
             {
                 MessageBox.Show("Please Enter Quantity and Price", "Error", MessageBoxButton.OK,
                     MessageBoxImage.Information);
                 return false;
             }
-            if (QuantityTextBox.Text == "0" || PriceTextBox.Text == "0")
+            if (QuantityTextBox.Text == "0")
             {
                 MessageBox.Show("Quantity and Price must be greater than 0", "Information", MessageBoxButton.OK,
                     MessageBoxImage.Information);
@@ -110,41 +107,32 @@ namespace Goldline.UI.Suppliers.Dialogs
 
         public void CompleteOrder()
         {
-            //try
-            //{
-            // Set total and price variables before adding
             _purchaseHandler.AddPurchase(Purchase);
             MessageBox.Show("Successfully Added", "Information", MessageBoxButton.OK,
                 MessageBoxImage.Information);
             InitializeNewSupplyOrder();
-            //}
-            //catch (Exception)
-            //{
-            //    MessageBox.Show("Not Added", "Error", MessageBoxButton.OK,
-            //        MessageBoxImage.Error);
-            //}
         }
 
         public void AddSelectedItemToOrder()
         {
-            var item = (Item) InventoryDataGrid.SelectedItem;
+            var item = (Item) SearchProductComboBox.SelectedItem;
             if (item.Id == null) return;
             var purchaseItem = new PurchaseItem(item.Id.Value, item.Name, uint.Parse(QuantityTextBox.Text));
             Purchase.AddPurchaseItem(purchaseItem);
-            RefreshSupplyOrderEntriesDataGrid();
+            RefreshPurchaseEntriesDataGrid();
         }
 
         #region DataGrid Refresh Methods
 
-        private void RefreshInventoryDataGrid()
+        private void RefreshSearchProductComboBox()
         {
-            ItemSource = _productHandler.GetItems(SearchTextBox.Text);
-            InventoryDataGrid.Items.Refresh();
+            ItemSource = _productHandler.GetItems();
+            SearchProductComboBox.GetBindingExpression(ProductComboBox.ItemsSourceProperty)?.UpdateTarget();
         }
 
-        private void RefreshSupplyOrderEntriesDataGrid()
+        private void RefreshPurchaseEntriesDataGrid()
         {
-            SupplyOrderEntriesDataGrid.Items.Refresh();
+            PurchaseEntriesDataGrid.Items.Refresh();
         }
 
         #endregion
@@ -158,32 +146,11 @@ namespace Goldline.UI.Suppliers.Dialogs
                 Purchase.SupplierId = id.Value;
         }
 
-        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            RefreshInventoryDataGrid();
-        }
-
-        private void SupplyOrderWindow_OnPreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.Key)
-            {
-                case Key.Down:
-                    if (InventoryDataGrid.SelectedIndex < InventoryDataGrid.Items.Count - 1)
-                        InventoryDataGrid.SelectedIndex++;
-                    e.Handled = true;
-                    break;
-                case Key.Up:
-                    if (InventoryDataGrid.SelectedIndex > 0) InventoryDataGrid.SelectedIndex--;
-                    e.Handled = true;
-                    break;
-            }
-        }
-
         #endregion
 
         #region ButtonClick Events
 
-        private void AddToOrderButton_Click(object sender, RoutedEventArgs e)
+        private void ButtonAddItem_Click(object sender, RoutedEventArgs e)
         {
             if (IsItemEligibleForEntry()) AddSelectedItemToOrder();
             InitializeTextBoxes();
@@ -205,23 +172,14 @@ namespace Goldline.UI.Suppliers.Dialogs
             }
             else
             {
-                //var confirmationWindow = new OrderInvoice(Purchase,
-                //    (Supplier) SupplierComboBox.SelectedItem);
-                //confirmationWindow.ShowDialog();
-                //if (!confirmationWindow.IsVerified) return;
                 CompleteOrder();
             }
         }
 
         private void RemoveEntryButton_Click(object sender, RoutedEventArgs e)
         {
-            Purchase.RemovePurchaseItem((PurchaseItem) SupplyOrderEntriesDataGrid.SelectedItem);
-            RefreshSupplyOrderEntriesDataGrid();
-        }
-
-        private void CheckBox_OnChecked(object sender, RoutedEventArgs e)
-        {
-            Purchase.IsSettled = CheckBox.IsChecked == true;
+            Purchase.RemovePurchaseItem((PurchaseItem) PurchaseEntriesDataGrid.SelectedItem);
+            RefreshPurchaseEntriesDataGrid();
         }
 
         #endregion

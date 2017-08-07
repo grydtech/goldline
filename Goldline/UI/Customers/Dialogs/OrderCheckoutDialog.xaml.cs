@@ -44,7 +44,7 @@ namespace Goldline.UI.Customers.Dialogs
             {
                 _orderHandler.AddOrder(_order);
                 if (_order.Id == null) throw new ArgumentNullException(nameof(_order), @"Order Id Not assigned");
-                _orderPaymentHandler.AddPayment(new OrderPayment(_order.Id.Value, payment, ""));
+                _orderPaymentHandler.AddPayment(new OrderPayment(_order.Id.Value, payment));
                 GenerateInvoice();
                 DialogResult = true;
             }

@@ -105,7 +105,7 @@
                     ItemsSource="{Binding CustomerSource}"
                     SelectionChanged="SearchCustomerComboBox_OnSelectionChanged"
                     Style="{DynamicResource Goldline.ProductComboBoxStyle.Dark}"
-                    Watermark="Select Customer}" />
+                    Watermark="Select Customer..." />
                 <Label
                     x:Name="NotesLabel"
                     Grid.Row="4"

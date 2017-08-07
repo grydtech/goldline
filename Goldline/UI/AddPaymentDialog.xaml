@@ -16,11 +16,9 @@
     SizeToContent="Height"
     mc:Ignorable="d">
     <Border
-        Grid.Row="3"
         Height="120"
         Margin="5"
         VerticalAlignment="Top"
-        Background="{DynamicResource Goldline.Background.HeaderBar}"
         BorderBrush="{DynamicResource Goldline.Border}"
         BorderThickness="1"
         CornerRadius="10">
@@ -60,6 +58,7 @@
                     </i:Interaction.Behaviors>
                 </xctk:WatermarkTextBox>
                 <Label
+                    x:Name="NoteLabel"
                     Grid.Column="2"
                     Content="Note:"
                     Style="{DynamicResource Goldline.LabelStyle.Dark}" />
