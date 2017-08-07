@@ -348,7 +348,7 @@ namespace Goldline.UI.Products
             RefreshDataGrid();
         }
 
-        private void NewButton_Click(object sender, RoutedEventArgs e)
+        private void ButtonAddItem_Click(object sender, RoutedEventArgs e)
         {
             var addItemWindow = new AddItemDialog((ProductType) ItemTypeComboBox.SelectedIndex);
             addItemWindow.ShowDialog();
@@ -358,5 +358,10 @@ namespace Goldline.UI.Products
         }
 
         #endregion
+
+        private void ButtonAddService_OnClick(object sender, RoutedEventArgs e)
+        {
+            new AddServiceDialog().ShowDialog();
+        }
     }
 }

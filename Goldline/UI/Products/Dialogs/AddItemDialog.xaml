@@ -62,7 +62,7 @@
                         Grid.Column="1"
                         Margin="5"
                         ItemsSource="{Binding BrandSource}"
-                        Text="{Binding Brand}" />
+                        Text="{Binding Brand, UpdateSourceTrigger=PropertyChanged}" />
                     <Button
                         x:Name="AddBrandButton"
                         Grid.Row="0"
@@ -83,7 +83,7 @@
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
                         Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding Model}" />
+                        Text="{Binding Model, UpdateSourceTrigger=PropertyChanged}" />
                     <Label
                         x:Name="DimensionLabel"
                         Grid.Row="2"
@@ -96,7 +96,7 @@
                         Grid.Column="1"
                         Margin="5"
                         ItemsSource="{Binding DimensionSource}"
-                        Text="{Binding Dimension}" />
+                        Text="{Binding Dimension, UpdateSourceTrigger=PropertyChanged}" />
                     <Button
                         x:Name="AddDimensionButton"
                         Grid.Row="2"
@@ -117,7 +117,7 @@
                         Grid.Column="1"
                         Margin="5"
                         ItemsSource="{Binding CountrySource}"
-                        Text="{Binding Country}" />
+                        Text="{Binding Country, UpdateSourceTrigger=PropertyChanged}" />
                     <Button
                         x:Name="AddCountryButton"
                         Grid.Row="3"
@@ -138,7 +138,7 @@
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
                         Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding Capacity}">
+                        Text="{Binding Capacity, UpdateSourceTrigger=PropertyChanged}">
                         <i:Interaction.Behaviors>
                             <goldline:TextBoxInputBehavior InputMode="{StaticResource DigitInputMode}" />
                         </i:Interaction.Behaviors>
@@ -155,7 +155,7 @@
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
                         Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding Voltage}">
+                        Text="{Binding Voltage, UpdateSourceTrigger=PropertyChanged}">
                         <i:Interaction.Behaviors>
                             <goldline:TextBoxInputBehavior InputMode="{StaticResource DigitInputMode}" />
                         </i:Interaction.Behaviors>
@@ -172,7 +172,7 @@
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
                         Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding Stocks}">
+                        Text="{Binding Stocks, UpdateSourceTrigger=PropertyChanged}">
                         <i:Interaction.Behaviors>
                             <goldline:TextBoxInputBehavior InputMode="{StaticResource DigitInputMode}" />
                         </i:Interaction.Behaviors>
@@ -189,7 +189,7 @@
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
                         Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding UnitPrice}">
+                        Text="{Binding UnitPrice, UpdateSourceTrigger=PropertyChanged}">
                         <i:Interaction.Behaviors>
                             <goldline:TextBoxInputBehavior InputMode="{StaticResource DecimalInputMode}" />
                         </i:Interaction.Behaviors>

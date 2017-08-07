@@ -78,7 +78,7 @@ namespace Core.Data.Suppliers
                 (supplierId == null ? "" : "id_supplier = @supplierId ") +
                 (isSettled == null ? "" : (supplierId == null ? "" : "and ") + "is_settled = @isSettled ") +
                 (note == null ? "" : (supplierId == null && isSettled == null ? "" : "and ") + "note = @note ") +
-                "order by date_purchased desc limit = @offset, @limit",
+                "order by date_purchased desc limit @offset, @limit",
                 new {supplierId, isSettled, note, offset, limit});
 
             // Execute sql command

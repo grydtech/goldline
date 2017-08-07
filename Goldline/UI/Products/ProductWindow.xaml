@@ -34,7 +34,8 @@
             <Grid Grid.Row="0" Margin="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
                 <xctk:WatermarkTextBox
@@ -44,21 +45,28 @@
                     Style="{DynamicResource Goldline.WatermarkTextBoxStyle.DarkRounded}"
                     TextChanged="SearchTextBox_OnTextChanged"
                     Watermark="{DynamicResource SearchText}" />
-                <Button
-                    x:Name="NewButton"
-                    Grid.Column="1"
-                    Margin="2"
-                    Click="NewButton_Click"
-                    Content="+"
-                    Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                 <ComboBox
                     x:Name="ItemTypeComboBox"
-                    Grid.Column="2"
+                    Grid.Column="1"
                     Margin="2"
                     ItemsSource="{Binding ItemTypeSource}"
                     SelectedIndex="0"
                     SelectionChanged="ItemTypeComboBox_OnSelectionChanged"
                     TabIndex="1" />
+                <Button
+                    x:Name="ButtonAddItem"
+                    Grid.Column="2"
+                    Margin="2"
+                    Click="ButtonAddItem_Click"
+                    Content="Add Item"
+                    Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
+                <Button
+                    x:Name="ButtonAddService"
+                    Grid.Column="3"
+                    Margin="2"
+                    Click="ButtonAddService_OnClick"
+                    Content="Add Service"
+                    Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
             </Grid>
             <Border
                 Grid.Row="1"
@@ -96,8 +104,7 @@
                             Header="Stock">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="{x:Type TextBlock}">
-                                    <Setter Property="Background"
-                                            Value="{Binding (inventory:Item.StockQty), Converter={StaticResource StockQtyToBrushConverter}}" />
+                                    <Setter Property="Background" Value="{Binding (inventory:Item.StockQty), Converter={StaticResource StockQtyToBrushConverter}}" />
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
