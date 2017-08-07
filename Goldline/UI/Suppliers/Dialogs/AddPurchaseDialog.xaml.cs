@@ -3,11 +3,9 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using Core.Domain.Handlers;
 using Core.Domain.Model.Inventory;
 using Core.Domain.Model.Suppliers;
-using Goldline.UI.Invoices;
 using log4net;
 
 namespace Goldline.UI.Suppliers.Dialogs
@@ -15,10 +13,9 @@ namespace Goldline.UI.Suppliers.Dialogs
     /// <summary>
     ///     Interaction logic for AddPurchaseDialog.xaml
     /// </summary>
-    public partial class AddPurchaseDialog : Window
+    public partial class AddPurchaseDialog
     {
-        private static readonly ILog Logger = LogManager.GetLogger
-            (MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly ProductHandler _productHandler;
         private readonly PurchaseHandler _purchaseHandler;
@@ -40,42 +37,18 @@ namespace Goldline.UI.Suppliers.Dialogs
         public IEnumerable<Item> ItemSource { get; set; }
         public Purchase Purchase { get; set; }
 
-        /// <summary>
-        ///     Reset Qty and Price textbox layout after adding an order entry or an express checkout
-        /// </summary>
-        private void InitializeTextBoxes()
-        {
-            QuantityTextBox.Text = "";
-        }
 
         /// <summary>
-        ///     Reset window layout after completing and order and get ready for adding new order
+        ///     Reset window layout after completing and Purchase and get ready for adding new Purchase
         /// </summary>
-        public void InitializeNewSupplyOrder()
+        public void InitializeNewPurchase()
         {
             Purchase = new Purchase();
-            InitializeTextBoxes();
-            TotalAmountTextBox.Text = "";
-            NoteTextBox.Text = "";
+            TextBoxQty.Clear();
+            TotalAmountTextBox.Clear();
+            NoteTextBox.Clear();
             RefreshSearchProductComboBox();
             RefreshPurchaseEntriesDataGrid();
-        }
-
-        /// <summary>
-        ///     Checkout currently selected Item with typed quantity and price.
-        ///     Useful when only one type of item is bought
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ExpressCheckoutButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            AddSelectedItemToOrder();
-            CompleteOrder();
-            MessageBox.Show("Successfully Checked Out", "Information", MessageBoxButton.OK,
-                MessageBoxImage.Information);
-
-            // Initialize for a new supply order
-            InitializeNewSupplyOrder();
         }
 
         #region Validation
@@ -88,13 +61,13 @@ namespace Goldline.UI.Suppliers.Dialogs
                     MessageBoxImage.Error);
                 return false;
             }
-            if (QuantityTextBox.Text == "")
+            if (TextBoxQty.Text == "")
             {
                 MessageBox.Show("Please Enter Quantity and Price", "Error", MessageBoxButton.OK,
                     MessageBoxImage.Information);
                 return false;
             }
-            if (QuantityTextBox.Text == "0")
+            if (TextBoxQty.Text == "0")
             {
                 MessageBox.Show("Quantity and Price must be greater than 0", "Information", MessageBoxButton.OK,
                     MessageBoxImage.Information);
@@ -105,19 +78,19 @@ namespace Goldline.UI.Suppliers.Dialogs
 
         #endregion
 
-        public void CompleteOrder()
+        public void CompletePurchase()
         {
             _purchaseHandler.AddPurchase(Purchase);
             MessageBox.Show("Successfully Added", "Information", MessageBoxButton.OK,
                 MessageBoxImage.Information);
-            InitializeNewSupplyOrder();
+            InitializeNewPurchase();
         }
 
-        public void AddSelectedItemToOrder()
+        public void AddSelectedItemToPurchase()
         {
             var item = (Item) SearchProductComboBox.SelectedItem;
             if (item.Id == null) return;
-            var purchaseItem = new PurchaseItem(item.Id.Value, item.Name, uint.Parse(QuantityTextBox.Text));
+            var purchaseItem = new PurchaseItem(item.Id.Value, item.Name, uint.Parse(TextBoxQty.Text));
             Purchase.AddPurchaseItem(purchaseItem);
             RefreshPurchaseEntriesDataGrid();
         }
@@ -137,48 +110,32 @@ namespace Goldline.UI.Suppliers.Dialogs
 
         #endregion
 
-        #region Event Handling
-
-        private void SupplierComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var id = ((Supplier) SupplierComboBox.SelectedItem).Id;
-            if (id != null)
-                Purchase.SupplierId = id.Value;
-        }
-
-        #endregion
-
         #region ButtonClick Events
 
         private void ButtonAddItem_Click(object sender, RoutedEventArgs e)
         {
-            if (IsItemEligibleForEntry()) AddSelectedItemToOrder();
-            InitializeTextBoxes();
-            QuantityTextBox.Focus();
+            if (IsItemEligibleForEntry()) AddSelectedItemToPurchase();
+            TextBoxQty.Clear();
+            TextBoxQty.Focus();
+            SearchProductComboBox.Text = string.Empty;
         }
 
-        private void CancelOrderButton_Click(object sender, RoutedEventArgs e)
-        {
-            InitializeNewSupplyOrder();
-        }
 
         private void CheckoutButton_Click(object sender, RoutedEventArgs e)
         {
             Purchase.Note = NoteTextBox.Text;
             if (!Purchase.PurchaseItems.Any())
-            {
-                MessageBox.Show("No entries found in order!", "Information", MessageBoxButton.OK,
+                MessageBox.Show("No entries found in Purchase!", "Information", MessageBoxButton.OK,
                     MessageBoxImage.Exclamation);
-            }
             else
-            {
-                CompleteOrder();
-            }
+                CompletePurchase();
         }
 
         private void RemoveEntryButton_Click(object sender, RoutedEventArgs e)
         {
-            Purchase.RemovePurchaseItem((PurchaseItem) PurchaseEntriesDataGrid.SelectedItem);
+            var purchaseItem = (sender as Button)?.Tag as PurchaseItem;
+            if (purchaseItem == null) return;
+            Purchase.PurchaseItems.Remove(purchaseItem);
             RefreshPurchaseEntriesDataGrid();
         }
 

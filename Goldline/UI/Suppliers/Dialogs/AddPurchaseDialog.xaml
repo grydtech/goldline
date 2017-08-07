@@ -7,28 +7,27 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:persons="clr-namespace:Core.Domain.Model.Suppliers;assembly=Core"
-    xmlns:products="clr-namespace:Core.Domain.Model.Inventory;assembly=Core"
     Title="Add Purchase"
-    Width="1024"
-    Height="450"
-    MinWidth="1024"
-    MinHeight="450"
+    Width="800"
+    Height="400"
+    MinWidth="800"
+    MinHeight="400"
     Background="{DynamicResource Goldline.Background.Window}"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     FontSize="16"
+    ResizeMode="NoResize"
     Template="{StaticResource WindowTemplate}"
     WindowStartupLocation="CenterScreen"
-    WindowState="Maximized"
     mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
+            <ColumnDefinition Width="350" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="4*" />
-                <RowDefinition Height="3*" />
+                <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
             <Border
                 Grid.Column="0"
@@ -38,14 +37,13 @@
                 CornerRadius="10">
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="80" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
+                        <RowDefinition Height="60*" />
+                        <RowDefinition Height="60*" />
+                        <RowDefinition Height="61*" />
                     </Grid.RowDefinitions>
                     <Label
                         x:Name="SupplierNameLabel"
@@ -60,43 +58,32 @@
                         ColumnHeader1="Name"
                         ColumnHeader2="Contact"
                         ItemsSource="{Binding SupplierSource}"
-                        SelectionChanged="SupplierComboBox_SelectionChanged"
                         Watermark="Select Supplier..." />
                     <Label
-                        x:Name="NoteLabel"
-                        Grid.Row="1"
-                        Content="Contact Info:"
-                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                    <TextBox
-                        x:Name="ContactInfoTextBox"
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding SelectedItem.(persons:Supplier.Contact), ElementName=SupplierComboBox}" />
-                    <Label
                         x:Name="TotalAmountLabel"
-                        Grid.Row="2"
+                        Grid.Row="1"
+                        Grid.Column="0"
                         Content="Amount:"
                         Style="{DynamicResource Goldline.LabelStyle.Dark}" />
                     <TextBox
                         x:Name="TotalAmountTextBox"
-                        Grid.Row="2"
+                        Grid.Row="1"
                         Grid.Column="1"
-                        IsEnabled="False"
                         Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding Purchase.Amount}" />
+                        Text="{Binding Purchase.Amount, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
                     <Label
                         x:Name="ContactInfoLabel"
-                        Grid.Row="3"
+                        Grid.Row="2"
                         Grid.Column="0"
                         Content="Note:"
                         Style="{DynamicResource Goldline.LabelStyle.Dark}" />
                     <TextBox
                         x:Name="NoteTextBox"
-                        Grid.Row="3"
+                        Grid.Row="2"
                         Grid.Column="1"
                         IsEnabled="True"
-                        Style="{DynamicResource Goldline.TextBoxStyle.Dark}" />
+                        Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
+                        Text="{Binding Purchase.Note, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
             </Border>
             <Border
@@ -107,8 +94,8 @@
                 CornerRadius="10">
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -117,6 +104,7 @@
                     </Grid.RowDefinitions>
                     <Label
                         Grid.Column="0"
+                        Grid.ColumnSpan="2"
                         Content="Add Items"
                         FontSize="20"
                         FontWeight="Bold"
@@ -139,20 +127,17 @@
                         ScrollViewer.CanContentScroll="True"
                         Watermark="Select Item..." />
                     <Label
-                        x:Name="QuantityLabel"
+                        x:Name="QtyLabel"
                         Grid.Row="2"
                         Grid.Column="0"
-                        Content="Quantity:"
+                        Content="Qty:"
                         Style="{DynamicResource Goldline.LabelStyle.Dark}" />
                     <Grid Grid.Row="2" Grid.Column="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition Width="60" />
                         </Grid.ColumnDefinitions>
-                        <TextBox
-                            x:Name="QuantityTextBox"
-                            Margin="5"
-                            Style="{DynamicResource Goldline.TextBoxStyle.Dark}">
+                        <TextBox x:Name="TextBoxQty" Style="{DynamicResource Goldline.TextBoxStyle.Dark}">
                             <i:Interaction.Behaviors>
                                 <goldline:TextBoxInputBehavior InputMode="{StaticResource DigitInputMode}" />
                             </i:Interaction.Behaviors>
@@ -191,7 +176,7 @@
                     HorizontalScrollBarVisibility="Disabled"
                     IsReadOnly="True"
                     IsTextSearchEnabled="True"
-                    ItemsSource="{Binding Purchase.OrderEntries}"
+                    ItemsSource="{Binding Purchase.PurchaseItems}"
                     Opacity="0.8"
                     ScrollViewer.CanContentScroll="True">
                     <DataGrid.Columns>
@@ -203,6 +188,17 @@
                             Width="0.3*"
                             Binding="{Binding Qty}"
                             Header="Quantity" />
+                        <DataGridTemplateColumn Width="80">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="persons:PurchaseItem">
+                                    <Button
+                                        x:Name="RemoveEntryButton"
+                                        Click="RemoveEntryButton_Click"
+                                        Content="-"
+                                        Tag="{Binding}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </Border>
@@ -211,12 +207,6 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Button
-                    x:Name="ExpressCheckoutButton"
-                    Margin="2"
-                    Click="ExpressCheckoutButton_OnClick"
-                    Content="Express Checkout"
-                    Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                 <Button
                     x:Name="CheckoutButton"
                     Grid.Column="1"
