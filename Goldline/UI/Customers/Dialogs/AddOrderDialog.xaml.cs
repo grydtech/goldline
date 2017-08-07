@@ -43,8 +43,6 @@ namespace Goldline.UI.Customers.Dialogs
             }
         }
 
-        //private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         public Order Order { get; set; }
 
         public IEnumerable<Product> ProductSource { get; set; }
@@ -122,7 +120,6 @@ namespace Goldline.UI.Customers.Dialogs
                 {
                     UnitPriceTextBox.Text = actualUnitPrice.ToString(CultureInfo.InvariantCulture);
                     DiscountTextBox.Text = "0";
-                    //MessageBox.Show("Entered Unit Price is Too Higher", "Invalid Unit Price");
                 }
             }
             else
@@ -130,11 +127,6 @@ namespace Goldline.UI.Customers.Dialogs
                 UnitPriceTextBox.Text = "";
             }
         }
-
-        //public void GenerateInvoice()
-        //{
-        //    new OrderInvoice(Order).Show();
-        //}
 
         public bool IsAlreadyEntered(uint? id)
         {
@@ -247,7 +239,6 @@ namespace Goldline.UI.Customers.Dialogs
             }
             catch (Exception ex)
             {
-                //   Log.Debug(ex.Message);
                 MessageBox.Show(ex.Message, "Invalid Input");
             }
             finally
@@ -256,7 +247,6 @@ namespace Goldline.UI.Customers.Dialogs
                 UnitPriceTextBox.Text = "";
                 DiscountTextBox.Text = "";
                 ProductComboBox.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
-                // UnitPriceTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
             }
         }
 
@@ -269,47 +259,19 @@ namespace Goldline.UI.Customers.Dialogs
             }
             try
             {
-                Order.Note = NoteTextBox.Text;
-
                 var window = new OrderCheckoutDialog(Order);
                 window.ShowDialog();
+                if (window.DialogResult != true) return;
 
-                if (window.DialogResult == true)
-                {
-                    Order = new Order();
-                    RefreshOrderItemsDataGrid();
-                    UpdateGrandTotalLabel();
-                }
+                Order = new Order();
+                RefreshOrderItemsDataGrid();
+                UpdateGrandTotalLabel();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + "   :  An error has occured!");
             }
         }
-
-        //private void CashCheckoutButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    // Note: update stocks handled internally using triggers so its not required here
-        //    if (Order.OrderItems.Count == 0)
-        //    {
-        //        MessageBox.Show("Add products to proceed!", "Empty order");
-        //        return;
-        //    }
-
-        //    try
-        //    {
-        //        Order.Note = NoteTextBox.Text;
-        //        _orderHandler.AddOrder(Order);
-        //        MessageBox.Show("Order added successfully. Order Type: Cash");
-
-        //        GenerateInvoice();
-        //        Close();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message + " :   An error has occured!");
-        //    }
-        //}
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
@@ -322,32 +284,9 @@ namespace Goldline.UI.Customers.Dialogs
             }
             else
             {
-                //    Log.Debug("items not selected to remove");
                 MessageBox.Show("Please select an item to remove");
             }
         }
-
-        //private void ServiceButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    var window = new AddServiceDialog();
-        //    window.ShowDialog();
-
-        //    if (window.DialogResult == null || !window.DialogResult.Value) return;
-
-        //    var selectedService = window.SelectedService;
-        //    var serviceCharge = window.ServiceCharge;
-
-        //    if (!IsAlreadyEntered(selectedService.Id))
-        //    {
-        //        Order.OrderItems.Add(new OrderItem(selectedService.Id.GetValueOrDefault(), selectedService.Name, 1, serviceCharge));
-        //        UpdateGrandTotalLabel();
-        //        RefreshOrderItemsDataGrid();
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Duplicate Entry in the order");
-        //    }
-        //}
 
         private void TextBox_OnGotFocus(object sender, RoutedEventArgs e)
         {

@@ -28,11 +28,11 @@ namespace Goldline.UI
 
             // Create timer object
             var timer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(0.1)};
-            timer.Tick += timer_Tick;
+            timer.Tick += Timer_Tick;
             timer.Start();
         }
 
-        private void timer_Tick(object sender, EventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
             TimeLabel.Content = DateTime.Now.ToLongTimeString();
         }

@@ -6,7 +6,6 @@
     xmlns:goldline="clr-namespace:Goldline"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     Title="New Order"
     Width="960"
     Height="600"
@@ -141,7 +140,7 @@
         <Grid Grid.Row="1" Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="40" />
             </Grid.RowDefinitions>
             <Border
                 Margin="2"
@@ -197,54 +196,42 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </Border>
-            <Border
-                Grid.Row="1"
-                Margin="2"
-                VerticalAlignment="Bottom"
-                Background="{DynamicResource Goldline.Background.HeaderBar}"
-                BorderBrush="{DynamicResource Goldline.Border}"
-                BorderThickness="1"
-                CornerRadius="10">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <xctk:WatermarkTextBox
-                        x:Name="NoteTextBox"
-                        Style="{DynamicResource Goldline.WatermarkTextBoxStyle.Dark}"
-                        Watermark="{DynamicResource NoteTextBoxText}" />
-                    <StackPanel Grid.Column="1" Orientation="Horizontal">
-                        <Label
-                            x:Name="TotalLabel"
-                            Content="Total:"
-                            FontSize="20"
-                            FontWeight="Bold"
-                            Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                        <Label
-                            x:Name="GrandTotalValueLabel"
-                            Grid.Row="0"
-                            Grid.Column="1"
-                            Width="200"
-                            BorderBrush="{DynamicResource Goldline.Border}"
-                            BorderThickness="1"
-                            Content="{Binding Order.Amount}"
-                            FontSize="20"
-                            FontWeight="Bold"
-                            Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                    </StackPanel>
-                    <Button
-                        x:Name="CheckoutButton"
-                        Grid.Column="2"
-                        Width="150"
-                        Click="CheckoutButton_Click"
-                        Content="Checkout"
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+                    <Label
+                        x:Name="TotalLabel"
+                        Content="Total:"
+                        FontSize="20"
                         FontWeight="Bold"
-                        Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-                </Grid>
-            </Border>
-
+                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+                    <Label
+                        x:Name="GrandTotalValueLabel"
+                        Width="200"
+                        Margin="2"
+                        BorderBrush="{DynamicResource Goldline.Border}"
+                        BorderThickness="1"
+                        Content="{Binding Order.Amount}"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+                </StackPanel>
+                <Button
+                    x:Name="CheckoutButton"
+                    Grid.Column="1"
+                    Width="150"
+                    Margin="2"
+                    Click="CheckoutButton_Click"
+                    Content="Checkout"
+                    FontWeight="Bold"
+                    Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
+            </Grid>
         </Grid>
     </Grid>
 </Window>

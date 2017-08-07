@@ -103,6 +103,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Extensions.cs" />
+    <Compile Include="PersonComboBox.xaml.cs">
+      <DependentUpon>PersonComboBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="StockQtyToBrushConverter.cs" />
     <Compile Include="ProductComboBox.xaml.cs">
       <DependentUpon>ProductComboBox.xaml</DependentUpon>
@@ -342,6 +345,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="PersonComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Styles\WindowStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -1,52 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Globalization;
 using System.Windows;
-using System.Windows.Controls;
 using Core.Domain.Handlers;
 using Core.Domain.Model.Customers;
 using Goldline.UI.Invoices;
 
-//using log4net;
-
-namespace Goldline.UI.Customers
+namespace Goldline.UI.Customers.Dialogs
 {
     /// <summary>
     ///     Interaction logic for OrderCheckoutDialog.xaml
     /// </summary>
     public partial class OrderCheckoutDialog : Window
     {
-        private readonly CustomerHandler _customerHandler;
-        // private static readonly ILog log =
-        //     LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        private readonly IEnumerable<Customer> _customerMatches;
         private readonly OrderHandler _orderHandler;
         private readonly OrderPaymentHandler _orderPaymentHandler;
-        private readonly string _searchName;
         private readonly Order _order;
 
         public OrderCheckoutDialog(Order order)
         {
             _order = order;
             _orderHandler = new OrderHandler();
-            _customerHandler = new CustomerHandler();
             _orderPaymentHandler = new OrderPaymentHandler();
-            _customerMatches = _customerHandler.GetCustomers();
             InitializeComponent();
-            TotalTextBox.Text = _order.Amount.ToString();
 
-            CustomerDataGrid.ItemsSource = _customerMatches;
-        }
-
-        // public IEnumerable<Customer> ProductSource { get; set; }
-        //public Customer SelectedCustomer { get; set; }
-
-        private void SearchTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            var textBox = (TextBox) sender;
-            CustomerDataGrid.ItemsSource = textBox.Text != ""
-                ? _customerHandler.GetCustomers(textBox.Text.Trim())
-                : _customerHandler.GetCustomers();
+            TotalTextBox.Text = _order.Amount.ToString(CultureInfo.InvariantCulture);
+            CustomerComboBox.ItemsSource = new CustomerHandler().GetCustomers();
+            CustomerComboBox.GetBindingExpression(PersonComboBox.ItemsSourceProperty)?.UpdateTarget();
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -57,23 +36,16 @@ namespace Goldline.UI.Customers
 
         private void OrderCheckoutButton_OnClick(object sender, RoutedEventArgs e)
         {
-            _order.CustomerId = (CustomerDataGrid?.SelectedItem as Customer)?.Id;
+            _order.CustomerId = (CustomerComboBox?.SelectedItem as Customer)?.Id;
+            _order.Note = NoteTextBox.Text;
             var payment = PaymentTextBox.Text == "" ? _order.Amount : decimal.Parse(PaymentTextBox.Text);
 
-            //here AddOrder meth ssgould return bool .THEN only we can generate success msg below
             try
             {
-                //_order.Amount = Decimal.Parse(PaymentTextBox.Text);
-
                 _orderHandler.AddOrder(_order);
                 if (_order.Id == null) throw new ArgumentNullException(nameof(_order), @"Order Id Not assigned");
                 _orderPaymentHandler.AddPayment(new OrderPayment(_order.Id.Value, payment, ""));
-                //MessageBox.Show(
-                //"Order added successfully. " +
-                //"Order Type: Credit. " +
-                //"Customer Name: " + SelectedCustomer.Name);
                 GenerateInvoice();
-                //Close();
                 DialogResult = true;
             }
             catch (Exception ex)

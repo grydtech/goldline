@@ -26,7 +26,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="100" />
             <RowDefinition />
-            <RowDefinition Height="35" />
+            <RowDefinition Height="40" />
         </Grid.RowDefinitions>
         <Rectangle
             Grid.Row="0"
@@ -72,7 +72,7 @@
                 x:Name="ProductExpander"
                 MaxWidth="400"
                 MaxHeight="250"
-                Header="Products"
+                Header="Products and Catalogs"
                 IsExpanded="True"
                 Style="{DynamicResource Goldline.ExpanderStyle.Dark}">
                 <Grid Background="{DynamicResource Goldline.Background.HeaderBar}">
@@ -112,7 +112,7 @@
                 Grid.Column="1"
                 MaxWidth="400"
                 MaxHeight="250"
-                Header="Suppliers"
+                Header="Suppliers and Purchases"
                 IsExpanded="True"
                 Style="{DynamicResource Goldline.ExpanderStyle.Dark}">
                 <Grid Background="{DynamicResource Goldline.Background.HeaderBar}">
@@ -236,16 +236,8 @@
                         <ColumnDefinition Width="20" />
                     </Grid.ColumnDefinitions>
                     <Button
-                        x:Name="OrderPaymentHistoryButton"
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Click="OrderPaymentHistoryButton_OnClick"
-                        Content="Order Payment History"
-                        IsEnabled="{Binding Path=(model:Session.Clearance).CanHandleOrderPayments}"
-                        Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-                    <Button
                         x:Name="ManageCustomersButton"
-                        Grid.Row="2"
+                        Grid.Row="1"
                         Grid.Column="1"
                         Click="ManageCustomersButton_OnClick"
                         Content="Manage Customers"
@@ -277,19 +269,19 @@
                         <ColumnDefinition Width="20" />
                     </Grid.ColumnDefinitions>
                     <Button
-                        x:Name="EmployeePaymentHistoryButton"
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Click="EmployeePaymentHistoryButton_OnClick"
-                        Content="Employee Payment History"
-                        IsEnabled="{Binding Path=(model:Session.Clearance).CanManageEmployees}"
-                        Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-                    <Button
                         x:Name="ManageEmployeesButton"
-                        Grid.Row="2"
+                        Grid.Row="1"
                         Grid.Column="1"
                         Click="ManageEmployeesButton_Click"
                         Content="Manage Employees"
+                        IsEnabled="{Binding Path=(model:Session.Clearance).CanManageEmployees}"
+                        Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
+                    <Button
+                        x:Name="EmployeePaymentHistoryButton"
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Click="EmployeePaymentHistoryButton_OnClick"
+                        Content="Employee Payment History"
                         IsEnabled="{Binding Path=(model:Session.Clearance).CanManageEmployees}"
                         Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                 </Grid>
@@ -342,7 +334,7 @@
             Background="{DynamicResource Goldline.Background.StatusBar}">
             <Grid.RowDefinitions>
                 <RowDefinition />
-                <RowDefinition Height="35" />
+                <RowDefinition Height="40" />
             </Grid.RowDefinitions>
             <Label
                 x:Name="TimeLabel"

@@ -9,8 +9,7 @@
         <Setter Property="Margin" Value="5" />
         <Setter Property="Foreground" Value="{DynamicResource Goldline.Text.White}" />
         <Setter Property="Background" Value="{DynamicResource Goldline.Background.TextBox}" />
-        <Setter Property="BorderBrush"
-                Value="{DynamicResource {ComponentResourceKey ResourceId=ControlNormalBorderKey,                      TypeInTargetAssembly={x:Type themes:ResourceKeys}}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey ResourceId=ControlNormalBorderKey,                      TypeInTargetAssembly={x:Type themes:ResourceKeys}}}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="5" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -42,8 +41,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="0">
                             <Grid>
-                                <ScrollViewer x:Name="PART_ContentHost"
-                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                 <ContentPresenter
                                     x:Name="PART_WatermarkHost"
                                     Margin="{TemplateBinding Padding}"
@@ -99,12 +97,10 @@
                             <Setter TargetName="PART_WatermarkHost" Property="Visibility" Value="Visible" />
                         </MultiTrigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="BorderBrush"
-                                    Value="{DynamicResource {ComponentResourceKey ResourceId=ControlMouseOverBorderKey,                      TypeInTargetAssembly={x:Type themes:ResourceKeys}}}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey ResourceId=ControlMouseOverBorderKey,                      TypeInTargetAssembly={x:Type themes:ResourceKeys}}}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="Border" Property="BorderBrush"
-                                    Value="{DynamicResource {ComponentResourceKey ResourceId=ControlSelectedBorderKey,                      TypeInTargetAssembly={x:Type themes:ResourceKeys}}}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey ResourceId=ControlSelectedBorderKey,                      TypeInTargetAssembly={x:Type themes:ResourceKeys}}}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{DynamicResource Goldline.Text.SemiWhite}" />
@@ -119,8 +115,7 @@
         <Setter Property="Margin" Value="2" />
         <Setter Property="Foreground" Value="{DynamicResource Goldline.Text.White}" />
         <Setter Property="Background" Value="{DynamicResource Goldline.Background.TextBox}" />
-        <Setter Property="BorderBrush"
-                Value="{DynamicResource {ComponentResourceKey ResourceId=ControlNormalBorderKey,                      TypeInTargetAssembly={x:Type themes:ResourceKeys}}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey ResourceId=ControlNormalBorderKey,                      TypeInTargetAssembly={x:Type themes:ResourceKeys}}}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="5" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -152,8 +147,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="5">
                             <Grid>
-                                <ScrollViewer x:Name="PART_ContentHost"
-                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                 <ContentPresenter
                                     x:Name="PART_WatermarkHost"
                                     Margin="{TemplateBinding Padding}"
@@ -209,12 +203,10 @@
                             <Setter TargetName="PART_WatermarkHost" Property="Visibility" Value="Visible" />
                         </MultiTrigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="BorderBrush"
-                                    Value="{DynamicResource {ComponentResourceKey ResourceId=ControlMouseOverBorderKey,                      TypeInTargetAssembly={x:Type themes:ResourceKeys}}}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey ResourceId=ControlMouseOverBorderKey,                      TypeInTargetAssembly={x:Type themes:ResourceKeys}}}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="Border" Property="BorderBrush"
-                                    Value="{DynamicResource {ComponentResourceKey ResourceId=ControlSelectedBorderKey,                      TypeInTargetAssembly={x:Type themes:ResourceKeys}}}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey ResourceId=ControlSelectedBorderKey,                      TypeInTargetAssembly={x:Type themes:ResourceKeys}}}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{DynamicResource Goldline.Text.SemiWhite}" />
@@ -265,12 +257,10 @@
                             <Setter TargetName="border" Property="Opacity" Value="0.56" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="border" Property="BorderBrush"
-                                    Value="{StaticResource TextBox.MouseOver.Border}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource TextBox.MouseOver.Border}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="true">
-                            <Setter TargetName="border" Property="BorderBrush"
-                                    Value="{StaticResource TextBox.Focus.Border}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource TextBox.Focus.Border}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -282,8 +272,7 @@
                     <Condition Property="IsInactiveSelectionHighlightEnabled" Value="true" />
                     <Condition Property="IsSelectionActive" Value="false" />
                 </MultiTrigger.Conditions>
-                <Setter Property="SelectionBrush"
-                        Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
+                <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
             </MultiTrigger>
         </Style.Triggers>
     </Style>
@@ -323,12 +312,10 @@
                             <Setter TargetName="border" Property="Opacity" Value="0.56" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="border" Property="BorderBrush"
-                                    Value="{StaticResource TextBox.MouseOver.Border}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource TextBox.MouseOver.Border}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="true">
-                            <Setter TargetName="border" Property="BorderBrush"
-                                    Value="{StaticResource TextBox.Focus.Border}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource TextBox.Focus.Border}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -340,13 +327,27 @@
                     <Condition Property="IsInactiveSelectionHighlightEnabled" Value="true" />
                     <Condition Property="IsSelectionActive" Value="false" />
                 </MultiTrigger.Conditions>
-                <Setter Property="SelectionBrush"
-                        Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
+                <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
             </MultiTrigger>
         </Style.Triggers>
     </Style>
 
     <Style x:Key="Goldline.ProductComboBoxStyle.Dark" TargetType="{x:Type goldline:ProductComboBox}">
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Background" Value="{DynamicResource Goldline.Background.TextBox}" />
+        <Setter Property="BorderBrush" Value="{StaticResource TextBox.Static.Border}" />
+        <Setter Property="Foreground" Value="{DynamicResource Goldline.Text.White}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="AllowDrop" Value="true" />
+        <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst" />
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+        <Setter Property="TextBox.CaretBrush" Value="{DynamicResource Goldline.Border}" />
+        <Setter Property="TextBox.SelectionBrush" Value="{DynamicResource Goldline.Border}" />
+    </Style>
+
+    <Style x:Key="Goldline.PersonComboBoxStyle.Dark" TargetType="{x:Type goldline:PersonComboBox}">
         <Setter Property="Margin" Value="5" />
         <Setter Property="Background" Value="{DynamicResource Goldline.Background.TextBox}" />
         <Setter Property="BorderBrush" Value="{StaticResource TextBox.Static.Border}" />
