@@ -12,6 +12,7 @@
     MinWidth="1024"
     MinHeight="576"
     Background="{DynamicResource Goldline.Background.Window}"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}"
     FontSize="16"
     PreviewKeyDown="ViewSupplyOrders_OnPreviewKeyDown"
     Template="{StaticResource WindowTemplate}"
@@ -67,7 +68,7 @@
                 HorizontalScrollBarVisibility="Disabled"
                 IsReadOnly="True"
                 IsTextSearchEnabled="True"
-                Opacity="0.8"
+                ItemsSource="{Binding PurchaseSource}"
                 RowDetailsVisibilityChanged="PurchasesDataGrid_OnRowDetailsVisibilityChanged"
                 RowDetailsVisibilityMode="VisibleWhenSelected"
                 ScrollViewer.CanContentScroll="True"
@@ -99,7 +100,13 @@
                 </DataGrid.Columns>
                 <DataGrid.RowDetailsTemplate>
                     <DataTemplate DataType="suppliers:Purchase">
-                        <DataGrid ItemsSource="{Binding PurchaseItems}">
+                        <DataGrid
+                            x:Name="DataGridPurchaseItems"
+                            AutoGenerateColumns="False"
+                            CanUserResizeRows="False"
+                            HorizontalScrollBarVisibility="Disabled"
+                            IsReadOnly="True"
+                            ItemsSource="{Binding PurchaseItems, NotifyOnSourceUpdated=True}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Width="1*" Binding="{Binding ItemName}" />
                                 <DataGridTextColumn Width="100" Binding="{Binding Qty}" />

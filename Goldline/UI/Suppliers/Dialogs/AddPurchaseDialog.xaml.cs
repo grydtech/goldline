@@ -47,8 +47,10 @@ namespace Goldline.UI.Suppliers.Dialogs
             TextBoxQty.Clear();
             TotalAmountTextBox.Clear();
             NoteTextBox.Clear();
-            RefreshSearchProductComboBox();
             RefreshPurchaseEntriesDataGrid();
+            SearchProductComboBox.Text = string.Empty;
+            SupplierComboBox.Text = string.Empty;
+            PurchaseEntriesDataGrid.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
         }
 
         #region Validation
@@ -80,6 +82,7 @@ namespace Goldline.UI.Suppliers.Dialogs
 
         public void CompletePurchase()
         {
+            Purchase.SupplierId = (SupplierComboBox.SelectedItem as Supplier)?.Id;
             _purchaseHandler.AddPurchase(Purchase);
             MessageBox.Show("Successfully Added", "Information", MessageBoxButton.OK,
                 MessageBoxImage.Information);
@@ -96,12 +99,6 @@ namespace Goldline.UI.Suppliers.Dialogs
         }
 
         #region DataGrid Refresh Methods
-
-        private void RefreshSearchProductComboBox()
-        {
-            ItemSource = _productHandler.GetItems();
-            SearchProductComboBox.GetBindingExpression(ProductComboBox.ItemsSourceProperty)?.UpdateTarget();
-        }
 
         private void RefreshPurchaseEntriesDataGrid()
         {
@@ -123,7 +120,6 @@ namespace Goldline.UI.Suppliers.Dialogs
 
         private void CheckoutButton_Click(object sender, RoutedEventArgs e)
         {
-            Purchase.Note = NoteTextBox.Text;
             if (!Purchase.PurchaseItems.Any())
                 MessageBox.Show("No entries found in Purchase!", "Information", MessageBoxButton.OK,
                     MessageBoxImage.Exclamation);

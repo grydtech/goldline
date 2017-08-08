@@ -41,7 +41,7 @@ namespace Goldline.UI.Suppliers
             if (messageBoxResult == MessageBoxResult.Cancel) return;
 
             // payoff all selected supplier orders
-            _purchaseHandler.UpdatePurchaseMultiple((IEnumerable<Purchase>) PurchasesDataGrid.SelectedItems, true);
+            _purchaseHandler.UpdatePurchaseMultiple(PurchasesDataGrid.SelectedItems.Cast<Purchase>(), true);
             MessageBox.Show("Successfully Updated!!", "Result", MessageBoxButton.OK, MessageBoxImage.Information);
             RefreshDataGrid();
         }

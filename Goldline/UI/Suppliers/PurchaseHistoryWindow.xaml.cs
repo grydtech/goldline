@@ -29,7 +29,7 @@ namespace Goldline.UI.Suppliers
         public void RefreshDataGrid()
         {
             PurchaseSource = _purchaseHandler.GetPurchases(note: SearchTextBox.Text);
-            PurchasesDataGrid.Items.Refresh();
+            PurchasesDataGrid.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
         }
 
         public Point GetMousePosition()
@@ -93,7 +93,9 @@ namespace Goldline.UI.Suppliers
         private void PurchasesDataGrid_OnRowDetailsVisibilityChanged(object sender, DataGridRowDetailsEventArgs e)
         {
             if (PurchasesDataGrid.SelectedItem == null) return;
-            _purchaseHandler.LoadPurchaseItems((Purchase)PurchasesDataGrid.SelectedItem);
+            if (((Purchase) PurchasesDataGrid.SelectedItem).PurchaseItems.Count > 0) return;
+            _purchaseHandler.LoadPurchaseItems((Purchase) PurchasesDataGrid.SelectedItem);
+            PurchasesDataGrid.Items.Refresh();
         }
     }
 }

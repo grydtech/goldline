@@ -77,7 +77,7 @@ namespace Core.Data.Suppliers
                 (supplierId == null && isSettled == null && note == null ? "" : "where ") +
                 (supplierId == null ? "" : "id_supplier = @supplierId ") +
                 (isSettled == null ? "" : (supplierId == null ? "" : "and ") + "is_settled = @isSettled ") +
-                (note == null ? "" : (supplierId == null && isSettled == null ? "" : "and ") + "note = @note ") +
+                (note == null ? "" : (supplierId == null && isSettled == null ? "" : "and ") + "note LIKE @note ") +
                 "order by date_purchased desc limit @offset, @limit",
                 new {supplierId, isSettled, note, offset, limit});
 

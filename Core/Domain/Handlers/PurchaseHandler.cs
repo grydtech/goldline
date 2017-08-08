@@ -48,7 +48,7 @@ namespace Core.Domain.Handlers
         {
             using (var connection = Connector.GetConnection())
             {
-                return new PurchaseDal(connection).Search(supplierId, isSettled, note);
+                return new PurchaseDal(connection).Search(supplierId, isSettled, $"%{note ?? ""}%");
             }
         }
 
