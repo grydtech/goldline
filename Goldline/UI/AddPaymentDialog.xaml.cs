@@ -16,8 +16,8 @@ namespace Goldline.UI
         {
             ParentId = order.Id.GetValueOrDefault();
             MaxPaymentAmount = dueAmount;
-            NoteLabel.Visibility = Visibility.Hidden;
-            NoteTextBox.Visibility = Visibility.Hidden;
+            ReasonLabel.Visibility = Visibility.Hidden;
+            ReasonTextBox.Visibility = Visibility.Hidden;
             Type = PaymentType.OrderPayment;
             InitializeComponent();
         }
@@ -26,8 +26,8 @@ namespace Goldline.UI
         {
             ParentId = purchase.Id.GetValueOrDefault();
             MaxPaymentAmount = dueAmount;
-            NoteLabel.Visibility = Visibility.Hidden;
-            NoteTextBox.Visibility = Visibility.Hidden;
+            ReasonLabel.Visibility = Visibility.Hidden;
+            ReasonTextBox.Visibility = Visibility.Hidden;
             Type = PaymentType.PurchasePayment;
             InitializeComponent();
         }
@@ -60,11 +60,11 @@ namespace Goldline.UI
                             break;
                         case PaymentType.EmployeePayment:
                             new EmployeePaymentHandler().AddPayment(new EmployeePayment(ParentId, paymentAmt,
-                                NoteTextBox.Text));
+                                ReasonTextBox.Text));
                             break;
                         case PaymentType.PurchasePayment:
                             //new PurchasePaymentHandler().AddPayment(new PurchasePayment(ParentId, paymentAmt,
-                            //    NoteTextBox.Text));
+                            //    ReasonTextBox.Text));
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();

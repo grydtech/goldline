@@ -17,7 +17,7 @@ namespace Core.Domain.Handlers
             using (var connection = Connector.GetConnection())
             {
                 var employeePaymentDal = new EmployeePaymentDal(connection);
-                employeePaymentDal.Insert(payment.EmployeeId, payment.Amount, payment.Note);
+                employeePaymentDal.Insert(payment.EmployeeId, payment.Amount, payment.Reason);
                 payment.Id = employeePaymentDal.GetLastInsertId();
             }
         }

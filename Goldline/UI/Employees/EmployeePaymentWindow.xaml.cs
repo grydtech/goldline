@@ -32,18 +32,17 @@ namespace Goldline.UI.Employees
             var employee = (Employee) EmployeeDataGrid.SelectedItem;
             if (employee.Id == null) return;
             var employeePayment = new EmployeePayment(employee.Id.Value, decimal.Parse(AmountTextBox.Text),
-                NoteTextBox.Text);
+                ReasonTextBox.Text);
             _employeePaymentHandler.AddPayment(employeePayment);
             ReloadDataGrid();
         }
 
-        private void ReversePaymentButton_Click(object sender, RoutedEventArgs e)
+        private void DiscardButton_Click(object sender, RoutedEventArgs e)
         {
             ReloadDataGrid();
-            MessageBox.Show("This feature is not implemented yet");
         }
 
-        private void SummaryButton_OnClick(object sender, RoutedEventArgs e)
+        private void ButtonGenerateReport_OnClick(object sender, RoutedEventArgs e)
         {
             new TransactionReportWindow().Show();
         }

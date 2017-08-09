@@ -111,7 +111,7 @@ namespace Goldline.UI
             new EmployeeWindow().Show();
         }
 
-        private void EmployeePaymentHistoryButton_OnClick(object sender, RoutedEventArgs e)
+        private void EmployeePaymentsButton_OnClick(object sender, RoutedEventArgs e)
         {
             new EmployeePaymentWindow().Show();
         }

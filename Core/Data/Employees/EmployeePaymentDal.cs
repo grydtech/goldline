@@ -16,13 +16,13 @@ namespace Core.Data.Employees
         /// </summary>
         /// <param name="employeeId"></param>
         /// <param name="amount"></param>
-        /// <param name="note"></param>
-        internal void Insert(uint employeeId, decimal amount, string note)
+        /// <param name="reason"></param>
+        internal void Insert(uint employeeId, decimal amount, string reason)
         {
             // Define sql command
             var command = new CommandDefinition(
-                "insert into employees_payments (id_employee, amount_paid, note) values (@employeeId, @amount, @note)",
-                new {employeeId, amount, note});
+                "insert into employees_payments (id_employee, amount_paid, reason) values (@employeeId, @amount, @reason)",
+                new {employeeId, amount, reason});
 
             // Execute sql command
             Connection.Execute(command);
@@ -38,7 +38,7 @@ namespace Core.Data.Employees
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_payment 'Id', id_employee 'EmployeeId', date_paid 'Date', amount_paid 'Amount', note 'Note' " +
+                "select id_payment 'Id', id_employee 'EmployeeId', date_paid 'Date', amount_paid 'Amount', reason 'Reason' " +
                 "from employees_payments " +
                 (employeeId == null ? "" : "where id_employee = @employeeId ") +
                 "order by id_payment desc limit @offset, @limit",

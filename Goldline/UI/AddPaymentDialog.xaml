@@ -58,16 +58,16 @@
                     </i:Interaction.Behaviors>
                 </xctk:WatermarkTextBox>
                 <Label
-                    x:Name="NoteLabel"
+                    x:Name="ReasonLabel"
                     Grid.Column="2"
-                    Content="Note:"
+                    Content="Reason:"
                     Style="{DynamicResource Goldline.LabelStyle.Dark}" />
                 <xctk:WatermarkTextBox
-                    x:Name="NoteTextBox"
+                    x:Name="ReasonTextBox"
                     Grid.Column="3"
                     KeepWatermarkOnGotFocus="True"
                     Style="{DynamicResource Goldline.WatermarkTextBoxStyle.Dark}"
-                    Watermark="{DynamicResource NoteTextBoxText}" />
+                    Watermark="Reason..." />
                 <Button
                     x:Name="PayButton"
                     Grid.Column="4"

@@ -277,11 +277,11 @@
                         IsEnabled="{Binding Path=(model:Session.Clearance).CanManageEmployees}"
                         Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                     <Button
-                        x:Name="EmployeePaymentHistoryButton"
+                        x:Name="EmployeePaymentsButton"
                         Grid.Row="2"
                         Grid.Column="1"
-                        Click="EmployeePaymentHistoryButton_OnClick"
-                        Content="Employee Payment History"
+                        Click="EmployeePaymentsButton_OnClick"
+                        Content="Employee Payments"
                         IsEnabled="{Binding Path=(model:Session.Clearance).CanManageEmployees}"
                         Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                 </Grid>

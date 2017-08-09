@@ -4,10 +4,10 @@ namespace Core.Domain.Model.Employees
 {
     public class EmployeePayment : Payment
     {
-        public EmployeePayment(uint employeeId, decimal amount, string note) : base(DateTime.Now, amount)
+        public EmployeePayment(uint employeeId, decimal amount, string reason) : base(DateTime.Now, amount)
         {
             EmployeeId = employeeId;
-            Note = note;
+            Reason = reason;
         }
 
         /// <summary>
@@ -18,6 +18,6 @@ namespace Core.Domain.Model.Employees
         }
 
         public uint EmployeeId { get; set; }
-        public string Note { get; set; }
+        public string Reason { get; set; }
     }
 }

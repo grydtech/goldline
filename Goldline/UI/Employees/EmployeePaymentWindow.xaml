@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:employees="clr-namespace:Core.Domain.Model.Employees;assembly=Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="Employee Management"
+    Title="Employee Payments"
     Width="1024"
     Height="576"
     MinWidth="1024"
@@ -73,8 +73,8 @@
                 </DataGrid>
                 <Grid Grid.Row="1">
                     <Button
-                        Click="SummaryButton_OnClick"
-                        Content="View Summary"
+                        Click="ButtonGenerateReport_OnClick"
+                        Content="Generate Report"
                         Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
                 </Grid>
             </Grid>
@@ -82,7 +82,7 @@
         <Border
             Grid.RowSpan="2"
             Grid.Column="1"
-            Height="320"
+            Height="275"
             Margin="5"
             VerticalAlignment="Top"
             Background="{DynamicResource Goldline.Background.HeaderBar}"
@@ -98,7 +98,7 @@
                 <Label
                     x:Name="Label"
                     Grid.Row="0"
-                    Content="Payment Information"
+                    Content="Add Payment"
                     FontSize="20"
                     Style="{DynamicResource Goldline.LabelStyle.Dark}" />
                 <Grid Grid.Row="1" Margin="0,5">
@@ -107,11 +107,10 @@
                         <ColumnDefinition Width="30*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
+                        <RowDefinition Height="54*" />
+                        <RowDefinition Height="55*" />
+                        <RowDefinition Height="54*" />
+                        <RowDefinition Height="55*" />
                     </Grid.RowDefinitions>
                     <Label
                         x:Name="EmployeeIdLabel"
@@ -140,43 +139,29 @@
                         Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
                         Text="{Binding ElementName=EmployeeDataGrid, Path=SelectedItem.(employees:Employee.Name)}" />
                     <Label
-                        x:Name="NoteLabel"
-                        Grid.Row="2"
-                        Grid.Column="0"
-                        MaxHeight="30"
-                        Content="Note:"
-                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                    <TextBox
-                        x:Name="NoteTextBox"
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        Style="{DynamicResource Goldline.TextBoxStyle.Dark}" />
-                    <Label
                         x:Name="AmountLabel"
-                        Grid.Row="3"
+                        Grid.Row="2"
                         Grid.Column="0"
                         MaxHeight="30"
-                        Content="Amount:"
+                        Content="Paid Amount:"
                         Style="{DynamicResource Goldline.LabelStyle.Dark}" />
                     <TextBox
                         x:Name="AmountTextBox"
-                        Grid.Row="3"
+                        Grid.Row="2"
                         Grid.Column="1"
                         Style="{DynamicResource Goldline.TextBoxStyle.Dark}" />
                     <Label
-                        x:Name="LastPaymentDateLabel"
-                        Grid.Row="4"
+                        x:Name="ReasonLabel"
+                        Grid.Row="3"
                         Grid.Column="0"
                         MaxHeight="30"
-                        Content="Last Payment Date:"
+                        Content="Reason:"
                         Style="{DynamicResource Goldline.LabelStyle.Dark}" />
                     <TextBox
-                        x:Name="LastPaymentDateTextBox"
-                        Grid.Row="4"
+                        x:Name="ReasonTextBox"
+                        Grid.Row="3"
                         Grid.Column="1"
-                        IsEnabled="False"
-                        Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding ElementName=EmployeeDataGrid, Path=SelectedItem.(employees:Employee.DateJoined)}" />
+                        Style="{DynamicResource Goldline.TextBoxStyle.Dark}" />
                 </Grid>
                 <Grid
                     Grid.Row="2"
@@ -187,18 +172,18 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Button
+                        x:Name="DiscardButton"
+                        Grid.Column="0"
+                        Click="DiscardButton_Click"
+                        Content="Discard"
+                        Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
+                    <Button
                         x:Name="PayButton"
+                        Grid.Column="1"
                         Click="PayButton_Click"
                         Content="Pay"
+                        FontWeight="Bold"
                         Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-
-                    <Button
-                        x:Name="ReversePaymentButton"
-                        Grid.Column="1"
-                        Click="ReversePaymentButton_Click"
-                        Content="Reverse"
-                        Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-
                 </Grid>
             </Grid>
         </Border>
