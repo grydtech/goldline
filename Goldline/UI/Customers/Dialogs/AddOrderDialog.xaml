@@ -101,8 +101,7 @@
                 KeyDown="UnitPriceTextBox_OnKeyDown"
                 LostFocus="UnitPriceTextBox_FocusChanged"
                 Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                Text="{Binding SelectedItem.UnitPrice, ElementName=SearchDataGrid, Mode=OneWay}"
-                TextChanged="UnitPriceTextBox_OnTextChanged">
+                Text="{Binding SelectedItem.UnitPrice, ElementName=SearchDataGrid, Mode=OneWay}">
                 <i:Interaction.Behaviors>
                     <goldline:TextBoxInputBehavior InputMode="{StaticResource DecimalInputMode}" />
                 </i:Interaction.Behaviors>
@@ -122,8 +121,7 @@
                 GotFocus="TextBox_OnGotFocus"
                 KeyDown="DiscountTextBox_OnKeyDown"
                 LostFocus="DiscountTextBox_FocusChanged"
-                Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                TextChanged="DiscountTextBox_OnTextChanged">
+                Style="{DynamicResource Goldline.TextBoxStyle.Dark}">
                 <i:Interaction.Behaviors>
                     <goldline:TextBoxInputBehavior InputMode="{StaticResource DecimalInputMode}" />
                 </i:Interaction.Behaviors>

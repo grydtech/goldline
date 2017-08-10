@@ -195,21 +195,22 @@ namespace Goldline.UI.Customers.Dialogs
                 #endregion
 
                 var quantity = QuantityTextBox.Text == "" ? 0 : uint.Parse(QuantityTextBox.Text);
-                var selectedItem = ProductComboBox.SelectedItem as Item;
+                var product = ProductComboBox.SelectedItem as Product;
+                var item = product as Item;
                 _discount = DiscountTextBox.Text == "" ? 0 : decimal.Parse(DiscountTextBox.Text);
                 _unitPrice = UnitPriceTextBox.Text == "" ? 0 : decimal.Parse(UnitPriceTextBox.Text);
 
-                if (selectedItem != null)
+                if (product != null)
                 {
                     #region validation
 
-                    if (quantity > selectedItem.StockQty)
+                    if (quantity > item?.StockQty)
                     {
                         MessageBox.Show("Not enough items in stock to fullfil your requirement", "Not Enough Stock");
                         //    Log.Debug("Entered quantity is greater than available items");
                         return;
                     }
-                    if (IsAlreadyEntered(selectedItem.Id))
+                    if (IsAlreadyEntered(product.Id))
                     {
                         // Log.Debug("Attempted to enter same item twice");
                         MessageBox.Show("This entry is already entered once. Try updating its quantity instead");
@@ -219,8 +220,8 @@ namespace Goldline.UI.Customers.Dialogs
 
                     else
                     {
-                        var salePrice = _unitPrice != 0 ? _unitPrice : selectedItem.UnitPrice * (100 - _discount) / 100;
-                        var orderItem = new OrderItem(selectedItem.Id.GetValueOrDefault(), selectedItem.Name, quantity,
+                        var salePrice = _unitPrice != 0 ? _unitPrice : item?.UnitPrice * (100 - _discount) / 100 ?? 0;
+                        var orderItem = new OrderItem(product.Id.GetValueOrDefault(), product.Name, quantity,
                             salePrice);
 
                         // add items to the order entries list
@@ -234,7 +235,7 @@ namespace Goldline.UI.Customers.Dialogs
                 }
                 else
                 {
-                    MessageBox.Show("Please select an item!", "Item not selected");
+                    MessageBox.Show("Please select a Product!", "Product not selected");
                 }
             }
             catch (Exception ex)
@@ -297,11 +298,12 @@ namespace Goldline.UI.Customers.Dialogs
         {
             try
             {
-                var item = ProductComboBox.SelectedItem as Item;
-                if (item != null)
+                var product = ProductComboBox.SelectedItem as Product;
+                var item = product as Item;
+                if (product != null)
                 {
                     QuantityTextBox.Text = "1";
-                    UnitPriceTextBox.Text = item.UnitPrice.ToString(CultureInfo.InvariantCulture);
+                    UnitPriceTextBox.Text = item?.UnitPrice.ToString(CultureInfo.InvariantCulture);
                     DiscountTextBox.Text = "0";
                 }
             }
@@ -311,15 +313,15 @@ namespace Goldline.UI.Customers.Dialogs
             }
         }
 
-        private void DiscountTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            CalculateUnitPrice();
-        }
+        //private void DiscountTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    CalculateUnitPrice();
+        //}
 
-        private void UnitPriceTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            CalculateDiscount();
-        }
+        //private void UnitPriceTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    CalculateDiscount();
+        //}
 
         #region Window Event Handling
 

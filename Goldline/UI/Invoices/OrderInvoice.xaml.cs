@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using Core.Domain.Model.Customers;
 
@@ -14,11 +15,11 @@ namespace Goldline.UI.Invoices
             InitializeComponent();
             IsVerified = false;
             OrderEntriesDataGrid.ItemsSource = order.OrderItems;
-            IdLabel.Content = "Purchase: " + order.Id;
+            IdLabel.Content = order.Id;
             CustomerNameLabel.Content = order.CustomerId;
             DateLabel.Content = order.Date;
             TotalLabel.Content = order.Amount;
-            CashCreditLabel.Content = order.IsSettled.ToString();
+            CashCreditLabel.Content = order.IsSettled ? "Cash" : "Credit";
         }
 
         public bool IsVerified { get; private set; }

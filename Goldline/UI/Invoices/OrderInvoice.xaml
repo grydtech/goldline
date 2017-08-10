@@ -94,6 +94,7 @@
             <DataGrid
                 x:Name="OrderEntriesDataGrid"
                 Margin="0"
+                AutoGenerateColumns="False"
                 FontSize="12"
                 Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"
                 IsEnabled="False"
