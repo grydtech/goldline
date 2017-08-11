@@ -14,83 +14,77 @@
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Grid>
-        <Border
-            Margin="5"
-            BorderBrush="{DynamicResource Goldline.Border}"
-            BorderThickness="1"
-            CornerRadius="10,0,0,10">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="50" />
-                    <RowDefinition />
-                    <RowDefinition Height="40" />
-                </Grid.RowDefinitions>
-                <Label
-                    x:Name="Label"
-                    Grid.Row="0"
-                    Content="Add Supplier"
-                    FontSize="20"
-                    FontWeight="Bold"
-                    Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                <Grid Grid.Row="1" Margin="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Label
-                        x:Name="NameLabel"
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Content="Name:"
-                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                    <TextBox
-                        x:Name="NameTextBox"
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Grid.ColumnSpan="2"
-                        IsEnabled="True"
-                        Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding Supplier.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <Label
-                        x:Name="ContactInfoLabel"
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Content="Contact Info:"
-                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                    <TextBox
-                        x:Name="ContactInfoTextBox"
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Grid.ColumnSpan="2"
-                        Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding Supplier.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                </Grid>
-                <Grid Grid.Row="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
-                    <Button
-                        x:Name="ResetButton"
-                        Click="ResetButton_OnClick"
-                        Content="Reset"
-                        Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-                    <Button
-                        x:Name="AddButton"
-                        Grid.Column="1"
-                        Height="30"
-                        VerticalAlignment="Top"
-                        Click="AddButton_OnClick"
-                        Content="Add"
-                        FontWeight="Bold"
-                        Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-                </Grid>
-            </Grid>
-        </Border>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <Label
+            x:Name="Label"
+            Grid.Row="0"
+            Content="Add Supplier"
+            FontSize="20"
+            FontWeight="Bold"
+            Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+        <Grid Grid.Row="1" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Label
+                x:Name="NameLabel"
+                Grid.Row="0"
+                Grid.Column="0"
+                Content="Name:"
+                Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+            <TextBox
+                x:Name="NameTextBox"
+                Grid.Row="0"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                IsEnabled="True"
+                Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
+                Text="{Binding Supplier.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Label
+                x:Name="ContactInfoLabel"
+                Grid.Row="1"
+                Grid.Column="0"
+                Content="Contact Info:"
+                Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+            <TextBox
+                x:Name="ContactInfoTextBox"
+                Grid.Row="1"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
+                Text="{Binding Supplier.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Button
+                x:Name="ResetButton"
+                Click="ResetButton_OnClick"
+                Content="Reset"
+                Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
+            <Button
+                x:Name="AddButton"
+                Grid.Column="1"
+                Height="30"
+                VerticalAlignment="Top"
+                Click="AddButton_OnClick"
+                Content="Add"
+                FontWeight="Bold"
+                Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
+        </Grid>
     </Grid>
+
+
 </Window>

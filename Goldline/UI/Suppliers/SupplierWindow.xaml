@@ -22,7 +22,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition Width="350" />
+            <ColumnDefinition Width="300" />
         </Grid.ColumnDefinitions>
         <Grid Grid.Row="0" Grid.Column="0">
             <Grid.RowDefinitions>
@@ -58,7 +58,7 @@
                         Width="0.5*"
                         Binding="{Binding Contact}"
                         Header="Contact" />
-                    <DataGridTemplateColumn Width="100" Header="Payments">
+                    <DataGridTemplateColumn Width="100" Header="Dues">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="suppliers:Supplier">
                                 <Button

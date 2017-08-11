@@ -231,8 +231,8 @@
     <Compile Include="UI\Returns\ItemReturnManagementWindow.xaml.cs">
       <DependentUpon>ItemReturnManagementWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Suppliers\PurchasePaymentWindow.xaml.cs">
-      <DependentUpon>PurchasePaymentWindow.xaml</DependentUpon>
+    <Compile Include="UI\Suppliers\SupplierDuePurchasesWindow.xaml.cs">
+      <DependentUpon>SupplierDuePurchasesWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Suppliers\SupplierWindow.xaml.cs">
       <DependentUpon>SupplierWindow.xaml</DependentUpon>
@@ -463,7 +463,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Suppliers\PurchasePaymentWindow.xaml">
+    <Page Include="UI\Suppliers\SupplierDuePurchasesWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

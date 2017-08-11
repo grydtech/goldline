@@ -61,24 +61,25 @@ namespace Goldline.UI.Suppliers
 
         #region Button Click
 
-        private void ReverseButton_Click(object sender, RoutedEventArgs e)
+        private void ButtonCancelPurchase_Click(object sender, RoutedEventArgs e)
         {
-            if (PurchasesDataGrid.SelectedItem == null) return;
-            var result = MessageBox.Show("Confirm Supply Order", "Confirmation", MessageBoxButton.YesNo,
+            var purchase = (sender as Button)?.Tag as Purchase;
+            if (purchase?.Id == null) return;
+
+            var result = MessageBox.Show("Are you sure you want to remove this purchase?", "Confirmation", MessageBoxButton.YesNo,
                 MessageBoxImage.Question);
             if (result == MessageBoxResult.No) return;
+
             try
             {
-                var purchase = (Purchase) PurchasesDataGrid.SelectedItem;
-                if (purchase.Id == null) return;
                 _purchaseHandler.DeletePurchase(purchase.Id.Value);
-                MessageBox.Show("Successfully Reversed", "Successful", MessageBoxButton.OK,
+                MessageBox.Show("Successfully Removed", "Successful", MessageBoxButton.OK,
                     MessageBoxImage.Information);
                 RefreshDataGrid();
             }
             catch (Exception)
             {
-                MessageBox.Show("Not Reversed", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Could not remove the purchase", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -96,6 +97,13 @@ namespace Goldline.UI.Suppliers
             if (((Purchase) PurchasesDataGrid.SelectedItem).PurchaseItems.Count > 0) return;
             _purchaseHandler.LoadPurchaseItems((Purchase) PurchasesDataGrid.SelectedItem);
             PurchasesDataGrid.Items.Refresh();
+        }
+
+        private void ButtonSettledStatus_OnClick(object sender, RoutedEventArgs e)
+        {
+            var purchase = (sender as Button)?.Tag as Purchase;
+            if (purchase?.SupplierId == null) return;
+            new SupplierDuePurchasesWindow(new Supplier {Id = purchase.SupplierId}).ShowDialog();
         }
     }
 }

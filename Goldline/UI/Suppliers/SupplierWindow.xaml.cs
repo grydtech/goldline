@@ -95,7 +95,7 @@ namespace Goldline.UI.Suppliers
                 MessageBox.Show("Please select a customer", "Information", MessageBoxButton.OK,
                     MessageBoxImage.Information);
             else
-                new PurchasePaymentWindow(supplier).ShowDialog();
+                new SupplierDuePurchasesWindow(supplier).ShowDialog();
             RefreshDataGrid();
         }
 

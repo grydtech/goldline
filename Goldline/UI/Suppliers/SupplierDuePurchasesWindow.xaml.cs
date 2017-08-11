@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,24 +9,24 @@ using Core.Domain.Model.Suppliers;
 namespace Goldline.UI.Suppliers
 {
     /// <summary>
-    ///     Interaction logic for PurchasePaymentWindow.xaml
+    ///     Interaction logic for SupplierDuePurchasesWindow.xaml
     /// </summary>
-    public partial class PurchasePaymentWindow : Window
+    public partial class SupplierDuePurchasesWindow
     {
         private readonly PurchaseHandler _purchaseHandler;
         private readonly Supplier _supplier;
 
-        public PurchasePaymentWindow(Supplier supplier)
+        public SupplierDuePurchasesWindow(Supplier supplier)
         {
             _supplier = supplier;
             _purchaseHandler = new PurchaseHandler();
-            DueSupplyOrders = _purchaseHandler.GetPurchases(_supplier.Id);
+            DuePurchases = _purchaseHandler.GetPurchases(_supplier.Id);
             InitializeComponent();
             SupplierIdTextBox.Text = _supplier.Id.ToString();
             NameTextBox.Text = _supplier.Name;
         }
 
-        public IEnumerable<Purchase> DueSupplyOrders { get; private set; }
+        public IEnumerable<Purchase> DuePurchases { get; private set; }
 
         private void PayButton_Click(object sender, RoutedEventArgs e)
         {
@@ -49,12 +50,12 @@ namespace Goldline.UI.Suppliers
         private void SupplierDataGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             AmountTextBox.Text =
-                PurchasesDataGrid.SelectedItems.Cast<Purchase>().Sum(order => order.Amount).ToString();
+                PurchasesDataGrid.SelectedItems.Cast<Purchase>().Sum(order => order.Amount).ToString(CultureInfo.InvariantCulture);
         }
 
         private void RefreshDataGrid()
         {
-            DueSupplyOrders = _purchaseHandler.GetPurchases(_supplier.Id, false);
+            DuePurchases = _purchaseHandler.GetPurchases(_supplier.Id, false);
             PurchasesDataGrid.Items.Refresh();
         }
     }
