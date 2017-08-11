@@ -149,6 +149,12 @@ namespace Core.Domain.Handlers
                     }
                     scope.Complete();
                 }
+
+                alloywheel.Model = model ?? alloywheel.Model;
+                alloywheel.StockQty = stockqty ?? alloywheel.StockQty;
+                alloywheel.UnitPrice = unitPrice ?? alloywheel.UnitPrice;
+                alloywheel.Brand = brand ?? alloywheel.Brand;
+                alloywheel.Dimension = dimension ?? alloywheel.Dimension;
             }
 
             /// <summary>
@@ -234,6 +240,13 @@ namespace Core.Domain.Handlers
                             new BatteryDal(connection).Update(battery.Id.Value, brand, capacity, voltage);
                     }
                     scope.Complete();
+
+                    battery.Model = model ?? battery.Model;
+                    battery.StockQty = stockqty ?? battery.StockQty;
+                    battery.UnitPrice = unitPrice ?? battery.UnitPrice;
+                    battery.Brand = brand ?? battery.Brand;
+                    battery.Capacity = capacity ?? battery.Capacity;
+                    battery.Voltage = voltage ?? battery.Voltage;
                 }
             }
 
@@ -296,6 +309,13 @@ namespace Core.Domain.Handlers
                     }
                     scope.Complete();
                 }
+
+                tyre.Model = model ?? tyre.Model;
+                tyre.StockQty = stockqty ?? tyre.StockQty;
+                tyre.UnitPrice = unitPrice ?? tyre.UnitPrice;
+                tyre.Brand = brand ?? tyre.Brand;
+                tyre.Dimension = dimension ?? tyre.Dimension;
+                tyre.Country = country ?? tyre.Country;
             }
 
             /// <summary>

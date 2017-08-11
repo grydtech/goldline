@@ -9,8 +9,10 @@
     Height="Auto"
     Background="{DynamicResource Goldline.Background.Window}"
     FontSize="16"
+    ResizeMode="NoResize"
     SizeToContent="Height"
     Template="{StaticResource WindowTemplate}"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Border
         Background="{DynamicResource Goldline.Background.SideBar}"

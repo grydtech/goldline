@@ -14,19 +14,9 @@
 
         public string Dimension { get; set; }
 
-        public override string Name
-        {
-            get { return ToString(); }
-            set { }
-        }
-
-        public override string ToString()
-        {
-            return
-                (string.IsNullOrEmpty(Brand) ? "" : Brand.Trim() + " ") +
-                (string.IsNullOrEmpty(Model) ? "" : Model.Trim() + " ") +
-                (string.IsNullOrEmpty(Dimension) ? "" : Dimension.Trim());
-        }
+        public override string Name => (string.IsNullOrEmpty(Brand) ? "" : Brand.Trim() + " ") +
+                                       (string.IsNullOrEmpty(Model) ? "" : Model.Trim() + " ") +
+                                       (string.IsNullOrEmpty(Dimension) ? "" : Dimension.Trim());
 
         public override bool Validate()
         {

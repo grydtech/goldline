@@ -9,9 +9,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     Title="Product Management"
-    Width="1024"
+    Width="960"
     Height="576"
-    MinWidth="1024"
+    MinWidth="960"
     MinHeight="576"
     Background="{DynamicResource Goldline.Background.Window}"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
@@ -24,7 +24,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="250" />
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
@@ -131,7 +131,7 @@
                 <Label
                     x:Name="Label"
                     Grid.Row="0"
-                    Content="Edit Item Information"
+                    Content="Edit Item"
                     FontSize="20"
                     FontWeight="Bold"
                     Style="{DynamicResource Goldline.LabelStyle.Dark}" />
@@ -141,11 +141,11 @@
                     FontWeight="Light"
                     IsEnabled="False"
                     Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                    Text="{Binding SelectedItem.(inventory:Item.Name), ElementName=InventoryDataGrid, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    Text="{Binding SelectedItem.(inventory:Item.Name), ElementName=InventoryDataGrid, Mode=OneWay}" />
                 <Grid Grid.Row="2" Margin="5">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -166,7 +166,7 @@
                         Grid.Column="1"
                         Margin="5"
                         ItemsSource="{Binding BrandSource}"
-                        SelectedItem="{Binding SelectedItem.(inventory:Item.Brand), ElementName=InventoryDataGrid, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                        SelectedItem="{Binding SelectedItem.(inventory:Item.Brand), ElementName=InventoryDataGrid, Mode=OneWay}"
                         SelectionChanged="ComboBox_OnSelectionChanged" />
                     <Label
                         x:Name="ModelLabel"
@@ -180,7 +180,7 @@
                         Grid.Column="1"
                         SelectionChanged="TextBox_OnSelectionChanged"
                         Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding SelectedItem.(inventory:Item.Model), ElementName=InventoryDataGrid, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                        Text="{Binding SelectedItem.(inventory:Item.Model), ElementName=InventoryDataGrid, Mode=OneWay}" />
                     <Label
                         x:Name="Property1Label"
                         Grid.Row="2"
@@ -193,7 +193,7 @@
                         Grid.Column="1"
                         Margin="5"
                         IsEnabled="True"
-                        ItemsSource="{Binding Property1Source}"
+                        ItemsSource="{Binding Property1Source, Mode=OneWay}"
                         SelectionChanged="ComboBox_OnSelectionChanged">
                         <ComboBox.SelectedItem>
                             <PriorityBinding>
@@ -223,7 +223,7 @@
                         Grid.Row="3"
                         Grid.Column="1"
                         Margin="5"
-                        ItemsSource="{Binding Property2Source}"
+                        ItemsSource="{Binding Property2Source, Mode=OneWay}"
                         SelectionChanged="ComboBox_OnSelectionChanged">
                         <ComboBox.SelectedItem>
                             <PriorityBinding>
@@ -249,7 +249,7 @@
                         Grid.Row="4"
                         Grid.Column="1"
                         Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding SelectedItem.(inventory:Item.UnitPrice), ElementName=InventoryDataGrid, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                        Text="{Binding SelectedItem.(inventory:Item.UnitPrice), ElementName=InventoryDataGrid, Mode=OneWay}">
                         <i:Interaction.Behaviors>
                             <goldline:TextBoxInputBehavior InputMode="{StaticResource DecimalInputMode}" />
                         </i:Interaction.Behaviors>
@@ -265,7 +265,7 @@
                         Grid.Row="5"
                         Grid.Column="1"
                         Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding SelectedItem.(inventory:Item.StockQty), ElementName=InventoryDataGrid, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                        Text="{Binding SelectedItem.(inventory:Item.StockQty), ElementName=InventoryDataGrid, Mode=OneWay}">
                         <i:Interaction.Behaviors>
                             <goldline:TextBoxInputBehavior InputMode="{StaticResource DigitInputMode}" />
                         </i:Interaction.Behaviors>
@@ -281,19 +281,19 @@
                     </Grid.RowDefinitions>
 
                     <Button
-                        x:Name="SaveButton"
-                        Grid.Column="0"
-                        Margin="5"
-                        Click="SaveButton_Click"
-                        Content="Save"
-                        Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-
-                    <Button
                         x:Name="DiscardButton"
-                        Grid.Column="1"
+                        Grid.Column="0"
                         Margin="5"
                         Click="DiscardButton_Click"
                         Content="Discard"
+                        Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
+                    <Button
+                        x:Name="SaveButton"
+                        Grid.Column="1"
+                        Margin="5"
+                        Click="SaveButton_Click"
+                        Content="Save"
+                        FontWeight="Bold"
                         Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
 
                 </Grid>

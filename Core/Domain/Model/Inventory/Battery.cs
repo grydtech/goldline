@@ -16,20 +16,10 @@
         public string Capacity { get; set; }
         public string Voltage { get; set; }
 
-        public override string Name
-        {
-            get { return ToString(); }
-            set { }
-        }
-
-        public override string ToString()
-        {
-            return
-                (string.IsNullOrEmpty(Brand) ? "" : Brand.Trim() + " ") +
-                (string.IsNullOrEmpty(Model) ? "" : Model.Trim() + " ") +
-                (string.IsNullOrEmpty(Capacity) ? "" : Capacity.Trim() + "Ah ") +
-                (string.IsNullOrEmpty(Voltage) ? "" : Voltage.Trim() + "V").Trim();
-        }
+        public override string Name => (string.IsNullOrEmpty(Brand) ? "" : Brand.Trim() + " ") +
+                                       (string.IsNullOrEmpty(Model) ? "" : Model.Trim() + " ") +
+                                       (string.IsNullOrEmpty(Capacity) ? "" : Capacity.Trim() + "Ah ") +
+                                       (string.IsNullOrEmpty(Voltage) ? "" : Voltage.Trim() + "V").Trim();
 
         public override bool Validate()
         {

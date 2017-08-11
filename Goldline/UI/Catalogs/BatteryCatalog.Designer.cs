@@ -39,10 +39,11 @@ namespace Goldline.UI.Catalogs
             // 
             // BatteryBindingSource
             // 
-            this.BatteryBindingSource.DataSource = typeof(Battery);
+            this.BatteryBindingSource.DataSource = typeof(Core.Domain.Model.Inventory.Battery);
             // 
             // reportViewer
             // 
+            this.reportViewer.AutoSize = true;
             reportDataSource1.Name = "BatteryDataset";
             reportDataSource1.Value = this.BatteryBindingSource;
             this.reportViewer.LocalReport.DataSources.Add(reportDataSource1);
@@ -63,6 +64,7 @@ namespace Goldline.UI.Catalogs
             this.Load += new System.EventHandler(this.BatteryCatalog_Load);
             ((System.ComponentModel.ISupportInitialize)(this.BatteryBindingSource)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

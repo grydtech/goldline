@@ -6,61 +6,22 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.01388in</Width>
+              <Width>1.6389in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.38543in</Width>
+              <Width>1.91319in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.65972in</Width>
+              <Width>1.63889in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.38542in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>1.01389in</Width>
+              <Width>1.26736in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
             <TablixRow>
               <Height>0.47917in</Height>
               <TablixCells>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox2">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>Itemcode</Value>
-                              <Style>
-                                <FontFamily>Tahoma</FontFamily>
-                                <FontSize>14pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox2</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>#949ca4</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>#7c8692</BackgroundColor>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
                 <TablixCell>
                   <CellContents>
                     <Textbox Name="Textbox6">
@@ -212,39 +173,6 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="ItemCode1">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!ItemCode.Value</Value>
-                              <Style>
-                                <FontFamily>Tahoma</FontFamily>
-                                <Color>#4d4d4d</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>ItemCode1</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>#e5e5e5</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
                     <Textbox Name="Dimension">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
@@ -385,7 +313,6 @@
             <TablixMember />
             <TablixMember />
             <TablixMember />
-            <TablixMember />
           </TablixMembers>
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
@@ -398,9 +325,21 @@
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
+        <RepeatRowHeaders>true</RepeatRowHeaders>
         <DataSetName>AlloywheelDataset</DataSetName>
+        <SortExpressions>
+          <SortExpression>
+            <Value>=Fields!Dimension.Value</Value>
+          </SortExpression>
+          <SortExpression>
+            <Value>=Fields!Brand.Value</Value>
+          </SortExpression>
+          <SortExpression>
+            <Value>=Fields!Model.Value</Value>
+          </SortExpression>
+        </SortExpressions>
         <Height>0.95834in</Height>
-        <Width>6.45834in</Width>
+        <Width>6.45833in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -577,18 +516,18 @@
   </Page>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="CoreModelProducts">
+    <DataSource Name="CoreDomainModelInventory">
       <ConnectionProperties>
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>2baaf273-3e6c-44d4-bc2f-bc9f68737963</rd:DataSourceID>
+      <rd:DataSourceID>360a1c9b-df18-46e4-bf32-49328d3e38f8</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
     <DataSet Name="AlloywheelDataset">
       <Query>
-        <DataSourceName>CoreModelProducts</DataSourceName>
+        <DataSourceName>CoreDomainModelInventory</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
@@ -604,10 +543,6 @@
           <DataField>Id</DataField>
           <rd:TypeName>System.Nullable`1[[System.UInt32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
-        <Field Name="ItemCode">
-          <DataField>ItemCode</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="Model">
           <DataField>Model</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -618,7 +553,7 @@
         </Field>
         <Field Name="ProductType">
           <DataField>ProductType</DataField>
-          <rd:TypeName>Core.Model.Enums.ProductType</rd:TypeName>
+          <rd:TypeName>Core.Domain.Enums.ProductType</rd:TypeName>
         </Field>
         <Field Name="StockQty">
           <DataField>StockQty</DataField>
@@ -630,9 +565,9 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>Core.Model.Products</rd:DataSetName>
+        <rd:DataSetName>Core.Domain.Model.Inventory</rd:DataSetName>
         <rd:TableName>Alloywheel</rd:TableName>
-        <rd:ObjectDataSourceType>Core.Model.Products.Alloywheel, Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>Core.Domain.Model.Inventory.Alloywheel, Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>

@@ -16,9 +16,12 @@ namespace Core.Domain.Model.Inventory
 
         public uint? Id { get; set; }
 
-        // Properties and Methods below are overridden by inherited classes
-        public abstract string Name { get; set; }
+        // Name Property is overridden by Item Classes
+        public virtual string Name { get; set; }
 
-        public abstract override string ToString();
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

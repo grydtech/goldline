@@ -300,6 +300,9 @@
       <DependentUpon>EmployeePaymentReport.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\Core.Domain.Model.Inventory.Alloywheel.datasource" />
+    <None Include="Properties\DataSources\Core.Domain.Model.Inventory.Battery.datasource" />
+    <None Include="Properties\DataSources\Core.Domain.Model.Inventory.Tyre.datasource" />
     <None Include="Properties\DataSources\Core.Model.Orders.CustomerOrder.datasource" />
     <None Include="Properties\DataSources\Core.Model.Orders.CustomerOrderEntry.datasource" />
     <None Include="Properties\DataSources\Core.Model.Orders.SupplierOrder.datasource" />
@@ -511,6 +514,9 @@
       <Project>{f5e311dc-f9a8-41e5-9782-5fd3148dee56}</Project>
       <Name>Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -14,7 +14,7 @@ namespace Goldline.UI.Products
     /// <summary>
     ///     Interaction logic for ProductWindow.xaml
     /// </summary>
-    public partial class ProductWindow : Window
+    public partial class ProductWindow
     {
         private readonly ProductHandler.AlloywheelHandler _alloywheelHandler;
         private readonly ProductHandler.BatteryHandler _batteryHandler;
@@ -37,25 +37,6 @@ namespace Goldline.UI.Products
 
         public IEnumerable<Item> ItemSource { get; set; }
         public IEnumerable<string> ItemTypeSource { get; set; }
-
-        #region MyRegion
-
-        private bool UpdateAllItems()
-        {
-            if (!IsDataInCorrectForm()) return false;
-            foreach (var item in ItemSource)
-            {
-                if (item is Alloywheel)
-                    _alloywheelHandler.Update((Alloywheel) item);
-                if (item is Battery)
-                    _batteryHandler.Update((Battery) item);
-                if (item is Tyre)
-                    _tyreHandler.Update((Tyre) item);
-            }
-            return true;
-        }
-
-        #endregion
 
         /// <summary>
         ///     Updates the source variables from database
@@ -278,7 +259,13 @@ namespace Goldline.UI.Products
 
         private void DiscardButton_Click(object sender, RoutedEventArgs e)
         {
-            RefreshDataGrid();
+            NameTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
+            BrandComboBox.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
+            ModelTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
+            Property1ComboBox.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
+            Property2ComboBox.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
+            PriceTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
+            StockTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -334,6 +321,8 @@ namespace Goldline.UI.Products
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
+                    InventoryDataGrid.Items.Refresh();
+                    NameTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
                     MessageBox.Show("Successfully Updated", "Information", MessageBoxButton.OK);
                 }
                 catch (Exception exception)
@@ -343,9 +332,6 @@ namespace Goldline.UI.Products
             else
                 MessageBox.Show("Some parameters are invalid", "Information", MessageBoxButton.OK,
                     MessageBoxImage.Exclamation);
-            SearchTextBox.Clear();
-            LoadAllSources();
-            RefreshDataGrid();
         }
 
         private void ButtonAddItem_Click(object sender, RoutedEventArgs e)

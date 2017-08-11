@@ -18,7 +18,7 @@
         public string Model { get; set; }
         public uint StockQty { get; set; }
         public decimal UnitPrice { get; set; }
-
+        public abstract override string Name { get; }
         public abstract bool Validate();
     }
 }

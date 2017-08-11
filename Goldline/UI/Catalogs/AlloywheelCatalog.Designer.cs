@@ -39,10 +39,11 @@ namespace Goldline.UI.Catalogs
             // 
             // AlloywheelBindingSource
             // 
-            this.AlloywheelBindingSource.DataSource = typeof(Alloywheel);
+            this.AlloywheelBindingSource.DataSource = typeof(Core.Domain.Model.Inventory.Alloywheel);
             // 
             // reportViewer
             // 
+            this.reportViewer.AutoSize = true;
             reportDataSource1.Name = "AlloywheelDataset";
             reportDataSource1.Value = this.AlloywheelBindingSource;
             this.reportViewer.LocalReport.DataSources.Add(reportDataSource1);
@@ -63,6 +64,7 @@ namespace Goldline.UI.Catalogs
             this.Load += new System.EventHandler(this.AlloywheelCatalog_Load);
             ((System.ComponentModel.ISupportInitialize)(this.AlloywheelBindingSource)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

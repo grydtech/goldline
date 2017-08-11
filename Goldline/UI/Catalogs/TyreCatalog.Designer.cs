@@ -39,10 +39,11 @@ namespace Goldline.UI.Catalogs
             // 
             // TyreBindingSource
             // 
-            this.TyreBindingSource.DataSource = typeof(Tyre);
+            this.TyreBindingSource.DataSource = typeof(Core.Domain.Model.Inventory.Tyre);
             // 
             // reportViewer
             // 
+            this.reportViewer.AutoSize = true;
             reportDataSource1.Name = "TyreDataset";
             reportDataSource1.Value = this.TyreBindingSource;
             this.reportViewer.LocalReport.DataSources.Add(reportDataSource1);
@@ -63,6 +64,7 @@ namespace Goldline.UI.Catalogs
             this.Load += new System.EventHandler(this.TyreCatalog_Load);
             ((System.ComponentModel.ISupportInitialize)(this.TyreBindingSource)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
