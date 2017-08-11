@@ -58,83 +58,68 @@
                 SelectedIndex="0"
                 SelectionChanged="FilterComboBox_SelectionChanged" />
         </Grid>
-        <Border
+        <DataGrid
+            x:Name="InventoryDataGrid"
             Grid.Row="1"
-            Grid.Column="0"
-            Margin="5"
-            Background="{DynamicResource Goldline.Background.HeaderBar}"
-            BorderBrush="{DynamicResource Goldline.Border}"
-            BorderThickness="1"
-            CornerRadius="10">
-            <DataGrid
-                x:Name="InventoryDataGrid"
-                Margin="5"
-                AlternatingRowBackground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
-                AutoGenerateColumns="False"
-                Background="{x:Null}"
-                BorderBrush="{x:Null}"
-                HorizontalScrollBarVisibility="Disabled"
-                IsReadOnly="True"
-                Opacity="0.8"
-                ScrollViewer.CanContentScroll="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn
-                        Width="0.1*"
-                        Binding="{Binding (inventory:ItemReturn.Date)}"
-                        Header="Date" />
-                    <DataGridTextColumn
-                        Width="0.2*"
-                        Binding="{Binding (inventory:ItemReturn.CustomerId)}"
-                        Header="Customer" />
-                    <DataGridTextColumn
-                        Width="0.3*"
-                        Binding="{Binding (inventory:ItemReturn.ItemId)}"
-                        Header="Item" />
-                    <DataGridTextColumn
-                        Width="0.1*"
-                        Binding="{Binding (inventory:ItemReturn.ReturnQty)}"
-                        Header="Qty" />
-                    <DataGridTextColumn
-                        Width="0.2*"
-                        Binding="{Binding (inventory:ItemReturn.Note)}"
-                        Header="Note" />
-                    <DataGridTemplateColumn Width="0.1*" Header="Status">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate DataType="inventory:ItemReturn">
-                                <ToggleButton
-                                    x:Name="ToggleItemReturnHandled"
-                                    Click="ToggleItemReturnHandled_OnClick"
-                                    IsChecked="{Binding IsHandled, Mode=OneWay}"
-                                    Tag="{Binding}">
-                                    <ToggleButton.Style>
-                                        <Style TargetType="{x:Type ToggleButton}">
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="ToggleButton">
-                                                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
-                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                                        </Border>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                            <Style.Triggers>
-                                                <Trigger Property="IsChecked" Value="True">
-                                                    <Setter Property="Background" Value="Green" />
-                                                    <Setter Property="Content" Value="Handled" />
-                                                </Trigger>
-                                                <Trigger Property="IsChecked" Value="False">
-                                                    <Setter Property="Background" Value="Red" />
-                                                    <Setter Property="Content" Value="Pending" />
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </ToggleButton.Style>
-                                </ToggleButton>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </Border>
+            Style="{DynamicResource DataGridStyle}">
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="0.1*"
+                    Binding="{Binding (inventory:ItemReturn.Date)}"
+                    Header="Date" />
+                <DataGridTextColumn
+                    Width="0.2*"
+                    Binding="{Binding (inventory:ItemReturn.CustomerId)}"
+                    Header="Customer" />
+                <DataGridTextColumn
+                    Width="0.3*"
+                    Binding="{Binding (inventory:ItemReturn.ItemId)}"
+                    Header="Item" />
+                <DataGridTextColumn
+                    Width="0.1*"
+                    Binding="{Binding (inventory:ItemReturn.ReturnQty)}"
+                    Header="Qty" />
+                <DataGridTextColumn
+                    Width="0.2*"
+                    Binding="{Binding (inventory:ItemReturn.Note)}"
+                    Header="Note" />
+                <DataGridTemplateColumn Width="0.1*" Header="Status">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="inventory:ItemReturn">
+                            <ToggleButton
+                                x:Name="ToggleItemReturnHandled"
+                                Click="ToggleItemReturnHandled_OnClick"
+                                IsChecked="{Binding IsHandled, Mode=OneWay}"
+                                Tag="{Binding}">
+                                <ToggleButton.Style>
+                                    <Style TargetType="{x:Type ToggleButton}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ToggleButton">
+                                                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
+                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsChecked" Value="True">
+                                                <Setter Property="Background" Value="Green" />
+                                                <Setter Property="Content" Value="Handled" />
+                                            </Trigger>
+                                            <Trigger Property="IsChecked" Value="False">
+                                                <Setter Property="Background" Value="Red" />
+                                                <Setter Property="Content" Value="Pending" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ToggleButton.Style>
+                            </ToggleButton>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
     </Grid>
 </Window>

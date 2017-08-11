@@ -20,24 +20,20 @@
     WindowState="Maximized"
     mc:Ignorable="d">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="60" />
+            <RowDefinition Height="45" />
             <RowDefinition />
             <RowDefinition Height="45" />
         </Grid.RowDefinitions>
-        <Grid Grid.Column="0">
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition Width="60" />
+                <ColumnDefinition Width="45" />
             </Grid.ColumnDefinitions>
             <xctk:WatermarkTextBox
                 x:Name="SearchTextBox"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
-                FontSize="20"
                 Style="{DynamicResource Goldline.WatermarkTextBoxStyle.DarkRounded}"
                 TextChanged="SearchTextBox_TextChanged"
                 Watermark="{DynamicResource SearchText}" />
@@ -49,85 +45,63 @@
                 Content="+"
                 Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
         </Grid>
-        <Border
+        <DataGrid
+            x:Name="PurchasesDataGrid"
             Grid.Row="1"
-            Grid.Column="0"
+            ItemsSource="{Binding PurchaseSource}"
+            RowDetailsVisibilityChanged="PurchasesDataGrid_OnRowDetailsVisibilityChanged"
+            Style="{DynamicResource DataGridStyle}">
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="LightCyan" />
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="150"
+                    Binding="{Binding (suppliers:Purchase.Date)}"
+                    Header="Date" />
+                <DataGridTextColumn
+                    Width="200"
+                    Binding="{Binding (suppliers:Purchase.SupplierId)}"
+                    Header="Supplier" />
+                <DataGridTextColumn
+                    Width="150"
+                    Binding="{Binding (suppliers:Purchase.Amount)}"
+                    Header="Amount" />
+                <DataGridCheckBoxColumn
+                    Width="80"
+                    Binding="{Binding (suppliers:Purchase.IsSettled)}"
+                    Header="Settled?" />
+                <DataGridTextColumn
+                    Width="0.25*"
+                    Binding="{Binding (suppliers:Purchase.Note)}"
+                    Header="Note" />
+            </DataGrid.Columns>
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate DataType="suppliers:Purchase">
+                    <DataGrid
+                        x:Name="DataGridPurchaseItems"
+                        AutoGenerateColumns="False"
+                        CanUserResizeRows="False"
+                        HorizontalScrollBarVisibility="Disabled"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding PurchaseItems, NotifyOnSourceUpdated=True}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Width="1*" Binding="{Binding ItemName}" />
+                            <DataGridTextColumn Width="100" Binding="{Binding Qty}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
+        </DataGrid>
+        <Button
+            x:Name="ReverseButton"
+            Grid.Row="2"
+            Width="200"
             Margin="5"
-            Background="{DynamicResource Goldline.Background.HeaderBar}"
-            BorderBrush="{DynamicResource Goldline.Border}"
-            BorderThickness="1"
-            CornerRadius="10">
-            <DataGrid
-                x:Name="PurchasesDataGrid"
-                Margin="5"
-                AlternatingRowBackground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
-                AutoGenerateColumns="False"
-                Background="{x:Null}"
-                BorderBrush="{x:Null}"
-                CanUserResizeRows="False"
-                HorizontalScrollBarVisibility="Disabled"
-                IsReadOnly="True"
-                IsTextSearchEnabled="True"
-                ItemsSource="{Binding PurchaseSource}"
-                RowDetailsVisibilityChanged="PurchasesDataGrid_OnRowDetailsVisibilityChanged"
-                RowDetailsVisibilityMode="VisibleWhenSelected"
-                ScrollViewer.CanContentScroll="True"
-                SelectionMode="Single">
-                <DataGrid.Resources>
-                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="LightCyan" />
-                </DataGrid.Resources>
-                <DataGrid.Columns>
-                    <DataGridTextColumn
-                        Width="150"
-                        Binding="{Binding (suppliers:Purchase.Date)}"
-                        Header="Date" />
-                    <DataGridTextColumn
-                        Width="200"
-                        Binding="{Binding (suppliers:Purchase.SupplierId)}"
-                        Header="Supplier" />
-                    <DataGridTextColumn
-                        Width="150"
-                        Binding="{Binding (suppliers:Purchase.Amount)}"
-                        Header="Amount" />
-                    <DataGridCheckBoxColumn
-                        Width="80"
-                        Binding="{Binding (suppliers:Purchase.IsSettled)}"
-                        Header="Settled?" />
-                    <DataGridTextColumn
-                        Width="0.25*"
-                        Binding="{Binding (suppliers:Purchase.Note)}"
-                        Header="Note" />
-                </DataGrid.Columns>
-                <DataGrid.RowDetailsTemplate>
-                    <DataTemplate DataType="suppliers:Purchase">
-                        <DataGrid
-                            x:Name="DataGridPurchaseItems"
-                            AutoGenerateColumns="False"
-                            CanUserResizeRows="False"
-                            HorizontalScrollBarVisibility="Disabled"
-                            IsReadOnly="True"
-                            ItemsSource="{Binding PurchaseItems, NotifyOnSourceUpdated=True}">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Width="1*" Binding="{Binding ItemName}" />
-                                <DataGridTextColumn Width="100" Binding="{Binding Qty}" />
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </DataTemplate>
-                </DataGrid.RowDetailsTemplate>
-            </DataGrid>
-        </Border>
-        <Grid Grid.Row="2" Grid.Column="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="200" />
-            </Grid.ColumnDefinitions>
-            <Button
-                x:Name="ReverseButton"
-                Grid.Column="1"
-                Margin="5"
-                Click="ReverseButton_Click"
-                Content="Reverse Order"
-                Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-        </Grid>
+            HorizontalAlignment="Right"
+            Click="ReverseButton_Click"
+            Content="Reverse Order"
+            Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
+
     </Grid>
 </Window>

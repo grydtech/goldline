@@ -37,7 +37,7 @@
                 <ColumnDefinition Width="80" />
                 <ColumnDefinition Width="125" />
                 <ColumnDefinition Width="80" />
-                <ColumnDefinition Width="80" />
+                <ColumnDefinition Width="70" />
             </Grid.ColumnDefinitions>
             <TextBlock
                 Grid.Row="0"
@@ -50,7 +50,7 @@
                 x:Name="ProductTypeComboBox"
                 Grid.Row="1"
                 Grid.Column="0"
-                Margin="2"
+                Margin="5"
                 SelectedIndex="0"
                 SelectionChanged="ComboBox_SelectionChanged" />
             <TextBlock
@@ -130,7 +130,7 @@
                 x:Name="AddButton"
                 Grid.Row="1"
                 Grid.Column="5"
-                Margin="2"
+                Margin="5"
                 Click="AddButton_Click"
                 Content="Add"
                 Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
@@ -140,60 +140,41 @@
                 <RowDefinition />
                 <RowDefinition Height="40" />
             </Grid.RowDefinitions>
-            <Border
-                Margin="2"
-                Background="{DynamicResource Goldline.Background.HeaderBar}"
-                BorderBrush="{DynamicResource Goldline.Border}"
-                BorderThickness="1"
-                CornerRadius="10">
-                <DataGrid
-                    x:Name="OrderItemsDataGrid"
-                    Margin="5"
-                    AlternatingRowBackground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
-                    AutoGenerateColumns="False"
-                    Background="{x:Null}"
-                    BorderBrush="{x:Null}"
-                    CanUserReorderColumns="False"
-                    CanUserResizeRows="False"
-                    CanUserSortColumns="False"
-                    Focusable="False"
-                    HorizontalScrollBarVisibility="Disabled"
-                    IsReadOnly="True"
-                    ItemsSource="{Binding Order.OrderItems, Mode=TwoWay}"
-                    Opacity="0.8"
-                    ScrollViewer.CanContentScroll="True"
-                    SelectionMode="Single">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn
-                            Width="5*"
-                            Binding="{Binding ProductName}"
-                            Header="Name" />
-                        <DataGridTextColumn
-                            Width="2*"
-                            Binding="{Binding UnitPrice}"
-                            Header="Unit Price" />
-                        <DataGridTextColumn
-                            Width="1*"
-                            Binding="{Binding Qty}"
-                            Header="Qty" />
-                        <DataGridTextColumn
-                            Width="2*"
-                            Binding="{Binding NetPrice}"
-                            Header="Net Price" />
-                        <DataGridTemplateColumn Width="50">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button
-                                        x:Name="RemoveButtton"
-                                        Click="RemoveButton_Click"
-                                        Content="-"
-                                        Tag="{Binding}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Border>
+            <DataGrid
+                x:Name="OrderItemsDataGrid"
+                ItemsSource="{Binding Order.OrderItems, Mode=TwoWay}"
+                Style="{DynamicResource DataGridStyle}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="5*"
+                        Binding="{Binding ProductName}"
+                        Header="Name" />
+                    <DataGridTextColumn
+                        Width="2*"
+                        Binding="{Binding UnitPrice}"
+                        Header="Unit Price" />
+                    <DataGridTextColumn
+                        Width="1*"
+                        Binding="{Binding Qty}"
+                        Header="Qty" />
+                    <DataGridTextColumn
+                        Width="2*"
+                        Binding="{Binding NetPrice}"
+                        Header="Net Price" />
+                    <DataGridTemplateColumn Width="50">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button
+                                    x:Name="RemoveButtton"
+                                    Click="RemoveButton_Click"
+                                    Content="-"
+                                    Tag="{Binding}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />

@@ -5,7 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:orders="clr-namespace:Core.Domain.Model.Customers;assembly=Core"
-    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     Title="Order Details"
     Width="1024"
     Height="576"
@@ -23,99 +22,82 @@
             <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
-        <Border
-            Grid.RowSpan="2"
-            Grid.Column="0"
-            Margin="2"
-            BorderBrush="{DynamicResource Goldline.Border}"
-            BorderThickness="1"
-            CornerRadius="10">
-            <Grid Margin="5">
+        <Grid Grid.Column="0" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <DataGrid
+                x:Name="OrderItemsDataGrid"
+                ItemsSource="{Binding Order.OrderItems}"
+                Style="{DynamicResource DataGridStyle}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="3*"
+                        Binding="{Binding (orders:OrderItem.ProductName)}"
+                        Header="Name" />
+                    <DataGridTextColumn
+                        Width="1*"
+                        Binding="{Binding (orders:OrderItem.Qty)}"
+                        Header="Qty" />
+                    <DataGridTextColumn
+                        Width="1*"
+                        Binding="{Binding (orders:OrderItem.NetPrice)}"
+                        Header="Net Price" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="225" />
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
-                <DataGrid
-                    x:Name="OrderItemsDataGrid"
-                    AlternatingRowBackground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
-                    AutoGenerateColumns="False"
-                    Background="{x:Null}"
-                    BorderBrush="{x:Null}"
-                    CanUserReorderColumns="False"
-                    CanUserResizeColumns="False"
-                    CanUserResizeRows="False"
-                    HorizontalScrollBarVisibility="Disabled"
-                    IsReadOnly="True"
-                    ItemsSource="{Binding Order.OrderItems}"
-                    Opacity="0.8"
-                    SelectionMode="Single">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn
-                            Width="3*"
-                            Binding="{Binding (orders:OrderItem.ProductName)}"
-                            Header="Name" />
-                        <DataGridTextColumn
-                            Width="1*"
-                            Binding="{Binding (orders:OrderItem.Qty)}"
-                            Header="Qty" />
-                        <DataGridTextColumn
-                            Width="1*"
-                            Binding="{Binding (orders:OrderItem.NetPrice)}"
-                            Header="Net Price" />
-                    </DataGrid.Columns>
-                </DataGrid>
-                <Grid Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="225" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <TextBlock
-                        Grid.Row="0"
-                        Margin="5"
-                        Padding="5"
-                        HorizontalAlignment="Stretch"
-                        FontSize="20"
-                        FontWeight="Bold"
-                        Style="{DynamicResource Goldline.TextBlockStyle.Dark}"
-                        Text="Total:"
-                        TextAlignment="Right" />
-                    <Label
-                        x:Name="TotalLabel"
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        BorderBrush="{DynamicResource Goldline.Border}"
-                        BorderThickness="1"
-                        Content="{Binding Order.Amount}"
-                        FontSize="20"
-                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                    <TextBlock
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Margin="5"
-                        Padding="5"
-                        HorizontalAlignment="Stretch"
-                        FontSize="20"
-                        FontWeight="Bold"
-                        Style="{DynamicResource Goldline.TextBlockStyle.Dark}"
-                        Text="Due Amount:"
-                        TextAlignment="Right" />
-                    <Label
-                        x:Name="DueAmountLabel"
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        BorderBrush="{DynamicResource Goldline.Border}"
-                        BorderThickness="1"
-                        Content="{Binding Order.DueAmount}"
-                        FontSize="20"
-                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                </Grid>
+                <TextBlock
+                    Grid.Row="0"
+                    Margin="5"
+                    Padding="5"
+                    HorizontalAlignment="Stretch"
+                    FontSize="20"
+                    FontWeight="Bold"
+                    Style="{DynamicResource Goldline.TextBlockStyle.Dark}"
+                    Text="Total:"
+                    TextAlignment="Right" />
+                <Label
+                    x:Name="TotalLabel"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    BorderBrush="{DynamicResource Goldline.Border}"
+                    BorderThickness="1"
+                    Content="{Binding Order.Amount}"
+                    FontSize="20"
+                    Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="5"
+                    Padding="5"
+                    HorizontalAlignment="Stretch"
+                    FontSize="20"
+                    FontWeight="Bold"
+                    Style="{DynamicResource Goldline.TextBlockStyle.Dark}"
+                    Text="Due Amount:"
+                    TextAlignment="Right" />
+                <Label
+                    x:Name="DueAmountLabel"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    BorderBrush="{DynamicResource Goldline.Border}"
+                    BorderThickness="1"
+                    Content="{Binding Order.DueAmount}"
+                    FontSize="20"
+                    Style="{DynamicResource Goldline.LabelStyle.Dark}" />
             </Grid>
-        </Border>
+        </Grid>
+
         <Grid Grid.Column="1" Margin="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="45" />
@@ -130,40 +112,23 @@
                 FontSize="24"
                 Style="{StaticResource Goldline.TextBlockStyle.Dark}"
                 Text="Payment Details" />
-            <Border
+            <DataGrid
+                x:Name="OrderPaymentsDataGrid"
                 Grid.Row="1"
-                Margin="2"
-                Background="{DynamicResource Goldline.Background.HeaderBar}"
-                BorderBrush="{DynamicResource Goldline.Border}"
-                BorderThickness="1"
-                CornerRadius="10">
-                <DataGrid
-                    x:Name="OrderPaymentsDataGrid"
-                    Margin="5"
-                    AlternatingRowBackground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
-                    AutoGenerateColumns="False"
-                    Background="{x:Null}"
-                    BorderBrush="{x:Null}"
-                    CanUserReorderColumns="False"
-                    CanUserResizeColumns="False"
-                    CanUserResizeRows="False"
-                    HorizontalScrollBarVisibility="Disabled"
-                    IsReadOnly="True"
-                    ItemsSource="{Binding Order.OrderPayments}"
-                    Opacity="0.8"
-                    SelectionMode="Single">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn
-                            Width="*"
-                            Binding="{Binding Date}"
-                            Header="Date" />
-                        <DataGridTextColumn
-                            Width="150"
-                            Binding="{Binding Amount}"
-                            Header="Amount" />
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Border>
+                ItemsSource="{Binding Order.OrderPayments}"
+                Style="{DynamicResource DataGridStyle}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding Date}"
+                        Header="Date" />
+                    <DataGridTextColumn
+                        Width="150"
+                        Binding="{Binding Amount}"
+                        Header="Amount" />
+                </DataGrid.Columns>
+            </DataGrid>
+
             <Grid Grid.Row="2" Margin="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />

@@ -17,18 +17,14 @@ namespace Goldline.UI.Customers.Dialogs
 
         private void OkButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var customerHandler = new CustomerHandler();
-            var customer = new Customer(
-                NameTextBox.Text,
-                ContactInfoTextBox.Text,
-                NicTextBox.Text);
-
+            var customer = new Customer(NameTextBox.Text, ContactInfoTextBox.Text, NicTextBox.Text);
             if (NameTextBox.Text == "" || ContactInfoTextBox.Text == "" || !customer.IsNicValid())
             {
                 MessageBox.Show("Please make sure your inputs are valid");
                 return;
             }
 
+            var customerHandler = new CustomerHandler();
             try
             {
                 customerHandler.AddCustomer(customer);
@@ -43,9 +39,9 @@ namespace Goldline.UI.Customers.Dialogs
 
         private void ResetButton_OnClick(object sender, RoutedEventArgs e)
         {
-            NameTextBox.Text = "";
-            ContactInfoTextBox.Text = "";
-            NicTextBox.Text = "";
+            NameTextBox.Clear();
+            ContactInfoTextBox.Clear();
+            NicTextBox.Clear();
         }
 
         private void CancelButton_OnClick(object sender, RoutedEventArgs e)

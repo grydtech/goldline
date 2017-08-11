@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using Core.Domain.Enums;
 using Core.Domain.Handlers;
@@ -37,7 +38,7 @@ namespace Goldline.UI.Products
 
         public IEnumerable<Item> ItemSource { get; set; }
         public IEnumerable<string> ItemTypeSource { get; set; }
-
+        public string SelectedItemName => (InventoryDataGrid?.SelectedItem as Item)?.Name ?? string.Empty;
         /// <summary>
         ///     Updates the source variables from database
         /// </summary>
@@ -66,16 +67,6 @@ namespace Goldline.UI.Products
         }
 
         #endregion
-
-        private void ComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            NameTextBox.Text = ((Item) InventoryDataGrid.SelectedItem)?.ToString();
-        }
-
-        private void TextBox_OnSelectionChanged(object sender, RoutedEventArgs e)
-        {
-            NameTextBox.Text = ((Item) InventoryDataGrid.SelectedItem)?.ToString();
-        }
 
         #region Encapsulated data sources
 
@@ -219,7 +210,7 @@ namespace Goldline.UI.Products
         /// <param name="e"></param>
         private void ItemTypeComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            RefreshComboBoxes();
+            RefreshComboBoxItemsSources();
             RefreshDataGrid();
         }
 
@@ -233,7 +224,7 @@ namespace Goldline.UI.Products
             InventoryDataGrid?.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
         }
 
-        private void RefreshComboBoxes()
+        private void RefreshComboBoxItemsSources()
         {
             Property1Label?.GetBindingExpression(ContentProperty)?.UpdateTarget();
             Property2Label?.GetBindingExpression(ContentProperty)?.UpdateTarget();
@@ -259,13 +250,13 @@ namespace Goldline.UI.Products
 
         private void DiscardButton_Click(object sender, RoutedEventArgs e)
         {
-            NameTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
-            BrandComboBox.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
+            BrandComboBox.GetBindingExpression(Selector.SelectedItemProperty)?.UpdateTarget();
             ModelTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
-            Property1ComboBox.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
-            Property2ComboBox.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
+            Property1ComboBox.GetBindingExpression(Selector.SelectedItemProperty)?.UpdateTarget();
+            Property2ComboBox.GetBindingExpression(Selector.SelectedItemProperty)?.UpdateTarget();
             PriceTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
             StockTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
+            UpdatePropertyComboBoxProperties();
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -322,8 +313,8 @@ namespace Goldline.UI.Products
                             throw new ArgumentOutOfRangeException();
                     }
                     InventoryDataGrid.Items.Refresh();
-                    NameTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
-                    MessageBox.Show("Successfully Updated", "Information", MessageBoxButton.OK);
+                    RefreshNameTextBox();
+                    UpdatePropertyComboBoxProperties();
                 }
                 catch (Exception exception)
                 {
@@ -339,7 +330,7 @@ namespace Goldline.UI.Products
             var addItemWindow = new AddItemDialog((ProductType) ItemTypeComboBox.SelectedIndex);
             addItemWindow.ShowDialog();
             LoadAllSources();
-            RefreshComboBoxes();
+            RefreshComboBoxItemsSources();
             RefreshDataGrid();
         }
 
@@ -348,6 +339,31 @@ namespace Goldline.UI.Products
         private void ButtonAddService_OnClick(object sender, RoutedEventArgs e)
         {
             new AddServiceDialog().ShowDialog();
+        }
+
+        private void InventoryDataGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RefreshNameTextBox();
+            UpdatePropertyComboBoxProperties();
+        }
+
+        private void UpdatePropertyComboBoxProperties()
+        {
+            var battery = InventoryDataGrid.SelectedItem as Battery;
+            Property1ComboBox.IsEditable = (battery != null);
+            Property2ComboBox.IsEditable = (battery != null);
+            if (battery == null) return;
+            _batteryCapacitySource = new[] { battery.Capacity };
+            _batteryVoltageSource = new[] { battery.Voltage };
+            Property1ComboBox.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
+            Property2ComboBox.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
+            Property1ComboBox.GetBindingExpression(Selector.SelectedItemProperty)?.UpdateTarget();
+            Property2ComboBox.GetBindingExpression(Selector.SelectedItemProperty)?.UpdateTarget();
+        }
+
+        private void RefreshNameTextBox()
+        {
+            NameTextBox.Text = ((Item)InventoryDataGrid.SelectedItem)?.ToString();
         }
     }
 }

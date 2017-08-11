@@ -158,63 +158,41 @@
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Border
-                Grid.Row="0"
-                Margin="2"
-                Background="{DynamicResource Goldline.Background.HeaderBar}"
-                BorderBrush="{DynamicResource Goldline.Border}"
-                BorderThickness="1"
-                CornerRadius="10">
-                <DataGrid
-                    x:Name="PurchaseEntriesDataGrid"
-                    Margin="5"
-                    AlternatingRowBackground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
-                    AutoGenerateColumns="False"
-                    Background="{x:Null}"
-                    BorderBrush="{x:Null}"
-                    BorderThickness="0"
-                    HorizontalScrollBarVisibility="Disabled"
-                    IsReadOnly="True"
-                    IsTextSearchEnabled="True"
-                    ItemsSource="{Binding Purchase.PurchaseItems}"
-                    Opacity="0.8"
-                    ScrollViewer.CanContentScroll="True">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn
-                            Width="0.7*"
-                            Binding="{Binding ItemName}"
-                            Header="Name" />
-                        <DataGridTextColumn
-                            Width="0.3*"
-                            Binding="{Binding Qty}"
-                            Header="Quantity" />
-                        <DataGridTemplateColumn Width="80">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate DataType="persons:PurchaseItem">
-                                    <Button
-                                        x:Name="RemoveEntryButton"
-                                        Click="RemoveEntryButton_Click"
-                                        Content="-"
-                                        Tag="{Binding}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Border>
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Button
-                    x:Name="CheckoutButton"
-                    Grid.Column="1"
-                    Margin="2"
-                    Click="CheckoutButton_Click"
-                    Content="Checkout"
-                    Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-            </Grid>
+            <DataGrid
+                x:Name="PurchaseEntriesDataGrid"
+                ItemsSource="{Binding Purchase.PurchaseItems}"
+                Style="{DynamicResource DataGridStyle}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="0.7*"
+                        Binding="{Binding ItemName}"
+                        Header="Name" />
+                    <DataGridTextColumn
+                        Width="0.3*"
+                        Binding="{Binding Qty}"
+                        Header="Quantity" />
+                    <DataGridTemplateColumn Width="80">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="persons:PurchaseItem">
+                                <Button
+                                    x:Name="RemoveEntryButton"
+                                    Click="RemoveEntryButton_Click"
+                                    Content="-"
+                                    Tag="{Binding}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button
+                x:Name="CheckoutButton"
+                Grid.Row="1"
+                Width="150"
+                HorizontalAlignment="Right"
+                Click="CheckoutButton_Click"
+                Content="Checkout"
+                Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
+
 
         </Grid>
     </Grid>

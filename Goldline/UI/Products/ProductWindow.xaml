@@ -33,10 +33,10 @@
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Margin="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <xctk:WatermarkTextBox
                     x:Name="SearchTextBox"
@@ -57,6 +57,7 @@
                     x:Name="ButtonAddItem"
                     Grid.Column="2"
                     Margin="2"
+                    Padding="10,5"
                     Click="ButtonAddItem_Click"
                     Content="Add Item"
                     Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
@@ -64,53 +65,39 @@
                     x:Name="ButtonAddService"
                     Grid.Column="3"
                     Margin="2"
+                    Padding="10,5"
                     Click="ButtonAddService_OnClick"
                     Content="Add Service"
                     Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
             </Grid>
-            <Border
+            <DataGrid
+                x:Name="InventoryDataGrid"
                 Grid.Row="1"
-                Margin="2"
-                Background="{DynamicResource Goldline.Background.HeaderBar}"
-                BorderBrush="{DynamicResource Goldline.Border}"
-                BorderThickness="1"
-                CornerRadius="10">
-                <DataGrid
-                    x:Name="InventoryDataGrid"
-                    Margin="5"
-                    AlternatingRowBackground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
-                    AutoGenerateColumns="False"
-                    Background="{x:Null}"
-                    BorderBrush="{x:Null}"
-                    CanUserResizeRows="False"
-                    HorizontalScrollBarVisibility="Disabled"
-                    IsReadOnly="True"
-                    IsTextSearchEnabled="True"
-                    ItemsSource="{Binding ItemSource}"
-                    Opacity="0.8"
-                    SelectionMode="Single">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn
-                            Width="5*"
-                            Binding="{Binding Name}"
-                            Header="Name" />
-                        <DataGridTextColumn
-                            Width="2*"
-                            Binding="{Binding UnitPrice}"
-                            Header="Unit Price" />
-                        <DataGridTextColumn
-                            Width="1*"
-                            Binding="{Binding StockQty}"
-                            Header="Stock">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="{x:Type TextBlock}">
-                                    <Setter Property="Background" Value="{Binding (inventory:Item.StockQty), Converter={StaticResource StockQtyToBrushConverter}}" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Border>
+                ItemsSource="{Binding ItemSource}"
+                SelectionChanged="InventoryDataGrid_OnSelectionChanged"
+                Style="{DynamicResource DataGridStyle}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="5*"
+                        Binding="{Binding Name}"
+                        Header="Name" />
+                    <DataGridTextColumn
+                        Width="2*"
+                        Binding="{Binding UnitPrice}"
+                        Header="Unit Price" />
+                    <DataGridTextColumn
+                        Width="1*"
+                        Binding="{Binding StockQty}"
+                        Header="Stock">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Background" Value="{Binding (inventory:Item.StockQty), Converter={StaticResource StockQtyToBrushConverter}}" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
         </Grid>
         <Border
             Grid.Row="0"
@@ -140,8 +127,7 @@
                     Grid.Row="1"
                     FontWeight="Light"
                     IsEnabled="False"
-                    Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                    Text="{Binding SelectedItem.(inventory:Item.Name), ElementName=InventoryDataGrid, Mode=OneWay}" />
+                    Style="{DynamicResource Goldline.TextBoxStyle.Dark}" />
                 <Grid Grid.Row="2" Margin="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -166,8 +152,7 @@
                         Grid.Column="1"
                         Margin="5"
                         ItemsSource="{Binding BrandSource}"
-                        SelectedItem="{Binding SelectedItem.(inventory:Item.Brand), ElementName=InventoryDataGrid, Mode=OneWay}"
-                        SelectionChanged="ComboBox_OnSelectionChanged" />
+                        SelectedItem="{Binding SelectedItem.(inventory:Item.Brand), ElementName=InventoryDataGrid, Mode=OneWay}" />
                     <Label
                         x:Name="ModelLabel"
                         Grid.Row="1"
@@ -178,7 +163,6 @@
                         x:Name="ModelTextBox"
                         Grid.Row="1"
                         Grid.Column="1"
-                        SelectionChanged="TextBox_OnSelectionChanged"
                         Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
                         Text="{Binding SelectedItem.(inventory:Item.Model), ElementName=InventoryDataGrid, Mode=OneWay}" />
                     <Label
@@ -193,8 +177,7 @@
                         Grid.Column="1"
                         Margin="5"
                         IsEnabled="True"
-                        ItemsSource="{Binding Property1Source, Mode=OneWay}"
-                        SelectionChanged="ComboBox_OnSelectionChanged">
+                        ItemsSource="{Binding Property1Source, Mode=OneWay}">
                         <ComboBox.SelectedItem>
                             <PriorityBinding>
                                 <Binding
@@ -223,8 +206,7 @@
                         Grid.Row="3"
                         Grid.Column="1"
                         Margin="5"
-                        ItemsSource="{Binding Property2Source, Mode=OneWay}"
-                        SelectionChanged="ComboBox_OnSelectionChanged">
+                        ItemsSource="{Binding Property2Source, Mode=OneWay}">
                         <ComboBox.SelectedItem>
                             <PriorityBinding>
                                 <Binding

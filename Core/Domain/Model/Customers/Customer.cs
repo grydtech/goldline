@@ -24,10 +24,8 @@
         public bool IsNicValid()
         {
             if (Nic.Length != 10) return false;
-            var maxIndex = Nic.Length - 1;
             int n;
-            return int.TryParse(Nic.Substring(1, maxIndex - 1), out n) &&
-                   (Nic.Substring(maxIndex).ToUpper() == "V" || Nic.Substring(maxIndex).ToUpper() == "X");
+            return int.TryParse(Nic.Substring(0, 9), out n) && (Nic.Substring(9).ToUpper() == "V" || Nic.Substring(9).ToUpper() == "X");
         }
     }
 }

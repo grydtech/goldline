@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="Supplier Payment"
+    Title="Supplier Dues"
     Width="1024"
     Height="576"
     MinWidth="1024"
@@ -22,62 +22,30 @@
             <ColumnDefinition />
             <ColumnDefinition Width="350" />
         </Grid.ColumnDefinitions>
-        <Border
-            Grid.RowSpan="2"
-            Grid.Column="0"
-            Margin="5"
-            Background="{DynamicResource Goldline.Background.HeaderBar}"
-            BorderBrush="{DynamicResource Goldline.Border}"
-            BorderThickness="1"
-            CornerRadius="0,10,10,0">
-            <Grid Margin="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="60" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Label
-                    x:Name="LabelCopy"
-                    Grid.Row="0"
-                    Margin="5"
-                    Content="Due Payments"
-                    FontSize="24"
-                    Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                <DataGrid
-                    x:Name="PurchasesDataGrid"
-                    Grid.Row="1"
-                    Margin="5"
-                    AlternatingRowBackground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
-                    AutoGenerateColumns="False"
-                    Background="{x:Null}"
-                    BorderBrush="{x:Null}"
-                    CanUserResizeColumns="False"
-                    CanUserResizeRows="False"
-                    HorizontalScrollBarVisibility="Disabled"
-                    IsReadOnly="True"
-                    IsTextSearchEnabled="True"
-                    ItemsSource="{Binding DueSupplyOrders}"
-                    Opacity="0.8"
-                    RowDetailsVisibilityMode="Visible"
-                    ScrollViewer.CanContentScroll="True"
-                    SelectionChanged="SupplierDataGrid_OnSelectionChanged"
-                    SelectionMode="Extended">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn
-                            Width="0.5*"
-                            Binding="{Binding Date}"
-                            Header="Date" />
-                        <DataGridTextColumn
-                            Width="0.3*"
-                            Binding="{Binding Amount}"
-                            Header="Amount" />
-                        <DataGridCheckBoxColumn
-                            Width="0.2*"
-                            Binding="{Binding Status}"
-                            Header="Status" />
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Grid>
-        </Border>
+        <DataGrid
+            x:Name="PurchasesDataGrid"
+            ItemsSource="{Binding DueSupplyOrders}"
+            RowDetailsVisibilityMode="Visible"
+            SelectionChanged="SupplierDataGrid_OnSelectionChanged"
+            SelectionMode="Extended"
+            Style="{DynamicResource DataGridStyle}">
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="0.5*"
+                    Binding="{Binding Date}"
+                    Header="Date" />
+                <DataGridTextColumn
+                    Width="0.3*"
+                    Binding="{Binding Amount}"
+                    Header="Amount" />
+                <DataGridCheckBoxColumn
+                    Width="0.2*"
+                    Binding="{Binding Status}"
+                    Header="Status" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+
         <Border
             Grid.Column="1"
             Margin="5"

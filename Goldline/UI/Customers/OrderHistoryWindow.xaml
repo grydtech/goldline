@@ -45,47 +45,35 @@
                 Style="{StaticResource Goldline.PersonComboBoxStyle.Dark}"
                 Watermark="Select a Customer..." />
         </Grid>
-        <Border
+        <DataGrid
+            x:Name="OrderDataGrid"
             Grid.Row="1"
-            Margin="2"
-            Background="{DynamicResource Goldline.Background.HeaderBar}"
-            BorderBrush="{DynamicResource Goldline.Border}"
-            BorderThickness="1"
-            CornerRadius="10">
-            <DataGrid
-                x:Name="OrderDataGrid"
-                Margin="5"
-                AutoGenerateColumns="False"
-                Background="{x:Null}"
-                BorderBrush="{x:Null}"
-                CanUserAddRows="False"
-                CanUserDeleteRows="False"
-                IsReadOnly="True"
-                ItemsSource="{Binding OrdersSource, Mode=OneWay}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn
-                        Width="150"
-                        Binding="{Binding Date}"
-                        Header="Date" />
-                    <DataGridTextColumn
-                        Width="150"
-                        Binding="{Binding CustomerId}"
-                        Header="Customer" />
-                    <DataGridTextColumn
-                        Width="2*"
-                        Binding="{Binding Note}"
-                        Header="Note" />
-                    <DataGridTextColumn
-                        Width="1*"
-                        Binding="{Binding Amount}"
-                        Header="Amount" />
-                    <DataGridTextColumn
-                        Width="1*"
-                        Binding="{Binding DueAmount}"
-                        Header="Dues" />
-                </DataGrid.Columns>
-            </DataGrid>
-        </Border>
+            ItemsSource="{Binding OrdersSource, Mode=OneWay}"
+            Style="{DynamicResource DataGridStyle}">
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="150"
+                    Binding="{Binding Date}"
+                    Header="Date" />
+                <DataGridTextColumn
+                    Width="150"
+                    Binding="{Binding CustomerId}"
+                    Header="Customer" />
+                <DataGridTextColumn
+                    Width="2*"
+                    Binding="{Binding Note}"
+                    Header="Note" />
+                <DataGridTextColumn
+                    Width="1*"
+                    Binding="{Binding Amount}"
+                    Header="Amount" />
+                <DataGridTextColumn
+                    Width="1*"
+                    Binding="{Binding DueAmount}"
+                    Header="Dues" />
+            </DataGrid.Columns>
+        </DataGrid>
+
         <Grid Grid.Row="2" Margin="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />

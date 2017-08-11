@@ -27,13 +27,13 @@
         </Grid.ColumnDefinitions>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="50" />
+                <RowDefinition Height="45" />
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Margin="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="45" />
                 </Grid.ColumnDefinitions>
                 <xctk:WatermarkTextBox
                     x:Name="SearchTextBox"
@@ -45,57 +45,38 @@
                 <Button
                     x:Name="AddCustomerButton"
                     Grid.Column="1"
-                    Margin="5"
+                    Margin="2"
                     Click="AddCustomerButton_Click"
                     Content="+"
                     Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
             </Grid>
-            <Border
+            <DataGrid
+                x:Name="CustomerDataGrid"
                 Grid.Row="1"
-                Margin="2"
-                Background="{DynamicResource Goldline.Background.HeaderBar}"
-                BorderBrush="{DynamicResource Goldline.Border}"
-                BorderThickness="1"
-                CornerRadius="10">
-                <DataGrid
-                    x:Name="CustomerDataGrid"
-                    Margin="5"
-                    AlternatingRowBackground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
-                    AutoGenerateColumns="False"
-                    Background="{x:Null}"
-                    BorderBrush="{x:Null}"
-                    BorderThickness="0"
-                    CanUserResizeColumns="False"
-                    CanUserResizeRows="False"
-                    HorizontalScrollBarVisibility="Disabled"
-                    IsReadOnly="True"
-                    IsTextSearchEnabled="True"
-                    ItemsSource="{Binding CustomerSource}"
-                    Opacity="0.8"
-                    RowDetailsVisibilityMode="Visible"
-                    ScrollViewer.CanContentScroll="True"
-                    SelectionChanged="CustomerDataGrid_OnSelectionChanged"
-                    SelectionMode="Single">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn
-                            Width="3*"
-                            Binding="{Binding Name}"
-                            Header="Name" />
-                        <DataGridTextColumn
-                            Width="2*"
-                            Binding="{Binding Nic}"
-                            Header="NIC" />
-                        <DataGridTextColumn
-                            Width="3*"
-                            Binding="{Binding Contact}"
-                            Header="Contact" />
-                        <DataGridTextColumn
-                            Width="2*"
-                            Binding="{Binding DueAmount}"
-                            Header="Dues" />
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Border>
+                ItemsSource="{Binding CustomerSource}"
+                RowDetailsVisibilityMode="Visible"
+                SelectionChanged="CustomerDataGrid_OnSelectionChanged"
+                Style="{StaticResource DataGridStyle}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="3*"
+                        Binding="{Binding Name}"
+                        Header="Name" />
+                    <DataGridTextColumn
+                        Width="2*"
+                        Binding="{Binding Nic}"
+                        Header="NIC" />
+                    <DataGridTextColumn
+                        Width="3*"
+                        Binding="{Binding Contact}"
+                        Header="Contact" />
+                    <DataGridTextColumn
+                        Width="2*"
+                        Binding="{Binding DueAmount}"
+                        Header="Dues" />
+                </DataGrid.Columns>
+            </DataGrid>
+
         </Grid>
         <Border
             Grid.Row="0"

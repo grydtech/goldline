@@ -32,7 +32,6 @@
             <xctk:WatermarkTextBox
                 x:Name="SearchTextBox"
                 Grid.Row="0"
-                FontSize="20"
                 Style="{DynamicResource Goldline.WatermarkTextBoxStyle.DarkRounded}"
                 TextChanged="SearchTextBox_OnTextChanged"
                 Watermark="{DynamicResource SearchText}" />
@@ -45,50 +44,34 @@
                 Click="NewButton_Click"
                 Content="+"
                 Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-            <Border
+            <DataGrid
+                x:Name="SupplierDataGrid"
                 Grid.Row="1"
-                Margin="2"
-                Background="{DynamicResource Goldline.Background.HeaderBar}"
-                BorderBrush="{DynamicResource Goldline.Border}"
-                BorderThickness="1"
-                CornerRadius="10">
-                <DataGrid
-                    x:Name="SupplierDataGrid"
-                    Margin="5"
-                    AlternatingRowBackground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
-                    AutoGenerateColumns="False"
-                    Background="{x:Null}"
-                    BorderBrush="{x:Null}"
-                    BorderThickness="0"
-                    HorizontalScrollBarVisibility="Disabled"
-                    IsReadOnly="True"
-                    IsTextSearchEnabled="True"
-                    ItemsSource="{Binding SupplierSource}"
-                    Opacity="0.8"
-                    ScrollViewer.CanContentScroll="True">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn
-                            Width="0.4*"
-                            Binding="{Binding Name}"
-                            Header="Name" />
-                        <DataGridTextColumn
-                            Width="0.5*"
-                            Binding="{Binding Contact}"
-                            Header="Contact" />
-                        <DataGridTemplateColumn Width="100" Header="Payments">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate DataType="suppliers:Supplier">
-                                    <Button
-                                        x:Name="BtnSupplierPayments"
-                                        Click="BtnSupplierPayments_OnClick"
-                                        Content="View"
-                                        Tag="{Binding}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Border>
+                ItemsSource="{Binding SupplierSource}"
+                Style="{DynamicResource DataGridStyle}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="0.4*"
+                        Binding="{Binding Name}"
+                        Header="Name" />
+                    <DataGridTextColumn
+                        Width="0.5*"
+                        Binding="{Binding Contact}"
+                        Header="Contact" />
+                    <DataGridTemplateColumn Width="100" Header="Payments">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="suppliers:Supplier">
+                                <Button
+                                    x:Name="BtnSupplierPayments"
+                                    Click="BtnSupplierPayments_OnClick"
+                                    Content="View"
+                                    Tag="{Binding}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
         </Grid>
         <Border
             Grid.Row="0"

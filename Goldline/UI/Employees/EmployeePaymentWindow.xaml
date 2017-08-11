@@ -24,61 +24,40 @@
             <ColumnDefinition />
             <ColumnDefinition Width="350" />
         </Grid.ColumnDefinitions>
-        <Grid
-            Grid.RowSpan="2"
-            Grid.Column="0"
-            Margin="10" />
-        <Border
-            Grid.RowSpan="2"
-            Grid.Column="0"
-            Background="{DynamicResource Goldline.Background.HeaderBar}"
-            BorderBrush="{DynamicResource Goldline.Border}"
-            BorderThickness="1"
-            CornerRadius="0,10,10,0">
-            <Grid Margin="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition Height="50" />
-                </Grid.RowDefinitions>
-                <DataGrid
-                    x:Name="EmployeeDataGrid"
-                    Margin="5"
-                    AlternatingRowBackground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
-                    AutoGenerateColumns="False"
-                    Background="{x:Null}"
-                    CanUserResizeColumns="False"
-                    CanUserResizeRows="False"
-                    HorizontalScrollBarVisibility="Disabled"
-                    IsReadOnly="True"
-                    IsTextSearchEnabled="True"
-                    ItemsSource="{Binding EmployeeSource, Mode=TwoWay}"
-                    Opacity="0.8"
-                    RowDetailsVisibilityMode="Visible"
-                    ScrollViewer.CanContentScroll="True"
-                    SelectionMode="Single">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn
-                            Width="0.1*"
-                            Binding="{Binding Id}"
-                            Header="ID" />
-                        <DataGridTextColumn
-                            Width="0.4*"
-                            Binding="{Binding Name}"
-                            Header="Name" />
-                        <DataGridTextColumn
-                            Width="0.5*"
-                            Binding="{Binding DateJoined}"
-                            Header="Last Payment Date" />
-                    </DataGrid.Columns>
-                </DataGrid>
-                <Grid Grid.Row="1">
-                    <Button
-                        Click="ButtonGenerateReport_OnClick"
-                        Content="Generate Report"
-                        Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-                </Grid>
-            </Grid>
-        </Border>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="45" />
+            </Grid.RowDefinitions>
+            <DataGrid
+                x:Name="EmployeeDataGrid"
+                ItemsSource="{Binding EmployeeSource, Mode=TwoWay}"
+                RowDetailsVisibilityMode="Visible"
+                Style="{DynamicResource DataGridStyle}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="0.1*"
+                        Binding="{Binding Id}"
+                        Header="ID" />
+                    <DataGridTextColumn
+                        Width="0.4*"
+                        Binding="{Binding Name}"
+                        Header="Name" />
+                    <DataGridTextColumn
+                        Width="0.5*"
+                        Binding="{Binding DateJoined}"
+                        Header="Last Payment Date" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button
+                Grid.Row="1"
+                Margin="5"
+                Click="ButtonGenerateReport_OnClick"
+                Content="Generate Report"
+                Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
+
+        </Grid>
+
         <Border
             Grid.RowSpan="2"
             Grid.Column="1"
