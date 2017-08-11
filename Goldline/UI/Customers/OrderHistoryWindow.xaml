@@ -73,18 +73,15 @@
                     Header="Dues" />
             </DataGrid.Columns>
         </DataGrid>
+        <Button
+            x:Name="ViewDetailsButton"
+            Grid.Row="2"
+            Width="150"
+            Margin="5"
+            HorizontalAlignment="Right"
+            Click="ViewDetailsButton_OnClick"
+            Content="View Details"
+            Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
 
-        <Grid Grid.Row="2" Margin="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="150" />
-            </Grid.ColumnDefinitions>
-            <Button
-                x:Name="ViewDetailsButton"
-                Grid.Column="1"
-                Click="ViewDetailsButton_OnClick"
-                Content="View Details"
-                Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-        </Grid>
     </Grid>
 </Window>

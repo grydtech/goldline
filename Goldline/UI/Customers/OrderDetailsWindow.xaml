@@ -104,12 +104,12 @@
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-
             <TextBlock
                 Grid.Row="0"
                 Padding="5"
                 VerticalAlignment="Bottom"
-                FontSize="24"
+                FontSize="20"
+                FontWeight="Bold"
                 Style="{StaticResource Goldline.TextBlockStyle.Dark}"
                 Text="Payment Details" />
             <DataGrid

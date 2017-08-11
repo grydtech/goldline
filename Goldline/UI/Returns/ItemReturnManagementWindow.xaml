@@ -33,7 +33,6 @@
             <xctk:WatermarkTextBox
                 x:Name="SearchTextBox"
                 Grid.ColumnSpan="2"
-                FontSize="20"
                 Style="{DynamicResource Goldline.WatermarkTextBoxStyle.DarkRounded}"
                 TextChanged="SearchTextBox_OnTextChanged"
                 Watermark="{DynamicResource SearchText}" />

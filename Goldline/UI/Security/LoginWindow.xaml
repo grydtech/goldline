@@ -7,13 +7,14 @@
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     Title="Authenticate"
     Width="450"
-    Height="450"
+    Height="Auto"
     AllowsTransparency="True"
     Background="{DynamicResource Goldline.Background.Window}"
     FontSize="16"
     Foreground="{DynamicResource Goldline.Text.White}"
     ResizeMode="NoResize"
     ShowInTaskbar="False"
+    SizeToContent="Height"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
     mc:Ignorable="d">
@@ -27,7 +28,7 @@
                 <RowDefinition Height="35" />
                 <RowDefinition Height="230" />
                 <RowDefinition Height="45" />
-                <RowDefinition />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="45" />
             </Grid.RowDefinitions>
             <Grid Background="{DynamicResource Goldline.Background.TitleBar}" MouseLeftButtonDown="Grid_MouseLeftDown">
@@ -81,8 +82,8 @@
                     CharacterCasing="Lower"
                     KeepWatermarkOnGotFocus="True"
                     Style="{DynamicResource Goldline.WatermarkTextBoxStyle.Dark}"
-                    Watermark="username"
-                    Text="shalutha" />
+                    Text="shalutha"
+                    Watermark="username" />
                 <Label
                     x:Name="PasswordLabel"
                     Grid.Row="1"

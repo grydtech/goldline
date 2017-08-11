@@ -7,7 +7,7 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="AddItemDialog"
-    Width="450"
+    Width="360"
     Background="{DynamicResource Goldline.Background.Window}"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     FontSize="16"
@@ -16,207 +16,200 @@
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Grid>
-        <Border
-            Margin="5"
-            Background="{DynamicResource Goldline.Background.HeaderBar}"
-            BorderBrush="{DynamicResource Goldline.Border}"
-            BorderThickness="1">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="60" />
-                    <RowDefinition />
-                    <RowDefinition Height="40" />
-                </Grid.RowDefinitions>
-                <Label
-                    x:Name="Label"
-                    Grid.Row="0"
-                    Content="Add New Item"
-                    FontSize="20"
-                    FontWeight="Bold"
-                    Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                <Grid Grid.Row="1" Margin="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="3*" />
-                        <ColumnDefinition Width="50" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition x:Name="RowBrand" />
-                        <RowDefinition x:Name="RowModel" />
-                        <RowDefinition x:Name="RowDimension" />
-                        <RowDefinition x:Name="RowCountry" />
-                        <RowDefinition x:Name="RowCapacity" />
-                        <RowDefinition x:Name="RowVoltage" />
-                        <RowDefinition x:Name="RowStocks" />
-                        <RowDefinition x:Name="RowUnitPrice" />
-                    </Grid.RowDefinitions>
-                    <Label
-                        x:Name="BrandLabel"
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Content="Brand:"
-                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                    <ComboBox
-                        x:Name="BrandComboBox"
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Margin="5"
-                        ItemsSource="{Binding BrandSource}"
-                        Text="{Binding Brand, UpdateSourceTrigger=PropertyChanged}" />
-                    <Button
-                        x:Name="AddBrandButton"
-                        Grid.Row="0"
-                        Grid.Column="2"
-                        Margin="5"
-                        Click="AddBrandButton_OnClick"
-                        Content="+"
-                        Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-                    <Label
-                        x:Name="ModelLabel"
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Content="Model:"
-                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                    <TextBox
-                        x:Name="ModelTextBox"
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Grid.ColumnSpan="2"
-                        Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding Model, UpdateSourceTrigger=PropertyChanged}" />
-                    <Label
-                        x:Name="DimensionLabel"
-                        Grid.Row="2"
-                        Grid.Column="0"
-                        Content="Dimension"
-                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                    <ComboBox
-                        x:Name="DimensionComboBox"
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        Margin="5"
-                        ItemsSource="{Binding DimensionSource}"
-                        Text="{Binding Dimension, UpdateSourceTrigger=PropertyChanged}" />
-                    <Button
-                        x:Name="AddDimensionButton"
-                        Grid.Row="2"
-                        Grid.Column="2"
-                        Margin="5"
-                        Click="AddDimensionButton_OnClick"
-                        Content="+"
-                        Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-                    <Label
-                        x:Name="CountryLabel"
-                        Grid.Row="3"
-                        Grid.Column="0"
-                        Content="Country"
-                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                    <ComboBox
-                        x:Name="CountryComboBox"
-                        Grid.Row="3"
-                        Grid.Column="1"
-                        Margin="5"
-                        ItemsSource="{Binding CountrySource}"
-                        Text="{Binding Country, UpdateSourceTrigger=PropertyChanged}" />
-                    <Button
-                        x:Name="AddCountryButton"
-                        Grid.Row="3"
-                        Grid.Column="2"
-                        Margin="5"
-                        Click="AddCountryButton_OnClick"
-                        Content="+"
-                        Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-                    <Label
-                        x:Name="CapacityLabel"
-                        Grid.Row="4"
-                        Grid.Column="0"
-                        Content="Capacity:"
-                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                    <TextBox
-                        x:Name="CapacityTextBox"
-                        Grid.Row="4"
-                        Grid.Column="1"
-                        Grid.ColumnSpan="2"
-                        Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding Capacity, UpdateSourceTrigger=PropertyChanged}">
-                        <i:Interaction.Behaviors>
-                            <goldline:TextBoxInputBehavior InputMode="{StaticResource DigitInputMode}" />
-                        </i:Interaction.Behaviors>
-                    </TextBox>
-                    <Label
-                        x:Name="VoltageLabel"
-                        Grid.Row="5"
-                        Grid.Column="0"
-                        Content="Voltage:"
-                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                    <TextBox
-                        x:Name="VoltageTextBox"
-                        Grid.Row="5"
-                        Grid.Column="1"
-                        Grid.ColumnSpan="2"
-                        Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding Voltage, UpdateSourceTrigger=PropertyChanged}">
-                        <i:Interaction.Behaviors>
-                            <goldline:TextBoxInputBehavior InputMode="{StaticResource DigitInputMode}" />
-                        </i:Interaction.Behaviors>
-                    </TextBox>
-                    <Label
-                        x:Name="StockLabel"
-                        Grid.Row="6"
-                        Grid.Column="0"
-                        Content="Stocks:"
-                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                    <TextBox
-                        x:Name="StockTextBox"
-                        Grid.Row="6"
-                        Grid.Column="1"
-                        Grid.ColumnSpan="2"
-                        Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding Stocks, UpdateSourceTrigger=PropertyChanged}">
-                        <i:Interaction.Behaviors>
-                            <goldline:TextBoxInputBehavior InputMode="{StaticResource DigitInputMode}" />
-                        </i:Interaction.Behaviors>
-                    </TextBox>
-                    <Label
-                        x:Name="UnitPriceLabel"
-                        Grid.Row="7"
-                        Grid.Column="0"
-                        Content="Unit Price:"
-                        Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                    <TextBox
-                        x:Name="UnitPriceTextBox"
-                        Grid.Row="7"
-                        Grid.Column="1"
-                        Grid.ColumnSpan="2"
-                        Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                        Text="{Binding UnitPrice, UpdateSourceTrigger=PropertyChanged}">
-                        <i:Interaction.Behaviors>
-                            <goldline:TextBoxInputBehavior InputMode="{StaticResource DecimalInputMode}" />
-                        </i:Interaction.Behaviors>
-                    </TextBox>
-                </Grid>
-                <Grid Grid.Row="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Button
-                        x:Name="AddButton"
-                        Click="AddButton_OnClick"
-                        Content="Add"
-                        IsDefault="True"
-                        Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <Label
+            x:Name="Label"
+            Grid.Row="0"
+            Content="Add Item"
+            FontSize="20"
+            FontWeight="Bold"
+            Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+        <Grid Grid.Row="1" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="125" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="45" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition x:Name="RowBrand" />
+                <RowDefinition x:Name="RowModel" />
+                <RowDefinition x:Name="RowDimension" />
+                <RowDefinition x:Name="RowCountry" />
+                <RowDefinition x:Name="RowCapacity" />
+                <RowDefinition x:Name="RowVoltage" />
+                <RowDefinition x:Name="RowStocks" />
+                <RowDefinition x:Name="RowUnitPrice" />
+            </Grid.RowDefinitions>
+            <Label
+                x:Name="BrandLabel"
+                Grid.Row="0"
+                Grid.Column="0"
+                Content="Brand:"
+                Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+            <ComboBox
+                x:Name="BrandComboBox"
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="5"
+                ItemsSource="{Binding BrandSource}"
+                Text="{Binding Brand, UpdateSourceTrigger=PropertyChanged}" />
+            <Button
+                x:Name="AddBrandButton"
+                Grid.Row="0"
+                Grid.Column="2"
+                Margin="5"
+                Click="AddBrandButton_OnClick"
+                Content="+"
+                Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
+            <Label
+                x:Name="ModelLabel"
+                Grid.Row="1"
+                Grid.Column="0"
+                Content="Model:"
+                Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+            <TextBox
+                x:Name="ModelTextBox"
+                Grid.Row="1"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
+                Text="{Binding Model, UpdateSourceTrigger=PropertyChanged}" />
+            <Label
+                x:Name="DimensionLabel"
+                Grid.Row="2"
+                Grid.Column="0"
+                Content="Dimension"
+                Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+            <ComboBox
+                x:Name="DimensionComboBox"
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="5"
+                ItemsSource="{Binding DimensionSource}"
+                Text="{Binding Dimension, UpdateSourceTrigger=PropertyChanged}" />
+            <Button
+                x:Name="AddDimensionButton"
+                Grid.Row="2"
+                Grid.Column="2"
+                Margin="5"
+                Click="AddDimensionButton_OnClick"
+                Content="+"
+                Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
+            <Label
+                x:Name="CountryLabel"
+                Grid.Row="3"
+                Grid.Column="0"
+                Content="Country"
+                Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+            <ComboBox
+                x:Name="CountryComboBox"
+                Grid.Row="3"
+                Grid.Column="1"
+                Margin="5"
+                ItemsSource="{Binding CountrySource}"
+                Text="{Binding Country, UpdateSourceTrigger=PropertyChanged}" />
+            <Button
+                x:Name="AddCountryButton"
+                Grid.Row="3"
+                Grid.Column="2"
+                Margin="5"
+                Click="AddCountryButton_OnClick"
+                Content="+"
+                Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
+            <Label
+                x:Name="CapacityLabel"
+                Grid.Row="4"
+                Grid.Column="0"
+                Content="Capacity:"
+                Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+            <TextBox
+                x:Name="CapacityTextBox"
+                Grid.Row="4"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
+                Text="{Binding Capacity, UpdateSourceTrigger=PropertyChanged}">
+                <i:Interaction.Behaviors>
+                    <goldline:TextBoxInputBehavior InputMode="{StaticResource DigitInputMode}" />
+                </i:Interaction.Behaviors>
+            </TextBox>
+            <Label
+                x:Name="VoltageLabel"
+                Grid.Row="5"
+                Grid.Column="0"
+                Content="Voltage:"
+                Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+            <TextBox
+                x:Name="VoltageTextBox"
+                Grid.Row="5"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
+                Text="{Binding Voltage, UpdateSourceTrigger=PropertyChanged}">
+                <i:Interaction.Behaviors>
+                    <goldline:TextBoxInputBehavior InputMode="{StaticResource DigitInputMode}" />
+                </i:Interaction.Behaviors>
+            </TextBox>
+            <Label
+                x:Name="StockLabel"
+                Grid.Row="6"
+                Grid.Column="0"
+                Content="Stocks:"
+                Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+            <TextBox
+                x:Name="StockTextBox"
+                Grid.Row="6"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
+                Text="{Binding Stocks, UpdateSourceTrigger=PropertyChanged}">
+                <i:Interaction.Behaviors>
+                    <goldline:TextBoxInputBehavior InputMode="{StaticResource DigitInputMode}" />
+                </i:Interaction.Behaviors>
+            </TextBox>
+            <Label
+                x:Name="UnitPriceLabel"
+                Grid.Row="7"
+                Grid.Column="0"
+                Content="Unit Price:"
+                Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+            <TextBox
+                x:Name="UnitPriceTextBox"
+                Grid.Row="7"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
+                Text="{Binding UnitPrice, UpdateSourceTrigger=PropertyChanged}">
+                <i:Interaction.Behaviors>
+                    <goldline:TextBoxInputBehavior InputMode="{StaticResource DecimalInputMode}" />
+                </i:Interaction.Behaviors>
+            </TextBox>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button
+                x:Name="AddButton"
+                Click="AddButton_OnClick"
+                Content="Add"
+                IsDefault="True"
+                Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
 
-                    <Button
-                        x:Name="CloseButton"
-                        Grid.Column="1"
-                        Click="CloseButton_OnClick"
-                        Content="Close"
-                        IsCancel="True"
-                        Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-                </Grid>
-            </Grid>
-        </Border>
-
+            <Button
+                x:Name="CloseButton"
+                Grid.Column="1"
+                Click="CloseButton_OnClick"
+                Content="Close"
+                IsCancel="True"
+                Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
+        </Grid>
     </Grid>
+
+
 </Window>

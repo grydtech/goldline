@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Catalogs"
-    Width="500"
+    Width="360"
     Height="Auto"
     Background="{DynamicResource Goldline.Background.Window}"
     FontSize="16"
@@ -22,7 +22,7 @@
         <Grid Margin="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="125" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition />

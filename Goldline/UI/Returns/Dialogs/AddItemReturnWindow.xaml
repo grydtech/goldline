@@ -19,125 +19,122 @@
     Template="{StaticResource WindowTemplate}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
-    <Border
-        Margin="2"
-        BorderBrush="{DynamicResource Goldline.Border}"
-        BorderThickness="1"
-        CornerRadius="10">
-        <Grid>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="45" />
+        </Grid.RowDefinitions>
+        <Grid Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="125" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="45" />
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="40" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="2*" />
             </Grid.RowDefinitions>
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="125" />
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="40" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*" />
-                    <RowDefinition Height="1*" />
-                    <RowDefinition Height="1*" />
-                    <RowDefinition Height="1*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <Label
-                    x:Name="ItemLabel"
-                    Grid.Column="0"
-                    Content="Item:"
-                    Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                <Label
-                    x:Name="QuantityLabel"
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Content="Quantity:"
-                    Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                <TextBox
-                    x:Name="QuantityTextBox"
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    Grid.ColumnSpan="2"
-                    Style="{DynamicResource Goldline.TextBoxStyle.Dark}">
-                    <i:Interaction.Behaviors>
-                        <goldline:TextBoxInputBehavior InputMode="{StaticResource DigitInputMode}" />
-                    </i:Interaction.Behaviors>
-                </TextBox>
-                <Label
-                    x:Name="CustomerLabel"
-                    Grid.Row="2"
-                    Grid.Column="0"
-                    Content="Customer:"
-                    Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                <Label
-                    x:Name="ContactInfoLabel"
-                    Grid.Row="3"
-                    Grid.Column="0"
-                    Content="Contact Info:"
-                    Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                <TextBox
-                    x:Name="ContactInfoTextBox"
-                    Grid.Row="3"
-                    Grid.Column="1"
-                    Grid.ColumnSpan="2"
-                    Style="{DynamicResource Goldline.TextBoxStyle.Dark}" />
-                <Button
-                    x:Name="ClearContactInfoButton"
-                    Grid.Row="3"
-                    Grid.Column="2"
-                    Margin="5"
-                    Click="ClearContactInfoButton_Click"
-                    Content="X"
-                    Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-                <goldline:ProductComboBox
-                    x:Name="SearchItemComboBox"
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    Grid.ColumnSpan="2"
-                    ItemsSource="{Binding ItemsSource}"
-                    Style="{DynamicResource Goldline.ProductComboBoxStyle.Dark}"
-                    Watermark="Select Item..." />
-                <goldline:ProductComboBox
-                    x:Name="SearchCustomerComboBox"
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    Grid.ColumnSpan="2"
-                    ItemsSource="{Binding CustomerSource}"
-                    SelectionChanged="SearchCustomerComboBox_OnSelectionChanged"
-                    Style="{DynamicResource Goldline.ProductComboBoxStyle.Dark}"
-                    Watermark="Select Customer..." />
-                <Label
-                    x:Name="NotesLabel"
-                    Grid.Row="4"
-                    Grid.Column="0"
-                    Content="Notes:"
-                    Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-                <TextBox
-                    x:Name="NotesTextBox"
-                    Grid.Row="4"
-                    Grid.Column="1"
-                    Grid.ColumnSpan="2"
-                    Style="{DynamicResource Goldline.TextBoxStyle.Dark}" />
-            </Grid>
-            <Grid Grid.Row="1" Background="{DynamicResource Goldline.Background.StatusBar}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Button
-                    x:Name="ClearButton"
-                    Click="ClearButton_Click"
-                    Content="Clear"
-                    Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-                <Button
-                    x:Name="AddButton"
-                    Grid.Column="1"
-                    Click="AddButton_Click"
-                    Content="Add"
-                    FontWeight="Bold"
-                    Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
-            </Grid>
+            <Label
+                x:Name="ItemLabel"
+                Grid.Column="0"
+                Content="Item:"
+                Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+            <Label
+                x:Name="QuantityLabel"
+                Grid.Row="1"
+                Grid.Column="0"
+                Content="Quantity:"
+                Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+            <TextBox
+                x:Name="QuantityTextBox"
+                Grid.Row="1"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Style="{DynamicResource Goldline.TextBoxStyle.Dark}">
+                <i:Interaction.Behaviors>
+                    <goldline:TextBoxInputBehavior InputMode="{StaticResource DigitInputMode}" />
+                </i:Interaction.Behaviors>
+            </TextBox>
+            <Label
+                x:Name="CustomerLabel"
+                Grid.Row="2"
+                Grid.Column="0"
+                Content="Customer:"
+                Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+            <Label
+                x:Name="ContactInfoLabel"
+                Grid.Row="3"
+                Grid.Column="0"
+                Content="Contact Info:"
+                Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+            <TextBox
+                x:Name="ContactInfoTextBox"
+                Grid.Row="3"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Style="{DynamicResource Goldline.TextBoxStyle.Dark}" />
+            <Button
+                x:Name="ClearContactInfoButton"
+                Grid.Row="3"
+                Grid.Column="2"
+                Margin="5"
+                Click="ClearContactInfoButton_Click"
+                Content="x"
+                Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
+            <goldline:ProductComboBox
+                x:Name="SearchItemComboBox"
+                Grid.Row="0"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                ItemsSource="{Binding ItemsSource}"
+                Style="{DynamicResource Goldline.ProductComboBoxStyle.Dark}"
+                Watermark="Select Item..." />
+            <goldline:ProductComboBox
+                x:Name="SearchCustomerComboBox"
+                Grid.Row="2"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                ItemsSource="{Binding CustomerSource}"
+                SelectionChanged="SearchCustomerComboBox_OnSelectionChanged"
+                Style="{DynamicResource Goldline.ProductComboBoxStyle.Dark}"
+                Watermark="Select Customer..." />
+            <Label
+                x:Name="NotesLabel"
+                Grid.Row="4"
+                Grid.Column="0"
+                Content="Notes:"
+                Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+            <TextBox
+                x:Name="NotesTextBox"
+                Grid.Row="4"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Style="{DynamicResource Goldline.TextBoxStyle.Dark}" />
         </Grid>
-    </Border>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button
+                x:Name="ClearButton"
+                Margin="5"
+                Click="ClearButton_Click"
+                Content="Clear"
+                Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
+            <Button
+                x:Name="AddButton"
+                Grid.Column="1"
+                Margin="5"
+                Click="AddButton_Click"
+                Content="Add"
+                FontWeight="Bold"
+                Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
+        </Grid>
+    </Grid>
+
 
 </Window>
