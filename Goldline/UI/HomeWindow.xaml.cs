@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Threading;
 using Core.Domain.Model;
@@ -44,10 +45,6 @@ namespace Goldline.UI
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show(this, "Are you sure you want to logout?", "Confirm", MessageBoxButton.YesNo) !=
-                MessageBoxResult.Yes) return;
-
-            new LoginWindow().Show();
             Close();
         }
 
@@ -129,6 +126,19 @@ namespace Goldline.UI
         private void OrderHistoryButton_OnClick(object sender, RoutedEventArgs e)
         {
             new OrderHistoryWindow().Show();
+        }
+
+        private void HomeWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            if (MessageBox.Show(this, "Are you sure you want to logout?", "Confirm", MessageBoxButton.YesNo) !=
+                MessageBoxResult.Yes)
+            {
+                e.Cancel = true;
+            }
+            else
+            {
+                new LoginWindow().Show();
+            }
         }
     }
 }
