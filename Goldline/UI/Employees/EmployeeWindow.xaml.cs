@@ -40,7 +40,9 @@ namespace Goldline.UI.Employees
         private void DiscardButton_Click(object sender, RoutedEventArgs e)
         {
             // revert to original employee information
-            ReloadDataGrid();
+            NameTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
+            EmployeeIdTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
+            ContactInfoTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
         }
 
 
@@ -62,7 +64,7 @@ namespace Goldline.UI.Employees
                 {
                     MessageBox.Show(exception.Message);
                 }
-                ReloadDataGrid();
+                EmployeeDataGrid.Items.Refresh();
             }
         }
 
