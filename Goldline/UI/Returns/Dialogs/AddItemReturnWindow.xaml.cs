@@ -29,8 +29,7 @@ namespace Goldline.UI.Returns.Dialogs
 
         private bool IsDataInCorrectForm()
         {
-            return SearchCustomerComboBox.SelectedItem != null &&
-                   (SearchCustomerComboBox.SelectedItem != null || ContactInfoTextBox.Text != string.Empty) &&
+            return SearchItemComboBox.SelectedItem != null && ContactInfoTextBox.Text != string.Empty &&
                    QuantityTextBox.Text != string.Empty;
         }
 
@@ -40,7 +39,8 @@ namespace Goldline.UI.Returns.Dialogs
             {
                 return new ItemReturn(
                     (SearchItemComboBox.SelectedItem as Item)?.Id.GetValueOrDefault() ?? 0,
-                    (SearchCustomerComboBox.SelectedItem as Customer)?.Id.GetValueOrDefault() ?? 0,
+                    (SearchCustomerComboBox.SelectedItem as Customer)?.Id,
+                    ContactInfoTextBox.Text,
                     uint.Parse(QuantityTextBox.Text),
                     false,
                     NotesTextBox.Text);
@@ -97,18 +97,21 @@ namespace Goldline.UI.Returns.Dialogs
             NotesTextBox.Text = string.Empty;
         }
 
-        private void ClearContactInfoButton_Click(object sender, RoutedEventArgs e)
-        {
-            ContactInfoTextBox.Text = string.Empty;
-        }
-
         #endregion
 
         private void SearchCustomerComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ContactInfoTextBox.Text != string.Empty || SearchCustomerComboBox.SelectedItem == null) return;
             var contactInfo = (SearchCustomerComboBox.SelectedItem as Customer)?.Contact;
+            if (contactInfo == null) return;
             ContactInfoTextBox.Text = contactInfo;
+        }
+
+        private void ButtonSetContactInfo_OnClick(object sender, RoutedEventArgs e)
+        {
+            var customer = SearchCustomerComboBox.SelectedItem as Customer;
+            if (customer == null) return;
+            ContactInfoTextBox.Text = customer.Contact;
         }
     }
 }

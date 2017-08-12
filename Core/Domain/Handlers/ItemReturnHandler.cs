@@ -14,8 +14,8 @@ namespace Core.Domain.Handlers
         /// <param name="itemreturn"></param>
         public void AddItemReturn(ItemReturn itemreturn)
         {
-            if (itemreturn.CustomerId == null)
-                throw new ArgumentNullException(nameof(itemreturn.CustomerId), "ItemReturn CustomerId is null");
+            if (string.IsNullOrEmpty(itemreturn.ContactInfo))
+                throw new ArgumentNullException(nameof(itemreturn.CustomerId), "ItemReturn Contact Information is null");
             using (var connection = Connector.GetConnection())
             {
                 new ItemReturnDal(connection).Insert(itemreturn.ItemId, itemreturn.CustomerId.Value,
