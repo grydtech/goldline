@@ -40,6 +40,7 @@ namespace Core.Domain.Handlers
 
                     // Insert order entries
                     orderItemDal.InsertMultiple(order.Id.Value, order.OrderItems);
+                    // Update inventory
                     foreach (var orderItem in order.OrderItems)
                         itemDal.Update(orderItem.ProductId, stockIncrement: (int) -orderItem.Qty);
                 }

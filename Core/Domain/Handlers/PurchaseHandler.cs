@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
 using Core.Data;
+using Core.Data.Inventory;
 using Core.Data.Suppliers;
 using Core.Domain.Model.Suppliers;
 
@@ -23,6 +24,7 @@ namespace Core.Domain.Handlers
                 using (var connection = Connector.GetConnection())
                 {
                     var purchaseDal = new PurchaseDal(connection);
+                    var itemDal = new ItemDal(connection);
                     purchaseDal.Insert(purchase.SupplierId.Value, purchase.Amount, purchase.Note, purchase.IsSettled);
                     purchase.Id = purchaseDal.GetLastInsertId();
 
@@ -31,7 +33,13 @@ namespace Core.Domain.Handlers
                             "Purchase Id null after insert");
 
                     var purchaseItemDal = new PurchaseItemDal(connection);
+                    
+                    // Insert purchase items
                     purchaseItemDal.InsertMultiple(purchase.Id.Value, purchase.PurchaseItems);
+
+                    // Update inventory
+                    foreach (var purchaseItem in purchase.PurchaseItems)
+                        itemDal.Update(purchaseItem.ItemId, stockIncrement: (int) purchaseItem.Qty);
                 }
                 scope.Complete();
             }
