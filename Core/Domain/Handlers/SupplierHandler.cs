@@ -35,12 +35,13 @@ namespace Core.Domain.Handlers
         /// <summary>
         ///     Search a list of suppliers matching search parameters
         /// </summary>
+        /// <param name="supplierId"></param>
         /// <param name="name"></param>
-        public IEnumerable<Supplier> GetSuppliers(string name = null)
+        public IEnumerable<Supplier> GetSuppliers(uint? supplierId = null, string name = null)
         {
             using (var connection = Connector.GetConnection())
             {
-                return new SupplierDal(connection).Search(name == null ? null : $"%{name}%").ToList();
+                return new SupplierDal(connection).Search(supplierId, name == null ? null : $"%{name}%").ToList();
             }
         }
 

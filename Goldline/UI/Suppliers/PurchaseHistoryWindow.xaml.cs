@@ -85,8 +85,8 @@ namespace Goldline.UI.Suppliers
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
-            new AddPurchaseDialog().ShowDialog();
-            RefreshDataGrid();
+            var dialogResult = new AddPurchaseDialog().ShowDialog();
+            if(dialogResult == true) RefreshDataGrid();
         }
 
         #endregion

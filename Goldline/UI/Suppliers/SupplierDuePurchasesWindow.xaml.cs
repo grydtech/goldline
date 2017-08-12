@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
@@ -14,16 +15,18 @@ namespace Goldline.UI.Suppliers
     public partial class SupplierDuePurchasesWindow
     {
         private readonly PurchaseHandler _purchaseHandler;
-        private readonly Supplier _supplier;
 
         public SupplierDuePurchasesWindow(Supplier supplier)
         {
-            _supplier = supplier;
             _purchaseHandler = new PurchaseHandler();
-            DuePurchases = _purchaseHandler.GetPurchases(_supplier.Id);
+            var supplierHandler = new SupplierHandler();
+            if (string.IsNullOrEmpty(supplier.Name))
+                supplier = supplierHandler.GetSuppliers(supplier.Id).SingleOrDefault();
+            if (supplier == null) throw new ArgumentNullException(nameof(supplier), @"Supplier Id is null");
+            DuePurchases = _purchaseHandler.GetPurchases(supplier.Id, false);
             InitializeComponent();
-            SupplierIdTextBox.Text = _supplier.Id.ToString();
-            NameTextBox.Text = _supplier.Name;
+            SupplierIdTextBox.Text = supplier.Id.ToString();
+            NameTextBox.Text = supplier.Name;
         }
 
         public IEnumerable<Purchase> DuePurchases { get; private set; }
