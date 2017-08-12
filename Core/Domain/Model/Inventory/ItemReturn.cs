@@ -23,6 +23,7 @@ namespace Core.Domain.Model.Inventory
 
         public uint? Id { get; set; }
         public uint ItemId { get; set; }
+        public string ItemName { get; set; }
         public uint? CustomerId { get; set; }
         public string CustomerName { get; set; }
         public string ContactInfo { get; set; }

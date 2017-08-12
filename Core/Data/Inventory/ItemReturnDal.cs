@@ -47,7 +47,7 @@ namespace Core.Data.Inventory
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_return 'Id', date_return 'Date', id_item 'ItemId', id_customer 'CustomerId', name 'CustomerName' " +
+                "select id_return 'Id', date_return 'Date', id_item 'ItemId', id_customer 'CustomerId', name 'CustomerName', " +
                 "qty_return 'ReturnQty', is_handled 'IsHandled', contact_info 'ContactInfo', note 'Note' " +
                 "from items_returns LEFT JOIN customers USING(id_customer) " +
                 (noteExp == null && isHandled == null && startDate == null && endDate == null ? "" : "where ") +
