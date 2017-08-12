@@ -34,25 +34,26 @@ namespace Core.Data.Inventory
         /// <summary>
         ///     Searches records in [items] table
         /// </summary>
+        /// <param name="productId"></param>
         /// <param name="nameExp"></param>
         /// <param name="productType"></param>
         /// <param name="offset"></param>
         /// <param name="limit"></param>
-        internal IEnumerable<Item> Search(string nameExp = null, ProductType? productType = null, int offset = 0,
+        internal IEnumerable<Item> Search(uint? productId = null, string nameExp = null, ProductType? productType = null, int offset = 0,
             int limit = int.MaxValue)
         {
             switch (productType)
             {
                 case ProductType.Alloywheel:
-                    return new AlloywheelDal(Connection).Search(nameExp, offset, limit);
+                    return new AlloywheelDal(Connection).Search(productId, nameExp, offset, limit);
                 case ProductType.Battery:
-                    return new BatteryDal(Connection).Search(nameExp, offset, limit);
+                    return new BatteryDal(Connection).Search(productId, nameExp, offset, limit);
                 case ProductType.Tyre:
-                    return new TyreDal(Connection).Search(nameExp, offset, limit);
+                    return new TyreDal(Connection).Search(productId, nameExp, offset, limit);
                 case null:
-                    return new AlloywheelDal(Connection).Search(nameExp, offset, limit).Cast<Item>()
-                        .Concat(new BatteryDal(Connection).Search(nameExp, offset, limit))
-                        .Concat(new TyreDal(Connection).Search(nameExp, offset, limit))
+                    return new AlloywheelDal(Connection).Search(productId, nameExp, offset, limit).Cast<Item>()
+                        .Concat(new BatteryDal(Connection).Search(productId, nameExp, offset, limit))
+                        .Concat(new TyreDal(Connection).Search(productId, nameExp, offset, limit))
                         .OrderBy(c => c.Name);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(productType), productType, null);
@@ -65,6 +66,7 @@ namespace Core.Data.Inventory
         /// <param name="productId"></param>
         /// <param name="stockQty"></param>
         /// <param name="unitPrice"></param>
+        /// <param name="stockIncrement"></param>
         internal void Update(uint productId, uint? stockQty = null, decimal? unitPrice = null,
             int? stockIncrement = null)
         {

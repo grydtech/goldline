@@ -60,10 +60,11 @@ namespace Core.Data.Inventory
         /// <summary>
         ///     Searches records in [alloywheels] table
         /// </summary>
+        /// <param name="productId"></param>
         /// <param name="nameExp"></param>
         /// <param name="offset"></param>
         /// <param name="limit"></param>
-        internal IEnumerable<Alloywheel> Search(string nameExp = null, int offset = 0, int limit = int.MaxValue)
+        internal IEnumerable<Alloywheel> Search(uint? productId = null, string nameExp = null, int offset = 0, int limit = int.MaxValue)
         {
             // Define sql command
             var command = new CommandDefinition(
@@ -71,9 +72,10 @@ namespace Core.Data.Inventory
                 "unit_price 'UnitPrice', Brand, Dimension from alloywheels " +
                 "join items USING(id_product) " +
                 "join products USING(id_product) " +
-                (nameExp == null ? "" : "where name_product LIKE @nameExp ") +
+                (productId == null ? "" : "where id_product = @productId ") +
+                (nameExp == null ? "" : $"{(productId == null ? "where" : "and")} name_product LIKE @nameExp ") +
                 "order by name_product limit @offset, @limit",
-                new {nameExp, offset, limit});
+                new {productId, nameExp, offset, limit});
 
             // Execute sql command
             return Connection.Query<Alloywheel>(command);

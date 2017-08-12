@@ -62,15 +62,16 @@ namespace Core.Domain.Handlers
         /// <summary>
         ///     Returns products of a given type, matching given search parameters
         /// </summary>
+        /// <param name="productId"></param>
         /// <param name="name"></param>
         /// <param name="productType"></param>
         /// <returns></returns>
-        public IEnumerable<Product> GetProducts(string name = null, ProductType? productType = null)
+        public IEnumerable<Product> GetProducts(uint? productId = null, string name = null, ProductType? productType = null)
         {
             using (var connection = Connector.GetConnection())
             {
                 var productDal = new ProductDal(connection);
-                return productDal.Search(name == null ? null : $"%{name}%", productType);
+                return productDal.Search(productId, name == null ? null : $"%{name}%", productType);
             }
         }
 
@@ -78,17 +79,18 @@ namespace Core.Domain.Handlers
         ///     Returns items matching given search parameters
         ///     and optionally, the itemType
         /// </summary>
+        /// <param name="productId"></param>
         /// <param name="name"></param>
         /// <param name="productType"></param>
         /// <returns></returns>
-        public IEnumerable<Item> GetItems(string name = null, ProductType? productType = null)
+        public IEnumerable<Item> GetItems(uint? productId = null, string name = null, ProductType? productType = null)
         {
             if (productType == ProductType.Service)
                 throw new NotSupportedException("ProductType 'Service' is not applicable here");
             using (var connection = Connector.GetConnection())
             {
                 var itemDal = new ItemDal(connection);
-                return itemDal.Search(name == null ? null : $"%{name}%", productType);
+                return itemDal.Search(productId, name == null ? null : $"%{name}%", productType);
             }
         }
 

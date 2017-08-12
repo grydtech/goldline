@@ -135,10 +135,17 @@ namespace Core.Domain.Handlers
             if (purchase.Id == null)
                 throw new ArgumentNullException(nameof(purchase.Id), "Purchase Id is null");
 
+            var productHandler = new ProductHandler();
+
             using (var connection = Connector.GetConnection())
             {
-                var purchaseItems = new PurchaseItemDal(connection).Search(purchase.Id.Value);
-                purchase.PurchaseItems = purchaseItems?.ToList();
+                var purchaseItems = new PurchaseItemDal(connection).Search(purchase.Id.Value)?.ToList();
+                if (purchaseItems == null) return;
+                foreach (var purchaseItem in purchaseItems)
+                {
+                    purchaseItem.ItemName = productHandler.GetItems(purchaseItem.ItemId).SingleOrDefault()?.Name;
+                }
+                purchase.PurchaseItems = purchaseItems;
             }
         }
     }

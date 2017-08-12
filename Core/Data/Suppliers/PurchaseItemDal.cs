@@ -39,8 +39,7 @@ namespace Core.Data.Suppliers
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_item 'ItemId', name_product 'ItemName', qty 'Qty' from purchases_items " +
-                "join products ON id_item = id_product " +
+                "select id_item 'ItemId', qty 'Qty' from purchases_items " +
                 (purchaseId == null ? "" : "where id_purchase = @purchaseId ") +
                 "order by id_purchase desc limit @offset, @limit",
                 new {purchaseId, offset, limit});

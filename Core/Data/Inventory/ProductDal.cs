@@ -33,28 +33,29 @@ namespace Core.Data.Inventory
         /// <summary>
         ///     Searches records in [products] table
         /// </summary>
+        /// <param name="productId"></param>
         /// <param name="nameExp"></param>
         /// <param name="type"></param>
         /// <param name="offset"></param>
         /// <param name="limit"></param>
-        internal IEnumerable<Product> Search(string nameExp = null, ProductType? type = null, int offset = 0,
+        internal IEnumerable<Product> Search(uint? productId = null, string nameExp = null, ProductType? type = null, int offset = 0,
             int limit = int.MaxValue)
         {
             switch (type)
             {
                 case ProductType.Alloywheel:
-                    return new AlloywheelDal(Connection).Search(nameExp, offset, limit);
+                    return new AlloywheelDal(Connection).Search(productId, nameExp, offset, limit);
                 case ProductType.Battery:
-                    return new BatteryDal(Connection).Search(nameExp, offset, limit);
+                    return new BatteryDal(Connection).Search(productId, nameExp, offset, limit);
                 case ProductType.Tyre:
-                    return new TyreDal(Connection).Search(nameExp, offset, limit);
+                    return new TyreDal(Connection).Search(productId, nameExp, offset, limit);
                 case ProductType.Service:
-                    return new ServiceDal(Connection).Search(nameExp, offset, limit);
+                    return new ServiceDal(Connection).Search(productId, nameExp, offset, limit);
                 case null:
-                    return new AlloywheelDal(Connection).Search(nameExp, offset, limit).Cast<Product>()
-                        .Concat(new BatteryDal(Connection).Search(nameExp, offset, limit))
-                        .Concat(new TyreDal(Connection).Search(nameExp, offset, limit))
-                        .Concat(new ServiceDal(Connection).Search(nameExp, offset, limit))
+                    return new AlloywheelDal(Connection).Search(productId, nameExp, offset, limit).Cast<Product>()
+                        .Concat(new BatteryDal(Connection).Search(productId, nameExp, offset, limit))
+                        .Concat(new TyreDal(Connection).Search(productId, nameExp, offset, limit))
+                        .Concat(new ServiceDal(Connection).Search(productId, nameExp, offset, limit))
                         .OrderBy(c => c.Name);
                 default:
                     return null;

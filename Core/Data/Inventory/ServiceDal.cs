@@ -25,18 +25,20 @@ namespace Core.Data.Inventory
         /// <summary>
         ///     Searches services in [products] table
         /// </summary>
+        /// <param name="productId"></param>
         /// <param name="nameExp"></param>
         /// <param name="offset"></param>
         /// <param name="limit"></param>
-        internal IEnumerable<Service> Search(string nameExp = null, int offset = 0, int limit = int.MaxValue)
+        internal IEnumerable<Service> Search(uint? productId = null, string nameExp = null, int offset = 0, int limit = int.MaxValue)
         {
             // Define sql command
             var command = new CommandDefinition(
                 "select id_product 'Id', name_product 'Name', type_product-1 'ProductType' from products where " +
-                (nameExp == null ? "" : "name_product LIKE @nameExp and ") +
-                "type_product-1 = @type " +
+                (productId == null ? "" : "id_product = @productId ") +
+                (nameExp == null ? "" : $"{(productId == null ? "" : "and")} name_product LIKE @nameExp ") +
+                $"{(productId == null && nameExp == null ? "" : "and")} type_product-1 = @type " +
                 "order by name_product limit @offset, @limit",
-                new {nameExp, offset, limit, type = ProductType.Service});
+                new {productId, nameExp, offset, limit, type = ProductType.Service});
 
             // Execute sql command
             return Connection.Query<Service>(command);

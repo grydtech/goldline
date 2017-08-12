@@ -220,7 +220,7 @@ namespace Goldline.UI.Products
 
         private void RefreshDataGrid()
         {
-            ItemSource = _productHandler.GetItems(SearchTextBox?.Text, (ProductType?) ItemTypeComboBox?.SelectedIndex);
+            ItemSource = _productHandler.GetItems(name: SearchTextBox?.Text, productType: (ProductType?) ItemTypeComboBox?.SelectedIndex);
             InventoryDataGrid?.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
         }
 
