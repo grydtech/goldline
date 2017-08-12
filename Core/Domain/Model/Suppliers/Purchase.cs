@@ -29,6 +29,7 @@ namespace Core.Domain.Model.Suppliers
         public string Note { get; set; }
         public DateTime Date { get; set; }
         public uint? SupplierId { get; set; }
+        public string SupplierName { get; set; }
         public bool IsSettled { get; set; }
         public List<PurchaseItem> PurchaseItems { get; set; }
 
