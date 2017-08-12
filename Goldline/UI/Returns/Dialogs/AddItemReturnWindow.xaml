@@ -77,12 +77,12 @@
                 Grid.ColumnSpan="2"
                 Style="{DynamicResource Goldline.TextBoxStyle.Dark}" />
             <Button
-                x:Name="ClearContactInfoButton"
-                Grid.Row="3"
+                x:Name="ButtonSetContactInfo"
+                Grid.Row="2"
                 Grid.Column="2"
                 Margin="5"
-                Click="ClearContactInfoButton_Click"
-                Content="x"
+                Click="ButtonSetContactInfo_OnClick"
+                Content="@"
                 Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
             <goldline:ProductComboBox
                 x:Name="SearchItemComboBox"
@@ -96,7 +96,6 @@
                 x:Name="SearchCustomerComboBox"
                 Grid.Row="2"
                 Grid.Column="1"
-                Grid.ColumnSpan="2"
                 ItemsSource="{Binding CustomerSource}"
                 SelectionChanged="SearchCustomerComboBox_OnSelectionChanged"
                 Style="{DynamicResource Goldline.ProductComboBoxStyle.Dark}"

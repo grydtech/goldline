@@ -31,17 +31,19 @@ namespace Core.Data.Suppliers
         /// <summary>
         ///     Searches records in [suppliers] table
         /// </summary>
+        /// <param name="supplierId"></param>
         /// <param name="nameExp">search by name</param>
         /// <param name="offset"></param>
         /// <param name="limit"></param>
-        internal IEnumerable<Supplier> Search(string nameExp = null, int offset = 0, int limit = int.MaxValue)
+        internal IEnumerable<Supplier> Search(uint? supplierId = null, string nameExp = null, int offset = 0, int limit = int.MaxValue)
         {
             // Define sql command
             var command = new CommandDefinition(
                 "select id_supplier 'Id', name 'Name', Contact from suppliers " +
-                (nameExp == null ? "" : "where name like @nameExp ") +
+                (supplierId == null ? "" : "where id_supplier = @supplierId ") +
+                (nameExp == null ? "" : $"{(supplierId == null ? "where" : "and")} name like @nameExp ") +
                 "order by name limit @offset, @limit",
-                new {nameExp, offset, limit});
+                new {supplierId, nameExp, offset, limit});
 
             // Execute sql command
             return Connection.Query<Supplier>(command);

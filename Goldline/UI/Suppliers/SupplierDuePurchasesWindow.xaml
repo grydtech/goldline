@@ -104,6 +104,7 @@
                 Click="PayButton_Click"
                 Content="Continue"
                 FontWeight="Bold"
+                IsDefault="True"
                 Style="{DynamicResource Goldline.ButtonStyle.Dark}" />
         </Grid>
 

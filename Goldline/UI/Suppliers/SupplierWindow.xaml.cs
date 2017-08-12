@@ -61,7 +61,7 @@ namespace Goldline.UI.Suppliers
 
         private void RefreshDataGrid()
         {
-            SupplierSource = _supplierHandler.GetSuppliers(SearchTextBox.Text);
+            SupplierSource = _supplierHandler.GetSuppliers(name: SearchTextBox.Text);
             SupplierDataGrid?.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
             SupplierDataGrid?.Items.Refresh();
         }

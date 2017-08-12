@@ -60,7 +60,7 @@
                     Header="Date" />
                 <DataGridTextColumn
                     Width="200"
-                    Binding="{Binding (suppliers:Purchase.SupplierId)}"
+                    Binding="{Binding (suppliers:Purchase.SupplierName)}"
                     Header="Supplier" />
                 <DataGridTextColumn
                     Width="150"
@@ -114,8 +114,14 @@
                         IsReadOnly="True"
                         ItemsSource="{Binding PurchaseItems, NotifyOnSourceUpdated=True}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Width="1*" Binding="{Binding ItemName}" />
-                            <DataGridTextColumn Width="100" Binding="{Binding Qty}" />
+                            <DataGridTextColumn
+                                Width="1*"
+                                Binding="{Binding ItemName}"
+                                Header="Item" />
+                            <DataGridTextColumn
+                                Width="100"
+                                Binding="{Binding Qty}"
+                                Header="Quantity" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </DataTemplate>

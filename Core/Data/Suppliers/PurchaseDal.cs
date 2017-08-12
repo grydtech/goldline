@@ -72,8 +72,8 @@ namespace Core.Data.Suppliers
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_purchase 'Id', id_supplier 'SupplierId', Amount, Note, is_settled 'IsSettled', " +
-                "date_purchased 'Date' from purchases " +
+                "select id_purchase 'Id', id_supplier 'SupplierId', name 'SupplierName', Amount, Note, is_settled 'IsSettled', " +
+                "date_purchased 'Date' from purchases join suppliers USING(id_supplier) " +
                 (supplierId == null && isSettled == null && note == null ? "" : "where ") +
                 (supplierId == null ? "" : "id_supplier = @supplierId ") +
                 (isSettled == null ? "" : (supplierId == null ? "" : "and ") + "is_settled = @isSettled ") +

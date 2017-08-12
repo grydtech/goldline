@@ -17,17 +17,15 @@ namespace Goldline.UI.Suppliers.Dialogs
     {
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        private readonly ProductHandler _productHandler;
         private readonly PurchaseHandler _purchaseHandler;
 
         public AddPurchaseDialog()
         {
             // Set up variables and properties prior to initialization
             _purchaseHandler = new PurchaseHandler();
-            _productHandler = new ProductHandler();
             Purchase = new Purchase();
             SupplierSource = new SupplierHandler().GetSuppliers();
-            ItemSource = _productHandler.GetItems();
+            ItemSource = new ProductHandler().GetItems();
 
             InitializeComponent();
             Logger.Info("AddPurchaseDialog Loaded successfully");
@@ -86,7 +84,8 @@ namespace Goldline.UI.Suppliers.Dialogs
             _purchaseHandler.AddPurchase(Purchase);
             MessageBox.Show("Successfully Added", "Information", MessageBoxButton.OK,
                 MessageBoxImage.Information);
-            InitializeNewPurchase();
+            DialogResult = true;
+            Close();
         }
 
         public void AddSelectedItemToPurchase()

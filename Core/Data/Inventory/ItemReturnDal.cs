@@ -17,16 +17,17 @@ namespace Core.Data.Inventory
         /// </summary>
         /// <param name="itemId"></param>
         /// <param name="customerId"></param>
+        /// <param name="contactInfo"></param>
         /// <param name="qty"></param>
         /// <param name="isHandled"></param>
         /// <param name="note"></param>
-        internal void Insert(uint itemId, uint customerId, uint qty, bool isHandled, string note)
+        internal void Insert(uint itemId, uint? customerId, string contactInfo, uint qty, bool isHandled, string note)
         {
             // Define sql command
             var command = new CommandDefinition(
-                "insert into items_returns (id_item, id_customer, qty_return, is_handled, note) " +
-                "values (@itemId, @customerId, @qty, @isHandled, @note)",
-                new {itemId, customerId, qty, isHandled, note});
+                "insert into items_returns (id_item, id_customer, contact_info, qty_return, is_handled, note) " +
+                "values (@itemId, @customerId, @contactInfo, @qty, @isHandled, @note)",
+                new {itemId, customerId, contactInfo, qty, isHandled, note});
 
             // Execute sql command
             Connection.Execute(command);
@@ -46,8 +47,9 @@ namespace Core.Data.Inventory
         {
             // Define sql command
             var command = new CommandDefinition(
-                "select id_return 'Id', date_return 'Date', id_item 'ItemId', id_customer 'CustomerId', " +
-                "qty_return 'ReturnQty', is_handled 'IsHandled', note 'Note' from items_returns " +
+                "select id_return 'Id', date_return 'Date', id_item 'ItemId', id_customer 'CustomerId', name 'CustomerName' " +
+                "qty_return 'ReturnQty', is_handled 'IsHandled', contact_info 'ContactInfo', note 'Note' " +
+                "from items_returns LEFT JOIN customers USING(id_customer) " +
                 (noteExp == null && isHandled == null && startDate == null && endDate == null ? "" : "where ") +
                 (noteExp == null ? "" : "note like @noteExp ") +
                 (isHandled == null ? "" : (noteExp == null ? "" : "and ") + "is_handled = @isHandled ") +
