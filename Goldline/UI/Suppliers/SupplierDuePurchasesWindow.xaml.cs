@@ -44,19 +44,14 @@ namespace Goldline.UI.Suppliers
             // payoff all selected supplier orders
             _purchaseHandler.UpdatePurchaseMultiple(PurchasesDataGrid.SelectedItems.Cast<Purchase>(), true);
             MessageBox.Show("Successfully Updated!!", "Result", MessageBoxButton.OK, MessageBoxImage.Information);
-            RefreshDataGrid();
+            DialogResult = true;
+            Close();
         }
 
         private void SupplierDataGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             AmountTextBox.Text =
                 PurchasesDataGrid.SelectedItems.Cast<Purchase>().Sum(order => order.Amount).ToString(CultureInfo.InvariantCulture);
-        }
-
-        private void RefreshDataGrid()
-        {
-            DuePurchases = _purchaseHandler.GetPurchases(_supplier.Id, false);
-            PurchasesDataGrid.Items.Refresh();
         }
     }
 }
