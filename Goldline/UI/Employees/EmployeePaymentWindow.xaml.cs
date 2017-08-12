@@ -30,15 +30,40 @@ namespace Goldline.UI.Employees
         private void PayButton_Click(object sender, RoutedEventArgs e)
         {
             var employee = (Employee) EmployeeDataGrid.SelectedItem;
-            if (employee?.Id == null) return;
-            var employeePayment = new EmployeePayment(employee.Id.Value, decimal.Parse(AmountTextBox.Text),
-                ReasonTextBox.Text);
-            _employeePaymentHandler.AddPayment(employeePayment);
-            ReloadDataGrid();
+            if (employee?.Id == null)
+            {
+                MessageBox.Show("Please Enter Payment Details", "GOLDLINE", MessageBoxButton.OK);
+                return;
+            }
+            if (AmountTextBox.Text!="" && ReasonTextBox.Text != "")
+            {
+                decimal amount;
+                if (decimal.TryParse(AmountTextBox.Text, out amount))
+                {
+                    var employeePayment = new EmployeePayment(employee.Id.Value, decimal.Parse(AmountTextBox.Text), ReasonTextBox.Text);
+                    _employeePaymentHandler.AddPayment(employeePayment);
+                    ReloadDataGrid();
+                    AmountTextBox.Text = "";
+                    ReasonTextBox.Text = "Salary";
+                    MessageBox.Show("Payment Recorded Successfully", "GOLDLINE", MessageBoxButton.OK);
+                }
+                else
+                {
+                    MessageBox.Show("Please Enter Valid Amount", "GOLDLINE", MessageBoxButton.OK);
+                    return;
+                }
+                
+
+            }
+            else
+            {
+                MessageBox.Show("Please Enter Payment Details", "GOLDLINE", MessageBoxButton.OK);
+            }
         }
 
         private void DiscardButton_Click(object sender, RoutedEventArgs e)
         {
+            AmountTextBox.Text = "";
             ReloadDataGrid();
         }
 
@@ -72,10 +97,12 @@ namespace Goldline.UI.Employees
                     if (EmployeeDataGrid.SelectedIndex < EmployeeDataGrid.Items.Count - 1)
                         EmployeeDataGrid.SelectedIndex++;
                     e.Handled = true;
+                    AmountTextBox.Text = "";
                     break;
                 case Key.Up:
                     if (EmployeeDataGrid.SelectedIndex > 0) EmployeeDataGrid.SelectedIndex--;
                     e.Handled = true;
+                    AmountTextBox.Text = "";
                     break;
             }
         }

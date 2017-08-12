@@ -139,6 +139,7 @@
                         x:Name="ReasonTextBox"
                         Grid.Row="3"
                         Grid.Column="1"
+                        Text="Salary"
                         Style="{DynamicResource Goldline.TextBoxStyle.Dark}" />
                 </Grid>
                 <Grid Grid.Row="2">
