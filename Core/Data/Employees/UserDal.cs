@@ -86,5 +86,17 @@ namespace Core.Data.Employees
             // Execute sql command
             Connection.Execute(command);
         }
+        /// <summary>
+        ///     Deletes a record from [users] table
+        /// </summary>
+        /// <param name="employeeId"></param>
+        public void Delete(uint employeeId)
+        {
+            // Define sql command
+            var command = new CommandDefinition("delete from users where id_employee = @employeeId", new {employeeId});
+
+            // Execute sql command
+            Connection.Execute(command);
+        }
     }
 }

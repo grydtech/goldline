@@ -79,9 +79,16 @@ namespace Core.Domain.Handlers
         /// <param name="accessMode"></param>
         public void UpdateUserAccess(User user, AccessMode accessMode)
         {
+            if (user.AccessMode == accessMode)
+                throw new ArgumentException(@"User already has the passed access mode");
+
             using (var connection = Connector.GetConnection())
             {
-                new UserDal(connection).Update(user.EmployeeId, accessMode);
+                if (user.AccessMode != AccessMode.None && accessMode == AccessMode.None)
+                    new UserDal(connection).Delete(user.EmployeeId);
+                else
+                    new UserDal(connection).Update(user.EmployeeId, accessMode);
+                user.AccessMode = accessMode;
             }
         }
 

@@ -63,26 +63,30 @@
             Style="{DynamicResource DataGridStyle}">
             <DataGrid.Columns>
                 <DataGridTextColumn
-                    Width="0.1*"
+                    Width="175"
                     Binding="{Binding (inventory:ItemReturn.Date)}"
                     Header="Date" />
                 <DataGridTextColumn
-                    Width="0.2*"
-                    Binding="{Binding (inventory:ItemReturn.CustomerId)}"
+                    Width="200"
+                    Binding="{Binding (inventory:ItemReturn.CustomerName)}"
                     Header="Customer" />
                 <DataGridTextColumn
-                    Width="0.3*"
-                    Binding="{Binding (inventory:ItemReturn.ItemId)}"
+                    Width="150"
+                    Binding="{Binding (inventory:ItemReturn.ContactInfo)}"
+                    Header="Contact" />
+                <DataGridTextColumn
+                    Width="200"
+                    Binding="{Binding (inventory:ItemReturn.ItemName)}"
                     Header="Item" />
                 <DataGridTextColumn
-                    Width="0.1*"
+                    Width="80"
                     Binding="{Binding (inventory:ItemReturn.ReturnQty)}"
                     Header="Qty" />
                 <DataGridTextColumn
-                    Width="0.2*"
+                    Width="1*"
                     Binding="{Binding (inventory:ItemReturn.Note)}"
                     Header="Note" />
-                <DataGridTemplateColumn Width="0.1*" Header="Status">
+                <DataGridTemplateColumn Width="100" Header="Status">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="inventory:ItemReturn">
                             <ToggleButton

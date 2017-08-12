@@ -71,18 +71,20 @@ namespace Goldline.UI.Security
 
             #endregion
 
+            var accessMode = (AccessMode) UserTypeComboBox.SelectedIndex;
             if (_employee.AccessMode != AccessMode.None)
             {
                 // should update existing employee if there are any changes
-                _uaHandler.UpdateUserAccess(_user, (AccessMode) UserTypeComboBox.SelectedIndex);
+                _uaHandler.UpdateUserAccess(_user, accessMode);
                 MessageBox.Show("User access updated successfully");
             }
             else
             {
                 // should add new user to database
-                _uaHandler.AddUserAccess(_employee, (AccessMode) UserTypeComboBox.SelectedIndex, UserNameTextBox.Text);
+                _uaHandler.AddUserAccess(_employee, accessMode, UserNameTextBox.Text);
                 MessageBox.Show("User AccessMode provided Successfully");
             }
+            DialogResult = true;
             Close();
         }
 

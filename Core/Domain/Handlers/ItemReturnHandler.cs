@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Core.Data;
 using Core.Data.Inventory;
 using Core.Domain.Model.Inventory;
@@ -59,7 +60,14 @@ namespace Core.Domain.Handlers
         {
             using (var connection = Connector.GetConnection())
             {
-                return new ItemReturnDal(connection).Search($"%{note}%", isHandled, startDate, endDate);
+                var itemReturns =  new ItemReturnDal(connection).Search($"%{note}%", isHandled, startDate, endDate).ToList();
+                var productHandler = new ProductHandler();
+
+                foreach (var itemReturn in itemReturns)
+                {
+                    itemReturn.ItemName = productHandler.GetItems(itemReturn.ItemId).SingleOrDefault()?.Name;
+                }
+                return itemReturns;
             }
         }
     }

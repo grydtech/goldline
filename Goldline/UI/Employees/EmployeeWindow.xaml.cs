@@ -31,8 +31,8 @@ namespace Goldline.UI.Employees
         {
             var employee = (sender as Button)?.Tag as Employee;
             if (employee == null) return;
-            new UserAccessDialog(employee).ShowDialog();
-            ReloadDataGrid();
+            var dialogResult = new UserAccessDialog(employee).ShowDialog();
+            if (dialogResult == true) ReloadDataGrid();
         }
 
         #region Button Operations

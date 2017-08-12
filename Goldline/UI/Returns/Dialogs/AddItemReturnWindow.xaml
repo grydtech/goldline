@@ -89,16 +89,21 @@
                 Grid.Row="0"
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
+                ColumnHeader1="Name"
+                ColumnHeader2="Price"
+                ColumnHeader3="Stocks"
                 ItemsSource="{Binding ItemsSource}"
                 Style="{DynamicResource Goldline.ProductComboBoxStyle.Dark}"
                 Watermark="Select Item..." />
-            <goldline:ProductComboBox
+            <goldline:PersonComboBox
                 x:Name="SearchCustomerComboBox"
                 Grid.Row="2"
                 Grid.Column="1"
+                ColumnHeader1="Name"
+                ColumnHeader2="Contact"
                 ItemsSource="{Binding CustomerSource}"
                 SelectionChanged="SearchCustomerComboBox_OnSelectionChanged"
-                Style="{DynamicResource Goldline.ProductComboBoxStyle.Dark}"
+                Style="{DynamicResource Goldline.PersonComboBoxStyle.Dark}"
                 Watermark="Select Customer..." />
             <Label
                 x:Name="NotesLabel"
