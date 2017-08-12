@@ -18,7 +18,7 @@ namespace Core.Domain.Handlers
                 throw new ArgumentNullException(nameof(itemreturn.CustomerId), "ItemReturn Contact Information is null");
             using (var connection = Connector.GetConnection())
             {
-                new ItemReturnDal(connection).Insert(itemreturn.ItemId, itemreturn.CustomerId.Value,
+                new ItemReturnDal(connection).Insert(itemreturn.ItemId, itemreturn.CustomerId, itemreturn.ContactInfo,
                     itemreturn.ReturnQty, itemreturn.IsHandled, itemreturn.Note);
             }
         }
