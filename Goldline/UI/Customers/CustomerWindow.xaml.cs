@@ -43,15 +43,26 @@ namespace Goldline.UI.Customers
             {
                 MessageBox.Show("Please select a customer", "GOLDLINE", MessageBoxButton.OK);
             }
-            else if (NameTextBox.Text == "" || ContactInfoTextBox.Text == "")
+            else if (NameTextBox.Text == "" || ContactInfoTextBox.Text == "" || NicTextBox.Text == "")
             {
                 MessageBox.Show("Please enter valid inputs", "GOLDLINE", MessageBoxButton.OK);
             }
             else
             {
-                _customerHandler.UpdateCustomer((Customer) CustomerDataGrid.SelectedItem, NameTextBox.Text, NicTextBox.Text, ContactInfoTextBox.Text);
-                MessageBox.Show("Changes updated successfully", "GOLDLINE", MessageBoxButton.OK);
-                CustomerDataGrid.Items.Refresh();
+                if (ValidateValues())
+                {
+                    _customerHandler.UpdateCustomer((Customer)CustomerDataGrid.SelectedItem, NameTextBox.Text, NicTextBox.Text, ContactInfoTextBox.Text);
+                    MessageBox.Show("Changes updated successfully", "GOLDLINE", MessageBoxButton.OK);
+                    CustomerDataGrid.Items.Refresh();
+                    NameTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
+                    NicTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
+                    ContactInfoTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
+                }
+                else
+                {
+                    MessageBox.Show("Please enter valid inputs", "GOLDLINE", MessageBoxButton.OK);
+                }
+                
             }
         }
 
@@ -102,7 +113,12 @@ namespace Goldline.UI.Customers
         #endregion
 
         #region Selection and Text Changed Behaviour
-
+        private bool ValidateValues()
+        {
+            var customer = new Customer(NameTextBox.Text, ContactInfoTextBox.Text, NicTextBox.Text);
+            return (customer.IsNicValid());
+        }
+        
         private void SearchTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             RefreshDataGrid();
