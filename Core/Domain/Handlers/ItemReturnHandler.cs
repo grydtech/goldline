@@ -55,12 +55,12 @@ namespace Core.Domain.Handlers
         ///     Returns a list of all item returns
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<ItemReturn> GetItemReturns(string note = null, bool? isHandled = null,
+        public IEnumerable<ItemReturn> GetItemReturns(string note = null, uint? itemId = null, bool? isHandled = null,
             DateTime? startDate = null, DateTime? endDate = null)
         {
             using (var connection = Connector.GetConnection())
             {
-                var itemReturns =  new ItemReturnDal(connection).Search($"%{note}%", isHandled, startDate, endDate).ToList();
+                var itemReturns =  new ItemReturnDal(connection).Search($"%{note}%", itemId, isHandled, startDate, endDate).ToList();
                 var productHandler = new ProductHandler();
 
                 foreach (var itemReturn in itemReturns)

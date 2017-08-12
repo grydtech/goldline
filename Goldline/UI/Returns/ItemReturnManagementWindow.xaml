@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:goldline="clr-namespace:Goldline"
     xmlns:inventory="clr-namespace:Core.Domain.Model.Inventory;assembly=Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
@@ -29,6 +30,7 @@
                 <ColumnDefinition Width="50" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <xctk:WatermarkTextBox
                 x:Name="SearchTextBox"
@@ -50,12 +52,22 @@
                 FontWeight="Bold"
                 Style="{StaticResource Goldline.TextBlockStyle.Dark}"
                 Text="Filter By: " />
-            <ComboBox
-                x:Name="FilterComboBox"
+            <goldline:ProductComboBox
+                x:Name="ItemComboBox"
                 Grid.Column="3"
                 Margin="5"
+                ColumnHeader1="Item"
+                ColumnHeader2="Price"
+                ColumnHeader3="Stocks"
+                SelectionChanged="ItemComboBox_OnSelectionChanged"
+                Watermark="(Item)" />
+            <xctk:WatermarkComboBox
+                x:Name="FilterComboBox"
+                Grid.Column="4"
+                Margin="5"
                 SelectedIndex="0"
-                SelectionChanged="FilterComboBox_SelectionChanged" />
+                SelectionChanged="FilterComboBox_SelectionChanged"
+                Watermark="(Status)" />
         </Grid>
         <DataGrid
             x:Name="InventoryDataGrid"

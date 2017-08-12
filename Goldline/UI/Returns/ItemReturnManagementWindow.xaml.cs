@@ -16,18 +16,20 @@ namespace Goldline.UI.Returns
     {
         private readonly ItemReturnHandler _itemReturnHandler;
         private bool? _isHandled;
+        private uint? _itemId;
         private IEnumerable<ItemReturn> _returnedItemSource;
 
         public ItemReturnManagementWindow()
         {
             InitializeComponent();
             _itemReturnHandler = new ItemReturnHandler();
+            ItemComboBox.ItemsSource = new ProductHandler().GetItems();
             FilterComboBox.ItemsSource = new[] {"All", "Handled", "Pending"};
         }
 
         public void Refresh()
         {
-            _returnedItemSource = _itemReturnHandler.GetItemReturns(SearchTextBox?.Text, _isHandled);
+            _returnedItemSource = _itemReturnHandler.GetItemReturns(SearchTextBox?.Text, _itemId, _isHandled);
             InventoryDataGrid.ItemsSource = _returnedItemSource;
             InventoryDataGrid.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
         }
@@ -85,5 +87,11 @@ namespace Goldline.UI.Returns
         }
 
         #endregion
+
+        private void ItemComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _itemId = (ItemComboBox.SelectedItem as Item)?.Id;
+            Refresh();
+        }
     }
 }
