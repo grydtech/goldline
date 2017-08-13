@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core.Data;
+using System.Linq;
 using Core.Data.Employees;
 using Core.Domain.Model.Employees;
 
@@ -34,11 +35,11 @@ namespace Core.Domain.Handlers
         /// <param name="name"></param>
         /// <param name="isActive"></param>
         /// <returns></returns>
-        public IEnumerable<Employee> GetEmployees(string name = null, bool? isActive = null)
+        public IEnumerable<Employee> GetEmployees(string name = null, bool? isActive = null, bool isLastPaymentDateLoaded = false)
         {
             using (var connection = Connector.GetConnection())
             {
-                return new EmployeeDal(connection).Search(name == null ? null : $"%{name}%", isActive);
+                return new EmployeeDal(connection).Search(name == null ? null : $"%{name}%", isActive,isLastPaymentDateLoaded:isLastPaymentDateLoaded);
             }
         }
 
@@ -61,6 +62,23 @@ namespace Core.Domain.Handlers
                 employee.Name = name ?? employee.Name;
                 employee.Contact = contact ?? employee.Contact;
                 employee.IsActive = isActive ?? employee.IsActive;
+            }
+        }
+        /// <summary>
+        ///     Load Employee Paymnts of a employee
+        /// </summary>
+        /// <param name="employee"></param>
+        public void LoadEmployeePayments(Employee employee)
+        {
+            if (employee.Id == null)
+                throw new ArgumentNullException(nameof(employee.Id), "Employee Id is null");
+
+            var employeePaymentHandler = new EmployeePaymentHandler();
+
+            using (var connection = Connector.GetConnection())
+            {//Search(uint? employeeId = null, int offset = 0, int limit = int.MaxValue)
+                var employeePayemnts= new EmployeePaymentDal(connection).Search(employee.Id.Value,limit:5)?.ToList();
+                employee.EmployeePayments = employeePayemnts ?? throw new NullReferenceException("employee payements empty");
             }
         }
     }

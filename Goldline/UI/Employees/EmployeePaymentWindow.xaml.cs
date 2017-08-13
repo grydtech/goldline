@@ -19,7 +19,7 @@ namespace Goldline.UI.Employees
         {
             _employeeHandler = new EmployeeHandler();
             _employeePaymentHandler = new EmployeePaymentHandler();
-            EmployeeSource = _employeeHandler.GetEmployees();
+            EmployeeSource = _employeeHandler.GetEmployees(isLastPaymentDateLoaded:true);
             InitializeComponent();
         }
 
@@ -81,7 +81,7 @@ namespace Goldline.UI.Employees
         private void ReloadDataGrid()
         {
             // Update Data Grid with new set of employees
-            EmployeeSource = _employeeHandler.GetEmployees();
+            EmployeeSource = _employeeHandler.GetEmployees(isLastPaymentDateLoaded:true);
             EmployeeDataGrid.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
         }
 
@@ -110,5 +110,13 @@ namespace Goldline.UI.Employees
         #endregion
 
         #endregion
+
+        private void EmployeeDataGrid_OnRowDetailsVisibilityChanged(object sender, DataGridRowDetailsEventArgs e)
+        {
+            if (EmployeeDataGrid.SelectedItem == null) return;
+            if (((Employee)EmployeeDataGrid.SelectedItem).EmployeePayments.Count > 0) return;
+            _employeeHandler.LoadEmployeePayments((Employee)EmployeeDataGrid.SelectedItem);
+            EmployeeDataGrid.Items.Refresh();
+        }
     }
 }

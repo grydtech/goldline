@@ -32,7 +32,8 @@
             <DataGrid
                 x:Name="EmployeeDataGrid"
                 ItemsSource="{Binding EmployeeSource, Mode=TwoWay}"
-                RowDetailsVisibilityMode="Visible"
+                RowDetailsVisibilityMode="VisibleWhenSelected"
+                RowDetailsVisibilityChanged="EmployeeDataGrid_OnRowDetailsVisibilityChanged"
                 Style="{DynamicResource DataGridStyle}">
                 <DataGrid.Columns>
                     <DataGridTextColumn
@@ -45,9 +46,31 @@
                         Header="Name" />
                     <DataGridTextColumn
                         Width="0.5*"
-                        Binding="{Binding DateJoined}"
+                        Binding="{Binding LastPaidDate}"
                         Header="Last Payment Date" />
                 </DataGrid.Columns>
+                <DataGrid.RowDetailsTemplate>
+                    <DataTemplate DataType="employees:Employee">
+                        <DataGrid
+                        x:Name="DataGridEmployeePayments"
+                        AutoGenerateColumns="False"
+                        CanUserResizeRows="False"
+                        HorizontalScrollBarVisibility="Disabled"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding EmployeePayments}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn
+                                Width="300"
+                                Binding="{Binding Reason}"
+                                Header="Description" />
+                                <DataGridTextColumn
+                                Width="300"
+                                Binding="{Binding Date}"
+                                Header="Date" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DataTemplate>
+                </DataGrid.RowDetailsTemplate>
             </DataGrid>
             <Button
                 Grid.Row="1"

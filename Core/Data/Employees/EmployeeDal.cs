@@ -36,15 +36,18 @@ namespace Core.Data.Employees
         /// <param name="offset"></param>
         /// <param name="limit"></param>
         internal IEnumerable<Employee> Search(string nameExp = null, bool? isActive = null, int offset = 0,
-            int limit = int.MaxValue)
+            int limit = int.MaxValue , bool isLastPaymentDateLoaded = false)
         {
             // Define sql command
             var command = new CommandDefinition(
                 "select id_employee 'Id', name 'Name', (SELECT COALESCE(type_user-0, 0) from users U WHERE U.id_employee = E.id_employee) 'AccessMode', contact 'Contact', date_joined 'DateJoined', is_active 'IsActive' " +
+                (isLastPaymentDateLoaded ? ", MAX(date_paid) 'LastPaidDate' " : "") +
                 "from employees E " +
+                (isLastPaymentDateLoaded ? "left join employees_payments using (id_employee) " : "") +
                 (nameExp == null && isActive == null ? "" : "where ") +
                 (nameExp == null ? "" : "name LIKE @nameExp ") +
                 (isActive == null ? "" : (nameExp == null ? "" : "and ") + "is_active = @isActive ") +
+                (isLastPaymentDateLoaded ? "group by id_employee " : "") +
                 "order by name limit @offset, @limit",
                 new {nameExp, isActive, offset, limit});
 
