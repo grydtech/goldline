@@ -77,8 +77,9 @@ namespace Core.Domain.Handlers
 
             using (var connection = Connector.GetConnection())
             {//Search(uint? employeeId = null, int offset = 0, int limit = int.MaxValue)
-                var employeePayemnts= new EmployeePaymentDal(connection).Search(employee.Id.Value,limit:5)?.ToList();
-                employee.EmployeePayments = employeePayemnts ?? throw new NullReferenceException("employee payements empty");
+                var employeePayments = new EmployeePaymentDal(connection).Search(employee.Id.Value, limit: 5)?.ToList();
+                employee.EmployeePayments = employeePayments ??
+                                            throw new NullReferenceException("employee payements empty");
             }
         }
     }

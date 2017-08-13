@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Core.Domain.Enums;
@@ -20,7 +21,7 @@ namespace Goldline.UI.Employees.Dialogs
         public AddEmployeeDialog()
         {
             InitializeComponent();
-            AccessModeComboBox.ItemsSource = Enum.GetNames(typeof(AccessMode));
+            AccessModeComboBox.ItemsSource = Enum.GetNames(typeof(AccessMode)).ToList().GetRange(1, 3);
             _employeeHandler = new EmployeeHandler();
             _securityHandler = new SecurityHandler();
         }
@@ -62,7 +63,7 @@ namespace Goldline.UI.Employees.Dialogs
             if (_isUser)
                 try
                 {
-                    new SecurityHandler().AddUserAccess(employee, (AccessMode) AccessModeComboBox.SelectedIndex,
+                    new SecurityHandler().AddUserAccess(employee, (AccessMode) AccessModeComboBox.SelectedIndex + 1,
                         UserNameTextBox.Text);
                     MessageBox.Show("User access provided successfully");
                 }
