@@ -11,6 +11,7 @@
     MinWidth="1024"
     MinHeight="576"
     Background="{DynamicResource Goldline.Background.Window}"
+    Closing="HomeWindow_OnClosing"
     FontSize="16"
     Visibility="Visible"
     WindowStartupLocation="CenterScreen"

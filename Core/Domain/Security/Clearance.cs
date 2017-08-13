@@ -5,7 +5,7 @@ namespace Core.Domain.Security
 {
     public class Clearance
     {
-        public Clearance(AccessMode userType)
+        public Clearance(AccessMode accessMode)
         {
             CanManageCustomers = false;
             CanManageProducts = false;
@@ -20,7 +20,7 @@ namespace Core.Domain.Security
             CanGenerateReports = false;
             CanViewActivityLog = false;
 
-            switch (userType)
+            switch (accessMode)
             {
                 case AccessMode.Manager:
                     CanManageCustomers = true;
@@ -46,7 +46,7 @@ namespace Core.Domain.Security
                     CanHandleOrders = true;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(userType), userType, null);
+                    throw new ArgumentOutOfRangeException(nameof(accessMode), accessMode, null);
             }
         }
 

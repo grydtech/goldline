@@ -267,6 +267,8 @@ namespace Goldline.UI.Customers.Dialogs
                 Order = new Order();
                 RefreshOrderItemsDataGrid();
                 UpdateGrandTotalLabel();
+                ProductSource = _productHandler.GetItems();
+                ProductComboBox.GetBindingExpression(ProductComboBox.ItemsSourceProperty)?.UpdateTarget();
             }
             catch (Exception ex)
             {

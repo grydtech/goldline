@@ -37,12 +37,13 @@ namespace Core.Data.Inventory
         ///     Searches records in [items_returns] table
         /// </summary>
         /// <param name="noteExp">search by note</param>
+        /// <param name="itemId">search by item id</param>
         /// <param name="isHandled">if null, return all irrespective of return condition, else return only given type</param>
         /// <param name="startDate"></param>
         /// <param name="endDate"></param>
         /// <param name="offset"></param>
         /// <param name="limit">number of items returned</param>
-        internal IEnumerable<ItemReturn> Search(string noteExp = null, bool? isHandled = null,
+        internal IEnumerable<ItemReturn> Search(string noteExp = null, uint? itemId = null, bool? isHandled = null,
             DateTime? startDate = null, DateTime? endDate = null, int offset = 0, int limit = int.MaxValue)
         {
             // Define sql command
@@ -50,18 +51,19 @@ namespace Core.Data.Inventory
                 "select id_return 'Id', date_return 'Date', id_item 'ItemId', id_customer 'CustomerId', name 'CustomerName', " +
                 "qty_return 'ReturnQty', is_handled 'IsHandled', contact_info 'ContactInfo', note 'Note' " +
                 "from items_returns LEFT JOIN customers USING(id_customer) " +
-                (noteExp == null && isHandled == null && startDate == null && endDate == null ? "" : "where ") +
+                (noteExp == null && itemId == null && isHandled == null && startDate == null && endDate == null ? "" : "where ") +
                 (noteExp == null ? "" : "note like @noteExp ") +
-                (isHandled == null ? "" : (noteExp == null ? "" : "and ") + "is_handled = @isHandled ") +
+                (itemId == null ? "" : (noteExp == null ? "" : "and ") + "id_item = @itemId ") +
+                (isHandled == null ? "" : (noteExp == null && itemId == null ? "" : "and ") + "is_handled = @isHandled ") +
                 (startDate == null
                     ? ""
-                    : (noteExp == null && isHandled == null ? "" : "and ") + "date_return >= @startDate ") +
+                    : (noteExp == null && itemId == null && isHandled == null ? "" : "and ") + "date_return >= @startDate ") +
                 (endDate == null
                     ? ""
-                    : (noteExp == null && isHandled == null && startDate == null ? "" : "and ") +
+                    : (noteExp == null && itemId == null && isHandled == null && startDate == null ? "" : "and ") +
                       "date_return <= @endDate ") +
                 "order by id_return desc limit @offset, @limit",
-                new {noteExp, isHandled, startDate, endDate, offset, limit});
+                new {noteExp, itemId, isHandled, startDate, endDate, offset, limit});
 
             // Execute sql command
             return Connection.Query<ItemReturn>(command);
