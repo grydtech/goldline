@@ -29,6 +29,7 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition />
+                <RowDefinition Height="Auto" />
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
@@ -45,37 +46,27 @@
                 Grid.Column="1"
                 IsEnabled="False"
                 Style="{StaticResource Goldline.TextBoxStyle.Dark}" />
-            <Label
+            <Separator
                 Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Margin="5"
+                Background="{StaticResource Goldline.BorderBrush.Expander}" />
+            <Label
+                Grid.Row="2"
                 Grid.Column="0"
                 Content="Customer :"
                 FontWeight="Bold"
                 Style="{DynamicResource Goldline.LabelStyle.Dark}" />
             <goldline:PersonComboBox
                 x:Name="CustomerComboBox"
-                Grid.Row="1"
+                Grid.Row="2"
                 Grid.Column="1"
                 ColumnHeader1="Name"
                 ColumnHeader2="Contact"
                 ScrollViewer.CanContentScroll="True"
                 Style="{StaticResource Goldline.PersonComboBoxStyle.Dark}"
                 Watermark="Select Customer" />
-            <Label
-                x:Name="PaymentLabel"
-                Grid.Row="2"
-                Grid.Column="0"
-                Content="Paid Amount :"
-                Style="{DynamicResource Goldline.LabelStyle.Dark}" />
-            <TextBox
-                x:Name="PaymentTextBox"
-                Grid.Row="2"
-                Grid.Column="1"
-                Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
-                TextWrapping="Wrap">
-                <i:Interaction.Behaviors>
-                    <goldline:TextBoxInputBehavior InputMode="{StaticResource DigitInputMode}" />
-                </i:Interaction.Behaviors>
-            </TextBox>
             <Label
                 x:Name="NoteLabel"
                 Grid.Row="3"
@@ -88,6 +79,23 @@
                 Grid.Column="1"
                 Style="{DynamicResource Goldline.WatermarkTextBoxStyle.Dark}"
                 Watermark="{DynamicResource NoteTextBoxText}" />
+            <Label
+                x:Name="PaymentLabel"
+                Grid.Row="4"
+                Grid.Column="0"
+                Content="Paid Amount :"
+                FontWeight="Bold"
+                Style="{DynamicResource Goldline.LabelStyle.Dark}" />
+            <TextBox
+                x:Name="PaymentTextBox"
+                Grid.Row="4"
+                Grid.Column="1"
+                Style="{DynamicResource Goldline.TextBoxStyle.Dark}"
+                TextWrapping="Wrap">
+                <i:Interaction.Behaviors>
+                    <goldline:TextBoxInputBehavior InputMode="{StaticResource DigitInputMode}" />
+                </i:Interaction.Behaviors>
+            </TextBox>
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>

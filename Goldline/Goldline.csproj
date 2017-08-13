@@ -94,8 +94,23 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Xceed.Wpf.Toolkit, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.1\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid, Version=3.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.1\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.1\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -301,24 +316,6 @@
     <None Include="Properties\DataSources\Core.Domain.Model.Inventory.Alloywheel.datasource" />
     <None Include="Properties\DataSources\Core.Domain.Model.Inventory.Battery.datasource" />
     <None Include="Properties\DataSources\Core.Domain.Model.Inventory.Tyre.datasource" />
-    <None Include="Properties\DataSources\Core.Model.Orders.CustomerOrder.datasource" />
-    <None Include="Properties\DataSources\Core.Model.Orders.CustomerOrderEntry.datasource" />
-    <None Include="Properties\DataSources\Core.Model.Orders.SupplierOrder.datasource" />
-    <None Include="Properties\DataSources\Core.Model.Orders.SupplierOrderEntry.datasource" />
-    <None Include="Properties\DataSources\Core.Model.Orders.SupplyOrder.datasource" />
-    <None Include="Properties\DataSources\Core.Model.Payments.CustomerPayment.datasource" />
-    <None Include="Properties\DataSources\Core.Model.Payments.EmployeePayment.datasource" />
-    <None Include="Properties\DataSources\Core.Model.Payments.Payment.datasource" />
-    <None Include="Properties\DataSources\Core.Model.Persons.Customer.datasource" />
-    <None Include="Properties\DataSources\Core.Model.Persons.Employee.datasource" />
-    <None Include="Properties\DataSources\Core.Model.Persons.Person.datasource" />
-    <None Include="Properties\DataSources\Core.Model.Persons.Supplier.datasource" />
-    <None Include="Properties\DataSources\Core.Model.Products.Alloywheel.datasource" />
-    <None Include="Properties\DataSources\Core.Model.Products.Battery.datasource" />
-    <None Include="Properties\DataSources\Core.Model.Products.Item.datasource" />
-    <None Include="Properties\DataSources\Core.Model.Products.Product.datasource" />
-    <None Include="Properties\DataSources\Core.Model.Products.Service.datasource" />
-    <None Include="Properties\DataSources\Core.Model.Products.Tyre.datasource" />
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
@@ -508,9 +505,6 @@
       <Project>{f5e311dc-f9a8-41e5-9782-5fd3148dee56}</Project>
       <Name>Core</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
