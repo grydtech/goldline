@@ -7,11 +7,11 @@ namespace Core.Domain.Model.Employees
 {
     public class Employee : Person
     {
-        public Employee(string name, string contact, bool isActive, AccessMode accessMode, IEnumerable<EmployeePayment> orderEntries=null) : base(name, contact)
+        public Employee(string name, string contact, bool isActive, AccessMode accessMode, IEnumerable<EmployeePayment> employeePaymets = null) : base(name, contact)
         {
             IsActive = isActive;
             AccessMode = accessMode;
-            EmployeePayments = orderEntries?.ToList() ?? new List<EmployeePayment>();
+            EmployeePayments = employeePaymets?.ToList();
         }
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace Core.Domain.Model.Employees
         public Employee()
         {
             AccessMode = AccessMode.None;
-            EmployeePayments = new List<EmployeePayment>();
+            EmployeePayments =null;
         }
         
         public DateTime? LastPaidDate { get; set; }

@@ -114,7 +114,7 @@ namespace Goldline.UI.Employees
         private void EmployeeDataGrid_OnRowDetailsVisibilityChanged(object sender, DataGridRowDetailsEventArgs e)
         {
             if (EmployeeDataGrid.SelectedItem == null) return;
-            if (((Employee)EmployeeDataGrid.SelectedItem).EmployeePayments.Count > 0) return;
+            if (((Employee)EmployeeDataGrid.SelectedItem).EmployeePayments!=null) return;
             _employeeHandler.LoadEmployeePayments((Employee)EmployeeDataGrid.SelectedItem);
             EmployeeDataGrid.Items.Refresh();
         }

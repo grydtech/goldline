@@ -61,11 +61,15 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn
                                 Width="300"
+                                Binding="{Binding Date}"
+                                Header="Date" />
+                                <DataGridTextColumn
+                                Width="1*"
                                 Binding="{Binding Reason}"
                                 Header="Description" />
                                 <DataGridTextColumn
-                                Width="300"
-                                Binding="{Binding Date}"
+                                Width="250"
+                                Binding="{Binding Amount}"
                                 Header="Date" />
                             </DataGrid.Columns>
                         </DataGrid>
