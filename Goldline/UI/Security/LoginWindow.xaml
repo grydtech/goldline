@@ -82,7 +82,6 @@
                     CharacterCasing="Lower"
                     KeepWatermarkOnGotFocus="True"
                     Style="{DynamicResource Goldline.WatermarkTextBoxStyle.Dark}"
-                    Text="shalutha"
                     Watermark="username" />
                 <Label
                     x:Name="PasswordLabel"

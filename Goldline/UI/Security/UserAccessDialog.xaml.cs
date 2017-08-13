@@ -52,11 +52,13 @@ namespace Goldline.UI.Security
 
         private void OkButton_OnClick(object sender, RoutedEventArgs e)
         {
+            var accessMode = (AccessMode)UserTypeComboBox.SelectedIndex;
             // Close if no changes detected
-            if (!_isExpanded)
+            if (!_isExpanded || _user?.AccessMode==accessMode)
             {
                 MessageBox.Show("No changes to be done");
                 Close();
+                return;
             }
 
             #region Username validation for regular employees
@@ -70,8 +72,7 @@ namespace Goldline.UI.Security
             }
 
             #endregion
-
-            var accessMode = (AccessMode) UserTypeComboBox.SelectedIndex;
+            
             if (_employee.AccessMode != AccessMode.None)
             {
                 // should update existing employee if there are any changes
@@ -96,10 +97,18 @@ namespace Goldline.UI.Security
         private void CheckAvailabilityButton_OnClick(object sender, RoutedEventArgs e)
         {
             // Verify if username is available
-            CheckIfUserNameAvailable();
+            if (!String.IsNullOrWhiteSpace(UserNameTextBox.Text))
+            {
+                CheckIfUserNameAvailable();
 
-            if (_isUserNameUnique == false) MessageBox.Show("This UserName is already taken. Please choose another");
-            if (_isUserNameUnique == true) MessageBox.Show("This username is available!");
+                if (_isUserNameUnique == false) MessageBox.Show("This UserName is already taken. Please choose another");
+                if (_isUserNameUnique == true) MessageBox.Show("This username is available!");
+
+            }
+            else
+            {
+                MessageBox.Show("Please enter the Username");
+            }
         }
 
         private void CheckIfUserNameAvailable()

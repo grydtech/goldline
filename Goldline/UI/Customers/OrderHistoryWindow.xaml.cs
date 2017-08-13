@@ -19,6 +19,7 @@ namespace Goldline.UI.Customers
             _orderHandler = new OrderHandler();
             CustomerSource = new CustomerHandler().GetCustomers();
             InitializeComponent();
+            RefreshDataGrid();
         }
 
         public IEnumerable<Order> OrdersSource { get; set; }
