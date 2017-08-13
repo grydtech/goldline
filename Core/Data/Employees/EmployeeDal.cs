@@ -35,8 +35,9 @@ namespace Core.Data.Employees
         /// <param name="isActive"></param>
         /// <param name="offset"></param>
         /// <param name="limit"></param>
+        /// <param name="isLastPaymentDateLoaded"></param>
         internal IEnumerable<Employee> Search(string nameExp = null, bool? isActive = null, int offset = 0,
-            int limit = int.MaxValue , bool isLastPaymentDateLoaded = false)
+            int limit = int.MaxValue, bool isLastPaymentDateLoaded = false)
         {
             // Define sql command
             var command = new CommandDefinition(

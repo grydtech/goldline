@@ -31,7 +31,7 @@ namespace Core.Domain.Model.Customers
         public decimal Amount
         {
             get { return OrderItems?.Sum(oe => oe.NetPrice) ?? _total; }
-            set { _total = value; }
+            set => _total = value;
         }
 
         public string Note { get; set; }

@@ -4,7 +4,8 @@ namespace Core.Domain.Model.Inventory
 {
     public class ItemReturn
     {
-        public ItemReturn(uint itemId, uint? customerId, string contactInfo, uint returnQty, bool isHandled, string note)
+        public ItemReturn(uint itemId, uint? customerId, string contactInfo, uint returnQty, bool isHandled,
+            string note)
         {
             ItemId = itemId;
             CustomerId = customerId;

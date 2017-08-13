@@ -1,4 +1,5 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ControlTemplate x:Key="WindowTemplate" TargetType="{x:Type Window}">
         <Border
             Background="{TemplateBinding Background}"
@@ -72,7 +73,8 @@
         <Setter Property="Margin" Value="5" />
         <Setter Property="Background" Value="{DynamicResource Goldline.Background.HeaderBar}" />
         <Setter Property="BorderBrush" Value="{DynamicResource Goldline.Border}" />
-        <Setter Property="AlternatingRowBackground" Value="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" />
+        <Setter Property="AlternatingRowBackground"
+                Value="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" />
         <Setter Property="AutoGenerateColumns" Value="False" />
         <Setter Property="CanUserReorderColumns" Value="False" />
         <Setter Property="CanUserResizeRows" Value="False" />
@@ -133,7 +135,8 @@
                                             Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
                                         <Grid Grid.Row="2" Grid.Column="1">
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                                <ColumnDefinition
+                                                    Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
                                                 <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
                                             <ScrollBar

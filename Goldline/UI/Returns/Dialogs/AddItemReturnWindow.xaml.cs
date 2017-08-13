@@ -52,6 +52,21 @@ namespace Goldline.UI.Returns.Dialogs
             }
         }
 
+        private void SearchCustomerComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ContactInfoTextBox.Text != string.Empty || SearchCustomerComboBox.SelectedItem == null) return;
+            var contactInfo = (SearchCustomerComboBox.SelectedItem as Customer)?.Contact;
+            if (contactInfo == null) return;
+            ContactInfoTextBox.Text = contactInfo;
+        }
+
+        private void ButtonSetContactInfo_OnClick(object sender, RoutedEventArgs e)
+        {
+            var customer = SearchCustomerComboBox.SelectedItem as Customer;
+            if (customer == null) return;
+            ContactInfoTextBox.Text = customer.Contact;
+        }
+
         #region NotifyThereturnedItemsManagement
 
         public void AddObserver(ItemReturnManagementWindow window)
@@ -98,20 +113,5 @@ namespace Goldline.UI.Returns.Dialogs
         }
 
         #endregion
-
-        private void SearchCustomerComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (ContactInfoTextBox.Text != string.Empty || SearchCustomerComboBox.SelectedItem == null) return;
-            var contactInfo = (SearchCustomerComboBox.SelectedItem as Customer)?.Contact;
-            if (contactInfo == null) return;
-            ContactInfoTextBox.Text = contactInfo;
-        }
-
-        private void ButtonSetContactInfo_OnClick(object sender, RoutedEventArgs e)
-        {
-            var customer = SearchCustomerComboBox.SelectedItem as Customer;
-            if (customer == null) return;
-            ContactInfoTextBox.Text = customer.Contact;
-        }
     }
 }

@@ -16,7 +16,8 @@ namespace Core.Domain.Handlers
         public void AddItemReturn(ItemReturn itemreturn)
         {
             if (string.IsNullOrEmpty(itemreturn.ContactInfo))
-                throw new ArgumentNullException(nameof(itemreturn.CustomerId), "ItemReturn Contact Information is null");
+                throw new ArgumentNullException(nameof(itemreturn.CustomerId),
+                    "ItemReturn Contact Information is null");
             using (var connection = Connector.GetConnection())
             {
                 new ItemReturnDal(connection).Insert(itemreturn.ItemId, itemreturn.CustomerId, itemreturn.ContactInfo,
@@ -60,13 +61,12 @@ namespace Core.Domain.Handlers
         {
             using (var connection = Connector.GetConnection())
             {
-                var itemReturns =  new ItemReturnDal(connection).Search($"%{note}%", itemId, isHandled, startDate, endDate).ToList();
+                var itemReturns = new ItemReturnDal(connection)
+                    .Search($"%{note}%", itemId, isHandled, startDate, endDate).ToList();
                 var productHandler = new ProductHandler();
 
                 foreach (var itemReturn in itemReturns)
-                {
                     itemReturn.ItemName = productHandler.GetItems(itemReturn.ItemId).SingleOrDefault()?.Name;
-                }
                 return itemReturns;
             }
         }

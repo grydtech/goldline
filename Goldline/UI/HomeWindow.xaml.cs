@@ -132,13 +132,9 @@ namespace Goldline.UI
         {
             if (MessageBox.Show(this, "Are you sure you want to logout?", "Confirm", MessageBoxButton.YesNo) !=
                 MessageBoxResult.Yes)
-            {
                 e.Cancel = true;
-            }
             else
-            {
                 new LoginWindow().Show();
-            }
         }
     }
 }

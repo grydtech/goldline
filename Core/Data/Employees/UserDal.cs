@@ -86,6 +86,7 @@ namespace Core.Data.Employees
             // Execute sql command
             Connection.Execute(command);
         }
+
         /// <summary>
         ///     Deletes a record from [users] table
         /// </summary>

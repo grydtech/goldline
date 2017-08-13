@@ -90,17 +90,12 @@ namespace Goldline.UI.Employees.Dialogs
         private void VerifyButton_OnClick(object sender, RoutedEventArgs e)
         {
             // Verify if username is available
-            if (!String.IsNullOrWhiteSpace(UserNameTextBox.Text))
-            {
+            if (!string.IsNullOrWhiteSpace(UserNameTextBox.Text))
                 MessageBox.Show(_securityHandler.IsUsernameAvailable(UserNameTextBox.Text)
-                ? "This username is available!"
-                : "This UserName is already taken. Please choose another");
-            }
+                    ? "This username is available!"
+                    : "This UserName is already taken. Please choose another");
             else
-            {
                 MessageBox.Show("Please enter a username");
-            }
-            
         }
 
         private void UserNameTextBox_OnTextChanged(object sender, TextChangedEventArgs e)

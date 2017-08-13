@@ -57,44 +57,44 @@ namespace Goldline
 
         public IEnumerable ItemsSource
         {
-            get { return (IEnumerable) GetValue(ItemsSourceProperty); }
-            set { SetValue(ItemsSourceProperty, value); }
+            get => (IEnumerable) GetValue(ItemsSourceProperty);
+            set => SetValue(ItemsSourceProperty, value);
         }
 
         public string ColumnHeader1
         {
-            get { return (string) GetValue(ColumnHeader1Property); }
-            set { SetValue(ColumnHeader1Property, value); }
+            get => (string) GetValue(ColumnHeader1Property);
+            set => SetValue(ColumnHeader1Property, value);
         }
 
 
         public string ColumnHeader2
         {
-            get { return (string) GetValue(ColumnHeader2Property); }
-            set { SetValue(ColumnHeader2Property, value); }
+            get => (string) GetValue(ColumnHeader2Property);
+            set => SetValue(ColumnHeader2Property, value);
         }
 
         public string ColumnHeader3
         {
-            get { return (string) GetValue(ColumnHeader3Property); }
-            set { SetValue(ColumnHeader3Property, value); }
+            get => (string) GetValue(ColumnHeader3Property);
+            set => SetValue(ColumnHeader3Property, value);
         }
 
         public Brush WatermarkBrush
         {
-            get { return (Brush) GetValue(WatermarkBrushProperty); }
-            set { SetValue(WatermarkBrushProperty, value); }
+            get => (Brush) GetValue(WatermarkBrushProperty);
+            set => SetValue(WatermarkBrushProperty, value);
         }
 
         public string Watermark
         {
-            get { return (string) GetValue(WatermarkProperty); }
-            set { SetValue(WatermarkProperty, value); }
+            get => (string) GetValue(WatermarkProperty);
+            set => SetValue(WatermarkProperty, value);
         }
 
         public string Text
         {
-            get { return SearchComboBox.Text; }
+            get => SearchComboBox.Text;
             set
             {
                 SearchComboBox.Text = value;
@@ -104,7 +104,7 @@ namespace Goldline
 
         public object SelectedItem
         {
-            get { return _selectedItem; }
+            get => _selectedItem;
             set
             {
                 if (Equals(value, _selectedItem)) return;

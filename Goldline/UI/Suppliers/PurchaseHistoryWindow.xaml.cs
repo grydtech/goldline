@@ -59,6 +59,22 @@ namespace Goldline.UI.Suppliers
             RefreshDataGrid();
         }
 
+        private void PurchasesDataGrid_OnRowDetailsVisibilityChanged(object sender, DataGridRowDetailsEventArgs e)
+        {
+            if (PurchasesDataGrid.SelectedItem == null) return;
+            if (((Purchase) PurchasesDataGrid.SelectedItem).PurchaseItems.Count > 0) return;
+            _purchaseHandler.LoadPurchaseItems((Purchase) PurchasesDataGrid.SelectedItem);
+            PurchasesDataGrid.Items.Refresh();
+        }
+
+        private void ButtonSettledStatus_OnClick(object sender, RoutedEventArgs e)
+        {
+            var purchase = (sender as Button)?.Tag as Purchase;
+            if (purchase?.SupplierId == null) return;
+            var dialogResult = new SupplierDuePurchasesWindow(new Supplier {Id = purchase.SupplierId}).ShowDialog();
+            if (dialogResult == true) RefreshDataGrid();
+        }
+
         #region Button Click
 
         private void ButtonCancelPurchase_Click(object sender, RoutedEventArgs e)
@@ -66,7 +82,8 @@ namespace Goldline.UI.Suppliers
             var purchase = (sender as Button)?.Tag as Purchase;
             if (purchase?.Id == null) return;
 
-            var result = MessageBox.Show("Are you sure you want to remove this purchase?", "Confirmation", MessageBoxButton.YesNo,
+            var result = MessageBox.Show("Are you sure you want to remove this purchase?", "Confirmation",
+                MessageBoxButton.YesNo,
                 MessageBoxImage.Question);
             if (result == MessageBoxResult.No) return;
 
@@ -86,25 +103,9 @@ namespace Goldline.UI.Suppliers
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
             var dialogResult = new AddPurchaseDialog().ShowDialog();
-            if(dialogResult == true) RefreshDataGrid();
+            if (dialogResult == true) RefreshDataGrid();
         }
 
         #endregion
-
-        private void PurchasesDataGrid_OnRowDetailsVisibilityChanged(object sender, DataGridRowDetailsEventArgs e)
-        {
-            if (PurchasesDataGrid.SelectedItem == null) return;
-            if (((Purchase) PurchasesDataGrid.SelectedItem).PurchaseItems.Count > 0) return;
-            _purchaseHandler.LoadPurchaseItems((Purchase) PurchasesDataGrid.SelectedItem);
-            PurchasesDataGrid.Items.Refresh();
-        }
-
-        private void ButtonSettledStatus_OnClick(object sender, RoutedEventArgs e)
-        {
-            var purchase = (sender as Button)?.Tag as Purchase;
-            if (purchase?.SupplierId == null) return;
-            var dialogResult = new SupplierDuePurchasesWindow(new Supplier {Id = purchase.SupplierId}).ShowDialog();
-            if (dialogResult == true) RefreshDataGrid();
-        }
     }
 }

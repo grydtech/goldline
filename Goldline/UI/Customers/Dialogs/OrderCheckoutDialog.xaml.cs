@@ -12,9 +12,9 @@ namespace Goldline.UI.Customers.Dialogs
     /// </summary>
     public partial class OrderCheckoutDialog : Window
     {
+        private readonly Order _order;
         private readonly OrderHandler _orderHandler;
         private readonly OrderPaymentHandler _orderPaymentHandler;
-        private readonly Order _order;
 
         public OrderCheckoutDialog(Order order)
         {

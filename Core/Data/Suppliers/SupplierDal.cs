@@ -35,7 +35,8 @@ namespace Core.Data.Suppliers
         /// <param name="nameExp">search by name</param>
         /// <param name="offset"></param>
         /// <param name="limit"></param>
-        internal IEnumerable<Supplier> Search(uint? supplierId = null, string nameExp = null, int offset = 0, int limit = int.MaxValue)
+        internal IEnumerable<Supplier> Search(uint? supplierId = null, string nameExp = null, int offset = 0,
+            int limit = int.MaxValue)
         {
             // Define sql command
             var command = new CommandDefinition(

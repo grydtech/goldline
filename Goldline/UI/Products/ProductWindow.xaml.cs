@@ -39,6 +39,7 @@ namespace Goldline.UI.Products
         public IEnumerable<Item> ItemSource { get; set; }
         public IEnumerable<string> ItemTypeSource { get; set; }
         public string SelectedItemName => (InventoryDataGrid?.SelectedItem as Item)?.Name ?? string.Empty;
+
         /// <summary>
         ///     Updates the source variables from database
         /// </summary>
@@ -67,6 +68,36 @@ namespace Goldline.UI.Products
         }
 
         #endregion
+
+        private void ButtonAddService_OnClick(object sender, RoutedEventArgs e)
+        {
+            new AddServiceDialog().ShowDialog();
+        }
+
+        private void InventoryDataGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RefreshNameTextBox();
+            UpdatePropertyComboBoxProperties();
+        }
+
+        private void UpdatePropertyComboBoxProperties()
+        {
+            var battery = InventoryDataGrid.SelectedItem as Battery;
+            Property1ComboBox.IsEditable = battery != null;
+            Property2ComboBox.IsEditable = battery != null;
+            if (battery == null) return;
+            _batteryCapacitySource = new[] {battery.Capacity};
+            _batteryVoltageSource = new[] {battery.Voltage};
+            Property1ComboBox.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
+            Property2ComboBox.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
+            Property1ComboBox.GetBindingExpression(Selector.SelectedItemProperty)?.UpdateTarget();
+            Property2ComboBox.GetBindingExpression(Selector.SelectedItemProperty)?.UpdateTarget();
+        }
+
+        private void RefreshNameTextBox()
+        {
+            NameTextBox.Text = ((Item) InventoryDataGrid.SelectedItem)?.ToString();
+        }
 
         #region Encapsulated data sources
 
@@ -220,7 +251,8 @@ namespace Goldline.UI.Products
 
         private void RefreshDataGrid()
         {
-            ItemSource = _productHandler.GetItems(name: SearchTextBox?.Text, productType: (ProductType?) ItemTypeComboBox?.SelectedIndex);
+            ItemSource = _productHandler.GetItems(name: SearchTextBox?.Text,
+                productType: (ProductType?) ItemTypeComboBox?.SelectedIndex);
             InventoryDataGrid?.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
         }
 
@@ -335,35 +367,5 @@ namespace Goldline.UI.Products
         }
 
         #endregion
-
-        private void ButtonAddService_OnClick(object sender, RoutedEventArgs e)
-        {
-            new AddServiceDialog().ShowDialog();
-        }
-
-        private void InventoryDataGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            RefreshNameTextBox();
-            UpdatePropertyComboBoxProperties();
-        }
-
-        private void UpdatePropertyComboBoxProperties()
-        {
-            var battery = InventoryDataGrid.SelectedItem as Battery;
-            Property1ComboBox.IsEditable = (battery != null);
-            Property2ComboBox.IsEditable = (battery != null);
-            if (battery == null) return;
-            _batteryCapacitySource = new[] { battery.Capacity };
-            _batteryVoltageSource = new[] { battery.Voltage };
-            Property1ComboBox.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
-            Property2ComboBox.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
-            Property1ComboBox.GetBindingExpression(Selector.SelectedItemProperty)?.UpdateTarget();
-            Property2ComboBox.GetBindingExpression(Selector.SelectedItemProperty)?.UpdateTarget();
-        }
-
-        private void RefreshNameTextBox()
-        {
-            NameTextBox.Text = ((Item)InventoryDataGrid.SelectedItem)?.ToString();
-        }
     }
 }

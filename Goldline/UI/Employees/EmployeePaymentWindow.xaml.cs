@@ -19,11 +19,19 @@ namespace Goldline.UI.Employees
         {
             _employeeHandler = new EmployeeHandler();
             _employeePaymentHandler = new EmployeePaymentHandler();
-            EmployeeSource = _employeeHandler.GetEmployees(isLastPaymentDateLoaded:true);
+            EmployeeSource = _employeeHandler.GetEmployees(isLastPaymentDateLoaded: true);
             InitializeComponent();
         }
 
         public IEnumerable<Employee> EmployeeSource { get; set; }
+
+        private void EmployeeDataGrid_OnRowDetailsVisibilityChanged(object sender, DataGridRowDetailsEventArgs e)
+        {
+            if (EmployeeDataGrid.SelectedItem == null) return;
+            if (((Employee) EmployeeDataGrid.SelectedItem).EmployeePayments != null) return;
+            _employeeHandler.LoadEmployeePayments((Employee) EmployeeDataGrid.SelectedItem);
+            EmployeeDataGrid.Items.Refresh();
+        }
 
         #region Button Operations
 
@@ -35,12 +43,13 @@ namespace Goldline.UI.Employees
                 MessageBox.Show("Please Enter Payment Details", "GOLDLINE", MessageBoxButton.OK);
                 return;
             }
-            if (AmountTextBox.Text!="" && ReasonTextBox.Text != "")
+            if (AmountTextBox.Text != "" && ReasonTextBox.Text != "")
             {
                 decimal amount;
                 if (decimal.TryParse(AmountTextBox.Text, out amount))
                 {
-                    var employeePayment = new EmployeePayment(employee.Id.Value, decimal.Parse(AmountTextBox.Text), ReasonTextBox.Text);
+                    var employeePayment = new EmployeePayment(employee.Id.Value, decimal.Parse(AmountTextBox.Text),
+                        ReasonTextBox.Text);
                     _employeePaymentHandler.AddPayment(employeePayment);
                     ReloadDataGrid();
                     AmountTextBox.Text = "";
@@ -50,10 +59,7 @@ namespace Goldline.UI.Employees
                 else
                 {
                     MessageBox.Show("Please Enter Valid Amount", "GOLDLINE", MessageBoxButton.OK);
-                    return;
                 }
-                
-
             }
             else
             {
@@ -81,7 +87,7 @@ namespace Goldline.UI.Employees
         private void ReloadDataGrid()
         {
             // Update Data Grid with new set of employees
-            EmployeeSource = _employeeHandler.GetEmployees(isLastPaymentDateLoaded:true);
+            EmployeeSource = _employeeHandler.GetEmployees(isLastPaymentDateLoaded: true);
             EmployeeDataGrid.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
         }
 
@@ -110,13 +116,5 @@ namespace Goldline.UI.Employees
         #endregion
 
         #endregion
-
-        private void EmployeeDataGrid_OnRowDetailsVisibilityChanged(object sender, DataGridRowDetailsEventArgs e)
-        {
-            if (EmployeeDataGrid.SelectedItem == null) return;
-            if (((Employee)EmployeeDataGrid.SelectedItem).EmployeePayments!=null) return;
-            _employeeHandler.LoadEmployeePayments((Employee)EmployeeDataGrid.SelectedItem);
-            EmployeeDataGrid.Items.Refresh();
-        }
     }
 }

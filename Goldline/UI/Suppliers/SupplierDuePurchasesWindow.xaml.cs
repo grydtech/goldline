@@ -54,7 +54,8 @@ namespace Goldline.UI.Suppliers
         private void SupplierDataGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             AmountTextBox.Text =
-                PurchasesDataGrid.SelectedItems.Cast<Purchase>().Sum(order => order.Amount).ToString(CultureInfo.InvariantCulture);
+                PurchasesDataGrid.SelectedItems.Cast<Purchase>().Sum(order => order.Amount)
+                    .ToString(CultureInfo.InvariantCulture);
         }
     }
 }

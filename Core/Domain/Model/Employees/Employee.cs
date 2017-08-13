@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using Core.Domain.Enums;
 
 namespace Core.Domain.Model.Employees
 {
     public class Employee : Person
     {
-        public Employee(string name, string contact, bool isActive, AccessMode accessMode, IEnumerable<EmployeePayment> employeePaymets = null) : base(name, contact)
+        public Employee(string name, string contact, bool isActive, AccessMode accessMode,
+            IEnumerable<EmployeePayment> employeePaymets = null) : base(name, contact)
         {
             IsActive = isActive;
             AccessMode = accessMode;
@@ -20,9 +21,9 @@ namespace Core.Domain.Model.Employees
         public Employee()
         {
             AccessMode = AccessMode.None;
-            EmployeePayments =null;
+            EmployeePayments = null;
         }
-        
+
         public DateTime? LastPaidDate { get; set; }
         public DateTime DateJoined { get; set; }
         public bool IsActive { get; set; }

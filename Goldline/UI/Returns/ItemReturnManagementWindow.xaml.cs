@@ -73,6 +73,12 @@ namespace Goldline.UI.Returns
             togglebutton?.GetBindingExpression(ToggleButton.IsCheckedProperty)?.UpdateTarget();
         }
 
+        private void ItemComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _itemId = (ItemComboBox.SelectedItem as Item)?.Id;
+            Refresh();
+        }
+
         #region Action Listeners
 
         private void SearchTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
@@ -87,11 +93,5 @@ namespace Goldline.UI.Returns
         }
 
         #endregion
-
-        private void ItemComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            _itemId = (ItemComboBox.SelectedItem as Item)?.Id;
-            Refresh();
-        }
     }
 }

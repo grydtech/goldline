@@ -38,7 +38,8 @@ namespace Core.Data.Inventory
         /// <param name="type"></param>
         /// <param name="offset"></param>
         /// <param name="limit"></param>
-        internal IEnumerable<Product> Search(uint? productId = null, string nameExp = null, ProductType? type = null, int offset = 0,
+        internal IEnumerable<Product> Search(uint? productId = null, string nameExp = null, ProductType? type = null,
+            int offset = 0,
             int limit = int.MaxValue)
         {
             switch (type)

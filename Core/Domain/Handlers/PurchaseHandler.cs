@@ -33,7 +33,7 @@ namespace Core.Domain.Handlers
                             "Purchase Id null after insert");
 
                     var purchaseItemDal = new PurchaseItemDal(connection);
-                    
+
                     // Insert purchase items
                     purchaseItemDal.InsertMultiple(purchase.Id.Value, purchase.PurchaseItems);
 
@@ -150,9 +150,7 @@ namespace Core.Domain.Handlers
                 var purchaseItems = new PurchaseItemDal(connection).Search(purchase.Id.Value)?.ToList();
                 if (purchaseItems == null) return;
                 foreach (var purchaseItem in purchaseItems)
-                {
                     purchaseItem.ItemName = productHandler.GetItems(purchaseItem.ItemId).SingleOrDefault()?.Name;
-                }
                 purchase.PurchaseItems = purchaseItems;
             }
         }

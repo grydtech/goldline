@@ -10,7 +10,6 @@ namespace Goldline.UI.Products.Dialogs
     /// </summary>
     public partial class AddServiceDialog : Window
     {
-
         public AddServiceDialog()
         {
             InitializeComponent();

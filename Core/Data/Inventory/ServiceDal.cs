@@ -29,7 +29,8 @@ namespace Core.Data.Inventory
         /// <param name="nameExp"></param>
         /// <param name="offset"></param>
         /// <param name="limit"></param>
-        internal IEnumerable<Service> Search(uint? productId = null, string nameExp = null, int offset = 0, int limit = int.MaxValue)
+        internal IEnumerable<Service> Search(uint? productId = null, string nameExp = null, int offset = 0,
+            int limit = int.MaxValue)
         {
             // Define sql command
             var command = new CommandDefinition(

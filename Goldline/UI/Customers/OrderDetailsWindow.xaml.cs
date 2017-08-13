@@ -63,9 +63,7 @@ namespace Goldline.UI.Customers
         private void AddPaymentButton_Click(object sender, RoutedEventArgs e)
         {
             if (Order.DueAmount > 0)
-            {
                 MessageBox.Show("Pay Here");
-            }
         }
 
         #region Window Keydown Handling

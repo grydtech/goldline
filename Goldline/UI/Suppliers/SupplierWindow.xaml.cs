@@ -79,14 +79,15 @@ namespace Goldline.UI.Suppliers
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             if (!IsAllDataEntered()) return;
-            _supplierHandler.UpdateSupplierDetails((Supplier) SupplierDataGrid.SelectedItem, NameTextBox.Text, ContactInfoTextBox.Text);
+            _supplierHandler.UpdateSupplierDetails((Supplier) SupplierDataGrid.SelectedItem, NameTextBox.Text,
+                ContactInfoTextBox.Text);
         }
 
         private void DiscardButton_Click(object sender, RoutedEventArgs e)
         {
             RefreshDataGrid();
         }
-        
+
         private void BtnSupplierPayments_OnClick(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;

@@ -52,25 +52,25 @@
                 <DataGrid.RowDetailsTemplate>
                     <DataTemplate DataType="employees:Employee">
                         <DataGrid
-                        x:Name="DataGridEmployeePayments"
-                        AutoGenerateColumns="False"
-                        CanUserResizeRows="False"
-                        HorizontalScrollBarVisibility="Disabled"
-                        IsReadOnly="True"
-                        ItemsSource="{Binding EmployeePayments}">
+                            x:Name="DataGridEmployeePayments"
+                            AutoGenerateColumns="False"
+                            CanUserResizeRows="False"
+                            HorizontalScrollBarVisibility="Disabled"
+                            IsReadOnly="True"
+                            ItemsSource="{Binding EmployeePayments}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn
-                                Width="300"
-                                Binding="{Binding Date}"
-                                Header="Date" />
+                                    Width="300"
+                                    Binding="{Binding Date}"
+                                    Header="Date" />
                                 <DataGridTextColumn
-                                Width="1*"
-                                Binding="{Binding Reason}"
-                                Header="Description" />
+                                    Width="1*"
+                                    Binding="{Binding Reason}"
+                                    Header="Description" />
                                 <DataGridTextColumn
-                                Width="250"
-                                Binding="{Binding Amount}"
-                                Header="Date" />
+                                    Width="250"
+                                    Binding="{Binding Amount}"
+                                    Header="Date" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </DataTemplate>

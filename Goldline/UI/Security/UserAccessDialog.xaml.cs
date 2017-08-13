@@ -52,9 +52,9 @@ namespace Goldline.UI.Security
 
         private void OkButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var accessMode = (AccessMode)UserTypeComboBox.SelectedIndex;
+            var accessMode = (AccessMode) UserTypeComboBox.SelectedIndex;
             // Close if no changes detected
-            if (!_isExpanded || _user?.AccessMode==accessMode)
+            if (!_isExpanded || _user?.AccessMode == accessMode)
             {
                 MessageBox.Show("No changes to be done");
                 Close();
@@ -72,7 +72,7 @@ namespace Goldline.UI.Security
             }
 
             #endregion
-            
+
             if (_employee.AccessMode != AccessMode.None)
             {
                 // should update existing employee if there are any changes
@@ -97,13 +97,13 @@ namespace Goldline.UI.Security
         private void CheckAvailabilityButton_OnClick(object sender, RoutedEventArgs e)
         {
             // Verify if username is available
-            if (!String.IsNullOrWhiteSpace(UserNameTextBox.Text))
+            if (!string.IsNullOrWhiteSpace(UserNameTextBox.Text))
             {
                 CheckIfUserNameAvailable();
 
-                if (_isUserNameUnique == false) MessageBox.Show("This UserName is already taken. Please choose another");
+                if (_isUserNameUnique == false)
+                    MessageBox.Show("This UserName is already taken. Please choose another");
                 if (_isUserNameUnique == true) MessageBox.Show("This username is available!");
-
             }
             else
             {

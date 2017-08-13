@@ -51,7 +51,8 @@ namespace Goldline.UI.Customers
             {
                 if (ValidateValues())
                 {
-                    _customerHandler.UpdateCustomer((Customer)CustomerDataGrid.SelectedItem, NameTextBox.Text, NicTextBox.Text, ContactInfoTextBox.Text);
+                    _customerHandler.UpdateCustomer((Customer) CustomerDataGrid.SelectedItem, NameTextBox.Text,
+                        NicTextBox.Text, ContactInfoTextBox.Text);
                     MessageBox.Show("Changes updated successfully", "GOLDLINE", MessageBoxButton.OK);
                     CustomerDataGrid.Items.Refresh();
                     NameTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateTarget();
@@ -62,7 +63,6 @@ namespace Goldline.UI.Customers
                 {
                     MessageBox.Show("Please enter valid inputs", "GOLDLINE", MessageBoxButton.OK);
                 }
-                
             }
         }
 
@@ -113,12 +113,13 @@ namespace Goldline.UI.Customers
         #endregion
 
         #region Selection and Text Changed Behaviour
+
         private bool ValidateValues()
         {
             var customer = new Customer(NameTextBox.Text, ContactInfoTextBox.Text, NicTextBox.Text);
-            return (customer.IsNicValid());
+            return customer.IsNicValid();
         }
-        
+
         private void SearchTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             RefreshDataGrid();

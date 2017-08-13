@@ -51,13 +51,18 @@ namespace Core.Data.Inventory
                 "select id_return 'Id', date_return 'Date', id_item 'ItemId', id_customer 'CustomerId', name 'CustomerName', " +
                 "qty_return 'ReturnQty', is_handled 'IsHandled', contact_info 'ContactInfo', note 'Note' " +
                 "from items_returns LEFT JOIN customers USING(id_customer) " +
-                (noteExp == null && itemId == null && isHandled == null && startDate == null && endDate == null ? "" : "where ") +
+                (noteExp == null && itemId == null && isHandled == null && startDate == null && endDate == null
+                    ? ""
+                    : "where ") +
                 (noteExp == null ? "" : "note like @noteExp ") +
                 (itemId == null ? "" : (noteExp == null ? "" : "and ") + "id_item = @itemId ") +
-                (isHandled == null ? "" : (noteExp == null && itemId == null ? "" : "and ") + "is_handled = @isHandled ") +
+                (isHandled == null
+                    ? ""
+                    : (noteExp == null && itemId == null ? "" : "and ") + "is_handled = @isHandled ") +
                 (startDate == null
                     ? ""
-                    : (noteExp == null && itemId == null && isHandled == null ? "" : "and ") + "date_return >= @startDate ") +
+                    : (noteExp == null && itemId == null && isHandled == null ? "" : "and ") +
+                      "date_return >= @startDate ") +
                 (endDate == null
                     ? ""
                     : (noteExp == null && itemId == null && isHandled == null && startDate == null ? "" : "and ") +

@@ -66,7 +66,8 @@ namespace Core.Domain.Handlers
         /// <param name="name"></param>
         /// <param name="productType"></param>
         /// <returns></returns>
-        public IEnumerable<Product> GetProducts(uint? productId = null, string name = null, ProductType? productType = null)
+        public IEnumerable<Product> GetProducts(uint? productId = null, string name = null,
+            ProductType? productType = null)
         {
             using (var connection = Connector.GetConnection())
             {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Core.Data;
 using System.Linq;
+using Core.Data;
 using Core.Data.Employees;
 using Core.Domain.Model.Employees;
 
@@ -34,12 +34,15 @@ namespace Core.Domain.Handlers
         /// </summary>
         /// <param name="name"></param>
         /// <param name="isActive"></param>
+        /// <param name="isLastPaymentDateLoaded"></param>
         /// <returns></returns>
-        public IEnumerable<Employee> GetEmployees(string name = null, bool? isActive = null, bool isLastPaymentDateLoaded = false)
+        public IEnumerable<Employee> GetEmployees(string name = null, bool? isActive = null,
+            bool isLastPaymentDateLoaded = false)
         {
             using (var connection = Connector.GetConnection())
             {
-                return new EmployeeDal(connection).Search(name == null ? null : $"%{name}%", isActive,isLastPaymentDateLoaded:isLastPaymentDateLoaded);
+                return new EmployeeDal(connection).Search(name == null ? null : $"%{name}%", isActive,
+                    isLastPaymentDateLoaded: isLastPaymentDateLoaded);
             }
         }
 
@@ -64,6 +67,7 @@ namespace Core.Domain.Handlers
                 employee.IsActive = isActive ?? employee.IsActive;
             }
         }
+
         /// <summary>
         ///     Load Employee Paymnts of a employee
         /// </summary>
@@ -73,13 +77,11 @@ namespace Core.Domain.Handlers
             if (employee.Id == null)
                 throw new ArgumentNullException(nameof(employee.Id), "Employee Id is null");
 
-            var employeePaymentHandler = new EmployeePaymentHandler();
-
             using (var connection = Connector.GetConnection())
-            {//Search(uint? employeeId = null, int offset = 0, int limit = int.MaxValue)
+            {
                 var employeePayments = new EmployeePaymentDal(connection).Search(employee.Id.Value, limit: 5)?.ToList();
                 employee.EmployeePayments = employeePayments ??
-                                            throw new NullReferenceException("employee payements empty");
+                                            throw new NullReferenceException("employee payments empty");
             }
         }
     }
